@@ -1,92 +1,75 @@
 
 
-# Huruy's UX Portfolio — Complete Redesign
+# EBT Finder Case Study Overhaul + Image Upload
 
-## 🎯 Goal: Get More Job Interviews
+## Overview
 
-A modern, polished portfolio that immediately communicates your design skills and makes it easy for recruiters to take action.
+Two major changes: (1) restructure the case study with your improved content across 9 sections, and (2) add image placeholders throughout that you can fill by uploading images through the chat.
 
----
+## How Images Will Work
 
-## Page 1: Home / Landing Page
+Since this is a static portfolio (no database needed), the best approach is:
 
-### Hero Section
-- **Bold headline** with your name and title (e.g., "Huruy — UX Designer & Software Developer")
-- **Concise tagline** — one sentence about your value proposition
-- **Professional photo/avatar** to add personality
-- **Primary CTA buttons**: "View My Work" and "Download Resume"
-- **Social links** (LinkedIn, Medium) styled prominently
-- Subtle entrance animations for polish
+- **Image placeholder slots** will appear throughout the case study where visuals belong (hero, USDA screenshot, competitive audit, app screenshots, etc.)
+- Each slot shows a labeled placeholder with an "Upload via chat" instruction
+- **To add an image**: Simply drag-and-drop or attach images in this chat, tell me which slot they belong to, and I'll place them in the project
+- Images get saved to `public/images/ebtfinder/` and referenced directly — fast, simple, no backend needed
 
-### Featured Projects Section
-- **Card-based grid layout** (2 columns on desktop, 1 on mobile)
-- Each project card shows:
-  - Hero image/mockup
-  - Project title
-  - One-line description
-  - **Impact metric** (e.g., "Redesigned for 2M+ SNAP users")
-  - Tags for skills used (Figma, Research, Prototyping, etc.)
-- Hover effect with smooth scale + shadow transition
-- Clicking a card navigates to the full case study page
+This avoids unnecessary complexity (no localStorage hacks, no base64 in code) and gives you permanent, fast-loading images.
 
-### Skills & Tools Bar
-- A clean horizontal strip showing your key tools and skills with icons (Figma, React, User Research, etc.)
+## Content Restructure
 
----
+The EBT Finder data model and page layout will be expanded to support all 9 sections from your improved case study:
 
-## Page 2: Case Study Pages (one per project)
+### New/Updated Sections
 
-For each of your 4 projects (EBTFinder, AI Fent Finder, OneAsure Portal, Love & Friendship):
+1. **Hero** — Updated with "The Challenge" stat (12M SNAP users), role as "Product Designer (Solo Project)", 4-week timeline
+2. **Problem and Context** — Problem bullets + impact callout + USDA screenshot slot + Insight block
+3. **Research** — Competitive analysis with structured platform comparisons + competitive audit image slot + user interviews section with interview goals + EBT sign photo slot
+4. **Research Findings** — 3 findings with quotes AND insight explanations (new field)
+5. **Research to Design** — New section: mapping table from user needs to design solutions + wireframe image slot
+6. **The Solution** — Expanded with 4 sub-features, each with their own image slot, description, and "why it matters" callout
+7. **Design System** — New section for visual design principles + design system image slot + user flow diagram
+8. **Impact and Validation** — Restructured with specific metrics (task success rate, satisfaction, trust, time saved)
+9. **Learnings and Reflection** — Split into "What I Learned" (4 items) and "What I'd Do Differently" (3 items, new)
+10. **Business Model and Next Steps** — New section with business model explanation + phased roadmap
+11. **Closing Statement** — New emotional closing with key stats
+12. **Appendix** — Image gallery for additional screenshots
 
-- **Hero banner** with project title, role, timeline, and tools
-- **The Problem** — what challenge you were solving
-- **The Process** — your approach (research, wireframes, testing)
-- **The Solution** — final designs with mockup images
-- **The Impact** — measurable outcomes or key takeaways
-- Image gallery/carousel for screenshots
-- "Next Project" navigation at the bottom
+### Technical Changes
 
-*Content will use placeholder text that you can replace with your real case study details.*
+**`src/lib/projects.ts`**
+- Extend `Project` interface with new optional fields: `challenge`, `problemImpact`, `interviewGoals`, `findingInsights`, `researchToDesign`, `solutionFeatures`, `designPrinciples`, `userFlow`, `validationMetrics`, `whatIdDoDifferently`, `businessModel`, `phasedRoadmap`, `closingStatement`, `appendixImages`, and multiple `sectionImages` fields
+- Update EBT Finder data with all new content
 
----
+**`src/pages/ProjectPage.tsx`**
+- Redesign layout to render all 9+ sections with proper hierarchy
+- Add `ImageSlot` component that shows a labeled placeholder with dimensions guidance
+- Add the research-to-design mapping table
+- Add solution sub-features with individual image slots
+- Add validation metrics as stat cards
+- Add "What I'd Do Differently" subsection
+- Add business model and phased roadmap sections
+- Add closing statement and appendix gallery
 
-## Page 3: About Page
-- Larger photo and personal story
-- Your design philosophy
-- Work experience timeline
-- Education and certifications
-- Downloadable resume button
+**`public/images/ebtfinder/`** (directory)
+- Will hold uploaded images as you provide them
 
----
+### Image Slots (13 total)
 
-## Page 4: Contact Page
-- Clean contact form (Name, Email, Message)
-- Email address displayed
-- LinkedIn and social links
-- Friendly CTA copy ("Let's work together!")
-
----
-
-## Design & Polish
-
-- **Color palette**: Modern, sophisticated scheme (dark navy + warm accent, moving away from the current beige)
-- **Typography**: Clean sans-serif pairing (e.g., Inter for body, a display font for headings)
-- **Animations**: Smooth scroll reveals, hover transitions, page transitions
-- **Fully responsive**: Optimized for mobile, tablet, and desktop
-- **Dark/light mode toggle** for extra polish
-
----
-
-## Navigation
-- Sticky top navbar with: Home, Projects, About, Contact
-- Mobile hamburger menu
-- Smooth scroll behavior
-
----
-
-## Recruiter-Focused Features
-- Resume download button visible on every page
-- Clear contact CTA in the footer of every page
-- Fast-loading, clean layout that respects recruiters' time
-- Project cards designed to be scannable in under 5 seconds
+| Slot | Description |
+|------|-------------|
+| hero | Main app screen or USDA vs. your design comparison |
+| usda-screenshot | Cluttered USDA site screenshot |
+| competitive-audit | Comparison table graphic |
+| ebt-sign | SNAP/EBT Accepted sign photo |
+| wireframes | Annotated wireframes mapping research to features |
+| feature-search | Homepage with filters |
+| feature-profiles | Business detail page (Subway example) |
+| feature-map | Map interface |
+| feature-community | Profile page with reviews |
+| design-system | Colors, typography, buttons, icons |
+| user-flow | Journey diagram |
+| validation-chart | Comparison chart or stat visualization |
+| appendix-1 through appendix-6 | Additional app screenshots |
 
