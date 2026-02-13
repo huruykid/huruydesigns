@@ -78,9 +78,9 @@ const ImageSlot = ({ slot, label, aspectRatio = "aspect-video", imageSrc, projec
 
   if (imageSrc) {
     return (
-      <div className={`relative group rounded-xl overflow-hidden border border-border ${aspectRatio} bg-muted`}>
+    <div className="relative group rounded-xl overflow-hidden border border-border bg-muted">
         {uploadButton}
-        <img src={imageSrc} alt={label} className="w-full h-full object-cover" />
+        <img src={imageSrc} alt={label} className="w-full h-auto" />
       </div>
     );
   }
