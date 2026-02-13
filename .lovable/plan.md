@@ -1,48 +1,44 @@
 
 
-# Generate Annotated Wireframe Image for EBT Finder
+# Direct Image Upload for Case Study Slots
 
-## Approach
+## Overview
+Replace the current chat-based image workflow with a direct upload button on each image slot. You'll be able to click an upload button on any empty (or filled) image slot, pick a file, and it uploads to cloud storage instantly -- no more going through the chat.
 
-Use the Lovable AI image generation (Nano banana pro model for higher quality) via an edge function to generate an annotated wireframe-style image of the EBT Finder mobile screen, then save it to the project and wire it up.
+## How It Works
 
-## Steps
+1. **Storage bucket** -- Create a `case-study-images` public storage bucket to hold uploaded images.
 
-### 1. Create an edge function to generate the image
+2. **ImageSlot gets an upload button** -- Each image slot will show an "Upload" button (camera/upload icon). Clicking it opens a file picker. The selected image uploads to storage under `{projectId}/{slotName}.png` and the URL is saved to a `case_study_images` database table.
 
-**File: `supabase/functions/generate-wireframe/index.ts`**
+3. **Database table** -- A simple `case_study_images` table stores the mapping:
+   - `project_id` (text) -- e.g. "ebtfinder"
+   - `slot` (text) -- e.g. "feature-search"  
+   - `image_url` (text) -- the public storage URL
+   - Primary key on (project_id, slot)
 
-- Call the Lovable AI Gateway with `google/gemini-3-pro-image-preview` (higher quality model)
-- Prompt: A clean, annotated mobile wireframe sketch showing an EBT store finder app with callout annotations connecting research insights to UI features:
-  - Map view with store pins -> "Users need visual location context"
-  - Search bar with filters -> "USDA site is cluttered and hard to navigate"
-  - Hot food toggle filter -> "Users don't know where to buy hot food with EBT"
-  - Store card with photo, rating, reviews -> "Users need trust signals before visiting"
-  - EBT accepted badge -> "Uncertainty about which stores accept EBT"
-- Return the base64 image data
+4. **No auth required** -- Since this is your portfolio site (not a multi-user app), RLS will allow public read and unrestricted insert/update so you can upload without needing login.
 
-### 2. Create a simple admin page/button to trigger generation
+5. **Image priority** -- The system will check the database first for an uploaded image, then fall back to the static file in `public/images/`, then show the empty placeholder.
 
-**File: `src/pages/GenerateWireframe.tsx`**
+## Technical Details
 
-- A simple page with a "Generate" button
-- Calls the edge function, receives the base64 image
-- Displays the result for review
-- Provides a download link so the image can be saved
+### New/Modified Files
 
-### 3. Save the generated image and update mappings
+| File | Change |
+|------|--------|
+| **DB migration** | Create `case_study_images` table + `case-study-images` storage bucket with public access |
+| `src/components/case-study/ImageSlot.tsx` | Add file input + upload logic using storage client. Show upload button overlay on hover. |
+| `src/pages/ProjectPage.tsx` | Fetch uploaded image URLs from the database table; merge with static `sectionImages` and pass to `ImageSlot`. |
+| `src/lib/projects.ts` | No changes needed -- static mappings remain as fallback. |
 
-- Save the downloaded image to `public/images/ebtfinder/wireframes.png`
-- Add `"wireframes": "/images/ebtfinder/wireframes.png"` to `sectionImages` in `src/lib/projects.ts`
+### Upload Flow
+1. User clicks upload icon on any image slot
+2. File picker opens (accepts image types)
+3. File uploads to storage bucket at path `{projectId}/{slot}.png`
+4. Public URL is upserted into `case_study_images` table
+5. Image displays immediately
 
-### 4. Clean up
-
-- Remove the temporary generate page and edge function after the image is created (they're one-time-use)
-
-## Technical Notes
-
-- The `LOVABLE_API_KEY` secret is already configured
-- Lovable Cloud needs to be enabled for the edge function (will verify during implementation)
-- Using `google/gemini-3-pro-image-preview` for best image quality
-- The generated image will be a stylized wireframe illustration, not a pixel-perfect Figma mockup
+### Cleanup
+- The `/generate-wireframe` page and edge function can be removed afterward since you'll upload images directly.
 
