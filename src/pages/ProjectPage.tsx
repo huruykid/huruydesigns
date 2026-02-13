@@ -1,4 +1,5 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Target, MessageSquareQuote, Lightbulb, Search, Users, BookOpen, ChevronRight, BarChart3, Palette, Rocket, Heart, ImageIcon, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -8,20 +9,52 @@ import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import ImageSlot from "@/components/case-study/ImageSlot";
 import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
+import { supabase } from "@/integrations/supabase/client";
 
-// Helper to get image for a slot
-const getSlotImage = (project: Project, slot: string) => project.sectionImages?.[slot];
-
-// Checks if this is the rich EBT-style case study
 const isRichCaseStudy = (p: Project) => !!p.challenge;
+
+interface SlotProps {
+  getSlotImage: (slot: string) => string | undefined;
+  onUploaded: (slot: string, url: string) => void;
+  projectId: string;
+}
 
 const ProjectPage = () => {
   const { id } = useParams();
+  const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
+
   const idx = projects.findIndex((p) => p.id === id);
-  if (idx === -1) return <Navigate to="/" />;
-  const project = projects[idx];
-  const next = projects[(idx + 1) % projects.length];
+  const project = idx !== -1 ? projects[idx] : null;
+  const next = idx !== -1 ? projects[(idx + 1) % projects.length] : null;
+
+  useEffect(() => {
+    if (!project) return;
+    const fetchImages = async () => {
+      const { data } = await supabase
+        .from("case_study_images" as any)
+        .select("slot, image_url")
+        .eq("project_id", project.id) as any;
+      if (data) {
+        const map: Record<string, string> = {};
+        for (const row of data) map[row.slot] = row.image_url;
+        setUploadedImages(map);
+      }
+    };
+    fetchImages();
+  }, [project?.id]);
+
+  const getSlotImage = useCallback((slot: string) => {
+    return uploadedImages[slot] || project?.sectionImages?.[slot];
+  }, [uploadedImages, project?.sectionImages]);
+
+  const handleUploaded = useCallback((slot: string, url: string) => {
+    setUploadedImages(prev => ({ ...prev, [slot]: url }));
+  }, []);
+
+  if (!project || !next) return <Navigate to="/" />;
+
   const rich = isRichCaseStudy(project);
+  const slotProps: SlotProps = { getSlotImage, onUploaded: handleUploaded, projectId: project.id };
 
   return (
     <Layout>
@@ -56,10 +89,10 @@ const ProjectPage = () => {
 
       {/* Hero Image */}
       <div className="container mx-auto px-4 -mt-2 mb-16">
-        {getSlotImage(project, "hero") ? (
-          <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage(project, "hero")} />
+        {getSlotImage("hero") ? (
+          <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
         ) : rich ? (
-          <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
+          <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
         ) : (
           <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted">
             <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
@@ -69,9 +102,8 @@ const ProjectPage = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 pb-24 max-w-4xl">
-
         {rich ? (
-          <RichCaseStudy project={project} />
+          <RichCaseStudy project={project} {...slotProps} />
         ) : (
           <SimpleCaseStudy project={project} />
         )}
@@ -107,7 +139,7 @@ const SimpleCaseStudy = ({ project }: { project: Project }) => (
 );
 
 /* ===== Rich case study (EBT Finder style) ===== */
-const RichCaseStudy = ({ project }: { project: Project }) => (
+const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { project: Project } & SlotProps) => (
   <>
     {/* Section 2: Problem & Context */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
@@ -130,7 +162,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
           </CardContent>
         </Card>
       )}
-      <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage(project, "usda-screenshot")} />
+      <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} projectId={projectId} onUploaded={onUploaded} />
       <p className="text-xs text-muted-foreground/60 mt-2 italic">
         "A perfect example of a tool that delivers data but fails in user experience."
       </p>
@@ -205,7 +237,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             </ul>
           </div>
         )}
-        <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage(project, "ebt-sign")} />
+        <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} projectId={projectId} onUploaded={onUploaded} />
         <p className="text-xs text-muted-foreground/60 mt-2 italic">
           We started with real voices. User interviews helped us understand what builds trust, what causes friction, and why a simple sign doesn't always mean a store is accessible or welcoming.
         </p>
@@ -258,7 +290,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             </tbody>
           </table>
         </div>
-        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage(project, "wireframes")} />
+        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} projectId={projectId} onUploaded={onUploaded} />
       </CaseStudySection>
     )}
 
@@ -282,7 +314,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{i + 1}. {feat.title}</h3>
               <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(project, feat.imageSlot)} />
+              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
               {feat.details.length > 0 && (
                 <ul className="mt-4 space-y-1">
                   {feat.details.map((d, j) => (
@@ -317,7 +349,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             </Card>
           ))}
         </div>
-        <ImageSlot slot="design-system" label="Design system — colors, typography, buttons, icons" imageSrc={getSlotImage(project, "design-system")} />
+        <ImageSlot slot="design-system" label="Design system — colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} projectId={projectId} onUploaded={onUploaded} />
         {project.userFlow && (
           <div className="mt-10">
             <h3 className="font-bold text-foreground mb-4">User Flow: Search → Filter → Review → Visit</h3>
@@ -330,7 +362,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
               ))}
             </div>
             <div className="mt-6">
-              <ImageSlot slot="user-flow" label="User journey diagram" imageSrc={getSlotImage(project, "user-flow")} />
+              <ImageSlot slot="user-flow" label="User journey diagram" imageSrc={getSlotImage("user-flow")} projectId={projectId} onUploaded={onUploaded} />
             </div>
           </div>
         )}
@@ -352,7 +384,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             </Card>
           ))}
         </div>
-        <ImageSlot slot="validation-chart" label="Comparison chart or stat visualization" imageSrc={getSlotImage(project, "validation-chart")} />
+        <ImageSlot slot="validation-chart" label="Comparison chart or stat visualization" imageSrc={getSlotImage("validation-chart")} projectId={projectId} onUploaded={onUploaded} />
       </CaseStudySection>
     )}
 
@@ -446,7 +478,7 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
         <div className="grid sm:grid-cols-2 gap-4">
           {project.appendixImages.map((img, i) => (
             <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(project, img.slot)} />
+              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} projectId={projectId} onUploaded={onUploaded} />
               <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
             </div>
           ))}
