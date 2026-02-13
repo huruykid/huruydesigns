@@ -1,51 +1,21 @@
 
 
-## Hero Image Beside Title on Desktop
+## Generate EBT Finder Thumbnail via AI
 
-### Layout Change
-On desktop, the hero section will become a two-column layout: title/description on the left, hero image on the right. On mobile, the image stays below the title as it does now.
+### Approach
+Use the existing `generate-wireframe` edge function to generate a polished mockup image, then upload it to storage and update the project card's `image` field.
 
-### Changes
+### Steps
 
-**`src/pages/ProjectPage.tsx` (lines 64-101)**
-- Merge the hero text section and hero image into a single `section`
-- Use a responsive grid: `grid grid-cols-1 lg:grid-cols-2 gap-8` inside the hero `section`
-- Left column: existing title, description, role/timeline, tools, and challenge card
-- Right column: the hero `ImageSlot` (or fallback image)
-- Remove the separate `{/* Hero Image */}` div below the section since it moves inline
-- On mobile (`grid-cols-1`), the image naturally stacks below the text
+**1. Call the edge function** with a detailed prompt describing a clean, professional mobile mockup of the EBT Finder app -- showing a map-based store search screen on a phone frame, with a modern UI, search bar, store pins, and a card list at the bottom.
 
-### Visual Result
+**2. Upload the generated image** to the Supabase storage bucket so it persists as a permanent URL.
 
-```text
-Desktop:
-+---------------------------+-------------------+
-| Back to Projects          |                   |
-| UX CASE STUDY             |   [Hero Image]    |
-| EBT Finder                |                   |
-| Description text...       |                   |
-| Role | Timeline           |                   |
-| [tags]                    |                   |
-| Challenge card            |                   |
-+---------------------------+-------------------+
-
-Mobile:
-+---------------------------+
-| Back to Projects          |
-| UX CASE STUDY             |
-| EBT Finder                |
-| Description...            |
-| Role | Timeline           |
-| [tags]                    |
-| Challenge card            |
-+---------------------------+
-| [Hero Image]              |
-+---------------------------+
-```
+**3. Update `src/lib/projects.ts`** to point the `ebt-finder` project's `image` field to the new storage URL instead of the current placeholder or static file.
 
 ### Technical Details
-- The hero image column will use `flex items-center` to vertically center the image beside the text
-- The `max-h-[600px]` constraint on the image remains via `ImageSlot`
-- The `-mt-2 mb-16` container for the old hero image section is removed since it merges into the hero section
-- The `max-w-2xl` on the description and challenge card stays so text doesn't stretch too wide in its column
+- The `generate-wireframe` edge function already calls the Gemini 3 Pro image model via the AI Gateway
+- The generated image comes back as a base64 data URL
+- We will convert and upload it to a storage bucket (e.g., `case-study-images`) for a stable URL
+- The prompt will request a device-framed mockup with a clean white/light background suitable for a card thumbnail at 16:10 aspect ratio
 
