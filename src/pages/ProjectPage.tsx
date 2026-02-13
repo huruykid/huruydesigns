@@ -66,41 +66,41 @@ const ProjectPage = () => {
           <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Projects
           </Link>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mb-6">{project.description}</p>
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-              <span><strong className="text-foreground">Role:</strong> {project.role}</span>
-              <span><strong className="text-foreground">Timeline:</strong> {project.timeline}</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5 mb-8">
-              {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
-            </div>
-            {project.challenge && (
-              <Card className="border-accent/30 bg-accent/5 max-w-2xl">
-                <CardContent className="p-5">
-                  <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-1">The Challenge</p>
-                  <p className="text-foreground">{project.challenge}</p>
-                </CardContent>
-              </Card>
-            )}
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
+              <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mb-6">{project.description}</p>
+              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+                <span><strong className="text-foreground">Role:</strong> {project.role}</span>
+                <span><strong className="text-foreground">Timeline:</strong> {project.timeline}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 mb-8">
+                {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
+              </div>
+              {project.challenge && (
+                <Card className="border-accent/30 bg-accent/5 max-w-2xl">
+                  <CardContent className="p-5">
+                    <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-1">The Challenge</p>
+                    <p className="text-foreground">{project.challenge}</p>
+                  </CardContent>
+                </Card>
+              )}
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
+              {getSlotImage("hero") ? (
+                <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
+              ) : rich ? (
+                <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
+              ) : (
+                <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted w-full">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                </div>
+              )}
+            </motion.div>
+          </div>
         </div>
       </section>
-
-      {/* Hero Image */}
-      <div className="container mx-auto px-4 -mt-2 mb-16">
-        {getSlotImage("hero") ? (
-          <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
-        ) : rich ? (
-          <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
-        ) : (
-          <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted">
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-          </div>
-        )}
-      </div>
 
       {/* Content */}
       <div className="container mx-auto px-4 pb-24 max-w-4xl">
