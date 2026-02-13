@@ -1,6 +1,46 @@
 export interface Finding {
   title: string;
   quote: string;
+  insight?: string;
+}
+
+export interface ResearchToDesign {
+  need: string;
+  solution: string;
+}
+
+export interface SolutionFeature {
+  title: string;
+  description: string;
+  details: string[];
+  whyItMatters: string;
+  imageSlot: string;
+}
+
+export interface ValidationMetric {
+  label: string;
+  value: string;
+  description: string;
+}
+
+export interface PhasedRoadmapItem {
+  phase: string;
+  title: string;
+  description: string;
+}
+
+export interface CompetitorAnalysis {
+  name: string;
+  description: string;
+}
+
+export interface DesignPrinciple {
+  title: string;
+  description: string;
+}
+
+export interface SectionImages {
+  [key: string]: string | undefined;
 }
 
 export interface Project {
@@ -18,33 +58,82 @@ export interface Project {
   outcomeMetrics: string;
   image: string;
   // Rich case study fields (optional)
+  challenge?: string;
   insight?: string;
+  problemBullets?: string[];
+  problemImpact?: string;
   researchHighlights?: string[];
   goals?: string[];
   competitiveResearch?: string;
+  competitors?: CompetitorAnalysis[];
+  competitiveKeyTakeaways?: string[];
   interviews?: string;
+  interviewGoals?: string[];
   findings?: Finding[];
+  researchToDesign?: ResearchToDesign[];
+  solutionFeatures?: SolutionFeature[];
+  designPrinciples?: DesignPrinciple[];
+  userFlow?: string[];
+  validationMetrics?: ValidationMetric[];
   learnings?: string[];
+  whatIdDoDifferently?: string[];
+  businessModel?: string;
+  businessModelDetails?: { label: string; description: string }[];
+  phasedRoadmap?: PhasedRoadmapItem[];
+  closingStatement?: string;
+  closingStats?: { label: string; value: string }[];
+  appendixImages?: { slot: string; caption: string }[];
   nextSteps?: string[];
+  sectionImages?: SectionImages;
 }
 
 export const projects: Project[] = [
   {
     id: "ebtfinder",
     title: "EBT Finder",
-    description: "EBTFinder.org is a review-first platform built to help SNAP/EBT users quickly discover nearby businesses that accept EBT. Unlike the outdated government database, we show real images, user reviews, and clear filters — so you can shop with ease, trust, and dignity.",
-    impact: "Redesigned for 2M+ SNAP users",
-    tags: ["UX Research", "Figma", "Prototyping", "Accessibility"],
-    role: "UX Designer",
-    timeline: "Jan – Apr 2024",
-    tools: ["Figma", "Miro", "UserTesting", "Google Places API"],
-    problem: "Low-income families and individuals using EBT are underserved by digital tools. The USDA's official SNAP locator is overwhelming and outdated, lacking visuals or reviews, not mobile-first, and not filterable by user needs (e.g. hot food, open now, delivery options).",
-    insight: "People want to shop with confidence and dignity. And businesses want to serve — they just don't always know how. I saw an opportunity to fix both sides of that equation: For users, make the SNAP map feel like Yelp. For businesses, show them how to apply to accept EBT and upsell digital tools.",
-    researchHighlights: [
-      "Audited existing USDA SNAP site",
-      "Interviewed 5 EBT users about how they decide where to go",
-      "Surveyed 3 small restaurant owners — none knew they were eligible to accept hot food",
-      "Found >40% of Fresno EBT-eligible spots had no reviews or public presence",
+    description: "A review-first platform that helps SNAP/EBT users discover nearby businesses with confidence and dignity.",
+    impact: "Redesigned for 12M+ SNAP users",
+    tags: ["UX Research", "Figma", "Prototyping", "Competitive Analysis"],
+    role: "Product Designer (Solo Project)",
+    timeline: "4 weeks",
+    tools: ["Figma", "User Interviews", "Competitive Analysis", "Prototyping"],
+    challenge: "12 million Americans use SNAP/EBT benefits, but the government's official store locator is outdated, overwhelming, and fails to build trust. People deserve to shop with confidence—not confusion.",
+    problem: "Low-income families using EBT are underserved by digital tools. The USDA's SNAP Retailer Locator is failing them.",
+    problemBullets: [
+      "Is overwhelming and outdated",
+      "Lacks visuals, reviews, or trust signals",
+      "Isn't mobile-first",
+      "Can't filter by user needs (hot food, delivery, open now)",
+    ],
+    problemImpact: "Users avoid using the tool entirely. Over 40% of Fresno's EBT-eligible businesses had no reviews or public presence, making it impossible for users to know if a store truly welcomes them.",
+    insight: "People want to shop with confidence and dignity. And businesses want to serve—they just don't always know how.\n\nFor users: Make the SNAP map feel like Yelp.\nFor businesses: Show them how to accept EBT + provide digital tools.",
+    competitors: [
+      { name: "USDA SNAP Retailer Locator", description: "Official government tool with no filters, mobile usability, or user-friendly design. Essentially a CSV on a map." },
+      { name: "Yelp / Google Maps", description: "Powerful discovery tools but with no EBT filtering and inconsistent tagging." },
+      { name: "Fresh EBT (now Propel)", description: "Focused on benefits tracking, not store discovery. Had some store data but no robust search or reviews." },
+    ],
+    competitiveKeyTakeaways: [
+      "No single platform combined SNAP eligibility with real-time visuals and user reviews",
+      "None allowed filtering by \"Hot Foods,\" \"Grocery Only,\" or \"Open Now\"",
+      "Major gap in trust-building features like ratings, photos, and reviews",
+    ],
+    interviews: "To ground the experience in real needs, I interviewed 7 EBT users over 4 days—including single parents, seniors, and working adults.",
+    interviewGoals: [
+      "Understand how EBT users currently find stores",
+      "Identify pain points and frustrations",
+      "Learn what builds trust in a new tool",
+    ],
+    findings: [
+      { title: "Lack of Trust in Store Listings", quote: "Just because a store says they take EBT doesn't mean they actually do when you get there.", insight: "Users need social proof—reviews, photos, and community validation—before trying a new store." },
+      { title: "Confusion Around Hot Foods", quote: "I've had EBT for years and still don't know where I can use it for hot food.", insight: "Hot food eligibility varies by state and is poorly communicated. Even long-time users don't understand the rules." },
+      { title: "Stigma + Shame Still Exist", quote: "I don't want to be judged when I swipe my card. Knowing a place welcomes EBT helps.", insight: "Knowing a business explicitly welcomes EBT users reduces anxiety and shame. Dignity matters." },
+    ],
+    researchToDesign: [
+      { need: "\"I need to know if this store actually takes EBT\"", solution: "Reviews + Ratings: User-generated reviews specifically about EBT acceptance" },
+      { need: "\"I don't know where I can buy hot food\"", solution: "Hot Food Filter: Clear category filtering + educational tooltips per state" },
+      { need: "\"I don't want to be embarrassed\"", solution: "Visual Trust Signals: Real photos, high ratings, and \"EBT-Friendly\" badges" },
+      { need: "\"The USDA site is too cluttered\"", solution: "Clean, Mobile-First UI: Simple search, clear filters, map view" },
+      { need: "\"I need to see what the store looks like\"", solution: "Google Places API Integration: Pull in real business photos automatically" },
     ],
     goals: [
       "Rebuild the SNAP locator for actual usability",
@@ -52,27 +141,105 @@ export const projects: Project[] = [
       "Pull in visuals via Google Places API",
       "Educate merchants & offer services to help them modernize",
     ],
-    competitiveResearch: "We conducted a deep dive into both direct and indirect competitors. The USDA SNAP Retailer Locator lacks filters, mobile usability, and user-friendly design — essentially a CSV on a map. Yelp and Google Maps are powerful discovery tools but have no EBT filtering and inconsistent tagging. Fresh EBT (now Propel) focused more on benefits tracking than store discovery. No single platform combined SNAP eligibility with real-time business visuals and user reviews. None allowed users to filter by critical needs like 'Hot Foods,' 'Grocery Only,' or 'Open Now.' There was a major gap for trust-building features like ratings, photos, and reviews — which are table stakes in other industries.",
-    interviews: "Over 4 days, I remotely interviewed 7 EBT users — including single parents, seniors, and working adults — to surface patterns in behavior, values, and pain points. The interviews revealed that trust matters more than features, the current USDA site is barely usable (most users tried it once and never returned), and Hot Food eligibility is confusing even for long-time EBT users.",
-    findings: [
-      { title: "Lack of Trust in Store Listings", quote: "Just because a store says they take EBT doesn't mean they actually do when you get there." },
-      { title: "Confusion Around Hot Foods", quote: "I've had EBT for years and still don't know where I can use it for hot food." },
-      { title: "Stigma + Shame Still Exist", quote: "I don't want to be judged when I swipe my card. Knowing a place welcomes EBT helps." },
+    solutionFeatures: [
+      {
+        title: "Mobile-First Search & Filters",
+        description: "Users can search by location and filter by category.",
+        details: ["Hot Food / Fast Food", "Grocery Stores", "Bakery", "Farmers Markets", "Delivery options", "\"Open Now\""],
+        whyItMatters: "Filtering = dignity. Users aren't looking for \"any\" EBT store—they want the right fit for their needs.",
+        imageSlot: "feature-search",
+      },
+      {
+        title: "Visual Business Profiles with Reviews",
+        description: "Each listing includes real photos, reviews, and clear EBT acceptance info.",
+        details: ["Real photos from Google Places API", "User reviews and ratings", "Address and hours", "Clear \"ACCEPTS SNAP FOOD AND SNAP HOT FOOD\" callouts", "EBT-friendliness score"],
+        whyItMatters: "Trust matters more than features. Visual confirmation and peer reviews give users confidence before visiting.",
+        imageSlot: "feature-profiles",
+      },
+      {
+        title: "Map View with EBT-Only Results",
+        description: "Unlike Google Maps or Yelp, EBT Finder only shows verified SNAP-accepting locations. No noise, no confusion.",
+        details: [],
+        whyItMatters: "Government tools ignore real workflows. Users need focused, relevant results—not a cluttered database.",
+        imageSlot: "feature-map",
+      },
+      {
+        title: "Community-Driven Trust",
+        description: "Users can contribute to the platform and help others.",
+        details: ["Share short reviews", "Rate EBT-friendliness", "Upload photos", "See recently viewed stores"],
+        whyItMatters: "Peer-to-peer trust is more powerful than any official label. Real people vouching for real experiences.",
+        imageSlot: "feature-community",
+      },
+    ],
+    designPrinciples: [
+      { title: "Clean & Approachable", description: "Soft green and teal color palette signals freshness and trust (not government bureaucracy)" },
+      { title: "Photography-First", description: "Large hero images make businesses feel welcoming" },
+      { title: "Clear Hierarchy", description: "Important info (EBT acceptance, ratings) is always above the fold" },
+      { title: "Accessible", description: "High contrast, readable fonts, clear CTAs" },
+    ],
+    userFlow: [
+      "User enters location or uses GPS",
+      "Filters by need (Hot Food, Open Now, etc.)",
+      "Reviews business profiles with photos and ratings",
+      "Gets directions or saves to wishlist",
+      "(Post-visit) Leaves a review to help others",
+    ],
+    validationMetrics: [
+      { label: "Task Success Rate", value: "9/10", description: "users successfully found a hot food location within 15 seconds (vs. 3+ minutes on USDA site)" },
+      { label: "User Satisfaction", value: "100%", description: "of testers said they'd use this over the USDA tool" },
+      { label: "Trust Increase", value: "8/10", description: "users felt more confident shopping at stores with reviews and photos" },
+      { label: "Time Saved", value: "65%", description: "faster average task completion than government site" },
     ],
     learnings: [
-      "Trust is UX. Users don't care about feature count — they care about confidence. Visuals, reviews, and real community feedback drive trust more than any official label or dataset.",
-      "Government tools ignore real workflows. The USDA SNAP locator serves as a database, not a usable product. It fails on mobile, lacks accessibility, and assumes users will do all the work.",
-      "Filtering = Dignity. People aren't just looking for 'any' EBT store — they want the right fit for their needs: Hot Meals, open hours, safety, distance, and staff treatment.",
-      "Designing for underserved users requires humility. You can't assume you know what matters most until you talk to people living through the experience.",
+      "Trust is UX — Users don't care about feature count—they care about confidence. Visuals, reviews, and community feedback drive trust more than any official dataset.",
+      "Government tools ignore real workflows — The USDA SNAP locator serves as a database, not a usable product. It fails on mobile, lacks accessibility, and assumes users will do all the work.",
+      "Filtering = Dignity — People aren't just looking for \"any\" EBT store—they want the right fit: hot meals, open hours, safety, distance, and welcoming staff.",
+      "Designing for underserved users requires humility — You can't assume you know what matters most until you talk to people living through the experience.",
     ],
-    nextSteps: [
-      "Incorporate more social proof — allow users to share short reviews, rate EBT-friendliness, and upload quick photos to build peer-to-peer trust.",
-      "Add 'Hot Food' clarity + education — create tooltips and mini-guides per state so users know what's allowed, including a map toggle for 'Hot Food eligible nearby.'",
-      "Expand interviews to merchants — understand why more stores don't accept EBT and how to remove onboarding friction.",
-      "Test with real-time tasks — run click tests like 'How fast can someone find a Hot Food location within 3 miles?'",
+    whatIdDoDifferently: [
+      "Expand merchant research — I focused heavily on user needs but should have interviewed more small business owners to understand barriers to EBT adoption. This would strengthen the business model.",
+      "Test with broader demographics — My 7 interviewees were valuable, but I'd include more rural users, non-English speakers, and users with disabilities to ensure accessibility.",
+      "Build in educational content earlier — Hot food eligibility is confusing. I should have designed state-specific tooltips and FAQ content into the MVP, not as a \"next step.\"",
     ],
-    process: "Conducted user interviews with 7 EBT users, created journey maps and personas, ran competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and performed usability testing across 3 iterations.",
+    businessModel: "EBT Finder uses a sustainable model that keeps the user experience free while generating revenue from merchant services.",
+    businessModelDetails: [
+      { label: "For Users", description: "Free, ad-free experience" },
+      { label: "Freemium Listings", description: "Basic listing is free; premium tier offers enhanced profiles, analytics, and customer insights" },
+      { label: "Lead Generation", description: "Help businesses apply for EBT acceptance (revenue share with payment processors)" },
+      { label: "Scalability", description: "Partner with local governments and nonprofits to drive adoption and verify listings" },
+    ],
+    phasedRoadmap: [
+      { phase: "Phase 1", title: "Launch MVP in Fresno, CA", description: "Test in a mid-sized market with high SNAP usage and refine based on real user behavior." },
+      { phase: "Phase 2", title: "Expand Social Proof Features", description: "Add photo uploads, video reviews, and \"top-rated\" badges to increase community engagement." },
+      { phase: "Phase 3", title: "Merchant Dashboard", description: "Create self-service tools for businesses to manage their listings, respond to reviews, and track performance." },
+      { phase: "Phase 4", title: "Scale Nationally", description: "Partner with state SNAP agencies to become the de facto store locator nationwide." },
+    ],
+    closingStatement: "EBT Finder isn't just a better map—it's a tool for dignity. By combining modern UX design with user research and community trust-building, we can transform how millions of Americans access their benefits.",
+    closingStats: [
+      { label: "The opportunity", value: "12 million SNAP users deserve better tools" },
+      { label: "The solution", value: "A Yelp-like experience built for their needs" },
+      { label: "The impact", value: "Confidence, convenience, and reduced stigma" },
+    ],
+    appendixImages: [
+      { slot: "appendix-1", caption: "Homepage with category filters" },
+      { slot: "appendix-2", caption: "Map view with markers" },
+      { slot: "appendix-3", caption: "Business detail page (Whole Foods example)" },
+      { slot: "appendix-4", caption: "User profile and saved locations" },
+      { slot: "appendix-5", caption: "Search results with visual cards" },
+      { slot: "appendix-6", caption: "Filter drawer open" },
+    ],
+    sectionImages: {},
+    // Legacy fields kept for compatibility
+    researchHighlights: [
+      "Audited existing USDA SNAP site",
+      "Interviewed 7 EBT users about how they decide where to go",
+      "Surveyed 3 small restaurant owners — none knew they were eligible to accept hot food",
+      "Found >40% of Fresno EBT-eligible spots had no reviews or public presence",
+    ],
+    nextSteps: [],
+    competitiveResearch: "",
     solution: "A clean, map-based mobile interface with real-time store locator, user reviews and ratings, real business photos via Google Places API, and filters for store type, hot food eligibility, and open hours.",
+    process: "Conducted user interviews with 7 EBT users, created journey maps and personas, ran competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and performed usability testing across 3 iterations.",
     outcomeMetrics: "Task completion rate improved from 45% to 89%. Average time-to-find reduced by 62%. Received positive feedback from 92% of usability test participants.",
     image: "/placeholder.svg",
   },
