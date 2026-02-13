@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
+import GenerateWireframe from "./pages/GenerateWireframe";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
+          <Route path="/generate-wireframe" element={<GenerateWireframe />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
