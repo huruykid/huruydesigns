@@ -232,6 +232,7 @@ export const projects: Project[] = [
       "usda-screenshot": "/images/ebtfinder/usda-screenshot.png",
       "ebt-sign": "/images/ebtfinder/ebt-sign.png",
       "wireframes": "/images/ebtfinder/wireframes.png",
+      "feature-search": "/images/ebtfinder/feature-search.png",
     },
     // Legacy fields kept for compatibility
     researchHighlights: [
