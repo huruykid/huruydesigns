@@ -368,7 +368,30 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
               ))}
             </div>
             <div className="mt-6">
-              <ImageSlot slot="user-flow" label="User journey diagram" imageSrc={getSlotImage("user-flow")} projectId={projectId} onUploaded={onUploaded} />
+              <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto">
+                <div className="flex items-center gap-0 min-w-[700px]">
+                  {[
+                    { step: "1", title: "Locate", desc: "Enter location or use GPS", emoji: "📍" },
+                    { step: "2", title: "Filter", desc: "Hot Food, Open Now, etc.", emoji: "🔍" },
+                    { step: "3", title: "Browse", desc: "View profiles, photos & ratings", emoji: "🏪" },
+                    { step: "4", title: "Navigate", desc: "Get directions or save", emoji: "🗺️" },
+                    { step: "5", title: "Review", desc: "Leave feedback for others", emoji: "⭐" },
+                  ].map((item, i, arr) => (
+                    <div key={i} className="flex items-center flex-1">
+                      <div className="flex flex-col items-center text-center flex-1">
+                        <div className="w-14 h-14 rounded-full bg-accent/15 border-2 border-accent flex items-center justify-center text-2xl mb-2">
+                          {item.emoji}
+                        </div>
+                        <p className="font-bold text-foreground text-sm">{item.title}</p>
+                        <p className="text-xs text-muted-foreground mt-1 max-w-[120px]">{item.desc}</p>
+                      </div>
+                      {i < arr.length - 1 && (
+                        <div className="w-8 h-0.5 bg-accent/40 shrink-0" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
