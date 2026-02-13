@@ -417,39 +417,41 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
           <h3 className="font-bold text-foreground mb-6 text-center">EBT Finder vs. USDA SNAP Locator</h3>
           <div className="space-y-5">
             {[
-              { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec" },
-              { label: "Mobile usability", ebt: 95, usda: 30, unit: "%" },
-              { label: "User satisfaction", ebt: 100, usda: 20, unit: "%" },
-              { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%" },
-            ].map((row, i) => (
-              <div key={i}>
-                <p className="text-sm font-medium text-foreground mb-2">{row.label}</p>
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground w-24 shrink-0">EBT Finder</span>
-                    <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-accent rounded-full flex items-center justify-end pr-2"
-                        style={{ width: `${row.unit === "sec" ? Math.min((1 - row.ebt / 200) * 100, 95) : row.ebt}%` }}
-                      >
-                        <span className="text-[10px] font-bold text-accent-foreground">{row.ebt}{row.unit}</span>
+              { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec", maxVal: 180 },
+              { label: "Mobile usability", ebt: 95, usda: 30, unit: "%", maxVal: 100 },
+              { label: "User satisfaction", ebt: 100, usda: 20, unit: "%", maxVal: 100 },
+              { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%", maxVal: 100 },
+            ].map((row, i) => {
+              const ebtWidth = Math.max((row.ebt / row.maxVal) * 100, 8);
+              const usdaWidth = Math.max((row.usda / row.maxVal) * 100, 8);
+              return (
+                <div key={i}>
+                  <p className="text-sm font-medium text-foreground mb-2">{row.label}</p>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-muted-foreground w-24 shrink-0">EBT Finder</span>
+                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
+                        <div
+                          className="h-full bg-accent rounded-full"
+                          style={{ width: `${ebtWidth}%` }}
+                        />
                       </div>
+                      <span className="text-xs font-bold text-foreground w-16 shrink-0 text-right">{row.ebt}{row.unit}</span>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground w-24 shrink-0">USDA Tool</span>
-                    <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-muted-foreground/30 rounded-full flex items-center justify-end pr-2"
-                        style={{ width: `${row.unit === "sec" ? Math.min((1 - row.usda / 200) * 100, 95) : row.usda}%` }}
-                      >
-                        <span className="text-[10px] font-bold text-muted-foreground">{row.usda}{row.unit}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-muted-foreground w-24 shrink-0">USDA Tool</span>
+                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
+                        <div
+                          className="h-full bg-muted-foreground/30 rounded-full"
+                          style={{ width: `${usdaWidth}%` }}
+                        />
                       </div>
+                      <span className="text-xs font-bold text-muted-foreground w-16 shrink-0 text-right">{row.usda}{row.unit}</span>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </CaseStudySection>
