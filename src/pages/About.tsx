@@ -3,10 +3,36 @@ import { Download, Briefcase, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 
-const timeline = [
-  { year: "2024", title: "UX Designer", org: "Freelance / Contract", description: "Designing user-centered products for social impact organizations and startups." },
-  { year: "2023", title: "UX Design Intern", org: "OneAsure", description: "Redesigned insurance management portal for small businesses." },
-  { year: "2022", title: "Software Developer", org: "Previous Role", description: "Built frontend applications with React and contributed to design systems." },
+const experience = [
+  { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
+    "Simplifying complexity, chatbot writing, and cross-functional collaboration.",
+    "Refined Interface Copy & Error Mapping for enterprise HR and compliance workflows.",
+    "Conversational Design (AI): Designed persona and scripts for \"Luna,\" an AI chatbot.",
+    "Design System Documentation: Authored usage guidelines and accessibility standards (WCAG).",
+  ]},
+  { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE | Los Angeles, CA", bullets: [
+    "Wrote and designed end-to-end onboarding narratives for VR learning experiences.",
+    "Developed Immerse's first content and design framework for tone, voice, and accessible instruction.",
+    "Conducted usability testing to identify linguistic friction points and reduce cognitive load.",
+  ]},
+  { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable | Oakland, CA", bullets: [
+    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech.",
+    "Established a modular design system in Figma with standardized copy patterns.",
+    "Collaborated with stakeholders to refine CTAs based on business KPIs and conversion data.",
+  ]},
+];
+
+const leadership = [
+  { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray | Portland, OR", description: "Directed communication strategy that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
+];
+
+const expertiseGroups = [
+  { label: "UX/UI Design", skills: "Wireframing, Prototyping, Journey Mapping, Information Architecture, Accessibility (WCAG), Storyboarding, Personas" },
+  { label: "Research & Strategy", skills: "Usability Testing, Heuristic Evaluation, Quantitative & Qualitative Analysis, Data Analytics, Competitive Analysis" },
+  { label: "Design Systems", skills: "Style Guides, Component Libraries, Responsive Design" },
+  { label: "Design Software", skills: "Figma, Sketch, Adobe XD, InVision, Protopie, Adobe Illustrator, Adobe Photoshop" },
+  { label: "Development", skills: "HTML, CSS, JavaScript Tools" },
+  { label: "Collaboration", skills: "Abstract, Agile, Scrum Master, Lean UX, Contentful" },
 ];
 
 const About = () => (
@@ -28,27 +54,19 @@ const About = () => (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">About Me</p>
             <h1 className="text-4xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Designing with empathy, building with purpose.
+              Huruy Kidanemariam
             </h1>
-            <div className="space-y-4 text-muted-foreground leading-relaxed mb-12">
-              <p>
-                I'm Huruy — a UX designer and software developer passionate about creating digital products that make a real difference in people's lives.
-              </p>
-              <p>
-                My work sits at the intersection of design and technology. I believe the best products come from deeply understanding users, testing assumptions, and iterating relentlessly.
-              </p>
-              <p>
-                When I'm not designing, you'll find me exploring new technologies, contributing to open-source projects, or writing about design on Medium.
-              </p>
-            </div>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-12">
+              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems.
+            </p>
 
             {/* Experience */}
             <div className="mb-12">
               <h2 className="text-xl font-bold flex items-center gap-2 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 <Briefcase className="h-5 w-5 text-accent" /> Experience
               </h2>
-              <div className="space-y-6">
-                {timeline.map((item, i) => (
+              <div className="space-y-8">
+                {experience.map((item, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 10 }}
@@ -57,24 +75,66 @@ const About = () => (
                     transition={{ delay: i * 0.1 }}
                     className="flex gap-4"
                   >
-                    <div className="text-sm font-semibold text-accent w-12 pt-1 shrink-0">{item.year}</div>
-                    <div className="border-l border-border pl-4">
+                    <div className="w-3 h-3 rounded-full bg-accent mt-2 shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-accent">{item.period}</p>
                       <p className="font-semibold">{item.title}</p>
-                      <p className="text-sm text-muted-foreground">{item.org}</p>
-                      <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                      <p className="text-sm text-muted-foreground mb-2">{item.org}</p>
+                      <ul className="space-y-1">
+                        {item.bullets.map((b, j) => (
+                          <li key={j} className="text-sm text-muted-foreground flex gap-2">
+                            <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-muted-foreground" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
 
+            {/* Design Leadership */}
+            <div className="mb-12">
+              <h2 className="text-xl font-bold flex items-center gap-2 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Briefcase className="h-5 w-5 text-accent" /> Design Leadership
+              </h2>
+              {leadership.map((item, i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="w-3 h-3 rounded-full bg-accent mt-2 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-accent">{item.period}</p>
+                    <p className="font-semibold">{item.title}</p>
+                    <p className="text-sm text-muted-foreground mb-2">{item.org}</p>
+                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
             {/* Education */}
-            <div>
+            <div className="mb-12">
               <h2 className="text-xl font-bold flex items-center gap-2 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 <GraduationCap className="h-5 w-5 text-accent" /> Education
               </h2>
-              <p className="font-semibold">Bachelor's in Computer Science</p>
-              <p className="text-sm text-muted-foreground">University — Class of 2022</p>
+              <p className="text-sm font-semibold text-accent">2010 – 2014</p>
+              <p className="font-semibold">Bachelor of Science in Psychology, Ergonomics & Human Factors Concentration</p>
+              <p className="text-sm text-muted-foreground">CSU Eastbay</p>
+            </div>
+
+            {/* Expertise */}
+            <div>
+              <h2 className="text-xl font-bold flex items-center gap-2 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <Briefcase className="h-5 w-5 text-accent" /> Expertise
+              </h2>
+              <div className="space-y-4">
+                {expertiseGroups.map((g, i) => (
+                  <div key={i}>
+                    <p className="font-semibold text-sm">{g.label}</p>
+                    <p className="text-sm text-muted-foreground">{g.skills}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
