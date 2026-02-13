@@ -413,7 +413,45 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             </Card>
           ))}
         </div>
-        <ImageSlot slot="validation-chart" label="Comparison chart or stat visualization" imageSrc={getSlotImage("validation-chart")} projectId={projectId} onUploaded={onUploaded} />
+        <div className="rounded-xl border border-border bg-card/50 p-6">
+          <h3 className="font-bold text-foreground mb-6 text-center">EBT Finder vs. USDA SNAP Locator</h3>
+          <div className="space-y-5">
+            {[
+              { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec" },
+              { label: "Mobile usability", ebt: 95, usda: 30, unit: "%" },
+              { label: "User satisfaction", ebt: 100, usda: 20, unit: "%" },
+              { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%" },
+            ].map((row, i) => (
+              <div key={i}>
+                <p className="text-sm font-medium text-foreground mb-2">{row.label}</p>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground w-24 shrink-0">EBT Finder</span>
+                    <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-accent rounded-full flex items-center justify-end pr-2"
+                        style={{ width: `${row.unit === "sec" ? Math.min((1 - row.ebt / 200) * 100, 95) : row.ebt}%` }}
+                      >
+                        <span className="text-[10px] font-bold text-accent-foreground">{row.ebt}{row.unit}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground w-24 shrink-0">USDA Tool</span>
+                    <div className="flex-1 h-5 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-muted-foreground/30 rounded-full flex items-center justify-end pr-2"
+                        style={{ width: `${row.unit === "sec" ? Math.min((1 - row.usda / 200) * 100, 95) : row.usda}%` }}
+                      >
+                        <span className="text-[10px] font-bold text-muted-foreground">{row.usda}{row.unit}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </CaseStudySection>
     )}
 
