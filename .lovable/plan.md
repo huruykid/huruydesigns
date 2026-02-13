@@ -1,24 +1,51 @@
 
 
-## Resize Hero Image for Better Readability
+## Hero Image Beside Title on Desktop
 
-### Problem
-The uploaded hero image renders at its full natural size (`w-full h-auto`), which makes it excessively large and pushes all case study content far below the fold.
-
-### Solution
-Constrain the hero image in the `ImageSlot` component and the hero image container in `ProjectPage.tsx` so that uploaded images display at a reasonable, readable size.
+### Layout Change
+On desktop, the hero section will become a two-column layout: title/description on the left, hero image on the right. On mobile, the image stays below the title as it does now.
 
 ### Changes
 
-**1. `src/components/case-study/ImageSlot.tsx`**
-- When an image is present, add a `max-h-[600px]` constraint and switch from `h-auto` to `object-contain` so the image scales down while preserving its aspect ratio
-- This ensures no uploaded image — hero or otherwise — dominates the viewport
+**`src/pages/ProjectPage.tsx` (lines 64-101)**
+- Merge the hero text section and hero image into a single `section`
+- Use a responsive grid: `grid grid-cols-1 lg:grid-cols-2 gap-8` inside the hero `section`
+- Left column: existing title, description, role/timeline, tools, and challenge card
+- Right column: the hero `ImageSlot` (or fallback image)
+- Remove the separate `{/* Hero Image */}` div below the section since it moves inline
+- On mobile (`grid-cols-1`), the image naturally stacks below the text
 
-**2. `src/pages/ProjectPage.tsx`**
-- Add a `max-h-[600px]` constraint to the hero image container specifically, ensuring the hero section stays compact regardless of the uploaded image dimensions
+### Visual Result
+
+```text
+Desktop:
++---------------------------+-------------------+
+| Back to Projects          |                   |
+| UX CASE STUDY             |   [Hero Image]    |
+| EBT Finder                |                   |
+| Description text...       |                   |
+| Role | Timeline           |                   |
+| [tags]                    |                   |
+| Challenge card            |                   |
++---------------------------+-------------------+
+
+Mobile:
++---------------------------+
+| Back to Projects          |
+| UX CASE STUDY             |
+| EBT Finder                |
+| Description...            |
+| Role | Timeline           |
+| [tags]                    |
+| Challenge card            |
++---------------------------+
+| [Hero Image]              |
++---------------------------+
+```
 
 ### Technical Details
-- The `img` tag in ImageSlot's "has image" branch (line 83) will change from `className="w-full h-auto"` to `className="w-full max-h-[600px] object-contain"`
-- The wrapping `div` will also get `max-h-[600px]` to prevent the container from being oversized
-- All other image slots throughout the case studies will benefit from this same constraint, keeping layouts consistent
+- The hero image column will use `flex items-center` to vertically center the image beside the text
+- The `max-h-[600px]` constraint on the image remains via `ImageSlot`
+- The `-mt-2 mb-16` container for the old hero image section is removed since it merges into the hero section
+- The `max-w-2xl` on the description and challenge card stays so text doesn't stretch too wide in its column
 
