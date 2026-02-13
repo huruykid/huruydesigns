@@ -1,44 +1,46 @@
 
 
-# Build Competitive Audit as a Coded Component
+# Fix Competitive Audit Table for Mobile
 
-## What Changes
+## Problem
 
-Replace the `ImageSlot` placeholder for "competitive-audit" with a styled comparison table built directly in React, matching the look of your uploaded reference image but adapted to fit the portfolio's color palette and design system.
+On mobile, the table's sticky first column overlaps content, column headers get cut off, and horizontal scrolling loses context. Tables with 5 columns simply don't work well on small screens.
 
-## Design Approach
+## Solution
 
-The table will use your portfolio's existing design tokens (accent orange, muted backgrounds, border colors) and adapt automatically to dark/light mode. Instead of generic green/red circles, it will use your accent color for supported features and muted tones for unsupported ones.
+Switch to a **stacked card layout on mobile** where each feature becomes its own card showing all 4 competitors vertically. On desktop, keep the current table layout.
 
-**Layout:**
-- Sticky first column with feature names on mobile (horizontal scroll for the competitor columns)
-- Column headers: EBT Finder, USDA SNAP Locator, Google Maps, Fresh EBT (Propel)
-- 5 feature rows: Mobile-optimized UX, Filter by Hot Food / Grocery Only, User reviews + ratings, Visuals of businesses (via API), Show only EBT-accepting businesses
-- Check and X icons from lucide-react (Check, X) inside colored circles
-- EBT Finder column subtly highlighted to stand out
+### Mobile Layout (below 768px)
+
+Each feature renders as a card:
+
+```text
++-------------------------------+
+| Mobile-optimized UX           |
++-------------------------------+
+| EBT Finder          [check]   |
+| USDA SNAP Locator   [x]       |
+| Google Maps          [check]   |
+| Fresh EBT (Propel)  [check]   |
++-------------------------------+
+```
+
+- Feature name as the card header
+- Each competitor on its own row with name + check/x icon
+- EBT Finder row gets the accent highlight
+- No horizontal scrolling needed
+
+### Desktop Layout (768px+)
+
+Keep the current table exactly as-is — it works great on wider screens.
 
 ## Technical Changes
 
-### 1. New component: `src/components/case-study/CompetitiveAuditTable.tsx`
-- Accepts data as props (competitors array, features array with boolean support per competitor)
-- Renders a responsive table with proper styling
-- Uses `Check` and `X` icons from lucide-react inside accent-colored and muted circles
-- EBT Finder column gets a subtle accent background highlight
-- Rounded card wrapper with border, matching existing Card styling
+**`src/components/case-study/CompetitiveAuditTable.tsx`**
 
-### 2. Update `src/pages/ProjectPage.tsx`
-- In the competitive analysis section (~line 159), replace the `ImageSlot` for "competitive-audit" with the new `CompetitiveAuditTable` component
-- Pass hardcoded data for EBT Finder's competitive audit (since this is project-specific content)
+- Import `useIsMobile` hook
+- On mobile: render a vertical stack of cards (one per feature), each listing competitors with their check/x status
+- On desktop: render the existing table unchanged
+- EBT Finder rows in the mobile cards get the same `bg-accent/10` highlight
 
-### 3. Data
-The competitive data is hardcoded in the component usage since it's specific to EBT Finder. No changes to `projects.ts` needed.
-
-**Features compared:**
-
-| Feature | EBT Finder | USDA | Google Maps | Fresh EBT |
-|---------|-----------|------|-------------|-----------|
-| Mobile-optimized UX | Yes | No | Yes | Yes |
-| Filter by Hot Food / Grocery Only | Yes | No | No | No |
-| User reviews + ratings | Yes | No | Yes | No |
-| Visuals of businesses (via API) | Yes | No | No | No |
-| Show only EBT-accepting businesses | Yes | No | Yes | No |
+No other files need changes.
