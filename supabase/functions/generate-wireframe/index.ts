@@ -14,16 +14,12 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const prompt = `Create a clean, professional annotated mobile wireframe sketch for an EBT store finder app called "EBT Finder". The image should show a single mobile phone screen wireframe with clear UI elements and annotation callout lines connecting each UI element to a research insight. Use a clean black/gray wireframe style with blue or teal annotation lines and text.
-
-The mobile screen should include these elements from top to bottom:
-1. A search bar at the top with filter icons - with an annotation arrow pointing to text: "USDA site is cluttered and hard to navigate"
-2. A toggle/chip for "Hot Food" filter - with annotation: "Users don't know where to buy hot food with EBT"
-3. A map view showing store pin markers - with annotation: "Users need visual location context"
-4. A store card below the map showing a photo, star rating, and reviews count - with annotation: "Users need trust signals before visiting"
-5. An "EBT Accepted" badge on the store card - with annotation: "Uncertainty about which stores accept EBT"
-
-Style: Clean wireframe illustration, not a screenshot. Annotations should have clean leader lines connecting UI elements to insight text boxes on the sides. Professional UX portfolio quality. White background.`;
+    const { prompt } = await req.json();
+    if (!prompt || typeof prompt !== "string") {
+      return new Response(JSON.stringify({ error: "A prompt is required" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     console.log("Calling Lovable AI Gateway for image generation...");
 

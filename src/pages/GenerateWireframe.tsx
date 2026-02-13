@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Download, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const GenerateWireframe = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [prompt, setPrompt] = useState("");
   const { toast } = useToast();
 
   const generate = async () => {
@@ -20,7 +22,7 @@ const GenerateWireframe = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({}),
+          body: JSON.stringify({ prompt }),
         }
       );
 
@@ -58,8 +60,15 @@ const GenerateWireframe = () => {
         This generates an annotated wireframe for the EBT Finder case study using AI.
       </p>
 
+      <Textarea
+        placeholder="Describe the image you want to generate..."
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        className="mb-6 min-h-[120px]"
+      />
+
       <div className="flex gap-3 mb-8">
-        <Button onClick={generate} disabled={loading} size="lg">
+        <Button onClick={generate} disabled={loading || !prompt.trim()} size="lg">
           {loading ? (
             <>
               <Loader2 className="animate-spin mr-2" />
