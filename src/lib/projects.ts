@@ -228,7 +228,9 @@ export const projects: Project[] = [
       { slot: "appendix-5", caption: "Search results with visual cards" },
       { slot: "appendix-6", caption: "Filter drawer open" },
     ],
-    sectionImages: {},
+    sectionImages: {
+      "usda-screenshot": "/images/ebtfinder/usda-screenshot.png",
+    },
     // Legacy fields kept for compatibility
     researchHighlights: [
       "Audited existing USDA SNAP site",
