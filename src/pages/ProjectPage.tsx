@@ -168,8 +168,8 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             { name: "Mobile-optimized UX", support: [true, false, true, true] },
             { name: "Filter by Hot Food / Grocery Only", support: [true, false, false, false] },
             { name: "User reviews + ratings", support: [true, false, true, false] },
-            { name: "Visuals of businesses (via API)", support: [true, false, false, false] },
-            { name: "Show only EBT-accepting businesses", support: [true, false, true, false] },
+            { name: "Visuals of businesses (via API)", support: [true, false, true, false] },
+            { name: "Show only EBT-accepting businesses", support: [true, true, true, true] },
           ]}
         />
         {project.competitiveKeyTakeaways && (
