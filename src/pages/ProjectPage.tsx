@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import ImageSlot from "@/components/case-study/ImageSlot";
+import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
 
 // Helper to get image for a slot
 const getSlotImage = (project: Project, slot: string) => project.sectionImages?.[slot];
@@ -156,7 +157,21 @@ const RichCaseStudy = ({ project }: { project: Project }) => (
             </Card>
           ))}
         </div>
-        <ImageSlot slot="competitive-audit" label="Competitive audit comparison table" imageSrc={getSlotImage(project, "competitive-audit")} />
+        <CompetitiveAuditTable
+          competitors={[
+            { name: "EBT Finder", highlight: true },
+            { name: "USDA SNAP Locator" },
+            { name: "Google Maps" },
+            { name: "Fresh EBT (Propel)" },
+          ]}
+          features={[
+            { name: "Mobile-optimized UX", support: [true, false, true, true] },
+            { name: "Filter by Hot Food / Grocery Only", support: [true, false, false, false] },
+            { name: "User reviews + ratings", support: [true, false, true, false] },
+            { name: "Visuals of businesses (via API)", support: [true, false, false, false] },
+            { name: "Show only EBT-accepting businesses", support: [true, false, true, false] },
+          ]}
+        />
         {project.competitiveKeyTakeaways && (
           <div className="mt-6">
             <h3 className="font-bold text-foreground mb-3">Key Takeaways</h3>
