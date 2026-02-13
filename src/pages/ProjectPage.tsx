@@ -9,6 +9,7 @@ import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import ImageSlot from "@/components/case-study/ImageSlot";
 import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
+import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import { supabase } from "@/integrations/supabase/client";
 
 const isRichCaseStudy = (p: Project) => !!p.challenge;
@@ -102,7 +103,9 @@ const ProjectPage = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 pb-24 max-w-4xl">
-        {rich ? (
+        {project.id === "ai-fent-finder" ? (
+          <FentFinderCaseStudy project={project} {...slotProps} />
+        ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
           <SimpleCaseStudy project={project} />
