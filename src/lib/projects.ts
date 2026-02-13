@@ -231,6 +231,7 @@ export const projects: Project[] = [
     sectionImages: {
       "usda-screenshot": "/images/ebtfinder/usda-screenshot.png",
       "ebt-sign": "/images/ebtfinder/ebt-sign.png",
+      "wireframes": "/images/ebtfinder/wireframes.png",
     },
     // Legacy fields kept for compatibility
     researchHighlights: [
