@@ -246,7 +246,7 @@ export const projects: Project[] = [
     solution: "A clean, map-based mobile interface with real-time store locator, user reviews and ratings, real business photos via Google Places API, and filters for store type, hot food eligibility, and open hours.",
     process: "Conducted user interviews with 7 EBT users, created journey maps and personas, ran competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and performed usability testing across 3 iterations.",
     outcomeMetrics: "Task completion rate improved from 45% to 89%. Average time-to-find reduced by 62%. Received positive feedback from 92% of usability test participants.",
-    image: "/placeholder.svg",
+    image: "/images/ebtfinder/hero-mockup.png",
   },
   {
     id: "ai-fent-finder",
