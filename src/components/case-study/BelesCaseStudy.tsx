@@ -47,8 +47,9 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
       <p className="mb-6">Beles seamlessly blends traditional Tigrayan matchmaking customs with cutting-edge technology to provide a safe and genuine space for connection during a crisis.</p>
 
       {project.solutionFeatures && (
-        <div className="space-y-16">
-          <h3 className="text-xl font-bold text-foreground">Core Features</h3>
+        <div>
+          <h3 className="text-xl font-bold text-foreground mb-10">Core Features</h3>
+          <div className="space-y-16">
           {project.solutionFeatures.map((feat, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{feat.title}</h3>
@@ -81,6 +82,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               </Card>
             </motion.div>
           ))}
+          </div>
         </div>
       )}
     </CaseStudySection>
@@ -352,12 +354,12 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
         </CardContent>
       </Card>
 
-      {/* Appendix Images */}
-      {project.appendixImages && project.appendixImages.length > 0 && (
+      {/* Appendix Images — only onboarding & profile screens, not feature screens */}
+      {project.appendixImages && project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").length > 0 && (
         <div className="mt-10">
           <h3 className="font-bold text-foreground mb-4">Additional Screens</h3>
           <div className="grid sm:grid-cols-2 gap-4">
-            {project.appendixImages.map((img, i) => (
+            {project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").map((img, i) => (
               <div key={i}>
                 <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} projectId={projectId} onUploaded={onUploaded} />
                 <p className="text-xs text-muted-foreground mt-1 text-center">{img.caption}</p>
