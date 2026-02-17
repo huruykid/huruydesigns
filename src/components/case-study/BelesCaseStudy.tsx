@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, Users, Map, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, MessageSquareQuote, Target } from "lucide-react";
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
+import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -46,7 +47,11 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{feat.title}</h3>
               <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+              {feat.imageSlot === "feature-shmagele-overview" ? (
+                <ShmageleFlowDiagram />
+              ) : (
+                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+              )}
               {feat.details.length > 0 && (
                 <ul className="mt-4 space-y-1">
                   {feat.details.map((d, j) => (
