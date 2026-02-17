@@ -3,6 +3,7 @@ import { AlertTriangle, Users, Map, Lightbulb, Palette, BarChart3, Rocket, Heart
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
+import InterviewInsightCards from "./InterviewInsightCards";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -126,7 +127,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
             </ul>
           </CardContent>
         </Card>
-        <ImageSlot slot="user-research" label="User research process" imageSrc={getSlotImage("user-research")} projectId={projectId} onUploaded={onUploaded} />
+        <InterviewInsightCards />
       </div>
     </CaseStudySection>
 
