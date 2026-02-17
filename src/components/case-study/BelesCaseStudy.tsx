@@ -4,6 +4,10 @@ import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
 import InterviewInsightCards from "./InterviewInsightCards";
+import UsabilityStatBars from "./UsabilityStatBars";
+import NavRedesignComparison from "./NavRedesignComparison";
+import EventCarousel from "./EventCarousel";
+import NotificationStack from "./NotificationStack";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -225,7 +229,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           </div>
         ))}
       </div>
-      <ImageSlot slot="usability-testing" label="Usability testing results" imageSrc={getSlotImage("usability-testing")} projectId={projectId} onUploaded={onUploaded} />
+      <UsabilityStatBars />
     </CaseStudySection>
 
     {/* Navigation Redesign Deep Dive */}
@@ -261,7 +265,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           <p className="mt-3 font-medium text-accent text-sm">Result: Users swiftly located events, simplifying navigation. User satisfaction improved significantly.</p>
         </CardContent>
       </Card>
-      <ImageSlot slot="nav-redesign" label="Navigation before & after comparison" imageSrc={getSlotImage("nav-redesign")} projectId={projectId} onUploaded={onUploaded} />
+      <NavRedesignComparison />
     </CaseStudySection>
 
     {/* Visual Design */}
@@ -321,7 +325,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               </Card>
             ))}
           </div>
-          <ImageSlot slot="feature-events" label="Event discovery screens" imageSrc={getSlotImage("feature-events")} projectId={projectId} onUploaded={onUploaded} />
+          <EventCarousel />
         </div>
 
         {/* Match Notifications */}
@@ -343,7 +347,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
             ))}
           </div>
           <div className="mt-4">
-            <ImageSlot slot="feature-notifications" label="Match notification screens" imageSrc={getSlotImage("feature-notifications")} projectId={projectId} onUploaded={onUploaded} />
+            <NotificationStack />
           </div>
         </div>
       </div>
