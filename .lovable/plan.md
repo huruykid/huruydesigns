@@ -1,75 +1,60 @@
 
+## Clean Up BelesCaseStudy.tsx: Remove Duplicate ImageSlots & Static Cards
 
-## Replace Remaining Static ImageSlots with Interactive Components
+### What's Wrong Right Now
 
-### Overview
-Replace 4 of the 9 remaining ImageSlots with interactive, animated components. The other 5 remain as ImageSlots since they need real screenshots (personas, wireframes, visual design, shmagele screens, appendix).
+Three areas of redundancy/leftover placeholders to fix:
 
----
+1. **Shmagele ImageSlot (line 307)** — Inside "Key Features in Detail > 1. Shmagele Matching", there's a bare `ImageSlot slot="feature-shmagele"` that has no interactive replacement. The `ShmageleFlowDiagram` already lives in the "Core Features" section above (lines 56-58). This placeholder should be replaced with `ShmageleFlowDiagram` here too.
 
-### 1. Usability Testing Results -- Animated Stat Bars
-**Replaces:** `usability-testing` (line 228)
+2. **Static notification quote cards (lines 335–348)** — Four `Card` elements display the exact same notification messages that the `NotificationStack` animated component already shows below them. These static cards are redundant and should be removed, leaving only `NotificationStack`.
 
-An animated bar chart component that visualizes the 4 key usability findings. Each bar animates from 0% to its value when scrolled into view using framer-motion's `whileInView`.
-
-- 62.5% -- Lacked personal connection
-- 37.5% -- Shmagele confusion
-- 50% -- Women: Just Friends
-- 12.5% -- Men: Just Friends
-
-Color-coded bars with labels. Simple, data-forward, reinforces research rigor.
-
-**New file:** `src/components/case-study/UsabilityStatBars.tsx`
+3. **Static event description cards (lines 314–327)** — Four `Card` elements list event types (Tigray Festival, Mekete Fundraiser, etc.) immediately before the `EventCarousel` which already renders those same events as interactive cards. The static cards should be removed, leaving just `EventCarousel`.
 
 ---
 
-### 2. Navigation Before/After Comparison -- Interactive Slider
-**Replaces:** `nav-redesign` (line 264)
+### Specific Changes to `src/components/case-study/BelesCaseStudy.tsx`
 
-A side-by-side or toggle-based before/after component (similar pattern to JustFriendsToggle). Users toggle between "Before" and "After" states to see:
+**Change 1 — Replace `feature-shmagele` ImageSlot with ShmageleFlowDiagram (line 307)**
 
-- **Before:** 6 cramped nav icons (Home, Search, Matches, Events, Chat, Profile) with labels showing "cluttered" feedback
-- **After:** 4 clean nav icons (Home, Matches, Events, Profile) with improved spacing and user satisfaction quote
+Remove:
+```
+<ImageSlot slot="feature-shmagele" label="Shmagele matching screens" ... />
+```
+Replace with:
+```
+<ShmageleFlowDiagram />
+```
 
-Uses framer-motion crossfade. Styled as a mock phone nav bar.
+**Change 2 — Remove static event description cards before EventCarousel (lines 314–327)**
 
-**New file:** `src/components/case-study/NavRedesignComparison.tsx`
+Remove the entire `div.grid` block containing the 4 static event description `Card` components (Tigray Festival, Mekete Fundraiser, Cultural Workshop, Support Groups). Keep only `<EventCarousel />`.
 
----
+**Change 3 — Remove static notification quote cards before NotificationStack (lines 335–348)**
 
-### 3. Event Discovery -- Animated Event Carousel
-**Replaces:** `feature-events` (line 324)
-
-A horizontally scrollable carousel of mock event cards, each styled as an app card with:
-- Event name (Tigray Festival, Mekete Fundraiser, Cultural Workshop, Support Group)
-- Date and location
-- Attendee count
-- RSVP button (toggles on click with animation)
-
-Auto-scrolls gently, pausable on hover. Uses CSS scroll-snap or embla-carousel (already installed).
-
-**New file:** `src/components/case-study/EventCarousel.tsx`
+Remove the entire `div.space-y-3` block containing the 4 quoted notification `Card` components. Keep only `<NotificationStack />` (already wrapped in `div.mt-4`, which can be simplified to no wrapper).
 
 ---
 
-### 4. Match Notifications -- Animated Notification Stack
-**Replaces:** `feature-notifications` (line 346)
+### Result
 
-Notifications appear one by one in a stacked toast-like animation (bottom to top), simulating the real app notification experience. Each notification slides in with a delay, stays briefly, then the next appears. Loops after all 4 have shown.
+The "Key Features in Detail" section becomes clean — each feature has its prose description, a contextual card explaining how it works, then directly the interactive component. No content duplication, no orphaned placeholders.
 
-Uses the existing 4 notification messages. Styled as phone notification banners with app icon and timestamp.
+```text
+Key Features in Detail
+├── 1. Shmagele Matching
+│   ├── prose description
+│   ├── "How it works" Card
+│   └── ShmageleFlowDiagram (interactive)  ← replaces ImageSlot
+│
+├── 2. Event Discovery
+│   ├── prose description
+│   └── EventCarousel (interactive)         ← static cards removed
+│
+└── 3. Match Notifications
+    ├── prose description
+    └── NotificationStack (interactive)      ← static quote cards removed
+```
 
-**New file:** `src/components/case-study/NotificationStack.tsx`
-
----
-
-### Modified File
-**`src/components/case-study/BelesCaseStudy.tsx`**
-- Import all 4 new components
-- Replace ImageSlot at line 228 with `UsabilityStatBars`
-- Replace ImageSlot at line 264 with `NavRedesignComparison`
-- Replace ImageSlot at line 324 with `EventCarousel`
-- Replace ImageSlot at line 346 with `NotificationStack`
-
-### Dependencies
-All components use already-installed packages: `framer-motion`, `lucide-react`, `embla-carousel-react`, and existing UI components.
+### Files Modified
+- `src/components/case-study/BelesCaseStudy.tsx` — 3 targeted edits, no new files needed
