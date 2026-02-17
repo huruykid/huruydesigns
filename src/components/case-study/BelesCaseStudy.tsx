@@ -50,7 +50,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               <p className="mb-4">{feat.description}</p>
               {feat.imageSlot === "feature-shmagele-overview" ? (
                 <ShmageleFlowDiagram />
-              ) : feat.imageSlot === "feature-just-friends" ? (
+              ) : feat.imageSlot === "feature-friends" ? (
                 <JustFriendsToggle />
               ) : (
                 <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
