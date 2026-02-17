@@ -57,6 +57,10 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
                 <ShmageleFlowDiagram />
               ) : feat.imageSlot === "feature-friends" ? (
                 <JustFriendsToggle />
+              ) : feat.imageSlot === "feature-events-overview" ? (
+                <EventCarousel />
+              ) : feat.imageSlot === "feature-notifications" ? (
+                <NotificationStack />
               ) : (
                 <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
               )}
@@ -284,43 +288,6 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
         </div>
       )}
       <ImageSlot slot="visual-design" label="Final visual design screens" imageSrc={getSlotImage("visual-design")} projectId={projectId} onUploaded={onUploaded} />
-    </CaseStudySection>
-
-    {/* Key Features in Detail */}
-    <CaseStudySection label="Features" title="Key Features in Detail" icon={<Rocket className="h-4 w-4" />}>
-      <div className="space-y-8">
-        {/* Shmagele */}
-        <div>
-          <h3 className="text-lg font-bold text-foreground mb-3">1. Shmagele Matching</h3>
-          <p className="mb-3">The crown jewel of Beles is the Shmagele feature—a digital adaptation of traditional Tigrayan matchmaking. In traditional practice, respected community elders or family members facilitate introductions between compatible individuals.</p>
-          <Card className="border-accent/30 bg-accent/5 mb-4">
-            <CardContent className="p-5">
-              <p className="text-sm font-semibold text-accent uppercase tracking-wide mb-2">How it works in the app</p>
-              <ul className="space-y-1 text-sm">
-                <li>• Users can invite trusted community members to their network</li>
-                <li>• These matchmakers can suggest potential matches based on compatibility</li>
-                <li>• The app calculates a Shmagele Score based on shared values, goals, and preferences</li>
-                <li>• Users receive curated matches with explanations of compatibility</li>
-              </ul>
-            </CardContent>
-          </Card>
-          <ShmageleFlowDiagram />
-        </div>
-
-        {/* Events */}
-        <div>
-          <h3 className="text-lg font-bold text-foreground mb-3">2. Event Discovery</h3>
-          <p className="mb-3">Users can discover Tigrayan cultural events, festivals, and community gatherings happening in their area.</p>
-          <EventCarousel />
-        </div>
-
-        {/* Match Notifications */}
-        <div>
-          <h3 className="text-lg font-bold text-foreground mb-3">3. Match Notifications & Celebrations</h3>
-          <p className="mb-3">When users match, they receive celebratory notifications. The app also celebrates community engagement with achievement notifications.</p>
-          <NotificationStack />
-        </div>
-      </div>
     </CaseStudySection>
 
     {/* Impact & Outcomes */}
