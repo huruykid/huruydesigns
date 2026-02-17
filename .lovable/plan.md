@@ -1,31 +1,38 @@
 
 
-## Interactive "Existing Solutions Fall Short" Component
+## Interactive Shmagele Matching Flow Diagram
 
 ### What We'll Build
-Replace the static bullet list with an interactive comparison component that lets users click through mainstream dating apps (Tinder, Bumble, Hinge) and see how each one fails to meet Tigrayan community needs. This creates a more engaging, storytelling-driven experience.
+Replace the `ImageSlot` for the Shmagele feature (in the "Core Features" section, line 49) with an interactive step-by-step flow diagram component. It will visually walk users through the Shmagele matching process -- from inviting a community matchmaker to reviewing a curated match -- using connected step nodes with icons and animations.
 
 ### Design
-The component will feature:
-- A row of app "cards" (Tinder, Bumble, Hinge) that users can click/select
-- Each card shows the app's name and a brief tagline
-- Below, an animated panel displays the specific pain points as interactive checklist-style items with red X marks, emphasizing what's missing
-- A summary bar at the bottom showing "0/4 cultural needs met" reinforcing the gap
-- Smooth framer-motion transitions between selections
-- Theme-aware styling consistent with the existing case study design
+The component will render a vertical flow diagram with 5 connected steps:
+
+1. **Invite Matchmaker** -- User invites a trusted elder or family member
+2. **Matchmaker Reviews Profiles** -- The Shmagele browses compatible profiles
+3. **Suggest a Match** -- Matchmaker sends a curated suggestion with a note
+4. **Shmagele Score Calculated** -- App computes compatibility based on shared values
+5. **Review Match** -- User sees the match card with compatibility explanation
+
+Each step will be a styled card/node connected by a vertical line (connector). The currently "active" step will be highlighted, and users can click through steps or let them auto-advance. Each step expands to show a brief description when active.
+
+Visual style:
+- Vertical connector line in accent color
+- Circle step indicators with icons (UserPlus, Search, Heart, BarChart, CheckCircle)
+- Active step has accent border and expanded detail text
+- Smooth framer-motion transitions when switching steps
+- Theme-aware colors consistent with existing case study
 
 ### Technical Details
 
-**New file: `src/components/case-study/ExistingSolutionsComparison.tsx`**
-- A React component with `useState` to track which app is selected
-- Three app options: Tinder, Bumble, Hinge -- each with the same four pain points but slightly tailored wording
-- Pain points rendered with animated X icons and strikethrough-style treatment
-- Uses framer-motion `AnimatePresence` for smooth panel transitions
-- Uses existing Card, Badge components for consistency
-- Color accents: red/destructive tones for the "missing" indicators, contrasting with the green/accent used elsewhere
+**New file: `src/components/case-study/ShmageleFlowDiagram.tsx`**
+- React component with `useState` tracking active step (0-4)
+- Five steps defined as data array with icon, title, and description
+- Vertical layout with connecting line and circular step indicators
+- Click-to-advance interaction on each step node
+- `framer-motion` for expanding/collapsing step details with `AnimatePresence`
+- Uses existing Card component and Lucide icons
 
 **Modified file: `src/components/case-study/BelesCaseStudy.tsx`**
-- Replace lines 31-45 (the static heading, paragraph, and bullet list) with the new `ExistingSolutionsComparison` component
-- Keep the heading "Existing Solutions Fall Short" as a prop or within the component
-- The ImageSlot below remains unchanged
-
+- In the solution features loop (~line 49): conditionally render `ShmageleFlowDiagram` instead of `ImageSlot` when `feat.imageSlot === "feature-shmagele-overview"`
+- The second Shmagele `ImageSlot` at line 294 (in the detailed features section) remains unchanged for now
