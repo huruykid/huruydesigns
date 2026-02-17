@@ -304,27 +304,13 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               </ul>
             </CardContent>
           </Card>
-          <ImageSlot slot="feature-shmagele" label="Shmagele matching screens" imageSrc={getSlotImage("feature-shmagele")} projectId={projectId} onUploaded={onUploaded} />
+          <ShmageleFlowDiagram />
         </div>
 
         {/* Events */}
         <div>
           <h3 className="text-lg font-bold text-foreground mb-3">2. Event Discovery</h3>
           <p className="mb-3">Users can discover Tigrayan cultural events, festivals, and community gatherings happening in their area.</p>
-          <div className="grid sm:grid-cols-2 gap-3 mb-4">
-            {[
-              "Tigray Festival: Annual celebrations showcasing Tigrayan culture and traditions",
-              "Mekete Fundraising: Community fundraisers supporting people in Tigray",
-              "Cultural Workshops: Learn traditional dances, cuisine, and customs",
-              "Support Groups: Connect with others processing the ongoing crisis",
-            ].map((item, i) => (
-              <Card key={i} className="border-border bg-card/50">
-                <CardContent className="p-4">
-                  <p className="text-sm">{item}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
           <EventCarousel />
         </div>
 
@@ -332,23 +318,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
         <div>
           <h3 className="text-lg font-bold text-foreground mb-3">3. Match Notifications & Celebrations</h3>
           <p className="mb-3">When users match, they receive celebratory notifications. The app also celebrates community engagement with achievement notifications.</p>
-          <div className="space-y-3">
-            {[
-              "It's a match, Berhane! The feelings mutual! Start a conversation with each other.",
-              "Congrats! 2 users you recommended have matched each other!",
-              "Your Shmagele Score: You've ranked as the number 7 Top Ranked Shmagele",
-              "Thank you for helping our community create more connections!",
-            ].map((msg, i) => (
-              <Card key={i} className="border-border bg-muted/30">
-                <CardContent className="p-4">
-                  <p className="text-sm italic text-foreground">"{msg}"</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="mt-4">
-            <NotificationStack />
-          </div>
+          <NotificationStack />
         </div>
       </div>
     </CaseStudySection>
