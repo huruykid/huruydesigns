@@ -364,13 +364,6 @@ export const projects: Project[] = [
         imageSlot: "feature-shmagele-overview",
       },
       {
-        title: "Modern Swipe Matching",
-        description: "Familiar dating app mechanics with Tigrayan-specific filters and preferences.",
-        details: [],
-        whyItMatters: "Provides a familiar experience for users accustomed to modern dating apps while incorporating culturally relevant filters.",
-        imageSlot: "feature-swipe",
-      },
-      {
         title: "Event Discovery",
         description: "Find and attend Tigrayan cultural events, festivals, and community gatherings in your area.",
         details: [],
