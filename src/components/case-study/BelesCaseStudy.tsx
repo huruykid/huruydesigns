@@ -32,7 +32,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
       <h3 className="font-bold text-foreground mb-3">Existing Solutions Fall Short</h3>
       <p className="mb-4">Mainstream dating apps don't offer specific filters for Tigrayan ethnicity or cultural preferences. Here's how each one falls short:</p>
       <ExistingSolutionsComparison />
-      <ImageSlot slot="problem-context" label="Problem context visual" imageSrc={getSlotImage("problem-context")} projectId={projectId} onUploaded={onUploaded} />
+      
     </CaseStudySection>
 
     {/* The Solution */}
