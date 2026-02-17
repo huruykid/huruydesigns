@@ -1,38 +1,30 @@
 
 
-## Interactive Shmagele Matching Flow Diagram
+## Interactive "Just Friends" Mode Toggle Component
 
 ### What We'll Build
-Replace the `ImageSlot` for the Shmagele feature (in the "Core Features" section, line 49) with an interactive step-by-step flow diagram component. It will visually walk users through the Shmagele matching process -- from inviting a community matchmaker to reviewing a curated match -- using connected step nodes with icons and animations.
+Replace the ImageSlot for the "Just Friends Option" feature with an interactive toggle demo component. Visitors can switch between "Dating" and "Just Friends" modes to see how the app experience changes -- reinforcing Semhal's persona and the community-first design philosophy.
 
 ### Design
-The component will render a vertical flow diagram with 5 connected steps:
-
-1. **Invite Matchmaker** -- User invites a trusted elder or family member
-2. **Matchmaker Reviews Profiles** -- The Shmagele browses compatible profiles
-3. **Suggest a Match** -- Matchmaker sends a curated suggestion with a note
-4. **Shmagele Score Calculated** -- App computes compatibility based on shared values
-5. **Review Match** -- User sees the match card with compatibility explanation
-
-Each step will be a styled card/node connected by a vertical line (connector). The currently "active" step will be highlighted, and users can click through steps or let them auto-advance. Each step expands to show a brief description when active.
-
-Visual style:
-- Vertical connector line in accent color
-- Circle step indicators with icons (UserPlus, Search, Heart, BarChart, CheckCircle)
-- Active step has accent border and expanded detail text
-- Smooth framer-motion transitions when switching steps
-- Theme-aware colors consistent with existing case study
+The component will feature:
+- A segmented toggle at the top: "Dating" | "Just Friends"
+- Below, an animated preview card that changes based on the selected mode
+- **Dating mode**: A sample match card showing a name, compatibility score, heart icon, and "Suggested by your Shmagele" label
+- **Just Friends mode**: A sample community card showing a name, shared interests (e.g., "Tigrayan cooking, cultural events"), and a "Connect" button instead of a heart
+- Smooth framer-motion crossfade transition between modes
+- Theme-aware colors: accent tones for dating, a softer/warm tone for friends mode
 
 ### Technical Details
 
-**New file: `src/components/case-study/ShmageleFlowDiagram.tsx`**
-- React component with `useState` tracking active step (0-4)
-- Five steps defined as data array with icon, title, and description
-- Vertical layout with connecting line and circular step indicators
-- Click-to-advance interaction on each step node
-- `framer-motion` for expanding/collapsing step details with `AnimatePresence`
-- Uses existing Card component and Lucide icons
+**New file: `src/components/case-study/JustFriendsToggle.tsx`**
+- React component with `useState` tracking the active mode ("dating" | "friends")
+- Two mock profile cards defined as data, one for each mode context
+- Segmented control built with two styled buttons (active state highlighted)
+- `framer-motion` with `AnimatePresence` for smooth card transitions on mode switch
+- Uses Lucide icons: `Heart` for dating, `Users` for friends
+- Consistent styling with existing case study components
 
 **Modified file: `src/components/case-study/BelesCaseStudy.tsx`**
-- In the solution features loop (~line 49): conditionally render `ShmageleFlowDiagram` instead of `ImageSlot` when `feat.imageSlot === "feature-shmagele-overview"`
-- The second Shmagele `ImageSlot` at line 294 (in the detailed features section) remains unchanged for now
+- In the solution features loop: conditionally render `JustFriendsToggle` instead of `ImageSlot` when `feat.imageSlot === "feature-just-friends"`
+- Same pattern already used for the ShmageleFlowDiagram conditional
+
