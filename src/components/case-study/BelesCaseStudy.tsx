@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, Users, Map, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, MessageSquareQuote, Target } from "lucide-react";
+import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -29,20 +30,8 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
       )}
 
       <h3 className="font-bold text-foreground mb-3">Existing Solutions Fall Short</h3>
-      <p className="mb-3">Mainstream dating apps like Tinder, Bumble, and Hinge don't offer specific filters for Tigrayan ethnicity or cultural preferences. Users reported:</p>
-      <ul className="space-y-2 mb-6">
-        {[
-          "Difficulty finding matches who share cultural values and understand their heritage",
-          "Frustration with generic dating experiences that ignore traditional matchmaking practices",
-          "Lack of community features to discover cultural events and gatherings",
-          "Concerns about safety and authenticity when trying to connect during a humanitarian crisis",
-        ].map((item, i) => (
-          <li key={i} className="flex items-start gap-3">
-            <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+      <p className="mb-4">Mainstream dating apps don't offer specific filters for Tigrayan ethnicity or cultural preferences. Here's how each one falls short:</p>
+      <ExistingSolutionsComparison />
       <ImageSlot slot="problem-context" label="Problem context visual" imageSrc={getSlotImage("problem-context")} projectId={projectId} onUploaded={onUploaded} />
     </CaseStudySection>
 
