@@ -384,6 +384,13 @@ export const projects: Project[] = [
         whyItMatters: "Addresses the needs of users like Semhal who want community connection without the pressure of dating.",
         imageSlot: "feature-friends",
       },
+      {
+        title: "Match Notifications & Celebrations",
+        description: "When users match, they receive celebratory notifications. The app also celebrates community engagement with achievement notifications.",
+        details: ["Celebratory match banners with personalised messages", "Shmagele Score ranking updates", "Community milestone celebrations", "Achievement notifications for helping others connect"],
+        whyItMatters: "Positive reinforcement encourages continued community participation, making the experience feel rewarding and celebratory rather than transactional.",
+        imageSlot: "feature-notifications",
+      },
     ],
     designPrinciples: [
       { title: "Color Palette", description: "Carefully crafted to transmit trust and reliability, drawing direct inspiration from the Tigray flag (red, yellow, and dark backgrounds)" },
