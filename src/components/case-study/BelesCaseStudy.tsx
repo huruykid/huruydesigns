@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { AlertTriangle, Users, Map, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, MessageSquareQuote, Target } from "lucide-react";
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
+import JustFriendsToggle from "./JustFriendsToggle";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -49,6 +50,8 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               <p className="mb-4">{feat.description}</p>
               {feat.imageSlot === "feature-shmagele-overview" ? (
                 <ShmageleFlowDiagram />
+              ) : feat.imageSlot === "feature-just-friends" ? (
+                <JustFriendsToggle />
               ) : (
                 <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
               )}
