@@ -1,21 +1,31 @@
 
 
-## Generate EBT Finder Thumbnail via AI
+## Interactive "Existing Solutions Fall Short" Component
 
-### Approach
-Use the existing `generate-wireframe` edge function to generate a polished mockup image, then upload it to storage and update the project card's `image` field.
+### What We'll Build
+Replace the static bullet list with an interactive comparison component that lets users click through mainstream dating apps (Tinder, Bumble, Hinge) and see how each one fails to meet Tigrayan community needs. This creates a more engaging, storytelling-driven experience.
 
-### Steps
-
-**1. Call the edge function** with a detailed prompt describing a clean, professional mobile mockup of the EBT Finder app -- showing a map-based store search screen on a phone frame, with a modern UI, search bar, store pins, and a card list at the bottom.
-
-**2. Upload the generated image** to the Supabase storage bucket so it persists as a permanent URL.
-
-**3. Update `src/lib/projects.ts`** to point the `ebt-finder` project's `image` field to the new storage URL instead of the current placeholder or static file.
+### Design
+The component will feature:
+- A row of app "cards" (Tinder, Bumble, Hinge) that users can click/select
+- Each card shows the app's name and a brief tagline
+- Below, an animated panel displays the specific pain points as interactive checklist-style items with red X marks, emphasizing what's missing
+- A summary bar at the bottom showing "0/4 cultural needs met" reinforcing the gap
+- Smooth framer-motion transitions between selections
+- Theme-aware styling consistent with the existing case study design
 
 ### Technical Details
-- The `generate-wireframe` edge function already calls the Gemini 3 Pro image model via the AI Gateway
-- The generated image comes back as a base64 data URL
-- We will convert and upload it to a storage bucket (e.g., `case-study-images`) for a stable URL
-- The prompt will request a device-framed mockup with a clean white/light background suitable for a card thumbnail at 16:10 aspect ratio
+
+**New file: `src/components/case-study/ExistingSolutionsComparison.tsx`**
+- A React component with `useState` to track which app is selected
+- Three app options: Tinder, Bumble, Hinge -- each with the same four pain points but slightly tailored wording
+- Pain points rendered with animated X icons and strikethrough-style treatment
+- Uses framer-motion `AnimatePresence` for smooth panel transitions
+- Uses existing Card, Badge components for consistency
+- Color accents: red/destructive tones for the "missing" indicators, contrasting with the green/accent used elsewhere
+
+**Modified file: `src/components/case-study/BelesCaseStudy.tsx`**
+- Replace lines 31-45 (the static heading, paragraph, and bullet list) with the new `ExistingSolutionsComparison` component
+- Keep the heading "Existing Solutions Fall Short" as a prop or within the component
+- The ImageSlot below remains unchanged
 
