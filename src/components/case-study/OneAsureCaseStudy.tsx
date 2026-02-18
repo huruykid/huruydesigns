@@ -215,10 +215,10 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row items-end justify-center gap-6 mb-10"
+        className="flex flex-col sm:flex-row items-center sm:items-end justify-center gap-6 mb-10"
       >
         {/* ── Benefits phone (cover / first) ── */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full sm:w-auto">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Benefits Module</p>
           <div className="relative">
             <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[260px]">
@@ -251,7 +251,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         </div>
 
         {/* ── Pay phone ── */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full sm:w-auto">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Pay Module</p>
           <div className="relative">
             <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[260px]">
