@@ -127,7 +127,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           </Card>
         ))}
       </div>
-      <ImageSlot slot="personas" label="User personas" imageSrc={getSlotImage("personas")} projectId={projectId} onUploaded={onUploaded} />
+      
     </CaseStudySection>
 
     {/* Wireframing & Iteration */}
