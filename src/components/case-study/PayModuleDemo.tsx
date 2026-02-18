@@ -57,31 +57,31 @@ const arcs = buildArcs();
 function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i: number | null) => void }) {
   const activeSeg = active !== null ? SEGMENTS[active] : SEGMENTS[0];
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-col items-center gap-2">
       {/* Chart */}
-      <div className="relative shrink-0" style={{ width: 100, height: 100 }}>
-        <svg width={100} height={100} viewBox="0 0 100 100">
+      <div className="relative shrink-0" style={{ width: 110, height: 110 }}>
+        <svg width={110} height={110} viewBox="0 0 110 110">
           {arcs.map(({ dash, gap, offset, seg, circ }, i) => (
             <motion.circle
               key={i}
-              cx={50} cy={50} r={38}
+              cx={55} cy={55} r={40}
               fill="none"
               stroke={seg.color}
-              strokeWidth={active === i ? 14 : 11}
-              strokeDasharray={`${dash} ${gap}`}
-              strokeDashoffset={-offset}
+              strokeWidth={active === i ? 15 : 12}
+              strokeDasharray={`${dash * (40 / 38)} ${gap * (40 / 38)}`}
+              strokeDashoffset={-offset * (40 / 38)}
               strokeLinecap="butt"
               opacity={active !== null && active !== i ? 0.2 : 1}
-              style={{ cursor: "pointer", transformOrigin: "50px 50px", transform: "rotate(-90deg)", transition: "opacity 0.18s, stroke-width 0.18s" }}
-              initial={{ strokeDashoffset: -offset + dash }}
-              animate={{ strokeDashoffset: -offset }}
+              style={{ cursor: "pointer", transformOrigin: "55px 55px", transform: "rotate(-90deg)", transition: "opacity 0.18s, stroke-width 0.18s" }}
+              initial={{ strokeDashoffset: (-offset + dash) * (40 / 38) }}
+              animate={{ strokeDashoffset: -offset * (40 / 38) }}
               transition={{ duration: 0.9, ease: "easeOut", delay: i * 0.12 }}
               onClick={() => onSelect(active === i ? null : i)}
             />
           ))}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="font-semibold leading-none text-center" style={{ fontSize: 7, color: activeSeg.color, maxWidth: 38, textAlign: "center" }}>
+          <span className="font-semibold leading-none text-center" style={{ fontSize: 7, color: activeSeg.color, maxWidth: 42, textAlign: "center" }}>
             {activeSeg.label}
           </span>
           <span className="font-bold mt-0.5" style={{ fontSize: 9, color: "#111" }}>
@@ -90,26 +90,28 @@ function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i:
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-col gap-1 flex-1">
+      {/* Legend — under the chart */}
+      <div className="grid grid-cols-2 gap-x-3 gap-y-1 w-full">
         {SEGMENTS.map((seg, i) => (
           <button
             key={i}
             onClick={() => onSelect(active === i ? null : i)}
-            className="flex items-center gap-1.5 text-left rounded-sm px-1.5 py-0.5 transition-all"
+            className="flex items-center gap-1.5 text-left rounded px-1.5 py-1 transition-all"
             style={{
-              background: active === i ? seg.color + "18" : "transparent",
-              borderLeft: `2px solid ${active === i ? seg.color : "#e5e7eb"}`,
+              background: active === i ? seg.color + "18" : "#f9fafb",
+              border: `1px solid ${active === i ? seg.color : "#e5e7eb"}`,
             }}
           >
+            <span className="w-2 h-2 rounded-full shrink-0" style={{ background: seg.color }} />
             <span className="font-medium truncate" style={{ fontSize: 8, color: "#374151" }}>{seg.label}</span>
-            <span className="ml-auto font-semibold shrink-0" style={{ fontSize: 8, color: seg.color }}>{seg.pct}%</span>
+            <span className="ml-auto font-bold shrink-0" style={{ fontSize: 8, color: seg.color }}>{seg.pct}%</span>
           </button>
         ))}
-        <button style={{ fontSize: 8, color: T }} className="text-left mt-0.5 font-semibold">
-          View Compensation →
-        </button>
       </div>
+
+      <button style={{ fontSize: 8, color: T }} className="self-start font-semibold">
+        View Compensation &amp; Rate →
+      </button>
     </div>
   );
 }
@@ -157,9 +159,9 @@ function CalcOverlay({ title, onClose }: { title: string; onClose: () => void })
 function Section({ title, action, children }: { title: string; action?: string; children: React.ReactNode }) {
   return (
     <div className="bg-white overflow-hidden" style={{ borderBottom: `1px solid ${DIV}` }}>
-      <div className="flex items-center justify-between px-3 py-1.5" style={{ borderBottom: `1px solid ${DIV}` }}>
-        <span className="font-bold" style={{ fontSize: 9, color: "#374151" }}>{title}</span>
-        {action && <button className="font-semibold" style={{ fontSize: 8, color: T }}>{action}</button>}
+      <div className="flex items-center justify-between px-4 py-2" style={{ borderBottom: `1px solid ${DIV}` }}>
+        <span className="font-bold" style={{ fontSize: 9.5, color: "#374151" }}>{title}</span>
+        {action && <button className="font-semibold" style={{ fontSize: 8.5, color: T }}>{action}</button>}
       </div>
       {children}
     </div>
@@ -174,18 +176,18 @@ function Row({
 }) {
   return (
     <button
-      className="w-full flex items-center gap-2 px-3 hover:bg-gray-50 transition-colors text-left"
-      style={{ height: 34, borderTop: `1px solid ${DIV}` }}
+      className="w-full flex items-center gap-2.5 px-4 hover:bg-gray-50 transition-colors text-left"
+      style={{ height: 38, borderTop: `1px solid ${DIV}` }}
       onClick={onClick}
     >
       {icon && <span className="text-gray-400 flex items-center shrink-0">{icon}</span>}
-      <span style={{ fontSize: 9, color: "#374151" }} className="flex-1 font-medium truncate">{left}</span>
-      {sub && <span style={{ fontSize: 8, color: "#9ca3af" }} className="shrink-0">{sub}</span>}
-      {right && <span className="font-bold shrink-0" style={{ fontSize: 9, color: T }}>{right}</span>}
+      <span style={{ fontSize: 9.5, color: "#374151" }} className="flex-1 font-medium truncate">{left}</span>
+      {sub && <span style={{ fontSize: 8.5, color: "#9ca3af" }} className="shrink-0">{sub}</span>}
+      {right && <span className="font-bold shrink-0" style={{ fontSize: 9.5, color: T }}>{right}</span>}
       {onClick && (
         expanded
-          ? <ChevronUp size={9} className="text-gray-400 shrink-0" />
-          : <ChevronDown size={9} className="text-gray-400 shrink-0" />
+          ? <ChevronUp size={10} className="text-gray-400 shrink-0" />
+          : <ChevronDown size={10} className="text-gray-400 shrink-0" />
       )}
     </button>
   );
@@ -235,7 +237,7 @@ export default function PayModuleDemo() {
   ];
 
   return (
-    <div className="relative flex flex-col w-full bg-gray-50 select-none" style={{ fontSize: 10 }}>
+    <div className="relative flex flex-col w-full h-full bg-gray-50 select-none overflow-hidden" style={{ fontSize: 10 }}>
 
       {/* ── Status bar ──────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-3 py-1 text-white shrink-0" style={{ background: T, fontSize: 8 }}>
@@ -263,42 +265,42 @@ export default function PayModuleDemo() {
       </div>
 
       {/* ── Scrollable body ─────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
+      <div className="flex-1 min-h-0 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
 
         {/* Pay Card */}
-        <div className="mx-3 mt-2.5 mb-2 rounded-lg p-2.5" style={{ background: TL, border: `1px solid ${T}30` }}>
-          <div className="flex items-center justify-between mb-1">
-            <span style={{ fontSize: 8, color: "#6b7280" }} className="uppercase tracking-wide font-semibold">Net Pay · Current Period</span>
+        <div className="mx-3 mt-3 mb-2.5 rounded-xl p-4" style={{ background: TL, border: `1px solid ${T}30` }}>
+          <div className="flex items-center justify-between mb-1.5">
+            <span style={{ fontSize: 8.5, color: "#6b7280" }} className="uppercase tracking-wide font-semibold">Net Pay · Current Period</span>
             <button onClick={() => setSalaryVisible((v) => !v)} className="text-gray-400">
-              {salaryVisible ? <EyeOff size={10} /> : <Eye size={10} />}
+              {salaryVisible ? <EyeOff size={11} /> : <Eye size={11} />}
             </button>
           </div>
           <AnimatePresence mode="wait">
             {salaryVisible ? (
               <motion.p key="shown" initial={{ opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className="font-bold mb-2" style={{ fontSize: 18, color: T }}>
+                className="font-bold mb-3" style={{ fontSize: 20, color: T }}>
                 $4,262.79
               </motion.p>
             ) : (
               <motion.p key="hidden" initial={{ opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className="font-bold mb-2 tracking-widest" style={{ fontSize: 18, color: T }}>
+                className="font-bold mb-3 tracking-widest" style={{ fontSize: 20, color: T }}>
                 ● ● ● ●
               </motion.p>
             )}
           </AnimatePresence>
-          <div className="flex gap-1.5">
-            <button className="flex items-center gap-1 rounded-md px-2 py-1 text-white font-semibold" style={{ background: T, fontSize: 8 }}>
-              <FileText size={8} /> View Paystub
+          <div className="flex gap-2">
+            <button className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-white font-semibold" style={{ background: T, fontSize: 9 }}>
+              <FileText size={9} /> View Paystub
             </button>
-            <button className="flex items-center gap-1 rounded-md px-2 py-1 font-semibold border" style={{ color: T, borderColor: T, fontSize: 8 }}>
-              <Printer size={8} /> Print Paystub
+            <button className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-semibold border" style={{ color: T, borderColor: T, fontSize: 9 }}>
+              <Printer size={9} /> Print Paystub
             </button>
           </div>
         </div>
 
         {/* Pay Breakdown */}
         <Section title="Pay Breakdown">
-          <div className="relative px-3 py-2">
+          <div className="relative px-4 py-3">
             <DonutChart active={activeSegment} onSelect={setActiveSegment} />
             <AnimatePresence>
               {activeCalc && (
@@ -312,7 +314,7 @@ export default function PayModuleDemo() {
         </Section>
 
         {/* Calculators */}
-        <div className="mx-3 my-2 grid grid-cols-2 gap-2">
+        <div className="mx-3 my-2.5 grid grid-cols-2 gap-2">
           {[
             { key: "deductions" as const, label: "Deductions Calculator", Icon: Calculator },
             { key: "w4" as const, label: "W-4 Calculator", Icon: FileText },
@@ -320,15 +322,15 @@ export default function PayModuleDemo() {
             <button
               key={key}
               onClick={() => setActiveCalc(key)}
-              className="flex items-center gap-2 rounded-lg px-2.5 py-2 bg-white text-left hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 bg-white text-left hover:bg-gray-50 transition-colors"
               style={{ border: `1px solid ${DIV}` }}
             >
-              <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: TL }}>
-                <Icon size={11} style={{ color: T }} />
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: TL }}>
+                <Icon size={12} style={{ color: T }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-semibold leading-tight" style={{ fontSize: 8, color: "#374151" }}>{label}</p>
-                <p className="font-bold" style={{ fontSize: 8, color: T }}>Launch →</p>
+                <p className="font-semibold leading-tight" style={{ fontSize: 8.5, color: "#374151" }}>{label}</p>
+                <p className="font-bold mt-0.5" style={{ fontSize: 8.5, color: T }}>Launch →</p>
               </div>
             </button>
           ))}
@@ -365,21 +367,21 @@ export default function PayModuleDemo() {
           ))}
           <button
             onClick={() => setShowAddAlloc((v) => !v)}
-            className="w-full flex items-center gap-1.5 px-3 hover:bg-gray-50 transition-colors"
-            style={{ height: 32, borderTop: `1px solid ${DIV}` }}
+            className="w-full flex items-center gap-2 px-4 hover:bg-gray-50 transition-colors"
+            style={{ height: 36, borderTop: `1px solid ${DIV}` }}
           >
-            <Plus size={9} style={{ color: T }} />
-            <span className="font-semibold" style={{ fontSize: 8, color: T }}>Add New Allocation</span>
+            <Plus size={10} style={{ color: T }} />
+            <span className="font-semibold" style={{ fontSize: 8.5, color: T }}>Add New Allocation</span>
           </button>
           <AnimatePresence>
             {showAddAlloc && (
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                <div className="flex flex-col gap-1.5 px-3 py-2 bg-gray-50">
+                <div className="flex flex-col gap-2 px-4 py-3 bg-gray-50">
                   <input value={allocName} onChange={(e) => setAllocName(e.target.value)} placeholder="Account name"
-                    className="border border-gray-200 rounded px-2 py-1 focus:outline-none" style={{ fontSize: 9 }} />
+                    className="border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none" style={{ fontSize: 9 }} />
                   <input value={allocPct} onChange={(e) => setAllocPct(e.target.value)} type="number" placeholder="% e.g. 20"
-                    className="border border-gray-200 rounded px-2 py-1 focus:outline-none" style={{ fontSize: 9 }} />
-                  <button className="rounded-md px-2 py-1 text-white font-bold text-right self-end" style={{ background: T, fontSize: 8 }}>Add</button>
+                    className="border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none" style={{ fontSize: 9 }} />
+                  <button className="rounded-lg px-3 py-1.5 text-white font-bold self-end" style={{ background: T, fontSize: 8.5 }}>Add</button>
                 </div>
               </motion.div>
             )}
