@@ -42,51 +42,6 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
       
     </CaseStudySection>
 
-    {/* The Solution */}
-    <CaseStudySection label="The Solution" title="Blending Tradition with Technology" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">Beles seamlessly blends traditional Tigrayan matchmaking customs with cutting-edge technology to provide a safe and genuine space for connection during a crisis.</p>
-
-      {project.solutionFeatures && (
-        <div>
-          <h3 className="text-xl font-bold text-foreground mb-10">Core Features</h3>
-          <div className="space-y-16">
-          {project.solutionFeatures.map((feat, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <h3 className="text-xl font-bold text-foreground mb-2">{feat.title}</h3>
-              <p className="mb-4">{feat.description}</p>
-              {feat.imageSlot === "feature-shmagele-overview" ? (
-                <ShmageleFlowDiagram />
-              ) : feat.imageSlot === "feature-friends" ? (
-                <JustFriendsToggle />
-              ) : feat.imageSlot === "feature-events-overview" ? (
-                <EventCarousel />
-              ) : feat.imageSlot === "feature-notifications" ? (
-                <NotificationStack />
-              ) : (
-                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
-              )}
-              {feat.details.length > 0 && (
-                <ul className="mt-4 space-y-1">
-                  {feat.details.map((d, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-                      <span>{d}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Card className="border-accent/30 bg-accent/5 mt-4">
-                <CardContent className="p-4">
-                  <p className="text-sm"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-          </div>
-        </div>
-      )}
-    </CaseStudySection>
-
     {/* Design Process */}
     <CaseStudySection label="Design Process" title="User-Centered Design Across Six Phases" icon={<Users className="h-4 w-4" />}>
       <p className="mb-6">I followed a user-centered design approach across six key phases:</p>
@@ -272,6 +227,51 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
         </CardContent>
       </Card>
       <NavRedesignComparison />
+    </CaseStudySection>
+
+    {/* The Solution */}
+    <CaseStudySection label="The Solution" title="Blending Tradition with Technology" icon={<Lightbulb className="h-4 w-4" />}>
+      <p className="mb-6">Beles seamlessly blends traditional Tigrayan matchmaking customs with cutting-edge technology to provide a safe and genuine space for connection during a crisis.</p>
+
+      {project.solutionFeatures && (
+        <div>
+          <h3 className="text-xl font-bold text-foreground mb-10">Core Features</h3>
+          <div className="space-y-16">
+          {project.solutionFeatures.map((feat, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <h3 className="text-xl font-bold text-foreground mb-2">{feat.title}</h3>
+              <p className="mb-4">{feat.description}</p>
+              {feat.imageSlot === "feature-shmagele-overview" ? (
+                <ShmageleFlowDiagram />
+              ) : feat.imageSlot === "feature-friends" ? (
+                <JustFriendsToggle />
+              ) : feat.imageSlot === "feature-events-overview" ? (
+                <EventCarousel />
+              ) : feat.imageSlot === "feature-notifications" ? (
+                <NotificationStack />
+              ) : (
+                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+              )}
+              {feat.details.length > 0 && (
+                <ul className="mt-4 space-y-1">
+                  {feat.details.map((d, j) => (
+                    <li key={j} className="flex items-start gap-2">
+                      <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Card className="border-accent/30 bg-accent/5 mt-4">
+                <CardContent className="p-4">
+                  <p className="text-sm"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+          </div>
+        </div>
+      )}
     </CaseStudySection>
 
     {/* Visual Design */}
