@@ -91,19 +91,48 @@ const ProjectPage = () => {
               {getSlotImage("hero") ? (
                 <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
               ) : rich && project.image && project.image !== "/placeholder.svg" ? (
-                <div className="flex items-center justify-center w-full">
-                  {/* iPhone frame */}
-                  <div className="relative mx-auto w-[240px] sm:w-[280px]">
-                    {/* Phone shell */}
-                    <div className="relative rounded-[40px] border-[6px] border-foreground/80 bg-black shadow-2xl overflow-hidden">
-                      {/* Notch */}
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-foreground/80 rounded-b-2xl z-10" />
-                      {/* Screen */}
-                      <div className="overflow-hidden rounded-[34px]">
-                        <img src={project.image} alt={project.title} className="w-full h-auto object-cover" />
+                <div className="flex items-center justify-center w-full py-8">
+                  {/* 3D perspective phone mockup — faces left (mirrored from EBT Finder) */}
+                  <div style={{ perspective: "1000px" }}>
+                    <div
+                      style={{
+                        transform: "rotateY(18deg) rotateX(4deg)",
+                        transformStyle: "preserve-3d",
+                      }}
+                      className="relative w-[220px] sm:w-[260px]"
+                    >
+                      {/* Drop shadow layer */}
+                      <div
+                        className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[85%] h-8 rounded-full blur-xl opacity-40 bg-black"
+                        style={{ transform: "translateZ(-10px)" }}
+                      />
+                      {/* Phone shell */}
+                      <div className="relative rounded-[44px] overflow-hidden"
+                        style={{
+                          background: "linear-gradient(145deg, #3a3a3c, #1c1c1e)",
+                          padding: "10px",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.12), 0 30px 80px rgba(0,0,0,0.5), -8px 12px 30px rgba(0,0,0,0.4)",
+                        }}
+                      >
+                        {/* Side buttons (left) */}
+                        <div className="absolute left-0 top-[90px] w-1 h-8 rounded-r bg-[#2a2a2c]" style={{ transform: "translateX(-4px)" }} />
+                        <div className="absolute left-0 top-[140px] w-1 h-12 rounded-r bg-[#2a2a2c]" style={{ transform: "translateX(-4px)" }} />
+                        <div className="absolute left-0 top-[165px] w-1 h-12 rounded-r bg-[#2a2a2c]" style={{ transform: "translateX(-4px)" }} />
+                        {/* Power button (right) */}
+                        <div className="absolute right-0 top-[130px] w-1 h-14 rounded-l bg-[#2a2a2c]" style={{ transform: "translateX(4px)" }} />
+
+                        {/* Inner screen bezel */}
+                        <div className="rounded-[36px] overflow-hidden bg-black relative">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-full z-10 border border-[#333]" />
+                          {/* Screen image */}
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-auto block"
+                          />
+                        </div>
                       </div>
-                      {/* Home indicator */}
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-foreground/30 rounded-full" />
                     </div>
                   </div>
                 </div>
