@@ -1,59 +1,83 @@
 
-## Scrollable Phone Mockup for OneAsure Pay Screen
+## Interactive Pay Module Component
 
 ### What I Found
 
-The current implementation renders the pay screen image inside a phone frame, but the image is fully expanded — showing its entire height (~750px+) at once. This creates a very tall, visually heavy block in the middle of the case study. The image itself is loading correctly and contains rich content (Pay header, Pay Breakdown donut chart, Deductions Calculator, etc.).
+The current phone frame wraps `oneasure-pay-screen.png` — a screenshot of the OneAsure Pay portal screen. After analyzing the image, it contains 9 distinct, identifiable sections:
 
-### Goal
+1. Header bar — "Pay · View & Manage all your financial information"
+2. Pay card — masked salary amount, View Paystub / Print Paystub buttons
+3. Pay Breakdown — donut chart with Take Home Pay ($4,262.79), segmented by Take Home Pay, Taxes, Post-Tax Deductions, and Pre-Tax Deductions; "View Compensation & Rate" link
+4. Deductions Calculator — card with illustration and Launch Calculator CTA
+5. W-4 Calculator — card with illustration and Launch Calculator CTA
+6. Pay Disbursement — table listing Checking (80%), Savings (10%), Savings 2 (10%); View All / Add New Allocation
+7. Pay History — 3 paycheck rows (Aug 31, Aug 30, July 31) with $3,452.57 each + View Full Pay History
+8. W-2s — year rows 2022, 2021, 2020, 2019 + View Prior Years
+9. Marketplace — ZayZoon "wages in seconds" card
 
-Replace the static tall image with a compact, fixed-height phone shell (~500px tall) where the image scrolls naturally inside the phone body — just like a real phone screen. This makes it:
-- Compact — takes up much less vertical space on the page
-- Interactive — users can scroll through the app screen content inside the frame
-- Realistic — mirrors the actual phone UX
+The goal is to replace the static `payScreenImage` with a new React component — `PayModuleDemo.tsx` — that faithfully recreates these sections with real interactivity, inside the same phone frame shell.
 
 ---
 
-### Implementation Plan
+### New Component: `src/components/case-study/PayModuleDemo.tsx`
 
-#### 1. Update the phone frame in `OneAsureCaseStudy.tsx`
+A self-contained scrollable mobile app screen built in React + Tailwind, rendered inside the existing phone frame in `OneAsureCaseStudy.tsx`.
 
-The phone frame `div` currently has `overflow-hidden` with no fixed height, so the image stretches to full height. The fix:
+#### Key Interactive Features
 
-- Give the phone screen area a **fixed height** (e.g. `h-[480px]`) 
-- Make the inner image container `overflow-y-auto` (scrollable) with `-webkit-overflow-scrolling: touch` for smooth momentum scrolling on iOS
-- Keep `overflow-hidden` on the outer rounded phone frame shell so scrollbars don't escape the frame border
-- Add a subtle scroll indicator (a faint gradient fade at the bottom of the phone screen) to hint that the content is scrollable
-- Add a small animated "scroll" icon or pill label below the phone ("Scroll to explore") that fades in after a brief delay
+**Donut Chart (Pay Breakdown)**
+- Built with inline SVG — no external chart library needed
+- 4 segments: Take Home Pay (67%), Taxes (21%), Post-Tax Ded. (5%), Pre-Tax Ded. (7%)
+- Clicking a legend pill highlights that segment (stroke-width increase + dimming of others)
+- Center label updates to show the clicked segment's label and amount
+- Animated on mount using `framer-motion` stroke-dashoffset
 
-#### 2. Layout adjustment
+**Pay Card**
+- Salary amount masked by default (shown as ●●●●●) with a toggle eye icon to reveal the real value ($4,262.79)
+- View Paystub / Print Paystub buttons styled in the OneAsure teal brand color
 
-The current layout is `flex` with the description text beside the phone. On the compact phone this still works well — we'll keep the side-by-side layout on desktop and stack on mobile.
+**Deductions Calculator & W-4 Calculator**
+- Interactive cards — clicking "Launch Calculator" shows an inline micro-calculator overlay (simple input + result, dismissible with a close button)
 
-- Adjust the description side to `max-w-[240px]` to better balance with the narrower phone
-- Add a "scroll to explore" micro-label below the phone frame with a subtle bounce arrow
+**Pay Disbursement**
+- Accordion-style expandable rows — click any account row to see a faux edit allocation UI
+- "Add New Allocation" button opens a small inline form (account name + % input)
 
-#### 3. Scroll container specifics
+**Pay History**
+- Expandable rows — clicking a row shows a breakdown (Gross Pay, Taxes, Net Pay)
+
+**W-2s**
+- Each year row has a download icon that animates (spin → checkmark) on click to simulate downloading
+
+**Marketplace**
+- ZayZoon card with "Try It Now" and "Learn More" buttons — clicking "Learn More" shows an expanded description card
+
+---
+
+### Component Structure
 
 ```text
-Phone outer shell
-├── Notch bar (h-6, static)
-├── Screen area (h-[480px], overflow-y-auto, scroll-smooth)
-│   └── img (w-full, object-cover, h-auto — natural full height)
-└── Home indicator bar (h-4, static)
+PayModuleDemo
+├── Header bar (teal bg, "Pay" title + search/avatar icons)
+├── Pay card (masked salary, view toggle, 2 CTA buttons)
+├── Pay Breakdown (SVG donut + interactive legend pills)
+│   └── "View Compensation & Rate" link
+├── Deductions Calculator card (launch → inline overlay)
+├── W-4 Calculator card (launch → inline overlay)
+├── Pay Disbursement table (expandable rows + add form)
+├── Pay History list (expandable rows)
+├── W-2s list (download animation per row)
+└── Marketplace / ZayZoon card (expandable description)
 ```
 
-The scrollbar inside the phone will be hidden (using `scrollbar-hide` or inline style `scrollbar-width: none`) so it looks clean, but the content remains scrollable via touch/mouse wheel.
+All sections are separated by thin dividers just like the original, and use the OneAsure teal (`#1a6e8e` / `#0d7a9c`) as the primary brand color.
 
 ---
 
 ### Files to Modify
 
-- **`src/components/case-study/OneAsureCaseStudy.tsx`** — update the phone frame block (lines 211–241) to:
-  - Add a fixed-height scrollable screen area
-  - Hide the native scrollbar
-  - Add a bottom gradient fade overlay (positioned absolute, pointer-events-none) inside the phone to hint at scrollability
-  - Add a "Scroll to explore ↓" micro-label below the phone with a subtle bounce animation using framer-motion
-  - Add a home indicator bar at the bottom of the phone frame for realism
+1. **`src/components/case-study/PayModuleDemo.tsx`** — Create the new interactive component (new file)
 
-No new files are needed — this is a self-contained style update to the existing mockup block.
+2. **`src/components/case-study/OneAsureCaseStudy.tsx`** — Replace `import payScreenImage` and the `<img>` tag inside the phone screen area with `<PayModuleDemo />` (the scrollable screen div already exists with `h-[480px] overflow-y-auto` — the component renders directly inside it)
+
+No other files need to change. The phone shell, glow, scroll hint, and description text beside the phone all remain exactly as they are.
