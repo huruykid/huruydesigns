@@ -91,8 +91,21 @@ const ProjectPage = () => {
               {getSlotImage("hero") ? (
                 <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
               ) : rich && project.image && project.image !== "/placeholder.svg" ? (
-                <div className="flex items-center justify-center w-full max-h-[480px]">
-                  <img src={project.image} alt={project.title} className="h-full max-h-[480px] w-auto object-contain drop-shadow-2xl" />
+                <div className="flex items-center justify-center w-full">
+                  {/* iPhone frame */}
+                  <div className="relative mx-auto w-[240px] sm:w-[280px]">
+                    {/* Phone shell */}
+                    <div className="relative rounded-[40px] border-[6px] border-foreground/80 bg-black shadow-2xl overflow-hidden">
+                      {/* Notch */}
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-foreground/80 rounded-b-2xl z-10" />
+                      {/* Screen */}
+                      <div className="overflow-hidden rounded-[34px]">
+                        <img src={project.image} alt={project.title} className="w-full h-auto object-cover" />
+                      </div>
+                      {/* Home indicator */}
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-foreground/30 rounded-full" />
+                    </div>
+                  </div>
                 </div>
               ) : rich ? (
                 <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
