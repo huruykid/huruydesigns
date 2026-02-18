@@ -17,6 +17,7 @@ import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
 import PayModuleDemo from "./PayModuleDemo";
+import BenefitsModuleDemo from "./BenefitsModuleDemo";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -208,67 +209,77 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         ))}
       </div>
 
-      {/* App screen mockup */}
+      {/* App screen mockups — Benefits (cover) + Pay */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-8 mb-10"
+        className="flex flex-col sm:flex-row items-end justify-center gap-6 mb-10"
       >
+        {/* ── Benefits phone (cover / first) ── */}
         <div className="flex flex-col items-center">
+          <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Benefits Module</p>
           <div className="relative">
-            {/* Phone outer shell */}
             <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[260px]">
-              {/* Notch / status bar */}
               <div className="bg-foreground/10 h-6 flex items-center justify-center shrink-0">
                 <div className="w-16 h-1 rounded-full bg-foreground/20" />
               </div>
-
-              {/* Scrollable screen area */}
               <div
-                className="relative h-[480px] overflow-y-auto"
+                className="relative h-[500px] overflow-y-auto"
                 style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
-                <style>{`.phone-screen::-webkit-scrollbar { display: none; }`}</style>
-                <PayModuleDemo />
+                <BenefitsModuleDemo />
               </div>
-
-              {/* Home indicator bar */}
               <div className="bg-foreground/5 h-5 flex items-center justify-center shrink-0">
                 <div className="w-20 h-1 rounded-full bg-foreground/20" />
               </div>
             </div>
-
-            {/* Glow */}
             <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
           </div>
-
-          {/* Scroll hint label */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
             transition={{ delay: 0.8, duration: 0.4 }}
             className="mt-3 flex items-center gap-1.5"
           >
-            <motion.span
-              animate={{ y: [0, 3, 0] }}
-              transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
-              className="text-muted-foreground text-xs"
-            >
-              ↓
-            </motion.span>
+            <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-muted-foreground text-xs">↓</motion.span>
             <span className="text-muted-foreground text-xs">Scroll to explore</span>
           </motion.div>
+          <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[220px] text-center">
+            Open enrollment, life events, and a full benefit list with plan details — all in one scrollable view.
+          </p>
         </div>
 
-        {/* Description */}
-        <div className="flex flex-col justify-center max-w-[240px]">
-          <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Pay Module</p>
-          <p className="text-sm font-bold text-foreground mb-2">Unified payroll visibility</p>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            The Pay screen consolidated take-home pay, tax breakdowns, deductions, and pay history into a single scrollable view — replacing three separate portal logins.
+        {/* ── Pay phone ── */}
+        <div className="flex flex-col items-center">
+          <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Pay Module</p>
+          <div className="relative">
+            <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[260px]">
+              <div className="bg-foreground/10 h-6 flex items-center justify-center shrink-0">
+                <div className="w-16 h-1 rounded-full bg-foreground/20" />
+              </div>
+              <div
+                className="relative h-[500px] overflow-y-auto"
+                style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <PayModuleDemo />
+              </div>
+              <div className="bg-foreground/5 h-5 flex items-center justify-center shrink-0">
+                <div className="w-20 h-1 rounded-full bg-foreground/20" />
+              </div>
+            </div>
+            <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
+          </div>
+          <motion.div
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+            transition={{ delay: 0.9, duration: 0.4 }}
+            className="mt-3 flex items-center gap-1.5"
+          >
+            <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-muted-foreground text-xs">↓</motion.span>
+            <span className="text-muted-foreground text-xs">Scroll to explore</span>
+          </motion.div>
+          <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[220px] text-center">
+            Take-home pay, tax breakdowns, disbursements, and pay history — replacing three separate portal logins.
           </p>
         </div>
       </motion.div>
