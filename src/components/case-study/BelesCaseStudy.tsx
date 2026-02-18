@@ -148,7 +148,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           </Card>
         ))}
       </div>
-      <ImageSlot slot="wireframes" label="Paper and digital wireframes" imageSrc={getSlotImage("wireframes")} projectId={projectId} onUploaded={onUploaded} />
+      
     </CaseStudySection>
 
     {/* Usability Testing */}
@@ -289,7 +289,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           ))}
         </div>
       )}
-      <ImageSlot slot="visual-design" label="Final visual design screens" imageSrc={getSlotImage("visual-design")} projectId={projectId} onUploaded={onUploaded} />
+      
     </CaseStudySection>
 
     {/* Impact & Outcomes */}
