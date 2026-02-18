@@ -219,7 +219,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         <div className="flex flex-col items-center">
           <div className="relative">
             {/* Phone outer shell */}
-            <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[220px]">
+            <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[260px]">
               {/* Notch / status bar */}
               <div className="bg-foreground/10 h-6 flex items-center justify-center shrink-0">
                 <div className="w-16 h-1 rounded-full bg-foreground/20" />
@@ -232,8 +232,6 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
               >
                 <style>{`.phone-screen::-webkit-scrollbar { display: none; }`}</style>
                 <PayModuleDemo />
-                {/* Bottom gradient fade hint */}
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/80 to-transparent" />
               </div>
 
               {/* Home indicator bar */}
