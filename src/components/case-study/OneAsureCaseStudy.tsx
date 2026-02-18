@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
-import ImageSlot from "./ImageSlot";
+import IterationTimeline from "./IterationTimeline";
+import AdminNotificationDemo from "./AdminNotificationDemo";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -205,7 +206,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
           </motion.div>
         ))}
       </div>
-      <ImageSlot slot="ui-design" label="Portal UI screens" imageSrc={getSlotImage("ui-design")} projectId={projectId} onUploaded={onUploaded} />
+      <IterationTimeline />
     </CaseStudySection>
 
     {/* Testing & Iteration */}
@@ -216,7 +217,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
       <p>
         Eight full design iterations later, the product was substantially different from the initial concept — and substantially better. The iteration process wasn't a sign that we got things wrong early. It was the process working as intended.
       </p>
-      <ImageSlot slot="solution" label="Final portal design" imageSrc={getSlotImage("solution")} projectId={projectId} onUploaded={onUploaded} />
+      <AdminNotificationDemo />
     </CaseStudySection>
 
     {/* Outcome */}
