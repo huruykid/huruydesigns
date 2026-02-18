@@ -17,6 +17,7 @@ import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
 import { Project } from "@/lib/projects";
+import payScreenImage from "@/assets/oneasure-pay-screen.png";
 
 interface Props {
   project: Project;
@@ -193,7 +194,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
       <p className="mb-6">
         With research grounded, I moved into IA, wireframes, and iterative prototyping across eight design rounds. A few decisions were particularly significant.
       </p>
-      <div className="space-y-4">
+      <div className="space-y-4 mb-10">
         {designDecisions.map((d, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
             <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
@@ -206,6 +207,39 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
           </motion.div>
         ))}
       </div>
+
+      {/* App screen mockup */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex justify-center mb-10"
+      >
+        <div className="relative">
+          {/* Phone frame */}
+          <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[240px]">
+            <div className="bg-foreground/10 h-6 flex items-center justify-center">
+              <div className="w-16 h-1 rounded-full bg-foreground/20" />
+            </div>
+            <img
+              src={payScreenImage}
+              alt="OneAsure Pay portal screen"
+              className="w-full object-cover"
+            />
+          </div>
+          {/* Glow */}
+          <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
+        </div>
+        <div className="flex flex-col justify-center pl-8 max-w-[220px]">
+          <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Pay Module</p>
+          <p className="text-sm font-bold text-foreground mb-2">Unified payroll visibility</p>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            The Pay screen consolidated take-home pay, tax breakdowns, deductions, and pay history into a single scrollable view — replacing three separate portal logins.
+          </p>
+        </div>
+      </motion.div>
+
       <IterationTimeline />
     </CaseStudySection>
 
