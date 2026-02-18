@@ -13,7 +13,14 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   >
     <Link to={`/project/${project.id}`} className="group block">
         <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30">
-          <div className="aspect-[16/10] bg-muted relative overflow-hidden flex items-center justify-center">
+          <div
+            className="aspect-[16/10] relative overflow-hidden flex items-center justify-center"
+            style={{
+              background: project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
+                ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
+                : undefined,
+            }}
+          >
             <img
               src={project.image}
               alt={project.title}
@@ -21,7 +28,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 project.image === "/placeholder.svg"
                   ? "w-full h-full object-cover"
                   : project.image.includes("hero-mockup")
-                  ? "h-full w-auto object-contain drop-shadow-xl"
+                  ? "h-[115%] w-auto object-contain drop-shadow-xl"
                   : "w-full h-full object-cover"
               }`}
             />
