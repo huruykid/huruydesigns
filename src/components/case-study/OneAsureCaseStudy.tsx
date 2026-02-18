@@ -16,8 +16,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
+import PayModuleDemo from "./PayModuleDemo";
 import { Project } from "@/lib/projects";
-import payScreenImage from "@/assets/oneasure-pay-screen.png";
 
 interface Props {
   project: Project;
@@ -231,11 +231,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
                 style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 <style>{`.phone-screen::-webkit-scrollbar { display: none; }`}</style>
-                <img
-                  src={payScreenImage}
-                  alt="OneAsure Pay portal screen"
-                  className="w-full h-auto object-cover object-top"
-                />
+                <PayModuleDemo />
                 {/* Bottom gradient fade hint */}
                 <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/80 to-transparent" />
               </div>
