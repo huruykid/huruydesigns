@@ -1,52 +1,61 @@
 
-## Modern Swipe Matching: Remove from solutionFeatures
+## Restructure Beles Case Study: Problem → Research → Solution
 
-### Recommendation: Remove it
+### The Issue
 
-The "Modern Swipe Matching" entry is the weakest of the five features for three reasons:
+The current section order puts "The Solution" (with all 4 Core Features) **immediately after the Problem**, before any research, personas, wireframing, or usability testing. This breaks the standard UX case study narrative — a reader who hasn't seen the research doesn't yet understand *why* Shmagele, Just Friends, Event Discovery, and Notifications are the right answers.
 
-1. **Empty details array** — Unlike every other feature, it has `details: []`. There's nothing substantive to say about it beyond the single-line description.
-
-2. **It falls through to a blank ImageSlot** — With no uploaded image and no interactive component, it currently renders an empty dashed placeholder box in the middle of the Core Features flow. This actively harms the presentation.
-
-3. **It's not Beles-specific** — Swipe matching is a commodity mechanic. The Beles case study's narrative strength comes from its *culturally distinctive* features — Shmagele, Just Friends, Event Discovery, and Notifications. Swipe matching dilutes that story.
-
----
-
-### What the Core Features section looks like after removal
+The correct storytelling arc is:
 
 ```text
-Core Features
-├── Shmagele Matching     → ShmageleFlowDiagram (interactive)
-├── Event Discovery       → EventCarousel (interactive)
-├── Just Friends Option   → JustFriendsToggle (interactive)
-└── Match Notifications   → NotificationStack (interactive)
+CURRENT (broken)                    TARGET (fixed)
+─────────────────────               ──────────────────────────────
+1. Problem                          1. Problem
+2. Solution ← too early!            2. Research & Interviews
+3. Design Process                   3. Personas
+4. Personas                         4. Wireframing
+5. Wireframing                      5. Usability Testing
+6. Usability Testing                6. Navigation Redesign Deep Dive
+7. Nav Redesign                     7. Solution (Core Features)
+8. Visual Design                    8. Visual Design
+9. Impact                           9. Impact & Outcomes
+10. Learnings                       10. Learnings
+11. Next Steps                      11. Next Steps
+12. Conclusion                      12. Conclusion
 ```
 
-Every single feature has a meaningful interactive component. The narrative is tight and culturally focused.
+The Solution section moves from position 2 all the way to position 7 — right after the usability/nav-redesign work that informed it, and right before the visual design that executed it. This makes the narrative read: "Here's the problem → here's what we learned → here's what we built → here's how it looks."
 
 ---
 
-### Specific Change
+### Section-by-Section Rationale
 
-**File: `src/lib/projects.ts`**
+**Problem** stays first — establishes the "why."
 
-Remove the entire `feature-swipe` object from `solutionFeatures`:
+**Design Process (Empathize + Research)** moves to position 2 — the 6-phase research block and interview insights explain *how* insights were gathered.
 
-```ts
-// DELETE this block:
-{
-  title: "Modern Swipe Matching",
-  description: "Familiar dating app mechanics with Tigrayan-specific filters and preferences.",
-  details: [],
-  whyItMatters: "Provides a familiar experience for users accustomed to modern dating apps...",
-  imageSlot: "feature-swipe",
-},
-```
+**Personas** stays right after research — they are the direct output of the interviews.
 
-No changes needed in `BelesCaseStudy.tsx` — the feature map already handles the remaining four slots cleanly.
+**Wireframing** comes next — it's the first design artifact, produced from persona insights.
+
+**Usability Testing** follows wireframing — tests the wireframes/lo-fi prototype.
+
+**Navigation Redesign Deep Dive** stays right after usability testing — it's a specific deep dive *from* a usability finding.
+
+**The Solution** now lands here — positioned as the culmination of all the research and iteration. The reader is now fully primed to understand *why* each feature exists.
+
+**Visual Design → Impact → Learnings → Next Steps → Conclusion** remain in their current order.
 
 ---
 
-### Files Modified
-- `src/lib/projects.ts` — remove one entry from `solutionFeatures` array
+### Technical Details
+
+**File modified:** `src/components/case-study/BelesCaseStudy.tsx` only — one edit that reorders the JSX blocks.
+
+The change is purely a **cut-and-paste reorder** of the `<CaseStudySection>` blocks inside the fragment. No component logic, props, or imports change. Each block is self-contained, so there are no dependencies to untangle.
+
+**Specific move:**
+- Cut the entire "The Solution" `<CaseStudySection>` block (currently lines 45–88)
+- Paste it after the "Navigation Redesign Deep Dive" section (currently ends at line 275) and before "Visual Design" (currently line 277)
+
+That single reorder fixes the narrative without touching any other code.
