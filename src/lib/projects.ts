@@ -415,7 +415,7 @@ export const projects: Project[] = [
     process: "Followed a user-centered design approach across six phases: empathize, research, personas, wireframing, usability testing, and visual design.",
     solution: "A dating and social media app blending traditional Tigrayan matchmaking (Shmagele) with modern dating app technology, featuring event discovery, Just Friends mode, and community features.",
     outcomeMetrics: "100% event location success rate. 87.5% Shmagele feature understanding. 75%+ launch interest. Wide acceptance of design.",
-    image: "/images/beles/app-screenshot.png",
+    image: "/images/beles/hero-mockup.png",
   },
   {
     id: "oneasure-portal",

@@ -14,19 +14,17 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     <Link to={`/project/${project.id}`} className="group block">
         <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30">
           <div className="aspect-[16/10] bg-muted relative overflow-hidden flex items-center justify-center">
-            {project.image.includes("app-screenshot") ? (
-              <img
-                src={project.image}
-                alt={project.title}
-                className="h-full w-auto object-contain transition-transform duration-500 group-hover:scale-105"
-              />
-            ) : (
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            )}
+            <img
+              src={project.image}
+              alt={project.title}
+              className={`transition-transform duration-500 group-hover:scale-105 ${
+                project.image === "/placeholder.svg"
+                  ? "w-full h-full object-cover"
+                  : project.image.includes("hero-mockup")
+                  ? "h-full w-auto object-contain drop-shadow-xl"
+                  : "w-full h-full object-cover"
+              }`}
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div className="bg-accent text-accent-foreground rounded-full p-2">
