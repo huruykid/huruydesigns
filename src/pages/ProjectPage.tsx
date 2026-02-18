@@ -11,6 +11,7 @@ import ImageSlot from "@/components/case-study/ImageSlot";
 import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
+import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import { supabase } from "@/integrations/supabase/client";
 
 const isRichCaseStudy = (p: Project) => !!p.challenge;
@@ -116,6 +117,8 @@ const ProjectPage = () => {
           <FentFinderCaseStudy project={project} {...slotProps} />
         ) : project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
+        ) : project.id === "oneasure-portal" ? (
+          <OneAsureCaseStudy project={project} {...slotProps} />
         ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
