@@ -90,6 +90,10 @@ const ProjectPage = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
               {getSlotImage("hero") ? (
                 <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
+              ) : rich && project.image && project.image !== "/placeholder.svg" ? (
+                <div className="flex items-center justify-center w-full max-h-[480px]">
+                  <img src={project.image} alt={project.title} className="h-full max-h-[480px] w-auto object-contain drop-shadow-2xl" />
+                </div>
               ) : rich ? (
                 <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
               ) : (
