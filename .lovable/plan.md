@@ -1,83 +1,44 @@
 
-## Interactive Pay Module Component
+# Add Interactive Previews to EBT Finder and Beles Project Cards
 
-### What I Found
+## Goal
+Add the same "Interactive Preview" treatment (pulsing badge + phone mockup with interactive content) to the EBT Finder and Beles project cards on the homepage, matching the existing OneAsure card style.
 
-The current phone frame wraps `oneasure-pay-screen.png` — a screenshot of the OneAsure Pay portal screen. After analyzing the image, it contains 9 distinct, identifiable sections:
+## Approach
 
-1. Header bar — "Pay · View & Manage all your financial information"
-2. Pay card — masked salary amount, View Paystub / Print Paystub buttons
-3. Pay Breakdown — donut chart with Take Home Pay ($4,262.79), segmented by Take Home Pay, Taxes, Post-Tax Deductions, and Pre-Tax Deductions; "View Compensation & Rate" link
-4. Deductions Calculator — card with illustration and Launch Calculator CTA
-5. W-4 Calculator — card with illustration and Launch Calculator CTA
-6. Pay Disbursement — table listing Checking (80%), Savings (10%), Savings 2 (10%); View All / Add New Allocation
-7. Pay History — 3 paycheck rows (Aug 31, Aug 30, July 31) with $3,452.57 each + View Full Pay History
-8. W-2s — year rows 2022, 2021, 2020, 2019 + View Prior Years
-9. Marketplace — ZayZoon "wages in seconds" card
+### 1. Choose Interactive Components for Each Card
 
-The goal is to replace the static `payScreenImage` with a new React component — `PayModuleDemo.tsx` — that faithfully recreates these sections with real interactivity, inside the same phone frame shell.
+- **EBT Finder**: There is no standalone interactive demo component for this project. I will create a small `EBTSearchDemo` component -- a mini search/filter UI showing category pills (Hot Food, Grocery, Farmers Market, Open Now) and a couple of store result cards with ratings and "ACCEPTS EBT" badges. This mirrors the core value prop of the project.
 
----
+- **Beles**: The `EventCarousel` component already exists and is compact, interactive (RSVP toggle), and visually engaging. It will work well inside a phone shell.
 
-### New Component: `src/components/case-study/PayModuleDemo.tsx`
+### 2. Update ProjectCard Component
 
-A self-contained scrollable mobile app screen built in React + Tailwind, rendered inside the existing phone frame in `OneAsureCaseStudy.tsx`.
+Generalize the current OneAsure-specific interactive preview logic so it works for all three projects:
 
-#### Key Interactive Features
+- Replace the `isOneasure` check with a mapping of project IDs to their interactive demo components
+- Each mapped project gets the phone shell treatment with the pulsing "Interactive Preview" badge
+- Projects without a mapping fall back to the standard image display
 
-**Donut Chart (Pay Breakdown)**
-- Built with inline SVG — no external chart library needed
-- 4 segments: Take Home Pay (67%), Taxes (21%), Post-Tax Ded. (5%), Pre-Tax Ded. (7%)
-- Clicking a legend pill highlights that segment (stroke-width increase + dimming of others)
-- Center label updates to show the clicked segment's label and amount
-- Animated on mount using `framer-motion` stroke-dashoffset
+### 3. Create EBTSearchDemo Component
 
-**Pay Card**
-- Salary amount masked by default (shown as ●●●●●) with a toggle eye icon to reveal the real value ($4,262.79)
-- View Paystub / Print Paystub buttons styled in the OneAsure teal brand color
-
-**Deductions Calculator & W-4 Calculator**
-- Interactive cards — clicking "Launch Calculator" shows an inline micro-calculator overlay (simple input + result, dismissible with a close button)
-
-**Pay Disbursement**
-- Accordion-style expandable rows — click any account row to see a faux edit allocation UI
-- "Add New Allocation" button opens a small inline form (account name + % input)
-
-**Pay History**
-- Expandable rows — clicking a row shows a breakdown (Gross Pay, Taxes, Net Pay)
-
-**W-2s**
-- Each year row has a download icon that animates (spin → checkmark) on click to simulate downloading
-
-**Marketplace**
-- ZayZoon card with "Try It Now" and "Learn More" buttons — clicking "Learn More" shows an expanded description card
+A new lightweight component (`src/components/case-study/EBTSearchDemo.tsx`) that renders:
+- A search bar with location text
+- Tappable filter pills (Hot Food, Grocery, Open Now, etc.)
+- 2-3 mini store cards with name, rating stars, distance, and an "ACCEPTS EBT" badge
+- Styled to fit inside the 220px-wide phone shell
 
 ---
 
-### Component Structure
+## Technical Details
 
-```text
-PayModuleDemo
-├── Header bar (teal bg, "Pay" title + search/avatar icons)
-├── Pay card (masked salary, view toggle, 2 CTA buttons)
-├── Pay Breakdown (SVG donut + interactive legend pills)
-│   └── "View Compensation & Rate" link
-├── Deductions Calculator card (launch → inline overlay)
-├── W-4 Calculator card (launch → inline overlay)
-├── Pay Disbursement table (expandable rows + add form)
-├── Pay History list (expandable rows)
-├── W-2s list (download animation per row)
-└── Marketplace / ZayZoon card (expandable description)
-```
+**New file:**
+- `src/components/case-study/EBTSearchDemo.tsx` -- interactive mini search/filter UI
 
-All sections are separated by thin dividers just like the original, and use the OneAsure teal (`#1a6e8e` / `#0d7a9c`) as the primary brand color.
-
----
-
-### Files to Modify
-
-1. **`src/components/case-study/PayModuleDemo.tsx`** — Create the new interactive component (new file)
-
-2. **`src/components/case-study/OneAsureCaseStudy.tsx`** — Replace `import payScreenImage` and the `<img>` tag inside the phone screen area with `<PayModuleDemo />` (the scrollable screen div already exists with `h-[480px] overflow-y-auto` — the component renders directly inside it)
-
-No other files need to change. The phone shell, glow, scroll hint, and description text beside the phone all remain exactly as they are.
+**Modified file:**
+- `src/components/ProjectCard.tsx`:
+  - Import `EventCarousel` and `EBTSearchDemo`
+  - Create a `demoComponents` map: `{ "oneasure-portal": BenefitsModuleDemo, "ebtfinder": EBTSearchDemo, "beles": EventCarousel }`
+  - Replace `featured && isOneasure` condition with a check against this map for any project
+  - All three cards get the phone shell + pulsing badge treatment
+  - Non-featured cards with demos also get the phone shell (slightly smaller, e.g. 180px wide) so the two bottom cards also show interactive previews
