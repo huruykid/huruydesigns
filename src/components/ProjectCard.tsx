@@ -28,7 +28,14 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             }}
           >
             {featured && isOneasure ? (
-              <div className="relative pointer-events-auto" onClick={(e) => e.preventDefault()}>
+              <div className="relative pointer-events-auto flex flex-col items-center gap-3" onClick={(e) => e.preventDefault()}>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent tracking-wide uppercase">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                  </span>
+                  Interactive Preview
+                </span>
                 <div className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[220px]">
                   <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
                     <div className="w-14 h-1 rounded-full bg-foreground/20" />
