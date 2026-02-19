@@ -3,19 +3,10 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
-import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
-import EventCarousel from "@/components/case-study/EventCarousel";
 import type { Project } from "@/lib/projects";
-import { ComponentType } from "react";
-
-const demoComponents: Record<string, ComponentType> = {
-  "oneasure-portal": BenefitsModuleDemo,
-  "ebtfinder": EBTSearchDemo,
-  "beles": EventCarousel,
-};
 
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
-  const DemoComponent = demoComponents[project.id];
+  const isOneasure = project.id === "oneasure-portal";
 
   return (
     <motion.div
@@ -29,14 +20,14 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-1/2' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${featured ? 'md:w-1/2' : ''} ${featured && isOneasure ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
-              background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
+              background: project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
                 : undefined,
             }}
           >
-            {DemoComponent ? (
+            {featured && isOneasure ? (
               <div className="relative pointer-events-auto flex flex-col items-center gap-3" onClick={(e) => e.preventDefault()}>
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent tracking-wide uppercase">
                   <span className="relative flex h-2 w-2">
@@ -45,16 +36,16 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   </span>
                   Interactive Preview
                 </span>
-                <div className={`rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden ${featured ? 'w-[220px]' : 'w-[180px]'}`}>
+                <div className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[220px]">
                   <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
                     <div className="w-14 h-1 rounded-full bg-foreground/20" />
                   </div>
                   <div
-                    className={`relative overflow-y-auto ${featured ? 'h-[380px]' : 'h-[300px]'}`}
+                    className="relative h-[380px] overflow-y-auto"
                     style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <DemoComponent />
+                    <BenefitsModuleDemo />
                   </div>
                 </div>
               </div>
