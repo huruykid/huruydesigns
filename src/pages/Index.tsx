@@ -65,8 +65,13 @@ const Index = () => (
           </h2>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} />
+          {/* Featured project (first) */}
+          <div className="md:col-span-2">
+            <ProjectCard project={projects[0]} index={0} featured />
+          </div>
+          {/* Remaining projects */}
+          {projects.slice(1).map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i + 1} />
           ))}
         </div>
       </div>

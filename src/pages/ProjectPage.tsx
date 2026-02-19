@@ -9,7 +9,7 @@ import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import ImageSlot from "@/components/case-study/ImageSlot";
 import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
-import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
+
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
@@ -142,9 +142,7 @@ const ProjectPage = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 pb-24 max-w-4xl">
-        {project.id === "ai-fent-finder" ? (
-          <FentFinderCaseStudy project={project} {...slotProps} />
-        ) : project.id === "beles" ? (
+        {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
           <OneAsureCaseStudy project={project} {...slotProps} />

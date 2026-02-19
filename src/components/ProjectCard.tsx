@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/lib/projects";
 
-const ProjectCard = ({ project, index }: { project: Project; index: number }) => (
+const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -12,9 +12,9 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     transition={{ duration: 0.5, delay: index * 0.1 }}
   >
     <Link to={`/project/${project.id}`} className="group block">
-        <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30">
+        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 ${featured ? 'md:flex md:items-stretch' : ''}`}>
           <div
-            className="aspect-[16/10] relative overflow-hidden flex items-center justify-center"
+            className={`${featured ? 'md:w-1/2' : ''} aspect-[16/10] relative overflow-hidden flex items-center justify-center`}
             style={{
               background: project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -39,7 +39,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               </div>
             </div>
           </div>
-        <div className="p-5">
+        <div className={`p-5 ${featured ? 'md:w-1/2 md:flex md:flex-col md:justify-center md:p-8' : ''}`}>
           <p className="text-xs font-semibold text-accent mb-1">{project.impact}</p>
           <h3 className="text-lg font-bold mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
           <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.description}</p>
