@@ -11,16 +11,28 @@ import SEO from "@/components/SEO";
 
 const Contact = () => {
   const { toast } = useToast();
-  const [sending, setSending] = useState(false);
+  const [sending] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSending(true);
-    setTimeout(() => {
-      setSending(false);
-      toast({ title: "Message sent!", description: "Thanks for reaching out. I'll get back to you soon." });
-      (e.target as HTMLFormElement).reset();
-    }, 1000);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const name = (formData.get("name") as string || "").trim();
+    const email = (formData.get("email") as string || "").trim();
+    const message = (formData.get("message") as string || "").trim();
+
+    if (!name || !email || !message) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
+      return;
+    }
+
+    // Build mailto link with form data
+    const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:huruydesigns@gmail.com?subject=${subject}&body=${body}`;
+    
+    toast({ title: "Opening your email client", description: "Complete sending in your email app." });
+    form.reset();
   };
 
   return (
@@ -60,15 +72,15 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Your name" required className="mt-1.5" />
+                  <Input id="name" name="name" placeholder="Your name" required className="mt-1.5" />
                 </div>
                 <div>
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="you@example.com" required className="mt-1.5" />
+                  <Input id="email" name="email" type="email" placeholder="you@example.com" required className="mt-1.5" />
                 </div>
                 <div>
                   <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" placeholder="Tell me about your project or opportunity..." required rows={5} className="mt-1.5" />
+                  <Textarea id="message" name="message" placeholder="Tell me about your project or opportunity..." required rows={5} className="mt-1.5" maxLength={2000} />
                 </div>
                 <Button type="submit" size="lg" disabled={sending} className="bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto">
                   {sending ? "Sending..." : <><Send className="h-4 w-4 mr-1" /> Send Message</>}
