@@ -1,55 +1,40 @@
 
 
-# Update About Page with Resume Data and Profile Photo
+# Remove All Em Dashes From the Site
 
 ## Overview
-Add Huruy's professional headshot and resume PDF to the project, update the About page content with the more detailed resume bullet points, and wire up the "Download Resume" button.
+There are approximately 296 em dash occurrences across 13 files. Each will be replaced with a contextually appropriate alternative based on how the em dash is being used.
 
-## Changes
+## Replacement Strategy
 
-### 1. Add Assets to Project
-- Copy the headshot photo (`IMG_6446_2.jpg`) to `src/assets/huruy-headshot.jpg`
-- Copy the resume PDF (`careerSummary.pdf`) to `public/resume/huruy-kidanemariam-resume.pdf` (public folder so it can be downloaded directly via URL)
+Em dashes serve different purposes, so each will be replaced based on context:
 
-### 2. Update About Page Content
+| Usage Pattern | Replacement |
+|---|---|
+| Clause separator ("X — Y" joining two related thoughts) | Period or semicolon to split into two sentences/clauses |
+| Parenthetical aside ("...a Shmagele — a traditional matchmaker — who...") | Commas |
+| List/label separator ("Medical — $32.00") | Colon or pipe |
+| Emphasis/continuation ("not just frustrated — they had lost trust") | Period or comma |
+| Before a concluding phrase ("...reducing confusion — not a replacement") | Comma or period |
 
-**Profile photo**: Replace the `placeholder.svg` image with an import of the real headshot from `src/assets/huruy-headshot.jpg`.
+## Files to Update (13 total)
 
-**Download Resume button**: Wire it up as an anchor link pointing to `/resume/huruy-kidanemariam-resume.pdf` with `download` attribute.
+1. **src/pages/Index.tsx** - Hero tagline
+2. **src/pages/About.tsx** - Bio and experience descriptions
+3. **src/pages/Contact.tsx** - Contact page copy
+4. **src/lib/projects.ts** - All project descriptions, challenges, solutions, findings, and learnings
+5. **src/components/case-study/OneAsureCaseStudy.tsx** - Case study body text
+6. **src/components/case-study/BelesCaseStudy.tsx** - Case study body text
+7. **src/components/case-study/FentFinderCaseStudy.tsx** - Case study body text
+8. **src/components/case-study/InterviewInsightCards.tsx** - Interview quotes and insights
+9. **src/components/case-study/ShmageleFlowDiagram.tsx** - Step descriptions
+10. **src/components/case-study/NavRedesignComparison.tsx** - Labels and quotes
+11. **src/components/case-study/BenefitsModuleDemo.tsx** - Benefit item labels
+12. **src/components/case-study/IterationTimeline.tsx** - Timeline descriptions
+13. **src/pages/ProjectPage.tsx** - Project page content
 
-**Experience bullets** -- update to match the more detailed resume wording:
+## Approach
+- Go file by file, reading each one carefully
+- Replace every em dash with the most natural-sounding alternative (period, comma, colon, semicolon, or restructured sentence)
+- Preserve the original meaning and tone throughout
 
-- **Asure Software** (Apr 2023 - Present):
-  - "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates."
-  - "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights."
-  - "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines."
-  - "Facilitated workshops with stakeholders to align on product naming and messaging strategies, advocating for inclusive language and clear functional specs."
-
-- **IMMERSE** (Jan 2020 - Feb 2023):
-  - "Wrote and designed end-to-end onboarding narratives for VR learning experiences, transforming complex 3D interactions into intuitive, bite-sized instructional text."
-  - "Developed Immerse's first content and design framework, establishing guidelines for tone, voice, and accessible instruction that were adopted company-wide."
-  - "Conducted usability testing to identify linguistic friction points. Rewrote prompt copy to reduce cognitive load, improving learner retention and reducing motion discomfort."
-  - "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical goals and technical constraints."
-
-- **Datable** (Jan 2016 - Jan 2020):
-  - "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities."
-  - "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%."
-  - "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements."
-
-**No changes needed** for the bio summary, education, leadership, or expertise sections -- they already match the resume and project memory.
-
----
-
-## Technical Details
-
-### Files Modified
-- **`src/pages/About.tsx`**:
-  - Import headshot: `import huruyHeadshot from "@/assets/huruy-headshot.jpg"`
-  - Replace `src="/placeholder.svg"` with `src={huruyHeadshot}`
-  - Wrap the Download Resume button in an `<a>` tag: `href="/resume/huruy-kidanemariam-resume.pdf" download`
-  - Update the `experience` array bullet strings with the detailed resume wording
-  - Add the 4th bullet to each experience entry where the resume has one
-
-### Files Created (asset copies)
-- `src/assets/huruy-headshot.jpg` (from uploaded photo)
-- `public/resume/huruy-kidanemariam-resume.pdf` (from uploaded PDF)
