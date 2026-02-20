@@ -38,9 +38,11 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
-          <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Download className="h-4 w-4 mr-1" /> Resume
-          </Button>
+          <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <Download className="h-4 w-4 mr-1" /> Resume
+            </Button>
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -70,9 +72,11 @@ const Navbar = () => {
                 {l.label}
               </Link>
             ))}
-            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
-              <Download className="h-4 w-4 mr-1" /> Resume
-            </Button>
+            <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+              <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
+                <Download className="h-4 w-4 mr-1" /> Resume
+              </Button>
+            </a>
           </div>
         </div>
       )}
