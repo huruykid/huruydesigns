@@ -2,23 +2,25 @@ import { motion } from "framer-motion";
 import { Download, Briefcase, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
+import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 
 const experience = [
   { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
-    "Simplifying complexity, chatbot writing, and cross-functional collaboration.",
-    "Refined Interface Copy & Error Mapping for enterprise HR and compliance workflows.",
-    "Conversational Design (AI): Designed persona and scripts for \"Luna,\" an AI chatbot.",
-    "Design System Documentation: Authored usage guidelines and accessibility standards (WCAG).",
+    "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates.",
+    "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights.",
+    "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines.",
+    "Facilitated workshops with stakeholders to align on product naming and messaging strategies, advocating for inclusive language and clear functional specs.",
   ]},
   { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE | Los Angeles, CA", bullets: [
-    "Wrote and designed end-to-end onboarding narratives for VR learning experiences.",
-    "Developed Immerse's first content and design framework for tone, voice, and accessible instruction.",
-    "Conducted usability testing to identify linguistic friction points and reduce cognitive load.",
+    "Wrote and designed end-to-end onboarding narratives for VR learning experiences, transforming complex 3D interactions into intuitive, bite-sized instructional text.",
+    "Developed Immerse's first content and design framework, establishing guidelines for tone, voice, and accessible instruction that were adopted company-wide.",
+    "Conducted usability testing to identify linguistic friction points. Rewrote prompt copy to reduce cognitive load, improving learner retention and reducing motion discomfort.",
+    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical goals and technical constraints.",
   ]},
   { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable | Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech.",
-    "Established a modular design system in Figma with standardized copy patterns.",
-    "Collaborated with stakeholders to refine CTAs based on business KPIs and conversion data.",
+    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities.",
+    "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%.",
+    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements.",
   ]},
 ];
 
@@ -43,11 +45,13 @@ const About = () => (
           {/* Left: Photo + intro */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             <div className="aspect-square max-w-sm rounded-2xl bg-muted border border-border overflow-hidden mb-8">
-              <img src="/placeholder.svg" alt="Huruy" className="w-full h-full object-cover" />
+              <img src={huruyHeadshot} alt="Huruy Kidanemariam" className="w-full h-full object-cover" />
             </div>
-            <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Download className="h-4 w-4 mr-2" /> Download Resume
-            </Button>
+            <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                <Download className="h-4 w-4 mr-2" /> Download Resume
+              </Button>
+            </a>
           </motion.div>
 
           {/* Right: Content */}
