@@ -44,7 +44,7 @@ const About = () => (
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: Photo + intro */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <div className="aspect-square max-w-sm rounded-2xl bg-muted border border-border overflow-hidden mb-8">
+            <div className="aspect-[3/4] max-w-sm rounded-2xl bg-muted border border-border overflow-hidden mb-8">
               <img src={huruyHeadshot} alt="Huruy Kidanemariam" className="w-full h-full object-cover" />
             </div>
             <a href="/resume/huruy-kidanemariam-resume.pdf" download>
