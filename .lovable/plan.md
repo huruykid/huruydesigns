@@ -1,16 +1,20 @@
 
 
-## Update Contact Information
+## Fix Resume Download Button
 
-Replace the old email and LinkedIn URL across all 3 files where they appear:
+The Resume buttons in the navigation bar (both desktop and mobile) are not wrapped in a link — they're plain buttons with no action. That's why clicking them does nothing.
 
-- **Old email:** `hello@huruydesigns.com` → **New:** `huruydesigns@gmail.com`
-- **Old LinkedIn:** `https://www.linkedin.com/in/huruy` → **New:** `https://www.linkedin.com/in/huruydesigns/`
+The About page already has a working download button for reference.
 
-### Files to update
+### What will change
 
-1. **`src/components/Footer.tsx`** (2 changes) — LinkedIn href and email mailto
-2. **`src/pages/Index.tsx`** (2 changes) — LinkedIn href and email mailto in hero section
-3. **`src/pages/Contact.tsx`** (3 changes) — LinkedIn href, email mailto href, and visible email text
+- **Desktop navbar Resume button**: Wrap it in a link pointing to your resume PDF so clicking it triggers a download
+- **Mobile navbar Resume button**: Same fix for the mobile menu version
 
-Total: 7 replacements across 3 files.
+Both will link to `/resume/huruy-kidanemariam-resume.pdf` with a download attribute, matching what already works on your About page.
+
+### Technical details
+
+**File: `src/components/Navbar.tsx`**
+- Wrap the desktop Resume `<Button>` (around line 41) in an `<a href="/resume/huruy-kidanemariam-resume.pdf" download>` tag
+- Wrap the mobile Resume `<Button>` (around line 74) in the same `<a>` tag
