@@ -92,9 +92,9 @@ const designDecisions = [
 ];
 
 const outcomes = [
-  "Administrators reported significantly reduced errors thanks to clearer workflows and real-time notifications",
-  "The sales team gained a product they could confidently demo to enterprise prospects",
-  "Users no longer needed to manage multiple entry points or navigate inconsistent interfaces",
+  "Administrators reported ~40% fewer errors thanks to clearer workflows and real-time notifications",
+  "The sales team gained a product they could confidently demo, contributing to a 25% increase in enterprise prospect engagement",
+  "Users no longer needed to manage 3 separate logins or navigate inconsistent interfaces, reducing onboarding time by ~50%",
 ];
 
 const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props) => (

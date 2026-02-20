@@ -61,7 +61,7 @@ const About = () => (
               Huruy Kidanemariam
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems.
+              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems. I'm drawn to projects where good design removes barriers, whether that means making enterprise software less frustrating or helping underserved communities access the tools they deserve. Design, for me, is about dignity.
             </p>
 
             {/* Experience */}
