@@ -89,26 +89,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "oneasure-portal",
-    title: "OneAsure Portal",
-    description: "Unifying enterprise HR management into a single, seamless experience.",
-    impact: "Unified HR management for enterprise teams",
-    tags: ["Enterprise UX", "HCM", "Figma", "B2B"],
-    role: "UX Designer, UX Researcher, Stakeholder Presenter",
-    timeline: "6+ months",
-    tools: ["Figma", "Ionic", "Jira"],
-    challenge: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem — separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks.",
-    problem: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem — separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive.",
-    solution: "The final OneAsure portal consolidated Time & Attendance, Benefits, Payroll, and related HR functions into a single, unified experience — with one login, consistent UI patterns, and workflows that reflected how people actually worked.",
-    process: "Conducted software audits, gap analysis, competitive research across 12 HCM platforms, 16 remote user interviews, and 24 usability tests across 8 iterative design rounds over 6+ months.",
-    outcomeMetrics: "12 competitive audits · 16 user interviews · 24 usability tests · 8 design iterations over 6+ months",
-    learnings: [
-      "Stakeholder alignment is a design skill — not something that happens after the design work. Translating UX decisions into business language, anticipating objections before they derailed progress, and building shared ownership of the design direction were as important as anything made in Figma.",
-      "Sequencing matters. On a project this complex, the order in which you tackle problems is critical. Fixing visual design before addressing structural issues would have been the wrong call. Starting with research before wireframes kept the team from solving the wrong problem.",
-    ],
-    image: "/placeholder.svg",
-  },
-  {
     id: "ebtfinder",
     title: "EBT Finder",
     description: "A review-first platform that helps SNAP/EBT users discover nearby businesses with confidence and dignity.",
@@ -254,7 +234,6 @@ export const projects: Project[] = [
       "wireframes": "/images/ebtfinder/wireframes.png",
       "feature-search": "/images/ebtfinder/feature-search.png",
     },
-    // Legacy fields kept for compatibility
     researchHighlights: [
       "Audited existing USDA SNAP site",
       "Interviewed 7 EBT users about how they decide where to go",
@@ -267,6 +246,26 @@ export const projects: Project[] = [
     process: "Conducted user interviews with 7 EBT users, created journey maps and personas, ran competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and performed usability testing across 3 iterations.",
     outcomeMetrics: "Task completion rate improved from 45% to 89%. Average time-to-find reduced by 62%. Received positive feedback from 92% of usability test participants.",
     image: "/images/ebtfinder/hero-mockup.png",
+  },
+  {
+    id: "oneasure-portal",
+    title: "OneAsure Portal",
+    description: "Unifying enterprise HR management into a single, seamless experience.",
+    impact: "Unified HR management for enterprise teams",
+    tags: ["Enterprise UX", "HCM", "Figma", "B2B"],
+    role: "UX Designer, UX Researcher, Stakeholder Presenter",
+    timeline: "6+ months",
+    tools: ["Figma", "Ionic", "Jira"],
+    challenge: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem — separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks.",
+    problem: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem — separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive.",
+    solution: "The final OneAsure portal consolidated Time & Attendance, Benefits, Payroll, and related HR functions into a single, unified experience — with one login, consistent UI patterns, and workflows that reflected how people actually worked.",
+    process: "Conducted software audits, gap analysis, competitive research across 12 HCM platforms, 16 remote user interviews, and 24 usability tests across 8 iterative design rounds over 6+ months.",
+    outcomeMetrics: "12 competitive audits · 16 user interviews · 24 usability tests · 8 design iterations over 6+ months",
+    learnings: [
+      "Stakeholder alignment is a design skill — not something that happens after the design work. Translating UX decisions into business language, anticipating objections before they derailed progress, and building shared ownership of the design direction were as important as anything made in Figma.",
+      "Sequencing matters. On a project this complex, the order in which you tackle problems is critical. Fixing visual design before addressing structural issues would have been the wrong call. Starting with research before wireframes kept the team from solving the wrong problem.",
+    ],
+    image: "/placeholder.svg",
   },
   {
     id: "beles",
