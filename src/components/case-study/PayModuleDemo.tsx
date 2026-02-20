@@ -533,7 +533,7 @@ export default function PayModuleDemo() {
                 </span>
               </div>
               <p className="opacity-80 mb-3" style={{ fontSize: 9.5 }}>
-                Access up to 50% of your earned wages before payday — no interest, no fees.
+                Access up to 50% of your earned wages before payday. No interest, no fees.
               </p>
               <AnimatePresence>
                 {showZayZoon && (
@@ -544,7 +544,7 @@ export default function PayModuleDemo() {
                     className="overflow-hidden opacity-70 mb-2"
                     style={{ fontSize: 9 }}
                   >
-                    ZayZoon connects directly to your payroll, so you can withdraw your earned wages instantly. Repaid automatically on your next payday — no credit check required.
+                    ZayZoon connects directly to your payroll, so you can withdraw your earned wages instantly. Repaid automatically on your next payday, no credit check required.
                   </motion.p>
                 )}
               </AnimatePresence>

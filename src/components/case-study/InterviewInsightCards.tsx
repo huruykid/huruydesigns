@@ -20,11 +20,11 @@ const insights: InsightCard[] = [
     participant: "P5, Male, 32",
     quote: "My parents met through a Shmagele. I trust that process more than swiping, but I also want the convenience of technology.",
     theme: "Tradition + Tech",
-    insight: "Users want a digital bridge between traditional matchmaking and modern convenience — not a replacement for either.",
+    insight: "Users want a digital bridge between traditional matchmaking and modern convenience, not a replacement for either.",
   },
   {
     participant: "P1, Female, 19",
-    quote: "Honestly, I just want to meet other Tigrayans my age. Dating is secondary — I need community first.",
+    quote: "Honestly, I just want to meet other Tigrayans my age. Dating is secondary. I need community first.",
     theme: "Community Need",
     insight: "A significant portion of users prioritize platonic connection, validating the need for a 'Just Friends' mode.",
   },
@@ -32,7 +32,7 @@ const insights: InsightCard[] = [
     participant: "P7, Male, 55",
     quote: "I would use this if I felt it was safe and respectful. Too many apps feel like they commodify people.",
     theme: "Trust & Safety",
-    insight: "Older diaspora members value dignity and respect in UX — tone and language choices matter as much as features.",
+    insight: "Older diaspora members value dignity and respect in UX. Tone and language choices matter as much as features.",
   },
 ];
 

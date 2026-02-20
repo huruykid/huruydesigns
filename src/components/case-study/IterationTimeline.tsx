@@ -7,7 +7,7 @@ const iterations = [
     round: 1,
     label: "Audit & Mapping",
     phase: "Discovery",
-    summary: "Mapped the existing Asure portal ecosystem — 4 separate products, 4 different IA patterns. Created a full sitemap of the existing state to expose structural gaps before touching any UI.",
+    summary: "Mapped the existing Asure portal ecosystem: 4 separate products, 4 different IA patterns. Created a full sitemap of the existing state to expose structural gaps before touching any UI.",
     changes: ["Sitemap of all 4 portals", "Navigation pattern audit", "Entry point inventory"],
   },
   {
@@ -21,7 +21,7 @@ const iterations = [
     round: 3,
     label: "Lo-fi Wireframes",
     phase: "Wireframing",
-    summary: "First sketches of the consolidated dashboard. Focused on the primary admin view — the most complex use case — before tackling employee-facing flows.",
+    summary: "First sketches of the consolidated dashboard. Focused on the primary admin view, the most complex use case, before tackling employee-facing flows.",
     changes: ["Admin dashboard wireframe", "Primary nav exploration (x4)", "Auth flow sketches"],
   },
   {
@@ -35,14 +35,14 @@ const iterations = [
     round: 5,
     label: "Modular Nav System",
     phase: "Prototyping",
-    summary: "Designed the module visibility system — enterprise clients see only the products they've purchased. A key insight: showing everything to everyone was actively hurting adoption.",
+    summary: "Designed the module visibility system so enterprise clients see only the products they've purchased. A key insight: showing everything to everyone was actively hurting adoption.",
     changes: ["Module toggle system", "Client config logic", "Collapsed nav states"],
   },
   {
     round: 6,
     label: "Notification Layer",
     phase: "Prototyping",
-    summary: "Designed the admin notification architecture from scratch. Admins had zero visibility into employee-initiated actions — a critical gap that caused errors and compliance risk.",
+    summary: "Designed the admin notification architecture from scratch. Admins had zero visibility into employee-initiated actions, a critical gap that caused errors and compliance risk.",
     changes: ["Real-time alert system", "Priority notification queue", "Action confirmation flows"],
   },
   {
@@ -56,7 +56,7 @@ const iterations = [
     round: 8,
     label: "Final Iteration",
     phase: "Polish",
-    summary: "Addressed the last round of usability test findings — edge cases in the notification flow, admin labeling confusion, and navigation behavior on smaller screens.",
+    summary: "Addressed the last round of usability test findings: edge cases in the notification flow, admin labeling confusion, and navigation behavior on smaller screens.",
     changes: ["Notification edge cases", "Copy revisions", "Responsive fixes"],
   },
 ];
@@ -117,7 +117,7 @@ const IterationTimeline = () => {
                   {current.phase}
                 </span>
                 <h4 className="text-lg font-bold text-foreground mt-0.5">
-                  Round {current.round} — {current.label}
+                  Round {current.round}: {current.label}
                 </h4>
               </div>
               {/* Progress dots */}

@@ -120,7 +120,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
         {step === 1 && (
           <div className="space-y-2">
             <p className="font-semibold mb-3" style={{ fontSize: 11, color: "#374151" }}>Review your selections:</p>
-            {["Medical — $32.00", "Dental — $32.00"].map((item, i) => (
+            {["Medical: $32.00", "Dental: $32.00"].map((item, i) => (
               <div key={i} className="flex items-center gap-2 p-3 rounded-xl" style={{ background: TEAL_BG }}>
                 <Check size={12} style={{ color: TEAL }} />
                 <span style={{ fontSize: 11, color: "#1f2937" }}>{item}</span>

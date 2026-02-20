@@ -55,7 +55,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
 
     {/* The Solution & Goals */}
     <CaseStudySection label="The Solution" title="Design Goals & Approach" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">From the outset, I made it clear this product isn't about flashy features—it's about utility, empathy, and trust.</p>
+      <p className="mb-6">From the outset, I made it clear this product isn't about flashy features. It's about utility, empathy, and trust.</p>
       {project.goals && (
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
           {project.goals.map((g, i) => (
@@ -117,7 +117,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
         {[
           {
             stage: "Stage 1: Motivation",
-            desc: "User recognizes fake pills and other drugs laced with fentanyl often look real—but can be deadly.",
+            desc: "User recognizes fake pills and other drugs laced with fentanyl often look real, but can be deadly.",
             feeling: "Concerned about a pill's safety. Unsure where to start or what's legit.",
           },
           {
@@ -132,7 +132,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
           },
           {
             stage: "Stage 4: Decision & Action",
-            desc: "User takes the next step—gets resources, alerts, or help based on result.",
+            desc: "User takes the next step: gets resources, alerts, or help based on result.",
             feeling: "Needs clear guidance if pill is unsafe or unknown. May not know how to access Narcan nearby.",
           },
         ].map((s, i) => (
@@ -234,7 +234,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
           <Card key={i} className="border-border bg-muted/30">
             <CardContent className="p-6">
               <blockquote className="border-l-2 border-accent pl-4 italic mb-3 text-foreground">"{q.quote}"</blockquote>
-              <p className="text-sm text-muted-foreground">— {q.source}</p>
+              <p className="text-sm text-muted-foreground">- {q.source}</p>
             </CardContent>
           </Card>
         ))}

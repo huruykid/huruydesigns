@@ -7,7 +7,7 @@ const steps = [
     icon: UserPlus,
     title: "Invite Matchmaker",
     description:
-      "User invites a trusted community elder or family member to act as their Shmagele — a traditional matchmaker who knows them personally.",
+      "User invites a trusted community elder or family member to act as their Shmagele, a traditional matchmaker who knows them personally.",
   },
   {
     icon: Search,

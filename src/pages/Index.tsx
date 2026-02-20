@@ -29,7 +29,7 @@ const Index = () => (
             I design experiences that <span className="italic">matter</span>.
           </h1>
           <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
-            I bridge design and code to build products people actually use — grounded in psychology, shaped by empathy, and shipped with precision.
+            I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
           </p>
           <div className="flex flex-wrap gap-3 mb-8">
             <Button
