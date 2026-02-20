@@ -107,10 +107,10 @@ const ProjectPage = () => {
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
               </div>
-              {(project.id === "oneasure-portal" || project.id === "ebtfinder") && (
-                <a href="#" className="inline-flex items-center gap-1.5 mb-8">
+              {project.id === "ebtfinder" && (
+                <a href="https://ebtfinder.org" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 mb-8">
                   <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                    View Prototype <ArrowRight className="h-4 w-4" />
+                    Visit EBTFinder.org <ArrowRight className="h-4 w-4" />
                   </Button>
                 </a>
               )}
