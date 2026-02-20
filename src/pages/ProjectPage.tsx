@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Target, MessageSquareQuote, Lightbulb, Search, Users, BookOpen, ChevronRight, BarChart3, Palette, Rocket, Heart, ImageIcon, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import { projects, Project } from "@/lib/projects";
@@ -103,9 +104,16 @@ const ProjectPage = () => {
                 <span><strong className="text-foreground">Role:</strong> {project.role}</span>
                 <span><strong className="text-foreground">Timeline:</strong> {project.timeline}</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 mb-8">
+              <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
               </div>
+              {(project.id === "oneasure-portal" || project.id === "ebtfinder") && (
+                <a href="#" className="inline-flex items-center gap-1.5 mb-8">
+                  <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
+                    View Prototype <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </a>
+              )}
               {project.challenge && (
                 <Card className="border-accent/30 bg-accent/5 max-w-2xl">
                   <CardContent className="p-5">
@@ -457,7 +465,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             {[
               { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec", maxVal: 180 },
               { label: "Mobile usability", ebt: 95, usda: 30, unit: "%", maxVal: 100 },
-              { label: "User satisfaction", ebt: 100, usda: 20, unit: "%", maxVal: 100 },
+              { label: "User satisfaction", ebt: 95, usda: 20, unit: "%", maxVal: 100 },
               { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%", maxVal: 100 },
             ].map((row, i) => {
               const ebtWidth = Math.max((row.ebt / row.maxVal) * 100, 8);

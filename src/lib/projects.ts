@@ -238,7 +238,7 @@ export const projects: Project[] = [
     closingStats: [
       { label: "The opportunity", value: "12 million SNAP users deserve better tools" },
       { label: "The solution", value: "A Yelp-like experience built for their needs" },
-      { label: "The impact", value: "Confidence, convenience, and reduced stigma" },
+      { label: "The impact", value: "95% user satisfaction, 12x faster search, and reduced stigma" },
     ],
     appendixImages: [
       { slot: "appendix-1", caption: "Homepage with category filters" },
