@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
+import SEO from "@/components/SEO";
 
 const skillCategories = [
   {
@@ -45,8 +46,28 @@ const DotGrid = () => (
   </svg>
 );
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Huruy Kidanemariam",
+  jobTitle: "UX Designer & Product Designer",
+  url: "https://huruydesigns.lovable.app",
+  sameAs: [
+    "https://www.linkedin.com/in/huruydesigns/",
+    "mailto:huruydesigns@gmail.com",
+  ],
+  description:
+    "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
+};
+
 const Index = () => (
   <Layout>
+    <SEO
+      title="Huruy Kidanemariam | UX Designer & Product Designer Portfolio"
+      description="Huruy Kidanemariam is a UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products."
+      path="/"
+      jsonLd={personJsonLd}
+    />
     {/* Hero */}
     <section className="min-h-[80vh] flex items-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />

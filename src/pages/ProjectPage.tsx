@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import ImageSlot from "@/components/case-study/ImageSlot";
@@ -89,6 +90,11 @@ const ProjectPage = () => {
 
   return (
     <Layout>
+      <SEO
+        title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
+        description={project.description}
+        path={`/project/${project.id}`}
+      />
       {/* Hero */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">

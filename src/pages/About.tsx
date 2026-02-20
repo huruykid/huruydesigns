@@ -3,6 +3,7 @@ import { Download, Briefcase, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
+import SEO from "@/components/SEO";
 
 const experience = [
   { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
@@ -39,6 +40,11 @@ const expertiseGroups = [
 
 const About = () => (
   <Layout>
+    <SEO
+      title="About Huruy Kidanemariam | UX Designer & Product Designer"
+      description="Huruy Kidanemariam is a UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
+      path="/about"
+    />
     <section className="py-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-start">

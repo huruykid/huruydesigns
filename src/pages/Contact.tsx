@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -24,6 +25,11 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Contact Huruy Kidanemariam | UX Designer"
+        description="Get in touch with Huruy Kidanemariam for UX design collaborations, freelance projects, or full-time opportunities."
+        path="/contact"
+      />
       <section className="py-24">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
