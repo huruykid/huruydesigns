@@ -40,10 +40,10 @@ const Contact = () => {
                 <p className="text-sm text-muted-foreground/80 leading-relaxed mb-6">
                   I'm especially excited about projects involving accessible design, social impact, and complex enterprise systems. Currently open to full-time roles and select freelance collaborations.
                 </p>
-                <a href="mailto:hello@huruydesigns.com" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
-                  <Mail className="h-5 w-5" /> hello@huruydesigns.com
+                <a href="mailto:huruydesigns@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                  <Mail className="h-5 w-5" /> huruydesigns@gmail.com
                 </a>
-                <a href="https://www.linkedin.com/in/huruy" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
                   <Linkedin className="h-5 w-5" /> LinkedIn Profile
                 </a>
               </div>
