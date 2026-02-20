@@ -3,10 +3,21 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
+import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
+import BelesMatchDemo from "@/components/case-study/BelesMatchDemo";
 import type { Project } from "@/lib/projects";
+import type { ComponentType } from "react";
+
+const demoComponents: Record<string, ComponentType> = {
+  "oneasure-portal": BenefitsModuleDemo,
+  "ebtfinder": EBTSearchDemo,
+  "beles": BelesMatchDemo,
+};
 
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
-  const isOneasure = project.id === "oneasure-portal";
+  const DemoComponent = demoComponents[project.id];
+  const shellWidth = featured ? 220 : 200;
+  const shellHeight = featured ? 380 : 340;
 
   return (
     <motion.div
@@ -20,14 +31,14 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-1/2' : ''} ${featured && isOneasure ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${featured ? 'md:w-1/2' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
-              background: project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
+              background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
                 : undefined,
             }}
           >
-            {featured && isOneasure ? (
+            {DemoComponent ? (
               <div className="relative pointer-events-auto flex flex-col items-center gap-3" onClick={(e) => e.preventDefault()}>
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent tracking-wide uppercase">
                   <span className="relative flex h-2 w-2">
@@ -36,16 +47,24 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   </span>
                   Interactive Preview
                 </span>
-                <div className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden w-[220px]">
+                <div
+                  className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden"
+                  style={{ width: shellWidth }}
+                >
                   <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
                     <div className="w-14 h-1 rounded-full bg-foreground/20" />
                   </div>
                   <div
-                    className="relative h-[380px] overflow-y-auto"
-                    style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
+                    className="relative overflow-y-auto"
+                    style={{
+                      height: shellHeight,
+                      WebkitOverflowScrolling: "touch",
+                      scrollbarWidth: "none",
+                      msOverflowStyle: "none",
+                    }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <BenefitsModuleDemo />
+                    <DemoComponent />
                   </div>
                 </div>
               </div>
