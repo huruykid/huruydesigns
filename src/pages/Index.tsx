@@ -30,7 +30,7 @@ const skillCategories = [
 ];
 
 const DotGrid = () => (
-  <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.25]" xmlns="http://www.w3.org/2000/svg">
+  <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.15]" xmlns="http://www.w3.org/2000/svg">
     {Array.from({ length: 20 }).map((_, row) =>
       Array.from({ length: 20 }).map((_, col) => (
         <circle
@@ -49,11 +49,11 @@ const Index = () => (
   <Layout>
     {/* Hero */}
     <section className="min-h-[80vh] flex items-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-accent/5 to-accent/10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
       {/* Decorative blobs */}
-      <div className="absolute -top-10 right-[5%] w-[28rem] h-[28rem] rounded-full bg-accent/[0.22] blur-3xl" />
-      <div className="absolute top-32 right-[25%] w-80 h-80 rounded-full bg-accent/[0.15] blur-2xl" />
-      <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.12] blur-3xl" />
+      <div className="absolute -top-10 right-[5%] w-[28rem] h-[28rem] rounded-full bg-accent/[0.12] blur-3xl" />
+      <div className="absolute top-32 right-[25%] w-80 h-80 rounded-full bg-accent/[0.08] blur-2xl" />
+      <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.06] blur-3xl" />
       <DotGrid />
       <div className="container mx-auto px-4 py-20 relative z-10">
         <motion.div
