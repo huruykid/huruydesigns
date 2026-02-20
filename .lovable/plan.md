@@ -1,67 +1,55 @@
 
-# Add Interactive Previews to EBT Finder and Beles Project Cards
 
-## What Changes
-Replace the static hero mockup images on the EBT Finder and Beles project cards with interactive phone previews -- matching the existing OneAsure card treatment (pulsing "Interactive Preview" badge + phone shell with live, scrollable content).
+# Update About Page with Resume Data and Profile Photo
 
-## Design Based on Screenshots
+## Overview
+Add Huruy's professional headshot and resume PDF to the project, update the About page content with the more detailed resume bullet points, and wire up the "Download Resume" button.
 
-### EBT Finder Interactive Demo
-Recreate the app screen visible in the screenshot:
-- **Status bar** (green) with time and icons
-- **Search bar** with location/query text and a green send button
-- **Category icon row**: scrollable pills with food-type icons (All, Fast Food, Grocery, Bakery, Farmers Market, etc.) -- tappable to toggle active state
-- **Restaurant result card(s)**: "Dalle Kitchen" style card with a gradient food photo placeholder, store name, address, star rating, and a green "VIEW DETAILS" button
-- 2-3 store cards to make scrolling feel real
-- **Bottom navigation**: Home, Search, Wishlist, Profile icons
-- Green/teal color palette (#2d8a4e style) matching the screenshot
+## Changes
 
-### Beles Interactive Demo
-Recreate the match screen visible in the screenshot:
-- **Status bar** with time
-- **"It's a match, Berhane!"** heading text with subtitle
-- **Two overlapping profile photo circles** with heart icons (using colored placeholder avatars)
-- **"Say Kemey"** button (yellow/gold, matching the Beles brand)
-- **"Keep Swiping"** button (outlined)
-- Tapping "Say Kemey" triggers a confetti/celebration animation and transitions to a "Message sent!" confirmation state
-- Tapping "Keep Swiping" resets to show a new match name
-- Dark/warm background tone matching the screenshot
+### 1. Add Assets to Project
+- Copy the headshot photo (`IMG_6446_2.jpg`) to `src/assets/huruy-headshot.jpg`
+- Copy the resume PDF (`careerSummary.pdf`) to `public/resume/huruy-kidanemariam-resume.pdf` (public folder so it can be downloaded directly via URL)
 
-### ProjectCard Update
-Generalize the interactive preview logic:
-- Create a `demoComponents` map: `{ "oneasure-portal": BenefitsModuleDemo, "ebtfinder": EBTSearchDemo, "beles": BelesMatchDemo }`
-- Any project with a mapped demo gets the phone shell + pulsing badge -- whether featured or not
-- Non-featured cards use a slightly smaller phone shell (200px wide, 340px tall) so they fit the grid cards
-- Featured card keeps the current 220px wide, 380px tall shell
+### 2. Update About Page Content
+
+**Profile photo**: Replace the `placeholder.svg` image with an import of the real headshot from `src/assets/huruy-headshot.jpg`.
+
+**Download Resume button**: Wire it up as an anchor link pointing to `/resume/huruy-kidanemariam-resume.pdf` with `download` attribute.
+
+**Experience bullets** -- update to match the more detailed resume wording:
+
+- **Asure Software** (Apr 2023 - Present):
+  - "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates."
+  - "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights."
+  - "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines."
+  - "Facilitated workshops with stakeholders to align on product naming and messaging strategies, advocating for inclusive language and clear functional specs."
+
+- **IMMERSE** (Jan 2020 - Feb 2023):
+  - "Wrote and designed end-to-end onboarding narratives for VR learning experiences, transforming complex 3D interactions into intuitive, bite-sized instructional text."
+  - "Developed Immerse's first content and design framework, establishing guidelines for tone, voice, and accessible instruction that were adopted company-wide."
+  - "Conducted usability testing to identify linguistic friction points. Rewrote prompt copy to reduce cognitive load, improving learner retention and reducing motion discomfort."
+  - "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical goals and technical constraints."
+
+- **Datable** (Jan 2016 - Jan 2020):
+  - "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities."
+  - "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%."
+  - "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements."
+
+**No changes needed** for the bio summary, education, leadership, or expertise sections -- they already match the resume and project memory.
 
 ---
 
 ## Technical Details
 
-### New Files
+### Files Modified
+- **`src/pages/About.tsx`**:
+  - Import headshot: `import huruyHeadshot from "@/assets/huruy-headshot.jpg"`
+  - Replace `src="/placeholder.svg"` with `src={huruyHeadshot}`
+  - Wrap the Download Resume button in an `<a>` tag: `href="/resume/huruy-kidanemariam-resume.pdf" download`
+  - Update the `experience` array bullet strings with the detailed resume wording
+  - Add the 4th bullet to each experience entry where the resume has one
 
-**`src/components/case-study/EBTSearchDemo.tsx`**
-- Self-contained component styled with inline styles (like BenefitsModuleDemo)
-- Green color palette (#2d8a4e brand, #e8f5e9 backgrounds)
-- Stateful category filter pills (tap to select)
-- 3 store result cards with food imagery gradients, name, address, rating stars, "ACCEPTS EBT" badge, "VIEW DETAILS" button
-- Fixed bottom nav bar (Home, Search, Wishlist, Profile)
-- Tapping "VIEW DETAILS" shows a simple detail overlay with a back button
-
-**`src/components/case-study/BelesMatchDemo.tsx`**
-- Dark/warm themed to match the Beles screenshot aesthetic
-- "It's a match!" screen with two overlapping avatar circles
-- "Say Kemey" (gold) and "Keep Swiping" buttons
-- Tapping "Say Kemey" animates hearts and shows a confirmation state
-- Tapping "Keep Swiping" cycles to the next match name
-- Subtle Framer Motion animations for transitions
-
-### Modified File
-
-**`src/components/ProjectCard.tsx`**
-- Import `EBTSearchDemo` and `BelesMatchDemo`
-- Create `demoComponents` record mapping project IDs to their demo components
-- Replace the `isOneasure` conditional with a generic check: `const DemoComponent = demoComponents[project.id]`
-- If `DemoComponent` exists, render the phone shell + badge (for both featured and non-featured)
-- Non-featured cards: phone shell at 200px wide, 340px content height, centered in the card area with `bg-muted/30` background and vertical padding
-- Featured cards: keep current 220px wide, 380px content height
+### Files Created (asset copies)
+- `src/assets/huruy-headshot.jpg` (from uploaded photo)
+- `public/resume/huruy-kidanemariam-resume.pdf` (from uploaded PDF)
