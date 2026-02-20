@@ -96,7 +96,7 @@ const Index = () => (
     </section>
 
     {/* Projects */}
-    <section id="projects" className="py-24 bg-muted/30">
+    <section id="projects" className="py-12 bg-muted/30">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-12">
           <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Selected Work</p>
