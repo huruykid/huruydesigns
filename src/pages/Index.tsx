@@ -84,10 +84,10 @@ const Index = () => (
             </Button>
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://www.linkedin.com/in/huruy" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
+            <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
               <Linkedin className="h-5 w-5" />
             </a>
-            <a href="mailto:hello@huruydesigns.com" className="text-muted-foreground hover:text-accent transition-colors">
+            <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors">
               <Mail className="h-5 w-5" />
             </a>
           </div>
