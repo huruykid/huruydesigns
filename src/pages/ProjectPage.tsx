@@ -393,7 +393,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             </Card>
           ))}
         </div>
-        <ImageSlot slot="design-system" label="Design system — colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="design-system" label="Design system: colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} projectId={projectId} onUploaded={onUploaded} />
         {project.userFlow && (
           <div className="mt-10">
             <h3 className="font-bold text-foreground mb-4">User Flow: Search → Filter → Review → Visit</h3>

@@ -60,15 +60,15 @@ const problemPoints = [
 const researchSteps = [
   {
     heading: "Competitive Audit",
-    body: "I began with a structured audit of 12 competing HCM platforms — analyzing information architecture, navigation patterns, onboarding flows, and visual design. This gave the team a benchmark and surfaced opportunities the existing Asure suite was missing entirely.",
+    body: "I began with a structured audit of 12 competing HCM platforms, analyzing information architecture, navigation patterns, onboarding flows, and visual design. This gave the team a benchmark and surfaced opportunities the existing Asure suite was missing entirely.",
   },
   {
     heading: "User Interviews",
-    body: "I prepared an 8-question interview script focused on understanding how different user roles — administrators, HR managers, employees — interacted with the current portal day-to-day. After 16 remote sessions across three weeks, users weren't just frustrated with individual features — they had lost trust in the system. Several described avoiding certain tasks entirely because the process felt too risky.",
+    body: "I prepared an 8-question interview script focused on understanding how different user roles (administrators, HR managers, employees) interacted with the current portal day-to-day. After 16 remote sessions across three weeks, users weren't just frustrated with individual features. They had lost trust in the system. Several described avoiding certain tasks entirely because the process felt too risky.",
   },
   {
     heading: "Gap Analysis",
-    body: "I mapped interview findings against the audit to identify where the product was farthest from user expectations. This became the foundation for scoping the project — helping stakeholders understand not just what to build, but why the sequence mattered.",
+    body: "I mapped interview findings against the audit to identify where the product was farthest from user expectations. This became the foundation for scoping the project, helping stakeholders understand not just what to build, but why the sequence mattered.",
   },
 ];
 
@@ -79,7 +79,7 @@ const designDecisions = [
   },
   {
     heading: "Modular customization",
-    body: "Enterprise clients use different subsets of Asure's product suite. Rather than showing every feature to every user, I designed a customizable navigation system that surfaced only the modules each client had purchased — reducing confusion and making the portal feel purpose-built.",
+    body: "Enterprise clients use different subsets of Asure's product suite. Rather than showing every feature to every user, I designed a customizable navigation system that surfaced only the modules each client had purchased, reducing confusion and making the portal feel purpose-built.",
   },
   {
     heading: "Admin notification system",
@@ -87,7 +87,7 @@ const designDecisions = [
   },
   {
     heading: "Visual redesign",
-    body: "I prioritized modernizing the UI early — updating iconography (the floppy disk save icon was a near-universal complaint), improving type hierarchy, and introducing consistent component patterns across all modules. A credible visual language was the prerequisite for everything else landing well.",
+    body: "I prioritized modernizing the UI early: updating iconography (the floppy disk save icon was a near-universal complaint), improving type hierarchy, and introducing consistent component patterns across all modules. A credible visual language was the prerequisite for everything else landing well.",
   },
 ];
 
@@ -102,10 +102,10 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
     {/* Challenge */}
     <CaseStudySection label="The Challenge" title="Fragmented systems, fractured workflows" icon={<AlertTriangle className="h-4 w-4" />}>
       <p className="mb-4">
-        HR professionals at mid-to-large enterprises were navigating a fractured ecosystem — separate portals for time &amp; attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive. Administrators made errors. Employees gave up. And the sales team struggled to demo a product that looked like it was built in a different decade.
+        HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: separate portals for time &amp; attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive. Administrators made errors. Employees gave up. And the sales team struggled to demo a product that looked like it was built in a different decade.
       </p>
       <p>
-        The ask was clear: consolidate everything into one cohesive HR portal. The hard part was figuring out how — without losing the complexity that enterprise clients actually needed.
+        The ask was clear: consolidate everything into one cohesive HR portal. The hard part was figuring out how, without losing the complexity that enterprise clients actually needed.
       </p>
     </CaseStudySection>
 
@@ -146,14 +146,14 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         ))}
       </div>
       <p className="text-sm italic">
-        The last point mattered more than it might seem. A product that can't be demoed confidently is a product that doesn't get sold. Design quality wasn't just a UX concern — it was a business risk.
+        The last point mattered more than it might seem. A product that can't be demoed confidently is a product that doesn't get sold. Design quality wasn't just a UX concern; it was a business risk.
       </p>
     </CaseStudySection>
 
     {/* My Role */}
     <CaseStudySection label="My Role" title="Full lifecycle ownership" icon={<Users className="h-4 w-4" />}>
       <p>
-        I led UX research and design across the full project lifecycle. Specifically, I owned the interview research process — writing the script, conducting sessions, and synthesizing findings into the top pain points that drove our design decisions. I also led information architecture, wireframing, and prototyping for key portal modules, and was responsible for presenting design decisions and rationale to stakeholders throughout the project.
+        I led UX research and design across the full project lifecycle. Specifically, I owned the interview research process: writing the script, conducting sessions, and synthesizing findings into the top pain points that drove our design decisions. I also led information architecture, wireframing, and prototyping for key portal modules, and was responsible for presenting design decisions and rationale to stakeholders throughout the project.
       </p>
     </CaseStudySection>
 
@@ -246,7 +246,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
             <span className="text-muted-foreground text-xs">Scroll to explore</span>
           </motion.div>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[220px] text-center">
-            Open enrollment, life events, and a full benefit list with plan details — all in one scrollable view.
+            Open enrollment, life events, and a full benefit list with plan details, all in one scrollable view.
           </p>
         </div>
 
@@ -279,7 +279,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
             <span className="text-muted-foreground text-xs">Scroll to explore</span>
           </motion.div>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[220px] text-center">
-            Take-home pay, tax breakdowns, disbursements, and pay history — replacing three separate portal logins.
+            Take-home pay, tax breakdowns, disbursements, and pay history, replacing three separate portal logins.
           </p>
         </div>
       </motion.div>
@@ -290,10 +290,10 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
     {/* Testing & Iteration */}
     <CaseStudySection label="Testing & Iteration" title="24 tests, 8 iterations" icon={<FlaskConical className="h-4 w-4" />}>
       <p className="mb-4">
-        I ran 24 usability tests across multiple rounds, testing with real users in realistic task scenarios. Each round surfaced friction I hadn't anticipated — edge cases in the notification flow, labeling that made sense to designers but confused admins, navigation patterns that worked on desktop but broke on smaller screens.
+        I ran 24 usability tests across multiple rounds, testing with real users in realistic task scenarios. Each round surfaced friction I hadn't anticipated: edge cases in the notification flow, labeling that made sense to designers but confused admins, navigation patterns that worked on desktop but broke on smaller screens.
       </p>
       <p>
-        Eight full design iterations later, the product was substantially different from the initial concept — and substantially better. The iteration process wasn't a sign that we got things wrong early. It was the process working as intended.
+        Eight full design iterations later, the product was substantially different from the initial concept, and substantially better. The iteration process wasn't a sign that we got things wrong early. It was the process working as intended.
       </p>
       <AdminNotificationDemo />
     </CaseStudySection>
@@ -301,7 +301,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
     {/* Outcome */}
     <CaseStudySection label="Outcome" title="One portal, measurable impact" icon={<Star className="h-4 w-4" />}>
       <p className="mb-6">
-        The final OneAsure portal consolidated Time &amp; Attendance, Benefits, Payroll, and related HR functions into a single, unified experience — with one login, consistent UI patterns, and workflows that reflected how people actually worked.
+        The final OneAsure portal consolidated Time &amp; Attendance, Benefits, Payroll, and related HR functions into a single, unified experience, with one login, consistent UI patterns, and workflows that reflected how people actually worked.
       </p>
       <div className="space-y-3">
         {outcomes.map((o, i) => (
@@ -330,7 +330,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
     {/* Next Steps */}
     <CaseStudySection label="Next Steps" title="From building to listening" icon={<Rocket className="h-4 w-4" />}>
       <p className="mb-8">
-        Post-launch, the focus shifts from building to listening. The next phase involves structured feedback sessions with both end users and the sales team, using those insights to prioritize the next round of feature improvements — with the goal of not just meeting expectations, but raising them.
+        Post-launch, the focus shifts from building to listening. The next phase involves structured feedback sessions with both end users and the sales team, using those insights to prioritize the next round of feature improvements, with the goal of not just meeting expectations, but raising them.
       </p>
 
       <Card className="border-accent/30 bg-accent/5">

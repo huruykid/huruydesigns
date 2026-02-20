@@ -47,7 +47,7 @@ const NavRedesignComparison = () => {
       <div className="mx-auto max-w-xs rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
         <div className="px-4 py-3 border-b border-border">
           <p className="text-xs text-muted-foreground text-center font-medium">
-            {showAfter ? "Streamlined — 4 icons" : "Original — 6 icons"}
+            {showAfter ? "Streamlined: 4 icons" : "Original: 6 icons"}
           </p>
         </div>
 
@@ -72,7 +72,7 @@ const NavRedesignComparison = () => {
         <div className="px-4 py-3 border-t border-border">
           <p className="text-xs text-center italic text-muted-foreground">
             {showAfter
-              ? '"Much easier to navigate — I can find everything I need."'
+              ? '"Much easier to navigate. I can find everything I need."'
               : '"The bottom bar feels cramped with too many icons."'}
           </p>
         </div>

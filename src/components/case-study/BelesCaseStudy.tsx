@@ -331,7 +331,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
         {[
           "Gather continuous user feedback through beta testing with the Tigrayan community",
           "Make data-driven decisions by tracking key metrics like match rates, event attendance, and user engagement",
-          "Add more cultural spice—considering features like Tigrinya language support, cultural compatibility quizzes, and virtual event hosting",
+          "Add more cultural spice, considering features like Tigrinya language support, cultural compatibility quizzes, and virtual event hosting",
           "Involve the engineering team early to ensure technical feasibility and smooth implementation",
           "Develop a strategic launch plan that leverages community leaders and cultural organizations",
           "Never stop iterating for a seamless user experience that truly serves the community",
@@ -346,7 +346,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
 
     {/* Conclusion */}
     <CaseStudySection label="Conclusion" title="More Than Just a Dating App" icon={<Heart className="h-4 w-4" />}>
-      <p className="mb-4">Beles represents more than just a dating app—it's a lifeline for a diaspora community seeking connection during one of the darkest periods in Tigrayan history. By honoring traditional matchmaking practices while embracing modern technology, Beles creates a space where culture is preserved, relationships are formed, and community is strengthened.</p>
+      <p className="mb-4">Beles represents more than just a dating app. It's a lifeline for a diaspora community seeking connection during one of the darkest periods in Tigrayan history. By honoring traditional matchmaking practices while embracing modern technology, Beles creates a space where culture is preserved, relationships are formed, and community is strengthened.</p>
       <p className="mb-6">This project challenged me to think beyond conventional design patterns and consider the unique needs of a specific cultural community. It taught me that great design requires empathy, cultural humility, and a willingness to learn from users at every step of the process.</p>
       <Card className="border-accent/30 bg-accent/5">
         <CardContent className="p-5 text-center">
