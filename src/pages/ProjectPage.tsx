@@ -33,8 +33,6 @@ const HeroPhoneMockup = () => {
 
 interface SlotProps {
   getSlotImage: (slot: string) => string | undefined;
-  onUploaded: (slot: string, url: string) => void;
-  projectId: string;
 }
 
 const ProjectPage = () => {
@@ -72,14 +70,10 @@ const ProjectPage = () => {
     return uploadedImages[slot] || project?.sectionImages?.[slot];
   }, [uploadedImages, project?.sectionImages, imagesLoading]);
 
-  const handleUploaded = useCallback((slot: string, url: string) => {
-    setUploadedImages(prev => ({ ...prev, [slot]: url }));
-  }, []);
-
   if (!project || !next) return <Navigate to="/" />;
 
   const rich = isRichCaseStudy(project);
-  const slotProps: SlotProps = { getSlotImage, onUploaded: handleUploaded, projectId: project.id };
+  const slotProps: SlotProps = { getSlotImage };
 
   return (
     <Layout>
@@ -128,7 +122,7 @@ const ProjectPage = () => {
               ) : imagesLoading ? (
                 <Skeleton className="w-full max-w-[420px] aspect-video rounded-xl" />
               ) : getSlotImage("hero") ? (
-                <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
+                <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} />
               ) : rich && project.image && project.image !== "/placeholder.svg" ? (
                 <div className="flex items-center justify-center w-full">
                   <img
@@ -138,7 +132,7 @@ const ProjectPage = () => {
                   />
                 </div>
               ) : rich ? (
-                <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" projectId={project.id} onUploaded={handleUploaded} />
+                <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
               ) : (
                 <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted w-full">
                   <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
@@ -192,7 +186,7 @@ const SimpleCaseStudy = ({ project }: { project: Project }) => (
 );
 
 /* ===== Rich case study (EBT Finder style) ===== */
-const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { project: Project } & SlotProps) => (
+const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotProps) => (
   <>
     {/* Section 2: Problem & Context */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
@@ -215,7 +209,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
           </CardContent>
         </Card>
       )}
-      <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} projectId={projectId} onUploaded={onUploaded} />
+      <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} />
       <p className="text-xs text-muted-foreground/60 mt-2 italic">
         "A perfect example of a tool that delivers data but fails in user experience."
       </p>
@@ -290,7 +284,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             </ul>
           </div>
         )}
-        <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} />
         <p className="text-xs text-muted-foreground/60 mt-2 italic">
           We started with real voices. User interviews helped us understand what builds trust, what causes friction, and why a simple sign doesn't always mean a store is accessible or welcoming.
         </p>
@@ -343,7 +337,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             </tbody>
           </table>
         </div>
-        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} />
       </CaseStudySection>
     )}
 
@@ -367,7 +361,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{i + 1}. {feat.title}</h3>
               <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
               {feat.details.length > 0 && (
                 <ul className="mt-4 space-y-1">
                   {feat.details.map((d, j) => (
@@ -402,7 +396,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
             </Card>
           ))}
         </div>
-        <ImageSlot slot="design-system" label="Design system: colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="design-system" label="Design system: colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} />
         {project.userFlow && (
           <div className="mt-10">
             <h3 className="font-bold text-foreground mb-4">User Flow: Search → Filter → Review → Visit</h3>
@@ -594,7 +588,7 @@ const RichCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: { proje
         <div className="grid sm:grid-cols-2 gap-4">
           {project.appendixImages.map((img, i) => (
             <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} projectId={projectId} onUploaded={onUploaded} />
+              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} />
               <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
             </div>
           ))}

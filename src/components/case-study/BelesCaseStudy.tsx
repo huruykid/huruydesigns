@@ -16,11 +16,9 @@ import { Project } from "@/lib/projects";
 interface Props {
   project: Project;
   getSlotImage: (slot: string) => string | undefined;
-  onUploaded: (slot: string, url: string) => void;
-  projectId: string;
 }
 
-const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props) => (
+const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
   <>
     {/* Problem & Context */}
     <CaseStudySection label="The Problem" title="How can we empower Tigrayans to connect safely during a crisis?" icon={<AlertTriangle className="h-4 w-4" />}>
@@ -250,7 +248,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
               ) : feat.imageSlot === "feature-notifications" ? (
                 <NotificationStack />
               ) : (
-                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
               )}
               {feat.details.length > 0 && (
                 <ul className="mt-4 space-y-1">
@@ -361,7 +359,7 @@ const BelesCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props)
           <div className="grid sm:grid-cols-2 gap-4">
             {project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").map((img, i) => (
               <div key={i}>
-                <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} projectId={projectId} onUploaded={onUploaded} />
+                <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} />
                 <p className="text-xs text-muted-foreground mt-1 text-center">{img.caption}</p>
               </div>
             ))}
