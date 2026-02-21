@@ -1,59 +1,59 @@
 
 
-## Responsive Interactive Previews for OneAsure
-
-### Concept
-On mobile, keep the current phone mockup shell (as-is). On desktop, switch to a browser/desktop window shell with a wider layout, making the interactive demos feel like a real desktop application rather than a phone app.
+## Add Side Navigation to Desktop Interactive Previews
 
 ### What Changes
 
-**1. Create a responsive shell wrapper component**
-- New file: `src/components/case-study/ResponsiveAppShell.tsx`
-- Uses the `useIsMobile` hook to detect viewport
-- Mobile: renders the existing phone mockup (rounded corners, notch, bottom bar)
-- Desktop: renders a browser-style window frame (title bar with traffic light dots, wider container ~500-600px, no status bar/bottom nav)
+On desktop, the interactive previews (Benefits and Pay modules) will display a vertical sidebar navigation on the left side of the browser frame, replacing the hidden bottom nav. This makes the prototypes feel like authentic desktop enterprise applications.
 
-**2. Update BenefitsModuleDemo to be layout-aware**
-- Accept an optional `layout` prop: `"mobile" | "desktop"` (default `"mobile"`)
-- Mobile: current behavior (narrow, status bar, bottom nav visible)
-- Desktop: hide the faux status bar and bottom nav (the shell provides the chrome), use a wider card layout, potentially show items in a 2-column grid where it makes sense (e.g., the benefit list could show more info per row)
+### Visual Layout
 
-**3. Update PayModuleDemo similarly**
-- Same `layout` prop approach
-- Desktop: wider pay breakdown area, donut chart alongside legend instead of stacked, disbursement and history rows with more breathing room
-
-**4. Update all three usage sites**
-- **ProjectPage hero** (`HeroPhoneMockup`): Replace with `ResponsiveAppShell` wrapping `BenefitsModuleDemo`
-- **ProjectCard** (homepage card for oneasure-portal): Keep as phone mockup since it's a thumbnail preview — no change needed here
-- **OneAsureCaseStudy** (the two side-by-side phones in the Design Process section): On desktop, show both modules in browser-style shells side by side (or stacked browser windows); on mobile, keep phone mockups stacked
-
-### Technical Details
-
-**ResponsiveAppShell.tsx**
-```
-- Props: children, width (optional), label (optional)
-- Uses useIsMobile() hook
-- Mobile render:
-    - Rounded phone shell (2.5rem corners, 260px wide)
-    - Notch bar, bottom home indicator
-    - Fixed height with overflow scroll
-- Desktop render:
-    - Browser-style frame (rounded-xl, ~520px wide)
-    - Title bar with 3 colored dots (red/yellow/green) + centered label
-    - Taller viewport (~500px) with overflow scroll
-    - No phone-specific chrome (status bar, bottom nav)
+**Mobile (unchanged):**
+```text
++--------------------+
+| Status Bar         |
+| App Header         |
+|                    |
+|   Content Area     |
+|                    |
+| [Home][Time][Pay]  |  <-- bottom nav
++--------------------+
 ```
 
-**Demo component changes (BenefitsModuleDemo, PayModuleDemo)**
-- Conditionally hide the built-in status bar and bottom nav when `layout="desktop"`
-- Adjust padding and spacing for the wider viewport
-- Benefits: show enrollment banner and benefit list rows with more horizontal space
-- Pay: donut chart and legend can sit side-by-side; pay card can be wider
+**Desktop (new):**
+```text
++--[ Browser Chrome ]------------------+
+| [red][yellow][green]    Pay Module   |
++------+-------------------------------+
+| Home |                               |
+| Time |       Content Area            |
+| Pay* |       (scrollable)            |
+| Bene |                               |
+| More |                               |
++------+-------------------------------+
+```
+
+### Implementation Details
+
+**1. Both `BenefitsModuleDemo.tsx` and `PayModuleDemo.tsx`**
+
+- When `layout === "desktop"`, wrap the existing content in a horizontal flex layout:
+  - Left: A narrow (~56px) vertical sidebar with the nav items stacked vertically, using the existing `navItems` array
+  - Right: The existing scrollable content area (app header + body)
+- The sidebar will have a light background, a right border, and show icons with small labels beneath each
+- The active nav item gets highlighted with the teal accent color
+- The bottom nav remains hidden in desktop mode (already the case)
+
+**2. Sidebar styling**
+- Width: ~56px, matching common enterprise app patterns
+- Background: white with a subtle right border
+- Each nav item: icon centered, small label below, vertical stack
+- Active item: teal background tint, teal text
+- Non-active items: gray text
 
 **Affected files:**
-1. `src/components/case-study/ResponsiveAppShell.tsx` (new)
-2. `src/components/case-study/BenefitsModuleDemo.tsx` (add layout prop, conditional rendering)
-3. `src/components/case-study/PayModuleDemo.tsx` (add layout prop, conditional rendering)
-4. `src/pages/ProjectPage.tsx` (update HeroPhoneMockup)
-5. `src/components/case-study/OneAsureCaseStudy.tsx` (update Design Process mockups)
-6. `src/components/ProjectCard.tsx` (no change — keeps phone shell for thumbnail)
+- `src/components/case-study/BenefitsModuleDemo.tsx` -- add desktop side nav
+- `src/components/case-study/PayModuleDemo.tsx` -- add desktop side nav
+
+No changes needed to `ResponsiveAppShell.tsx` since the side nav lives inside the demo components themselves.
+
