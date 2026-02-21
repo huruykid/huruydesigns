@@ -8,11 +8,9 @@ import { Project } from "@/lib/projects";
 interface Props {
   project: Project;
   getSlotImage: (slot: string) => string | undefined;
-  onUploaded: (slot: string, url: string) => void;
-  projectId: string;
 }
 
-const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Props) => (
+const FentFinderCaseStudy = ({ project, getSlotImage }: Props) => (
   <>
     {/* Problem & Context with Stats */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
@@ -77,7 +75,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{i + 1}. {feat.title}</h3>
               <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} projectId={projectId} onUploaded={onUploaded} />
+              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
               <Card className="border-accent/30 bg-accent/5 mt-4">
                 <CardContent className="p-4">
                   <p className="text-sm"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
@@ -107,7 +105,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
           </Card>
         ))}
       </div>
-      <ImageSlot slot="user-research" label="User research synthesis" imageSrc={getSlotImage("user-research")} projectId={projectId} onUploaded={onUploaded} />
+      <ImageSlot slot="user-research" label="User research synthesis" imageSrc={getSlotImage("user-research")} />
     </CaseStudySection>
 
     {/* User Journey Mapping */}
@@ -147,7 +145,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
           </Card>
         ))}
       </div>
-      <ImageSlot slot="user-journey" label="User journey map" imageSrc={getSlotImage("user-journey")} projectId={projectId} onUploaded={onUploaded} />
+      <ImageSlot slot="user-journey" label="User journey map" imageSrc={getSlotImage("user-journey")} />
     </CaseStudySection>
 
     {/* Wireframing & Iteration */}
@@ -168,7 +166,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
           </div>
         ))}
       </div>
-      <ImageSlot slot="wireframes" label="Wireframe iterations" imageSrc={getSlotImage("wireframes")} projectId={projectId} onUploaded={onUploaded} />
+      <ImageSlot slot="wireframes" label="Wireframe iterations" imageSrc={getSlotImage("wireframes")} />
     </CaseStudySection>
 
     {/* Visual Design & Accessibility */}
@@ -185,7 +183,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
             </Card>
           ))}
         </div>
-        <ImageSlot slot="visual-design" label="Final UI design screens" imageSrc={getSlotImage("visual-design")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="visual-design" label="Final UI design screens" imageSrc={getSlotImage("visual-design")} />
       </CaseStudySection>
     )}
 
@@ -204,7 +202,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
             </Card>
           ))}
         </div>
-        <ImageSlot slot="validation-chart" label="Usability testing results" imageSrc={getSlotImage("validation-chart")} projectId={projectId} onUploaded={onUploaded} />
+        <ImageSlot slot="validation-chart" label="Usability testing results" imageSrc={getSlotImage("validation-chart")} />
       </CaseStudySection>
     )}
 
@@ -376,7 +374,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: P
         <div className="grid sm:grid-cols-2 gap-4">
           {project.appendixImages.map((img, i) => (
             <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} projectId={projectId} onUploaded={onUploaded} />
+              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} />
               <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
             </div>
           ))}
