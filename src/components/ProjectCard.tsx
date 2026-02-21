@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesMatchDemo from "@/components/case-study/BelesMatchDemo";
+import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import type { Project } from "@/lib/projects";
 import type { ComponentType } from "react";
 
@@ -14,8 +15,11 @@ const demoComponents: Record<string, ComponentType> = {
   "beles": BelesMatchDemo,
 };
 
+const responsiveProjects = new Set(["oneasure-portal"]);
+
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
   const DemoComponent = demoComponents[project.id];
+  const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
   const shellWidth = featured ? 220 : 200;
   const shellHeight = featured ? 380 : 340;
 
@@ -47,26 +51,39 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   </span>
                   Interactive Preview
                 </span>
-                <div
-                  className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden"
-                  style={{ width: shellWidth }}
-                >
-                  <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
-                    <div className="w-14 h-1 rounded-full bg-foreground/20" />
+                {useResponsiveShell ? (
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <ResponsiveAppShell
+                      allowToggle
+                      desktopWidth={featured ? 420 : 380}
+                      mobileWidth={shellWidth}
+                      mobileHeight={shellHeight}
+                    >
+                      <DemoComponent />
+                    </ResponsiveAppShell>
                   </div>
+                ) : (
                   <div
-                    className="relative overflow-y-auto"
-                    style={{
-                      height: shellHeight,
-                      WebkitOverflowScrolling: "touch",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
-                    }}
-                    onClick={(e) => e.stopPropagation()}
+                    className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden"
+                    style={{ width: shellWidth }}
                   >
-                    <DemoComponent />
+                    <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
+                      <div className="w-14 h-1 rounded-full bg-foreground/20" />
+                    </div>
+                    <div
+                      className="relative overflow-y-auto"
+                      style={{
+                        height: shellHeight,
+                        WebkitOverflowScrolling: "touch",
+                        scrollbarWidth: "none",
+                        msOverflowStyle: "none",
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <DemoComponent />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ) : (
               <img
