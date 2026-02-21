@@ -204,7 +204,11 @@ function ListRow({
 }
 
 // ── Main component ─────────────────────────────────────────────────────────
-export default function PayModuleDemo() {
+interface PayModuleDemoProps {
+  layout?: "mobile" | "desktop";
+}
+
+export default function PayModuleDemo({ layout = "mobile" }: PayModuleDemoProps) {
   const [salaryVisible, setSalaryVisible] = useState(false);
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
   const [activeCalc, setActiveCalc] = useState<"deductions" | "w4" | null>(null);
@@ -250,15 +254,17 @@ export default function PayModuleDemo() {
     <div className="flex flex-col w-full h-full bg-gray-50 select-none" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
 
       {/* ── Status bar ──────────────────────────────────────── */}
-      <div
-        className="flex items-center justify-between px-4 py-1.5 text-white shrink-0"
-        style={{ background: TEAL, fontSize: 9 }}
-      >
-        <span className="font-semibold">9:41 AM</span>
-        <div className="flex items-center gap-2 opacity-80">
-          <span>●●●</span><span>WiFi</span><span>🔋</span>
+      {layout === "mobile" && (
+        <div
+          className="flex items-center justify-between px-4 py-1.5 text-white shrink-0"
+          style={{ background: TEAL, fontSize: 9 }}
+        >
+          <span className="font-semibold">9:41 AM</span>
+          <div className="flex items-center gap-2 opacity-80">
+            <span>●●●</span><span>WiFi</span><span>🔋</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── App header ──────────────────────────────────────── */}
       <div
@@ -569,26 +575,28 @@ export default function PayModuleDemo() {
       </div>
 
       {/* ── Bottom nav — always visible ───────────────────── */}
-      <div
-        className="shrink-0 flex items-center bg-white border-t border-gray-100"
-        style={{ height: 52, boxShadow: "0 -1px 0 rgba(0,0,0,0.06)" }}
-      >
-        {navItems.map((item, i) => (
-          <button
-            key={i}
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors"
-            style={{ color: item.active ? TEAL : "#9ca3af" }}
-          >
-            {item.icon}
-            <span className="font-medium" style={{ fontSize: 9, color: item.active ? TEAL : "#9ca3af" }}>
-              {item.label}
-            </span>
-            {item.active && (
-              <span className="w-1 h-1 rounded-full" style={{ background: TEAL }} />
-            )}
-          </button>
-        ))}
-      </div>
+      {layout === "mobile" && (
+        <div
+          className="shrink-0 flex items-center bg-white border-t border-gray-100"
+          style={{ height: 52, boxShadow: "0 -1px 0 rgba(0,0,0,0.06)" }}
+        >
+          {navItems.map((item, i) => (
+            <button
+              key={i}
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors"
+              style={{ color: item.active ? TEAL : "#9ca3af" }}
+            >
+              {item.icon}
+              <span className="font-medium" style={{ fontSize: 9, color: item.active ? TEAL : "#9ca3af" }}>
+                {item.label}
+              </span>
+              {item.active && (
+                <span className="w-1 h-1 rounded-full" style={{ background: TEAL }} />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
