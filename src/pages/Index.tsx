@@ -92,15 +92,15 @@ const Index = () => (
           <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
             I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
             <Button
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center flex-1 sm:flex-initial"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center w-full sm:w-auto"
               onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
             >
               View My Work <ArrowDown className="h-4 w-4 ml-1" />
             </Button>
-            <Button size="lg" variant="outline" className="min-w-[200px] justify-center flex-1 sm:flex-initial">
+            <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
               <Download className="h-4 w-4 mr-1" /> Download Resume
             </Button>
           </div>
