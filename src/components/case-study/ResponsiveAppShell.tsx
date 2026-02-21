@@ -1,10 +1,13 @@
+import React, { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
+import { Smartphone, Monitor } from "lucide-react";
 
 interface ResponsiveAppShellProps {
   children: React.ReactNode;
   label?: string;
   desktopWidth?: number;
+  allowToggle?: boolean;
 }
 
 const fadeVariants = {
@@ -13,12 +16,62 @@ const fadeVariants = {
   exit: { opacity: 0, scale: 0.97 },
 };
 
-export default function ResponsiveAppShell({ children, label, desktopWidth = 520 }: ResponsiveAppShellProps) {
+export default function ResponsiveAppShell({ children, label, desktopWidth = 520, allowToggle = false }: ResponsiveAppShellProps) {
   const isMobile = useIsMobile();
+  const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
+
+  const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
+
+  // Pass layout prop to children via cloneElement
+  const enhancedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child as React.ReactElement<any>, { layout: activeLayout });
+    }
+    return child;
+  });
+
+  const scrollHint = (
+    <div className="flex items-center gap-1.5">
+      <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-muted-foreground text-xs">↓</motion.span>
+      <span className="text-muted-foreground text-xs">Scroll to explore</span>
+    </div>
+  );
+
+  const togglePill = allowToggle ? (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.3 }}
+      className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1"
+    >
+      <button
+        onClick={() => setForcedLayout("mobile")}
+        className={`rounded-full p-1.5 transition-colors ${
+          activeLayout === "mobile"
+            ? "bg-accent text-accent-foreground"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label="Mobile view"
+      >
+        <Smartphone className="h-3.5 w-3.5" />
+      </button>
+      <button
+        onClick={() => setForcedLayout("desktop")}
+        className={`rounded-full p-1.5 transition-colors ${
+          activeLayout === "desktop"
+            ? "bg-accent text-accent-foreground"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+        aria-label="Desktop view"
+      >
+        <Monitor className="h-3.5 w-3.5" />
+      </button>
+    </motion.div>
+  ) : null;
 
   return (
     <AnimatePresence mode="wait">
-      {isMobile ? (
+      {activeLayout === "mobile" ? (
         <motion.div
           key="mobile-shell"
           variants={fadeVariants}
@@ -37,7 +90,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
                 className="relative h-[480px] overflow-y-auto"
                 style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
-                {children}
+                {enhancedChildren}
               </div>
               <div className="bg-foreground/5 h-5 flex items-center justify-center shrink-0">
                 <div className="w-20 h-1 rounded-full bg-foreground/20" />
@@ -45,9 +98,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
             </div>
             <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
           </div>
-          <div className="mt-3 flex items-center gap-1.5">
-            <span className="text-muted-foreground text-xs animate-bounce">↓</span>
-            <span className="text-muted-foreground text-xs">Scroll to explore</span>
+          <div className="mt-3 flex flex-col items-center gap-2">
+            {scrollHint}
+            {togglePill}
           </div>
         </motion.div>
       ) : (
@@ -86,7 +139,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
                   msOverflowStyle: "none",
                 }}
               >
-                {children}
+                {enhancedChildren}
               </div>
             </div>
             <div className="absolute inset-0 rounded-xl bg-accent/5 blur-2xl -z-10 scale-105" />
@@ -94,10 +147,10 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.4 }}
-            className="mt-3 flex items-center gap-1.5"
+            className="mt-3 flex flex-col items-center gap-2"
           >
-            <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-muted-foreground text-xs">↓</motion.span>
-            <span className="text-muted-foreground text-xs">Scroll to explore</span>
+            {scrollHint}
+            {togglePill}
           </motion.div>
         </motion.div>
       )}
