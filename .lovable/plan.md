@@ -1,59 +1,47 @@
 
 
-## Add Side Navigation to Desktop Interactive Previews
+## Add Responsive Preview Toggle to Interactive Prototypes
 
 ### What Changes
 
-On desktop, the interactive previews (Benefits and Pay modules) will display a vertical sidebar navigation on the left side of the browser frame, replacing the hidden bottom nav. This makes the prototypes feel like authentic desktop enterprise applications.
+A small toggle control will appear below each interactive preview, letting visitors switch between the mobile phone mockup and desktop browser frame on demand. This showcases your responsive design skills and makes the portfolio more interactive.
 
 ### Visual Layout
 
-**Mobile (unchanged):**
 ```text
-+--------------------+
-| Status Bar         |
-| App Header         |
-|                    |
-|   Content Area     |
-|                    |
-| [Home][Time][Pay]  |  <-- bottom nav
-+--------------------+
++--[ Browser Chrome / Phone ]--+
+|                               |
+|       Interactive Preview     |
+|                               |
++-------------------------------+
+   [phone icon] [monitor icon]    <-- toggle pill
+     "Scroll to explore"
 ```
 
-**Desktop (new):**
-```text
-+--[ Browser Chrome ]------------------+
-| [red][yellow][green]    Pay Module   |
-+------+-------------------------------+
-| Home |                               |
-| Time |       Content Area            |
-| Pay* |       (scrollable)            |
-| Bene |                               |
-| More |                               |
-+------+-------------------------------+
-```
+### How It Works
+
+- The `ResponsiveAppShell` will gain an optional `allowToggle` prop (default `false`)
+- When `allowToggle` is `true`, a small pill-shaped toggle appears below the preview with a phone icon and a monitor icon
+- Clicking an icon overrides the automatic viewport detection, forcing mobile or desktop layout
+- The existing crossfade animation plays when switching
+- By default (no toggle, or on pages where `allowToggle` isn't set), behavior stays exactly as it is today -- automatic viewport-based switching
 
 ### Implementation Details
 
-**1. Both `BenefitsModuleDemo.tsx` and `PayModuleDemo.tsx`**
+**File: `src/components/case-study/ResponsiveAppShell.tsx`**
 
-- When `layout === "desktop"`, wrap the existing content in a horizontal flex layout:
-  - Left: A narrow (~56px) vertical sidebar with the nav items stacked vertically, using the existing `navItems` array
-  - Right: The existing scrollable content area (app header + body)
-- The sidebar will have a light background, a right border, and show icons with small labels beneath each
-- The active nav item gets highlighted with the teal accent color
-- The bottom nav remains hidden in desktop mode (already the case)
+- Add `allowToggle?: boolean` to `ResponsiveAppShellProps`
+- Add internal state: `forcedLayout: "mobile" | "desktop" | null` (null = auto/viewport-based)
+- Resolve the active layout: if `forcedLayout` is set, use it; otherwise fall back to the `isMobile` hook
+- Render a toggle pill below the "Scroll to explore" hint when `allowToggle` is true:
+  - Two icon buttons (Smartphone + Monitor from lucide-react) inside a rounded pill
+  - Active icon gets a filled background tint; inactive icon is muted
+  - Subtle fade-in animation on mount
+- Pass `layout` down through `children` using React.cloneElement so the demo components receive the correct `layout` prop when toggled
 
-**2. Sidebar styling**
-- Width: ~56px, matching common enterprise app patterns
-- Background: white with a subtle right border
-- Each nav item: icon centered, small label below, vertical stack
-- Active item: teal background tint, teal text
-- Non-active items: gray text
+**File: `src/components/case-study/OneAsureCaseStudy.tsx`**
 
-**Affected files:**
-- `src/components/case-study/BenefitsModuleDemo.tsx` -- add desktop side nav
-- `src/components/case-study/PayModuleDemo.tsx` -- add desktop side nav
+- Pass `allowToggle` to the two `ResponsiveAppShell` instances wrapping the Benefits and Pay modules
 
-No changes needed to `ResponsiveAppShell.tsx` since the side nav lives inside the demo components themselves.
+No changes needed to `BenefitsModuleDemo` or `PayModuleDemo` -- they already accept and respond to a `layout` prop.
 
