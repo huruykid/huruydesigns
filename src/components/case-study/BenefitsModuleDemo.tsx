@@ -259,6 +259,26 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
     { icon: <MoreHorizontal size={15} />,label: "More",     active: false },
   ];
 
+  const sideNav = layout === "desktop" && (
+    <div className="shrink-0 flex flex-col items-center py-3 bg-white border-r border-gray-200" style={{ width: 56 }}>
+      {navItems.map((item, i) => (
+        <button
+          key={i}
+          className="flex flex-col items-center justify-center gap-0.5 w-full py-2.5 transition-colors"
+          style={{
+            color: item.active ? TEAL : "#9ca3af",
+            background: item.active ? TEAL_BG : "transparent",
+          }}
+        >
+          {item.icon}
+          <span className="font-medium" style={{ fontSize: 8, color: item.active ? TEAL : "#9ca3af" }}>
+            {item.label}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+
   return (
     <div
       className="flex flex-col w-full h-full bg-gray-50 select-none"
@@ -276,6 +296,11 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
           </div>
         </div>
       )}
+
+      {/* ── Desktop: side nav + content | Mobile: just content ── */}
+      <div className={layout === "desktop" ? "flex flex-1 min-h-0" : "contents"}>
+        {sideNav}
+        <div className={layout === "desktop" ? "flex flex-col flex-1 min-w-0" : "contents"}>
 
       {/* ── App header ──────────────────────────────────────── */}
       <div
@@ -434,6 +459,9 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
           {showLifeEvent && <LifeEventOverlay onClose={() => setShowLifeEvent(false)} />}
         </AnimatePresence>
       </div>
+
+        </div>{/* end desktop content column */}
+      </div>{/* end desktop flex row */}
 
       {/* ── Bottom nav ────────────────────────────────────── */}
       {layout === "mobile" && (
