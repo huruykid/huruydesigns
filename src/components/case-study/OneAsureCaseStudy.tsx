@@ -221,12 +221,12 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row items-center sm:items-end justify-center gap-6 mb-10"
+        className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-6 mb-10"
       >
         {/* ── Benefits (cover / first) ── */}
-        <div className="flex flex-col items-center w-full sm:w-auto">
+        <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Benefits Module</p>
-          <ResponsiveAppShell label="Benefits Module">
+          <ResponsiveAppShell label="Benefits Module" desktopWidth={480}>
             <BenefitsModuleDemo layout={demoLayout} />
           </ResponsiveAppShell>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
@@ -235,9 +235,9 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         </div>
 
         {/* ── Pay phone ── */}
-        <div className="flex flex-col items-center w-full sm:w-auto">
+        <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Pay Module</p>
-          <ResponsiveAppShell label="Pay Module">
+          <ResponsiveAppShell label="Pay Module" desktopWidth={480}>
             <PayModuleDemo layout={demoLayout} />
           </ResponsiveAppShell>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
