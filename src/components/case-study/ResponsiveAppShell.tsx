@@ -47,7 +47,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
       className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1"
     >
       <button
-        onClick={() => setForcedLayout("mobile")}
+        onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("mobile"); }}
         className={`rounded-full p-1.5 transition-colors ${
           activeLayout === "mobile"
             ? "bg-accent text-accent-foreground"
@@ -58,7 +58,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
         <Smartphone className="h-3.5 w-3.5" />
       </button>
       <button
-        onClick={() => setForcedLayout("desktop")}
+        onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("desktop"); }}
         className={`rounded-full p-1.5 transition-colors ${
           activeLayout === "desktop"
             ? "bg-accent text-accent-foreground"
