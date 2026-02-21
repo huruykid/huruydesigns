@@ -95,12 +95,12 @@ const Index = () => (
           <div className="flex flex-wrap gap-3 mb-8">
             <Button
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center"
               onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
             >
               View My Work <ArrowDown className="h-4 w-4 ml-1" />
             </Button>
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" className="min-w-[200px] justify-center">
               <Download className="h-4 w-4 mr-1" /> Download Resume
             </Button>
           </div>
