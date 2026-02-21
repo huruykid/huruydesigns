@@ -2,6 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Target, MessageSquareQuote, Lightbulb, Search, Users, BookOpen, ChevronRight, BarChart3, Palette, Rocket, Heart, ImageIcon, AlertTriangle } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -54,6 +55,7 @@ interface SlotProps {
 const ProjectPage = () => {
   const { id } = useParams();
   const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   const idx = projects.findIndex((p) => p.id === id);
   const project = idx !== -1 ? projects[idx] : null;
@@ -61,23 +63,29 @@ const ProjectPage = () => {
 
   useEffect(() => {
     if (!project) return;
+    setImagesLoading(true);
     const fetchImages = async () => {
-      const { data } = await supabase
-        .from("case_study_images" as any)
-        .select("slot, image_url")
-        .eq("project_id", project.id) as any;
-      if (data) {
-        const map: Record<string, string> = {};
-        for (const row of data) map[row.slot] = row.image_url;
-        setUploadedImages(map);
+      try {
+        const { data } = await supabase
+          .from("case_study_images" as any)
+          .select("slot, image_url")
+          .eq("project_id", project.id) as any;
+        if (data) {
+          const map: Record<string, string> = {};
+          for (const row of data) map[row.slot] = row.image_url;
+          setUploadedImages(map);
+        }
+      } finally {
+        setImagesLoading(false);
       }
     };
     fetchImages();
   }, [project?.id]);
 
   const getSlotImage = useCallback((slot: string) => {
+    if (imagesLoading) return uploadedImages[slot];
     return uploadedImages[slot] || project?.sectionImages?.[slot];
-  }, [uploadedImages, project?.sectionImages]);
+  }, [uploadedImages, project?.sectionImages, imagesLoading]);
 
   const handleUploaded = useCallback((slot: string, url: string) => {
     setUploadedImages(prev => ({ ...prev, [slot]: url }));
@@ -132,6 +140,8 @@ const ProjectPage = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
               {project.id === "oneasure-portal" ? (
                 <HeroPhoneMockup />
+              ) : imagesLoading ? (
+                <Skeleton className="w-full max-w-[420px] aspect-video rounded-xl" />
               ) : getSlotImage("hero") ? (
                 <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} projectId={project.id} onUploaded={handleUploaded} />
               ) : rich && project.image && project.image !== "/placeholder.svg" ? (
