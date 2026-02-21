@@ -226,7 +226,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         {/* ── Benefits (cover / first) ── */}
         <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Benefits Module</p>
-          <ResponsiveAppShell label="Benefits Module" desktopWidth={480}>
+          <ResponsiveAppShell label="Benefits Module" desktopWidth={480} allowToggle>
             <BenefitsModuleDemo layout={demoLayout} />
           </ResponsiveAppShell>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
@@ -237,7 +237,7 @@ const OneAsureCaseStudy = ({ project, getSlotImage, onUploaded, projectId }: Pro
         {/* ── Pay phone ── */}
         <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Pay Module</p>
-          <ResponsiveAppShell label="Pay Module" desktopWidth={480}>
+          <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
             <PayModuleDemo layout={demoLayout} />
           </ResponsiveAppShell>
           <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
