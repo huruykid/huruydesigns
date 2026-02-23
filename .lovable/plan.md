@@ -1,26 +1,38 @@
 
 
-# Rewrite SEO for huruy.tech
+# Auto-Generate OG Share Image Page
 
-All references to `huruydesigns.lovable.app` will be replaced with `https://huruy.tech` across 5 files. This ensures Google indexes the correct domain when someone searches "Huruy Kidanemariam."
+## Goal
+Create a dedicated `/og` route that renders a styled 1200x630 card with your name, title, headshot, and brand colors. You can then screenshot it to use as your OG image -- giving you a polished, on-brand social preview without needing Figma or Canva.
 
-## Changes
+## What Gets Built
 
-### 1. `index.html`
-- Update canonical URL from `huruydesigns.lovable.app` to `https://huruy.tech/`
+A new page at `/og` that renders a pixel-perfect 1200x630px card featuring:
+- **Navy background** (matching your dark theme `hsl(222, 47%, 6%)`)
+- **Orange accent gradient** (your brand orange `hsl(25, 95%, 53%)`)
+- Your **headshot** (from `src/assets/huruy-headshot.jpg`)
+- **"Huruy Kidanemariam"** in Space Grotesk bold
+- **"UX Designer & Product Designer"** subtitle
+- **huruy.tech** domain text
+- Decorative dot grid pattern (matching your homepage hero)
 
-### 2. `src/components/SEO.tsx`
-- Change `SITE_URL` constant to `"https://huruy.tech"`
+## How to Use It
+1. Navigate to `/og` in your browser preview
+2. Take a screenshot (or use a browser extension)
+3. Replace the current `public/og-image.png` with the new screenshot
+4. Update the OG image URL in `index.html` if needed
 
-### 3. `src/pages/Index.tsx`
-- Update the JSON-LD Person schema `url` to `"https://huruy.tech"`
+## Technical Details
 
-### 4. `public/sitemap.xml`
-- Replace all `huruydesigns.lovable.app` URLs with `huruy.tech` (7 entries)
+### New file: `src/pages/OGImage.tsx`
+- Fixed 1200x630 container with inline styles (no Tailwind) to ensure exact pixel dimensions
+- Imports the headshot image and renders it in a circular frame
+- Uses the same Space Grotesk + Inter font stack
+- Orange gradient accent bar across the top
+- Dot grid decorative element in the corner
 
-### 5. `public/robots.txt`
-- Update the Sitemap URL to `https://huruy.tech/sitemap.xml`
+### Modified file: `src/App.tsx`
+- Add a route: `<Route path="/og" element={<OGImage />} />`
+- No Layout wrapper so the card renders in isolation
 
----
-
-All changes are simple find-and-replace of the old domain with `huruy.tech`. No logic changes needed.
+This is a utility page for you only -- visitors won't see it unless they navigate to `/og` directly.
