@@ -81,6 +81,10 @@ const ProjectPage = () => {
         title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
         description={project.description}
         path={`/project/${project.id}`}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: project.title, path: `/project/${project.id}` },
+        ]}
       />
       {/* Hero */}
       <section className="py-20 bg-muted/30">

@@ -41,6 +41,10 @@ const Contact = () => {
         title="Contact Huruy Kidanemariam | UX Designer"
         description="Get in touch with Huruy Kidanemariam for UX design collaborations, freelance projects, or full-time opportunities."
         path="/contact"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ]}
       />
       <section className="py-24">
         <div className="container mx-auto px-4">

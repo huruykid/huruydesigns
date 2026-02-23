@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import SEO from "@/components/SEO";
+import { Helmet } from "react-helmet-async";
 
 const skillCategories = [
   {
@@ -60,6 +61,23 @@ const personJsonLd = {
     "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
 };
 
+const portfolioJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "UX Design Portfolio – Huruy Kidanemariam",
+  itemListElement: projects.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "CreativeWork",
+      name: p.title,
+      description: p.description,
+      url: `https://huruy.tech/project/${p.id}`,
+      author: { "@type": "Person", name: "Huruy Kidanemariam" },
+    },
+  })),
+};
+
 const Index = () => (
   <Layout>
     <SEO
@@ -68,6 +86,9 @@ const Index = () => (
       path="/"
       jsonLd={personJsonLd}
     />
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(portfolioJsonLd)}</script>
+    </Helmet>
     {/* Hero */}
     <section className="min-h-[80vh] flex items-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />

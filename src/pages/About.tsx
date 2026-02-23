@@ -44,6 +44,10 @@ const About = () => (
       title="About Huruy Kidanemariam | UX Designer & Product Designer"
       description="Huruy Kidanemariam is a UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
       path="/about"
+      breadcrumbs={[
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+      ]}
     />
     <section className="py-24">
       <div className="container mx-auto px-4">

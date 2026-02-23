@@ -1,16 +1,34 @@
 import { Helmet } from "react-helmet-async";
 
+interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
 interface SEOProps {
   title: string;
   description: string;
   path?: string;
   jsonLd?: Record<string, unknown>;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const SITE_URL = "https://huruy.tech";
 
-const SEO = ({ title, description, path = "/", jsonLd }: SEOProps) => {
+const buildBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    item: `${SITE_URL}${item.path}`,
+  })),
+});
+
+const SEO = ({ title, description, path = "/", jsonLd, breadcrumbs }: SEOProps) => {
   const url = `${SITE_URL}${path}`;
+  const breadcrumbJsonLd = breadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs) : null;
 
   return (
     <Helmet>
@@ -29,8 +47,12 @@ const SEO = ({ title, description, path = "/", jsonLd }: SEOProps) => {
       {jsonLd && (
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       )}
+      {breadcrumbJsonLd && (
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      )}
     </Helmet>
   );
 };
 
+export { SITE_URL };
 export default SEO;
