@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 import GenerateWireframe from "./pages/GenerateWireframe";
+import OGImage from "./pages/OGImage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
           <Route path="/generate-wireframe" element={<GenerateWireframe />} />
+          <Route path="/og" element={<OGImage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
