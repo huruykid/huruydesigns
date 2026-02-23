@@ -29,10 +29,10 @@ interface Props {
 const problemCards = [
   { icon: <Lock className="h-5 w-5" />, title: "Backend Logic Exposed", body: "Database-level relationships surfaced in the UI with no conceptual scaffolding. Users had to understand the system model just to complete basic tasks." },
   { icon: <Eye className="h-5 w-5" />, title: "Implicit State Changes", body: "Saving a configuration could silently alter downstream compliance behavior. Users had no visibility into what changed or what it affected." },
-  { icon: <Layers className="h-5 w-5" />, title: "Invisible Entity Relationships", body: "Tax codes, formulas, agencies, and payees were interdependent — but visually disconnected. Edits cascaded in unexpected ways." },
+  { icon: <Layers className="h-5 w-5" />, title: "Invisible Entity Relationships", body: "Tax codes, formulas, filing frequencies, and payees were interdependent — but visually disconnected. Edits cascaded in unexpected ways." },
   { icon: <Shield className="h-5 w-5" />, title: "Revision Rules Not Intuitive", body: "When a config should be locked, released, or versioned was undocumented and opaque — creating compliance drift risk." },
   { icon: <Zap className="h-5 w-5" />, title: "Confusing Threshold Triggers", body: "Threshold-based behavioral changes — where one value unlocks or restricts another — were entirely hidden from the user." },
-  { icon: <Building2 className="h-5 w-5" />, title: "No Scalability Pattern", body: "9,000+ agencies with no consistent interaction model. Every configuration felt bespoke and fragile." },
+  { icon: <Building2 className="h-5 w-5" />, title: "No Scalability Pattern", body: "9,000+ tax codes with no consistent interaction model. Every configuration felt bespoke and fragile." },
 ];
 
 const audienceNeeds = [
@@ -74,9 +74,9 @@ const coreContributions = [
   },
   {
     letter: "D",
-    title: "Scalable CRUD for 9,000+ Agencies",
+    title: "Scalable CRUD for 9,000+ Tax Codes",
     subtitle: "Usability at a scale that breaks default patterns",
-    problemPoints: ["Flat, unsortable agency lists", "No structured search or filtering", "Linking across entities was manual", "Accidental misconfiguration risk"],
+    problemPoints: ["Flat, unsortable tax code lists", "No structured search or filtering", "Linking across entities was manual", "Accidental misconfiguration risk"],
     solutionPoints: ["Multi-dimension filterable tables", "Structured search with clear scope", "Deterministic entity linking", "Dependency warnings on destructive actions"],
   },
 ];
@@ -92,7 +92,7 @@ const validationMatrix = [
 
 const intuitionCards = [
   { title: "Step-Based Workflows", body: "Complex configurations broken into ordered, completable steps. Progress made visible." },
-  { title: "Predictable Patterns", body: "Consistent interaction models across all entity types. Learn once — apply across 9,000+ agencies." },
+  { title: "Predictable Patterns", body: "Consistent interaction models across all entity types. Learn once — apply across 9,000+ tax codes." },
   { title: "Clear Status Indicators", body: "Every record communicates its state immediately — draft, locked, released, error." },
   { title: "Visual Hierarchy for Decisions", body: "Critical fields up front, advanced settings revealed progressively." },
   { title: "Progressive Disclosure", body: "Advanced jurisdiction-specific settings hidden by default. Surfaced only when relevant." },
@@ -129,7 +129,7 @@ const impactItems = [
   { icon: <BarChart3 className="h-5 w-5" />, title: "Reduced Configuration Ambiguity", body: "Structured workflows and deterministic CRUD patterns gave payroll admins confidence at every step." },
   { icon: <ClipboardList className="h-5 w-5" />, title: "Improved Audit Transparency", body: "Revision lifecycle with explicit release history means every state change is traceable — critical for regulatory compliance." },
   { icon: <Search className="h-5 w-5" />, title: "Aligned UX with Backend State Model", body: "UI state transitions mapped to actual data model states — reducing implementation ambiguity and engineering overhead." },
-  { icon: <Building2 className="h-5 w-5" />, title: "Structured Scalable Architecture", body: "Consistent interaction patterns across 9,000+ agencies that onboard new jurisdictions without redesign." },
+  { icon: <Building2 className="h-5 w-5" />, title: "Structured Scalable Architecture", body: "Consistent interaction patterns across 9,000+ tax codes that onboard new jurisdictions without redesign." },
 ];
 
 const demonstrates = [
@@ -143,7 +143,7 @@ const demonstrates = [
 
 /* ─── Entity Relationship Diagram ─── */
 const EntityDiagram = () => {
-  const entities = ["Tax Code", "Formula", "Filing Frequency", "Payee", "Agency", "Holiday Calendar", "Revision & Release"];
+  const entities = ["Tax Code", "Formula", "Filing Frequency", "Payee", "Holiday Calendar", "Revision & Release"];
   return (
     <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto mb-6">
       <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-4">Entity Ecosystem</p>
@@ -215,7 +215,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
             "Enterprise payroll software at HR/compliance scale",
             "Multi-jurisdiction complexity — every state, province, and locality has its own rules",
             "US + Canada agency coverage",
-            "9,000+ tax code agencies to configure and maintain",
+            "9,000+ tax codes to configure and maintain",
             "High regulatory risk exposure — misconfiguration has real legal consequences",
             "Live system supporting active payroll runs",
           ].map((fact, i) => (
@@ -231,7 +231,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
       {/* 02 — THE REAL PROBLEM */}
       <CaseStudySection label="02 — The Real Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
         <p className="mb-4">
-          Nobody — not engineering, not the SME team, not product — had a complete map of how the entities related to each other. Everyone held a partial model. Engineers understood the data layer. SMEs understood the regulatory logic. But the dependency chain connecting a tax code to a formula to a filing frequency to a payee to an agency had never been drawn end-to-end.
+          Nobody — not engineering, not the SME team, not product — had a complete map of how the entities related to each other. Everyone held a partial model. Engineers understood the data layer. SMEs understood the regulatory logic. But the dependency chain connecting a tax code to a formula to a filing frequency to a payee to a holiday calendar had never been drawn end-to-end.
         </p>
         <p className="mb-8">
           That was the real problem. Not the screens. The absence of a shared mental model — and a product that had been built on top of that absence for years.
@@ -270,7 +270,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
           My most significant contribution wasn't a deliverable. It was forcing a conversation that hadn't happened yet.
         </p>
         <p className="mb-4">
-          When I mapped the entity dependency chain on a whiteboard — tax code to formula to filing frequency to payee to agency to calendar — the room got quiet. Engineers recognized the data relationships. SMEs recognized the compliance logic. Neither group had seen both layers mapped together before. That diagram became the foundation for everything that followed.
+          When I mapped the entity dependency chain on a whiteboard — tax code to formula to filing frequency to payee to holiday calendar — the room got quiet. Engineers recognized the data relationships. SMEs recognized the compliance logic. Neither group had seen both layers mapped together before. That diagram became the foundation for everything that followed.
         </p>
         <p className="mb-8">
           I also pushed hard for one specific architectural decision that engineering initially resisted: UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hid what was actually happening in the system. For a compliance product, that's not a UX preference — it's a correctness requirement.
