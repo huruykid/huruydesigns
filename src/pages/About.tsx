@@ -4,6 +4,33 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
+import { Helmet } from "react-helmet-async";
+
+const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: "Huruy Kidanemariam",
+    jobTitle: "UX Designer & Product Designer",
+    url: "https://huruy.tech",
+    image: "https://huruy.tech/og-image.png",
+    description:
+      "UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
+    knowsAbout: ["UX Design", "Product Design", "Accessibility", "Design Systems", "User Research"],
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: "Psychology (B.S.)",
+    },
+    sameAs: [
+      "https://www.linkedin.com/in/huruydesigns/",
+    ],
+    worksFor: {
+      "@type": "Organization",
+      name: "Asure Software",
+    },
+  },
+};
 
 const experience = [
   { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
@@ -49,6 +76,9 @@ const About = () => (
         { name: "About", path: "/about" },
       ]}
     />
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(profilePageJsonLd)}</script>
+    </Helmet>
     <section className="py-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
