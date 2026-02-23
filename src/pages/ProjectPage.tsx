@@ -16,6 +16,7 @@ import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
+import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
@@ -153,6 +154,8 @@ const ProjectPage = () => {
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
           <OneAsureCaseStudy project={project} {...slotProps} />
+        ) : project.id === "asure-compliance" ? (
+          <AsureComplianceCaseStudy project={project} {...slotProps} />
         ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
