@@ -51,7 +51,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Huruy Kidanemariam",
   jobTitle: "UX Designer & Product Designer",
-  url: "https://huruydesigns.lovable.app",
+  url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruydesigns/",
     "mailto:huruydesigns@gmail.com",
