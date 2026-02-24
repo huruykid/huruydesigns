@@ -143,7 +143,7 @@ const demonstrates = [
 
 /* ─── Entity Relationship Diagram ─── */
 const EntityDiagram = () => {
-  const entities = ["Tax Code", "Formula", "Filing Frequency", "Payee", "Holiday Calendar", "Revision & Release"];
+  const entities = ["Tax Code", "Payee", "Formula", "Filing Frequency", "Holiday Calendar", "Revision & Release"];
   return (
     <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto mb-6">
       <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-4">Entity Ecosystem</p>
