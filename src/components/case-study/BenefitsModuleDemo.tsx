@@ -12,15 +12,15 @@ const TEAL_BG = "#e8f5f9";
 
 // ── Benefit plans data ─────────────────────────────────────────────────────
 const PLANS = [
-  { name: "Medical",                cost: "$32.00",  status: "active",  detail: "BCBS PPO · $1,500 deductible · Family coverage" },
-  { name: "Dental",                 cost: "$32.00",  status: "active",  detail: "Delta Dental · $1,000 annual max · Preventive 100%" },
-  { name: "Long Term Disability",   cost: "$32.00",  status: "active",  detail: "60% of salary · 90-day elimination period" },
-  { name: "Vision",                 cost: "$32.00",  status: "active",  detail: "VSP · $150 frame allowance · Annual exam covered" },
-  { name: "Basic Life",             cost: "$32.00",  status: "active",  detail: "2x annual salary · AD&D included" },
-  { name: "HSA Wellcare",           cost: "$32.00",  status: "active",  detail: "$3,850 annual contribution limit · Triple tax advantage" },
-  { name: "Voluntary Life",         cost: "$32.00",  status: "active",  detail: "Up to $500K · Guaranteed issue $250K" },
-  { name: "Spouse Voluntary Life",  cost: "$32.00",  status: "active",  detail: "Up to $250K · No evidence of insurability under $25K" },
-  { name: "Dependent Voluntary Life",cost: "$32.00", status: "active",  detail: "$5K–$25K coverage per dependent child" },
+  { name: "Medical",                cost: "$156.40", status: "active",  detail: "BCBS PPO · $1,500 deductible · Family coverage" },
+  { name: "Dental",                 cost: "$18.50",  status: "active",  detail: "Delta Dental · $1,000 annual max · Preventive 100%" },
+  { name: "Long Term Disability",   cost: "$12.80",  status: "active",  detail: "60% of salary · 90-day elimination period" },
+  { name: "Vision",                 cost: "$8.25",   status: "active",  detail: "VSP · $150 frame allowance · Annual exam covered" },
+  { name: "Basic Life",             cost: "$0.00",   status: "active",  detail: "2x annual salary · AD&D included · Employer-paid" },
+  { name: "HSA Wellcare",           cost: "$125.00", status: "active",  detail: "$3,850 annual contribution limit · Triple tax advantage" },
+  { name: "Voluntary Life",         cost: "$24.60",  status: "active",  detail: "Up to $500K · Guaranteed issue $250K" },
+  { name: "Spouse Voluntary Life",  cost: "$14.30",  status: "active",  detail: "Up to $250K · No evidence of insurability under $25K" },
+  { name: "Dependent Voluntary Life",cost: "$9.75",  status: "active",  detail: "$5K–$25K coverage per dependent child" },
   { name: "Flexible Spending",      cost: "Waived",  status: "waived",  detail: "Not enrolled · $2,850 annual limit available" },
   { name: "Short Term Disability",  cost: "Waived",  status: "waived",  detail: "Not enrolled · 60% salary · 14-day elimination" },
   { name: "Accidental Life",        cost: "Waived",  status: "waived",  detail: "Not enrolled · Up to $500K coverage available" },
@@ -120,7 +120,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
         {step === 1 && (
           <div className="space-y-2">
             <p className="font-semibold mb-3" style={{ fontSize: 11, color: "#374151" }}>Review your selections:</p>
-            {["Medical: $32.00", "Dental: $32.00"].map((item, i) => (
+            {["Medical: $156.40", "Dental: $18.50"].map((item, i) => (
               <div key={i} className="flex items-center gap-2 p-3 rounded-xl" style={{ background: TEAL_BG }}>
                 <Check size={12} style={{ color: TEAL }} />
                 <span style={{ fontSize: 11, color: "#1f2937" }}>{item}</span>
@@ -129,7 +129,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
             <div className="mt-3 p-3 rounded-xl border border-dashed border-gray-300">
               <div className="flex justify-between">
                 <span className="font-semibold" style={{ fontSize: 11, color: "#374151" }}>Est. Total / Period</span>
-                <span className="font-bold" style={{ fontSize: 11, color: TEAL }}>$64.00</span>
+                <span className="font-bold" style={{ fontSize: 11, color: TEAL }}>$174.90</span>
               </div>
             </div>
           </div>
