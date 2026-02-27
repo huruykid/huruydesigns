@@ -18,6 +18,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
 import { Project } from "@/lib/projects";
 
@@ -132,14 +133,6 @@ const impactItems = [
   { icon: <Building2 className="h-5 w-5" />, title: "Structured Scalable Architecture", body: "Consistent interaction patterns across all 9,000+ tax codes mean new jurisdictions can be onboarded without a redesign." },
 ];
 
-const demonstrates = [
-  { num: "01", title: "Enterprise Systems Thinking", body: "Designed across a full entity ecosystem, not individual screens" },
-  { num: "02", title: "Regulatory Scale Design", body: "Solved at the intersection of compliance law and user cognition" },
-  { num: "03", title: "Multi-Entity CRUD Modeling", body: "Designed scalable patterns across deeply interdependent entity types" },
-  { num: "04", title: "State Machine UX", body: "Translated backend state model into explicit, user-legible flows" },
-  { num: "05", title: "Cross-Functional Influence", body: "Bridged engineering, compliance SMEs, and product strategy simultaneously" },
-  { num: "06", title: "Onsite Collaboration Leadership", body: "Facilitated multi-day workshops that produced shared alignment artifacts" },
-];
 
 /* ─── Entity Relationship Diagram ─── */
 const EntityDiagram = () => {
@@ -442,21 +435,16 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 08 — WHAT THIS DEMONSTRATES */}
-      <CaseStudySection label="08 — What This Demonstrates" title="Senior product design at regulatory scale" icon={<Rocket className="h-4 w-4" />}>
-        <div className="space-y-3">
-          {demonstrates.map((d, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-              <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-                <span className="text-accent font-bold text-sm shrink-0 mt-0.5">{d.num}</span>
-                <div>
-                  <p className="font-bold text-foreground text-sm mb-1">{d.title}</p>
-                  <p className="text-sm">{d.body}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      {/* 08 — LET'S WORK TOGETHER */}
+      <CaseStudySection label="08 — Let's Work Together" title="Built for complexity" icon={<Rocket className="h-4 w-4" />}>
+        <p className="text-lg text-muted-foreground max-w-2xl mb-6">
+          I specialize in complex enterprise products — systems where getting the UX wrong isn't an inconvenience, it's a liability. If that's the kind of work you're hiring for, let's talk.
+        </p>
+        <a href="/contact">
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
+            Get in Touch <ArrowRight className="h-4 w-4 ml-1" />
+          </Button>
+        </a>
       </CaseStudySection>
 
       {/* Learnings */}
