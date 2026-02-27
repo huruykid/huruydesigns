@@ -275,6 +275,12 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         <p className="mb-8">
           I also pushed hard for one specific architectural decision that engineering initially resisted: UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hid what was actually happening in the system. For a compliance product, that's not a UX preference — it's a correctness requirement.
         </p>
+        <div className="rounded-xl overflow-hidden border border-border mb-8">
+          <img src="/images/asure/dallas-onsite.jpg" alt="Onsite collaboration session in Dallas with the Asure engineering and compliance teams" className="w-full max-h-[480px] object-cover" />
+          <div className="px-4 py-2.5 bg-muted/30 border-t border-border">
+            <p className="text-xs text-muted-foreground">Onsite in Dallas — collaborating with engineering and compliance SMEs</p>
+          </div>
+        </div>
         <div className="space-y-2">
           {roleItems.map((item, i) => (
             <div key={i} className="flex items-start gap-4 p-3 rounded-lg bg-muted/20 border border-border">
