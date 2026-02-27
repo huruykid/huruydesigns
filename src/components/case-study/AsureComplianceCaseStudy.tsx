@@ -452,7 +452,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
       {/* 08 — LET'S WORK TOGETHER */}
       <div className="rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center mt-12">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">08 — Let's Work Together</p>
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Built for complexity</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Let's Work Together</h2>
         <p className="text-base text-white/70 max-w-2xl mx-auto mb-8">
           I specialize in complex enterprise products — systems where getting the UX wrong isn't an inconvenience, it's a liability. If that's the kind of work you're hiring for, let's talk.
         </p>
