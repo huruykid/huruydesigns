@@ -435,18 +435,6 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 08 — LET'S WORK TOGETHER */}
-      <CaseStudySection label="08 — Let's Work Together" title="Built for complexity" icon={<Rocket className="h-4 w-4" />}>
-        <p className="text-lg text-muted-foreground max-w-2xl mb-6">
-          I specialize in complex enterprise products — systems where getting the UX wrong isn't an inconvenience, it's a liability. If that's the kind of work you're hiring for, let's talk.
-        </p>
-        <a href="/contact">
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
-            Get in Touch <ArrowRight className="h-4 w-4 ml-1" />
-          </Button>
-        </a>
-      </CaseStudySection>
-
       {/* Learnings */}
       {project.learnings && project.learnings.length > 0 && (
         <CaseStudySection label="What I Learned" title="Reflections" icon={<Lightbulb className="h-4 w-4" />}>
@@ -460,6 +448,27 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
           </div>
         </CaseStudySection>
       )}
+
+      {/* 08 — LET'S WORK TOGETHER */}
+      <div className="rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center mt-12">
+        <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">08 — Let's Work Together</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Built for complexity</h2>
+        <p className="text-base text-white/70 max-w-2xl mx-auto mb-8">
+          I specialize in complex enterprise products — systems where getting the UX wrong isn't an inconvenience, it's a liability. If that's the kind of work you're hiring for, let's talk.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href="/contact">
+            <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
+              Get in Touch <ArrowRight className="h-4 w-4 ml-1" />
+            </Button>
+          </a>
+          <a href="/#projects">
+            <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              View All Projects
+            </Button>
+          </a>
+        </div>
+      </div>
     </>
   );
 };
