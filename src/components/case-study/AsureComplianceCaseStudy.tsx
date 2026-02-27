@@ -54,7 +54,7 @@ const coreContributions = [
   {
     letter: "A",
     title: "Entity Relationship Clarity",
-    subtitle: "Making the invisible dependency graph visible",
+    subtitle: "Parent-child hierarchy surfaced in navigation and forms — so a payroll admin editing a formula understands what downstream tax codes and filing frequencies are affected.",
     problemPoints: ["Entities visually disconnected", "Hidden downstream dependencies", "No parent-child hierarchy visible", "Silent cascading on edit"],
     solutionPoints: ["Clarified parent-child hierarchy", "Navigation mirrors entity model", "Surfaced downstream impact", "Reduced hidden dependencies"],
   },
