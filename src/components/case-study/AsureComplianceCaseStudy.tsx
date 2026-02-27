@@ -386,6 +386,14 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
+      {/* Product Screenshot */}
+      <div className="rounded-xl overflow-hidden border border-border mb-20">
+        <img src="/images/asure/tax-compliance-dashboard.png" alt="Tax Compliance Dashboard — the redesigned configuration interface showing compliance status, filing deadlines, and payment overview" className="w-full" />
+        <div className="px-4 py-2.5 bg-muted/30 border-t border-border">
+          <p className="text-xs text-muted-foreground">Tax Compliance Dashboard — the redesigned desktop experience</p>
+        </div>
+      </div>
+
       {/* 06 — CROSS-FUNCTIONAL COLLABORATION */}
       <CaseStudySection label="06 — Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
         <p className="mb-4">
