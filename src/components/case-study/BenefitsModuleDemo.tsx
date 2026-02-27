@@ -437,7 +437,7 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
             style={{ borderTop: "2px solid #e5e7eb" }}
           >
             <span className="font-bold" style={{ fontSize: 11, color: "#1f2937" }}>Total Cost / Pay Period</span>
-            <span className="font-bold" style={{ fontSize: 14, color: TEAL }}>$136.00</span>
+            <span className="font-bold" style={{ fontSize: 14, color: TEAL }}>$369.60</span>
           </div>
         </SectionCard>
 
