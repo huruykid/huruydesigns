@@ -146,18 +146,18 @@ const EntityDiagram = () => {
   const entities = ["Tax Code", "Payee", "Formula", "Filing Frequency", "Holiday Calendar", "Revision & Release"];
   return (
     <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto mb-6">
-      <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-4">Entity Ecosystem</p>
-      <div className="flex items-center gap-0 min-w-[700px]">
+      <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-6">Entity Ecosystem</p>
+      <div className="flex items-start justify-between gap-3 min-w-[660px] px-2">
         {entities.map((e, i) => (
-          <div key={e} className="flex items-center flex-1">
-            <div className="flex flex-col items-center text-center flex-1">
-              <div className="w-14 h-14 rounded-lg bg-accent/15 border-2 border-accent flex items-center justify-center">
-                <span className="text-accent font-bold text-xs">{String(i + 1).padStart(2, "0")}</span>
+          <div key={e} className="flex items-center gap-3">
+            <div className="flex flex-col items-center text-center" style={{ width: 80 }}>
+              <div className="w-16 h-16 rounded-xl bg-accent/10 border-2 border-accent flex items-center justify-center">
+                <span className="text-accent font-bold text-sm">{String(i + 1).padStart(2, "0")}</span>
               </div>
-              <p className="text-xs font-medium text-foreground mt-2 max-w-[90px] leading-tight">{e}</p>
+              <p className="text-xs font-medium text-foreground mt-2.5 leading-tight">{e}</p>
             </div>
             {i < entities.length - 1 && (
-              <ArrowRight className="h-4 w-4 text-accent/40 shrink-0 -mx-1" />
+              <ArrowRight className="h-4 w-4 text-accent/40 shrink-0 mt-[-1.25rem]" />
             )}
           </div>
         ))}
