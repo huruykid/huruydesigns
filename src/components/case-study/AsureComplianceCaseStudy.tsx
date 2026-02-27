@@ -20,6 +20,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
+import TaxComplianceDashboardDemo from "./TaxComplianceDashboardDemo";
+import ResponsiveAppShell from "./ResponsiveAppShell";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -386,15 +388,18 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* Product Screenshot */}
-      <div className="rounded-xl overflow-hidden border border-border mb-20">
-        <img src="/images/asure/tax-compliance-dashboard.png" alt="Tax Compliance Dashboard — the redesigned configuration interface showing compliance status, filing deadlines, and payment overview" className="w-full" />
-        <div className="px-4 py-2.5 bg-muted/30 border-t border-border">
-          <p className="text-xs text-muted-foreground">Tax Compliance Dashboard — the redesigned desktop experience</p>
-        </div>
+      {/* Product Screenshot — Interactive Prototype */}
+      <div className="mb-20">
+        <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Tax Compliance Dashboard</h2>
+        <p className="text-muted-foreground leading-relaxed mb-6">
+          Click on chart bars, table rows, and deadlines to explore the interactive prototype.
+        </p>
+        <ResponsiveAppShell label="Asure — Tax Compliance Dashboard" desktopWidth={680}>
+          <TaxComplianceDashboardDemo />
+        </ResponsiveAppShell>
       </div>
 
-      {/* 06 — CROSS-FUNCTIONAL COLLABORATION */}
       <CaseStudySection label="06 — Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
         <p className="mb-4">
           The sharpest moment came when we got to revision and release. Engineers had a precise technical definition of "released" — a record flag, a database state. SMEs had a compliance definition — a configuration that had been reviewed, approved, and is now legally in effect. These weren't the same thing, and for years the product had quietly conflated them.
