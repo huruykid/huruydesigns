@@ -105,6 +105,21 @@ const ProjectPage = () => {
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
               </div>
+              {project.id === "asure-compliance" && (
+                <div className="flex flex-wrap items-center gap-0 mb-4 rounded-lg border border-border bg-card overflow-hidden">
+                  {[
+                    { number: "9,000+", label: "Tax Codes" },
+                    { number: "3", label: "Disciplines Aligned" },
+                    { number: "6", label: "Entity Types Mapped" },
+                    { number: "1", label: "Mental Model Built From Scratch" },
+                  ].map((stat, i) => (
+                    <div key={i} className={`flex-1 min-w-[140px] px-4 py-3 text-center ${i > 0 ? "border-l border-border" : ""}`}>
+                      <p className="text-lg font-bold text-accent">{stat.number}</p>
+                      <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
               {project.id === "ebtfinder" && (
                 <a href="https://ebtfinder.org" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 mb-8">
                   <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
