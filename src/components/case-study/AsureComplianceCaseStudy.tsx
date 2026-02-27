@@ -207,24 +207,9 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
     <>
       {/* 01 — CONTEXT & SCALE */}
       <CaseStudySection label="01 — Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
-        <p className="mb-6">
-          Asure's payroll compliance engine sits underneath payroll processing for thousands of employers. Getting it wrong doesn't produce a bug — it produces a failed tax filing or a regulatory penalty.
+        <p className="mb-8">
+          Asure's payroll compliance engine sits underneath payroll processing for thousands of employers across the US and Canada. Every state, province, and locality has its own rules — and misconfiguring any one of them doesn't produce a bug. It produces a failed tax filing or a regulatory penalty.
         </p>
-        <div className="grid sm:grid-cols-2 gap-3 mb-8">
-          {[
-            "Enterprise payroll software at HR/compliance scale",
-            "Multi-jurisdiction complexity — every state, province, and locality has its own rules",
-            "US + Canada agency coverage",
-            "9,000+ tax codes to configure and maintain",
-            "High regulatory risk exposure — misconfiguration has real legal consequences",
-            "Live system supporting active payroll runs",
-          ].map((fact, i) => (
-            <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-muted/20 border border-border">
-              <ChevronRight className="h-4 w-4 mt-0.5 text-accent shrink-0" />
-              <span className="text-sm">{fact}</span>
-            </div>
-          ))}
-        </div>
         <EntityDiagram />
       </CaseStudySection>
 
