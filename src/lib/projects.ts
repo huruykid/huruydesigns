@@ -351,7 +351,7 @@ export const projects: Project[] = [
   {
     id: "asure-compliance",
     title: "Asure Compliance Engine",
-    description: "Designing an intuitive configuration platform for 9,000+ tax agencies across the US and Canada.",
+    description: "I was brought onsite to redesign screens. I discovered the real problem was that no one — not engineering, not product, not the SME team — had ever fully mapped how the system worked. So I built that map first.",
     impact: "Re-Architecting Enterprise Payroll Compliance",
     tags: ["Enterprise SaaS", "Payroll Compliance", "Multi-Jurisdiction", "State-Driven System", "9,000+ Agencies"],
     role: "Senior Product Designer",
