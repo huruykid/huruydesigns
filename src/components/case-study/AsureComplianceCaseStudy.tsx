@@ -124,7 +124,7 @@ const collaborators = [
 ];
 
 const impactItems = [
-  { icon: <Shield className="h-5 w-5" />, title: "Prevented Silent State Changes", body: "Explicit state machine eliminated the class of errors where configuration edits cascaded invisibly into live payroll behavior." },
+  { icon: <Shield className="h-5 w-5" />, title: "Prevented Silent State Changes", body: "Explicit state machine eliminated a class of errors where configuration edits cascaded invisibly into live payroll filings — protecting compliance for thousands of active employers." },
   { icon: <Layers className="h-5 w-5" />, title: "Clarified Entity Relationships", body: "Parent-child hierarchy made visible in navigation and forms — reducing misconfiguration from disconnected entity editing." },
   { icon: <BarChart3 className="h-5 w-5" />, title: "Reduced Configuration Ambiguity", body: "Structured workflows and deterministic CRUD patterns gave payroll admins confidence at every step." },
   { icon: <ClipboardList className="h-5 w-5" />, title: "Improved Audit Transparency", body: "Revision lifecycle with explicit release history means every state change is traceable — critical for regulatory compliance." },
