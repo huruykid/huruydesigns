@@ -354,7 +354,7 @@ export const projects: Project[] = [
     description: "I was brought onsite to redesign screens. I discovered the real problem was that no one — not engineering, not product, not the SME team — had ever fully mapped how the system worked. So I built that map first.",
     impact: "Re-Architecting Enterprise Payroll Compliance",
     tags: ["Enterprise SaaS", "Payroll Compliance", "Multi-Jurisdiction", "State-Driven System", "9,000+ Agencies"],
-    role: "Senior Product Designer",
+    role: "Lead Product Designer · Solo embedded engagement · Discovery through delivery",
     timeline: "Onsite engagement, Dallas TX",
     tools: ["Figma", "Whiteboarding", "Miro", "Jira"],
     challenge: "Asure's compliance engine supported 9,000+ tax agencies across the US and Canada. When I joined the project onsite in Dallas, the codebase had a complete entity model. The product did not.",
