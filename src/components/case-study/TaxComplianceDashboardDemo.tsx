@@ -80,11 +80,13 @@ function BarChart({ onBarClick }: { onBarClick: (i: number) => void }) {
   const maxVal = 16000;
   const yTicks = [0, 4000, 8000, 12000, 16000];
 
+  const yTicksDesc = [...yTicks].reverse();
+
   return (
     <div className="relative" style={{ height: 180 }}>
       {/* Y-axis labels */}
       <div className="absolute left-0 top-0 bottom-4 flex flex-col justify-between" style={{ width: 36 }}>
-        {yTicks.reverse().map((t) => (
+        {yTicksDesc.map((t) => (
           <span key={t} className="text-right pr-1" style={{ fontSize: 7, color: "#9ca3af" }}>{t.toLocaleString()}</span>
         ))}
       </div>
@@ -95,29 +97,34 @@ function BarChart({ onBarClick }: { onBarClick: (i: number) => void }) {
           <div key={i} className="absolute w-full border-t border-gray-100" style={{ top: `${i * 25}%` }} />
         ))}
         {/* Bars */}
-        <div className="flex items-end justify-between h-full px-1">
+        <div className="flex items-end justify-around h-full px-1">
           {chartData.map((d, i) => {
             const paidH = (d.paid / maxVal) * 100;
             const pendH = (d.pending / maxVal) * 100;
             return (
-              <div key={i} className="flex flex-col items-center gap-0 flex-1 px-1 cursor-pointer" onClick={() => onBarClick(i)}>
-                <div className="w-full flex flex-col items-center justify-end" style={{ height: "100%" }}>
-                  {d.pending > 0 && (
-                    <motion.div
-                      initial={{ height: 0 }} animate={{ height: `${pendH}%` }}
-                      transition={{ duration: 0.6, delay: i * 0.08 }}
-                      className="w-full max-w-[28px] rounded-t"
-                      style={{ background: ACCENT }}
-                    />
-                  )}
+              <motion.div
+                key={i}
+                className="flex flex-col items-center flex-1 px-1 cursor-pointer"
+                style={{ height: "100%", justifyContent: "flex-end" }}
+                onClick={() => onBarClick(i)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                {d.pending > 0 && (
                   <motion.div
-                    initial={{ height: 0 }} animate={{ height: `${paidH}%` }}
+                    initial={{ height: 0 }} animate={{ height: `${pendH}%` }}
                     transition={{ duration: 0.6, delay: i * 0.08 }}
-                    className="w-full max-w-[28px]"
-                    style={{ background: GREEN, borderRadius: d.pending > 0 ? 0 : "4px 4px 0 0" }}
+                    className="w-full max-w-[28px] rounded-t"
+                    style={{ background: ACCENT }}
                   />
-                </div>
-              </div>
+                )}
+                <motion.div
+                  initial={{ height: 0 }} animate={{ height: `${paidH}%` }}
+                  transition={{ duration: 0.6, delay: i * 0.08 }}
+                  className="w-full max-w-[28px]"
+                  style={{ background: GREEN, borderRadius: d.pending > 0 ? 0 : "4px 4px 0 0" }}
+                />
+              </motion.div>
             );
           })}
         </div>
@@ -403,12 +410,13 @@ export default function TaxComplianceDashboardDemo() {
                 ].map((a, i) => (
                   <motion.button
                     key={i}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="flex flex-col items-center justify-center gap-1.5 rounded-lg py-3 border border-gray-200 bg-white hover:border-gray-300 transition-colors"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col items-center justify-center gap-1.5 rounded-lg py-3 border transition-all cursor-pointer"
+                    style={{ borderColor: BLUE + "40", background: BLUE_LIGHT }}
                   >
-                    <span style={{ color: NAVY }}>{a.icon}</span>
-                    <span className="font-semibold" style={{ fontSize: 8, color: NAVY }}>{a.label}</span>
+                    <span style={{ color: BLUE }}>{a.icon}</span>
+                    <span className="font-semibold" style={{ fontSize: 8, color: BLUE }}>{a.label}</span>
                   </motion.button>
                 ))}
               </div>
