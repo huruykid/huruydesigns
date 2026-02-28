@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { Smartphone, Monitor } from "lucide-react";
@@ -21,8 +21,16 @@ const fadeVariants = {
 export default function ResponsiveAppShell({ children, label, desktopWidth = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false }: ResponsiveAppShellProps) {
   const isMobile = useIsMobile();
   const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
 
   const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
+
+  // Scroll prototype into view after toggle
+  useEffect(() => {
+    if (forcedLayout && shellRef.current) {
+      shellRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [forcedLayout]);
 
   // Pass layout prop to children via cloneElement
   const enhancedChildren = React.Children.map(children, (child) => {
@@ -72,6 +80,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   ) : null;
 
   return (
+    <div ref={shellRef}>
     <AnimatePresence mode="wait">
       {activeLayout === "mobile" ? (
         <motion.div
@@ -157,5 +166,6 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
         </motion.div>
       )}
     </AnimatePresence>
+    </div>
   );
 }

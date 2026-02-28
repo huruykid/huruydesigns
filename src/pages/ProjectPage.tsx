@@ -32,6 +32,62 @@ const HeroPhoneMockup = () => {
   );
 };
 
+const AsureHeroCard = () => (
+  <div className="w-full max-w-[420px] rounded-2xl overflow-hidden border border-border bg-[hsl(220,30%,12%)] shadow-2xl">
+    <div className="px-6 pt-6 pb-4">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
+          <span className="font-bold text-white text-sm">A</span>
+        </div>
+        <div>
+          <p className="text-white font-bold text-sm">Asure Compliance Engine</p>
+          <p className="text-white/50 text-xs">Tax Configuration Platform</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {[
+          { label: "Compliance", value: "98.5%" },
+          { label: "Tax Codes", value: "9,000+" },
+          { label: "Entities", value: "6 Types" },
+        ].map((s, i) => (
+          <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
+            <p className="text-accent font-bold text-sm">{s.value}</p>
+            <p className="text-white/40 text-[10px]">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-white/70 text-xs font-medium">Tax Payment Overview</span>
+          <span className="text-white/30 text-[10px]">Last 6 months</span>
+        </div>
+        <div className="flex items-end gap-1.5 h-16">
+          {[65, 44, 80, 60, 72, 52].map((h, i) => (
+            <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 5 ? '#e07b39' : '#2d9b5a' }} />
+          ))}
+        </div>
+        <div className="flex justify-between mt-1">
+          {["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
+            <span key={m} className="flex-1 text-center text-[8px] text-white/30">{m}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div className="bg-white/[0.03] border-t border-white/10 px-6 py-3 flex items-center justify-between">
+      <div className="flex gap-3">
+        {["Draft", "In Review", "Released"].map((s, i) => (
+          <span key={i} className={`text-[9px] px-2 py-0.5 rounded-full font-medium ${
+            i === 0 ? "bg-yellow-500/20 text-yellow-400" :
+            i === 1 ? "bg-blue-500/20 text-blue-400" :
+            "bg-green-500/20 text-green-400"
+          }`}>{s}</span>
+        ))}
+      </div>
+      <span className="text-white/30 text-[9px]">Revision Lifecycle →</span>
+    </div>
+  </div>
+);
+
 interface SlotProps {
   getSlotImage: (slot: string) => string | undefined;
 }
@@ -151,6 +207,8 @@ const ProjectPage = () => {
                     className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
                   />
                 </div>
+              ) : project.id === "asure-compliance" ? (
+                <AsureHeroCard />
               ) : rich ? (
                 <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
               ) : (
