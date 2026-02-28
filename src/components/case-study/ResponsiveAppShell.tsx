@@ -25,10 +25,13 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
 
   const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
 
-  // Scroll prototype into view after toggle
+  // Scroll prototype into view after toggle (delay to let AnimatePresence finish)
   useEffect(() => {
     if (forcedLayout && shellRef.current) {
-      shellRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      const timeout = setTimeout(() => {
+        shellRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 400);
+      return () => clearTimeout(timeout);
     }
   }, [forcedLayout]);
 
