@@ -83,7 +83,7 @@ function BarChart({ onBarClick }: { onBarClick: (i: number) => void }) {
   const yTicksDesc = [...yTicks].reverse();
 
   return (
-    <div className="relative" style={{ height: 180 }}>
+    <div className="relative h-full" style={{ minHeight: 120 }}>
       {/* Y-axis labels */}
       <div className="absolute left-0 top-0 bottom-4 flex flex-col justify-between" style={{ width: 36 }}>
         {yTicksDesc.map((t) => (
