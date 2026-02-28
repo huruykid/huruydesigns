@@ -29,7 +29,8 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   useEffect(() => {
     if (forcedLayout && shellRef.current) {
       const timeout = setTimeout(() => {
-        shellRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        const top = shellRef.current?.offsetTop ?? 0;
+        window.scrollTo({ top: top - 80, behavior: "smooth" });
       }, 400);
       return () => clearTimeout(timeout);
     }

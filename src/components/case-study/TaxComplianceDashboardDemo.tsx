@@ -275,7 +275,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
       )}
 
       {/* ── Main content ── */}
-      <div className="flex-1 min-w-0 flex flex-col relative">
+      <div className="flex-1 min-w-0 min-h-0 flex flex-col relative overflow-hidden">
         {/* Header */}
         <div className={`flex items-center justify-between ${mob ? "px-3 py-2" : "px-4 py-2.5"} border-b border-gray-200 bg-white shrink-0`}>
           <div>
@@ -434,6 +434,17 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           </div>
         </div>
 
+        {/* Modals — inside the flex-constrained main content area so absolute inset-0 stays visible */}
+        <AnimatePresence>
+          {selectedFiling !== null && (
+            <DetailModal filing={filings[selectedFiling]} onClose={() => setSelectedFiling(null)} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {selectedMonth !== null && (
+            <MonthDetailModal data={chartData[selectedMonth]} onClose={() => setSelectedMonth(null)} />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ── Bottom nav (mobile only) ── */}
@@ -455,18 +466,6 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           ))}
         </div>
       )}
-
-      {/* Modals — positioned on outermost container so they overlay everything including bottom nav */}
-      <AnimatePresence>
-        {selectedFiling !== null && (
-          <DetailModal filing={filings[selectedFiling]} onClose={() => setSelectedFiling(null)} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {selectedMonth !== null && (
-          <MonthDetailModal data={chartData[selectedMonth]} onClose={() => setSelectedMonth(null)} />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
