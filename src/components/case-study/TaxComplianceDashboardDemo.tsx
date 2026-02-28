@@ -228,32 +228,14 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
   const mob = layout === "mobile";
 
   return (
-    <div className={`flex w-full h-full bg-gray-50 select-none overflow-hidden ${mob ? "flex-col" : ""}`} style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* ── Sidebar (desktop) / Top bar (mobile) ── */}
+    <div className={`flex w-full bg-gray-50 select-none ${mob ? "flex-col min-h-full" : "h-full overflow-hidden"}`} style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      {/* ── Sidebar (desktop) / Header-only (mobile, nav at bottom) ── */}
       {mob ? (
-        <div className="shrink-0 bg-white border-b border-gray-200">
-          <div className="flex items-center gap-2 px-3 py-2">
-            <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
-              <span className="font-bold text-white" style={{ fontSize: 8 }}>A</span>
-            </div>
-            <span className="font-bold" style={{ fontSize: 10, color: NAVY }}>Compliance</span>
+        <div className="shrink-0 bg-white border-b border-gray-200 flex items-center gap-2 px-3 py-2">
+          <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
+            <span className="font-bold text-white" style={{ fontSize: 8 }}>A</span>
           </div>
-          <div className="flex items-center gap-0.5 px-2 pb-1.5 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-            {navItems.map((item, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveNav(i)}
-                className="shrink-0 flex items-center justify-center rounded-md p-1.5 transition-colors"
-                style={{
-                  color: activeNav === i ? ACCENT : "#9ca3af",
-                  background: activeNav === i ? "#fff7ed" : "transparent",
-                }}
-                title={item.label}
-              >
-                {item.icon}
-              </button>
-            ))}
-          </div>
+          <span className="font-bold" style={{ fontSize: 10, color: NAVY }}>Tax Compliance</span>
         </div>
       ) : (
         <div className="shrink-0 flex flex-col border-r border-gray-200 bg-white" style={{ width: 130 }}>
@@ -464,6 +446,26 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           )}
         </AnimatePresence>
       </div>
+
+      {/* ── Bottom nav (mobile only) ── */}
+      {mob && (
+        <div className="sticky bottom-0 z-10 shrink-0 bg-white border-t border-gray-200 flex items-center justify-around px-1 py-1.5">
+          {navItems.slice(0, 5).map((item, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveNav(i)}
+              className="flex flex-col items-center gap-0.5 rounded-md px-1.5 py-1 transition-colors"
+              style={{
+                color: activeNav === i ? ACCENT : "#9ca3af",
+                background: activeNav === i ? "#fff7ed" : "transparent",
+              }}
+            >
+              {item.icon}
+              <span style={{ fontSize: 6, fontWeight: activeNav === i ? 600 : 400 }}>{item.label.split(" ")[0]}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
