@@ -311,10 +311,10 @@ export default function TaxComplianceDashboardDemo() {
           {/* Chart + Deadlines */}
           <div className="grid grid-cols-3 gap-2 mb-3">
             {/* Chart */}
-            <div className="col-span-2 bg-white rounded-lg border border-gray-100 p-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className="col-span-2 bg-white rounded-lg border border-gray-100 p-3 flex flex-col" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Tax Payment Overview</h3>
               <p className="mb-3" style={{ fontSize: 8, color: "#9ca3af" }}>Monthly tax payments and obligations (Last 6 months)</p>
-              <BarChart onBarClick={(i) => setSelectedMonth(i)} />
+              <div className="flex-1"><BarChart onBarClick={(i) => setSelectedMonth(i)} /></div>
               <div className="flex items-center justify-center gap-4 mt-2">
                 <span className="flex items-center gap-1" style={{ fontSize: 8, color: "#6b7280" }}>
                   <span className="w-2.5 h-2.5 rounded" style={{ background: GREEN }} /> Paid
