@@ -228,7 +228,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
   const mob = layout === "mobile";
 
   return (
-    <div className={`relative flex w-full bg-gray-50 select-none ${mob ? "flex-col min-h-full" : "h-full overflow-hidden"}`} style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
+    <div className={`relative flex w-full h-full bg-gray-50 select-none overflow-hidden ${mob ? "flex-col" : ""}`} style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
       {/* ── Sidebar (desktop) / Header-only (mobile, nav at bottom) ── */}
       {mob ? (
         <div className="shrink-0 bg-white border-b border-gray-200 flex items-center gap-2 px-3 py-2">

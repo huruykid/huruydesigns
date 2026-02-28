@@ -389,7 +389,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
       </CaseStudySection>
 
       {/* Product Screenshot — Interactive Prototype */}
-      <div className="mb-8">
+      <div className="mb-4">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
         <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Tax Compliance Dashboard</h2>
         <p className="text-muted-foreground leading-relaxed mb-6">
