@@ -398,10 +398,10 @@ export default function TaxComplianceDashboardDemo() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg border border-gray-100 p-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className="bg-white rounded-lg border border-gray-100 p-3 flex flex-col" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Quick Actions</h3>
               <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 flex-1">
                 {[
                   { icon: <Upload size={14} />, label: "Upload Docs" },
                   { icon: <FileText size={14} />, label: "File Return" },
