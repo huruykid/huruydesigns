@@ -395,7 +395,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         <p className="text-muted-foreground leading-relaxed mb-6">
           Click on chart bars, table rows, and deadlines to explore the interactive prototype.
         </p>
-        <ResponsiveAppShell label="Asure — Tax Compliance Dashboard" desktopWidth={680}>
+        <ResponsiveAppShell label="Asure — Tax Compliance Dashboard" desktopWidth={680} allowToggle mobileWidth={280} mobileHeight={520}>
           <TaxComplianceDashboardDemo />
         </ResponsiveAppShell>
       </div>

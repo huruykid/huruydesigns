@@ -219,71 +219,99 @@ function MonthDetailModal({ data, onClose }: { data: typeof chartData[0]; onClos
 }
 
 // ── Main Component ──
-export default function TaxComplianceDashboardDemo() {
+export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { layout?: "mobile" | "desktop" }) {
   const [activeNav, setActiveNav] = useState(0);
   const [selectedFiling, setSelectedFiling] = useState<number | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [hoveredDeadline, setHoveredDeadline] = useState<number | null>(null);
 
+  const mob = layout === "mobile";
+
   return (
-    <div className="flex w-full h-full bg-gray-50 select-none overflow-hidden" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* ── Sidebar ── */}
-      <div className="shrink-0 flex flex-col border-r border-gray-200 bg-white" style={{ width: 130 }}>
-        {/* Logo */}
-        <div className="flex items-center gap-2 px-3 py-3 border-b border-gray-100">
-          <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: ACCENT }}>
-            <span className="font-bold text-white" style={{ fontSize: 10 }}>A</span>
+    <div className={`flex w-full h-full bg-gray-50 select-none overflow-hidden ${mob ? "flex-col" : ""}`} style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
+      {/* ── Sidebar (desktop) / Top bar (mobile) ── */}
+      {mob ? (
+        <div className="shrink-0 bg-white border-b border-gray-200">
+          <div className="flex items-center gap-2 px-3 py-2">
+            <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
+              <span className="font-bold text-white" style={{ fontSize: 8 }}>A</span>
+            </div>
+            <span className="font-bold" style={{ fontSize: 10, color: NAVY }}>Compliance</span>
           </div>
-          <span className="font-bold" style={{ fontSize: 11, color: NAVY }}>Compliance</span>
-        </div>
-        {/* Nav */}
-        <nav className="flex-1 py-2">
-          {navItems.map((item, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveNav(i)}
-              className="w-full flex items-center gap-2 px-3 py-2 text-left transition-colors"
-              style={{
-                fontSize: 10,
-                fontWeight: activeNav === i ? 600 : 400,
-                color: activeNav === i ? ACCENT : "#6b7280",
-                background: activeNav === i ? "#fff7ed" : "transparent",
-                borderLeft: activeNav === i ? `3px solid ${ACCENT}` : "3px solid transparent",
-              }}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-        {/* User */}
-        <div className="border-t border-gray-100 px-3 py-2 flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 8, background: BLUE }}>JD</div>
-          <div>
-            <p className="font-semibold" style={{ fontSize: 8, color: NAVY }}>John Doe</p>
-            <p style={{ fontSize: 7, color: "#9ca3af" }}>john@company.com</p>
+          <div className="flex items-center gap-0.5 px-2 pb-1.5 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+            {navItems.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveNav(i)}
+                className="shrink-0 flex items-center justify-center rounded-md p-1.5 transition-colors"
+                style={{
+                  color: activeNav === i ? ACCENT : "#9ca3af",
+                  background: activeNav === i ? "#fff7ed" : "transparent",
+                }}
+                title={item.label}
+              >
+                {item.icon}
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="shrink-0 flex flex-col border-r border-gray-200 bg-white" style={{ width: 130 }}>
+          <div className="flex items-center gap-2 px-3 py-3 border-b border-gray-100">
+            <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: ACCENT }}>
+              <span className="font-bold text-white" style={{ fontSize: 10 }}>A</span>
+            </div>
+            <span className="font-bold" style={{ fontSize: 11, color: NAVY }}>Compliance</span>
+          </div>
+          <nav className="flex-1 py-2">
+            {navItems.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveNav(i)}
+                className="w-full flex items-center gap-2 px-3 py-2 text-left transition-colors"
+                style={{
+                  fontSize: 10,
+                  fontWeight: activeNav === i ? 600 : 400,
+                  color: activeNav === i ? ACCENT : "#6b7280",
+                  background: activeNav === i ? "#fff7ed" : "transparent",
+                  borderLeft: activeNav === i ? `3px solid ${ACCENT}` : "3px solid transparent",
+                }}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </nav>
+          <div className="border-t border-gray-100 px-3 py-2 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 8, background: BLUE }}>JD</div>
+            <div>
+              <p className="font-semibold" style={{ fontSize: 8, color: NAVY }}>John Doe</p>
+              <p style={{ fontSize: 7, color: "#9ca3af" }}>john@company.com</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Main content ── */}
       <div className="flex-1 min-w-0 flex flex-col relative">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 bg-white shrink-0">
+        <div className={`flex items-center justify-between ${mob ? "px-3 py-2" : "px-4 py-2.5"} border-b border-gray-200 bg-white shrink-0`}>
           <div>
-            <h1 className="font-bold" style={{ fontSize: 14, color: NAVY }}>Tax Compliance Dashboard</h1>
-            <p style={{ fontSize: 9, color: "#6b7280" }}>Monitor your tax obligations, deadlines, and compliance status</p>
+            <h1 className="font-bold" style={{ fontSize: mob ? 12 : 14, color: NAVY }}>Tax Compliance Dashboard</h1>
+            {!mob && <p style={{ fontSize: 9, color: "#6b7280" }}>Monitor your tax obligations, deadlines, and compliance status</p>}
           </div>
-          <div className="flex items-center gap-2">
-            <span style={{ fontSize: 9, color: NAVY }} className="font-medium">Timothy J. Allied</span>
-            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 9, background: "#8b5cf6" }}>TA</div>
-          </div>
+          {!mob && (
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: 9, color: NAVY }} className="font-medium">Timothy J. Allied</span>
+              <div className="w-7 h-7 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 9, background: "#8b5cf6" }}>TA</div>
+            </div>
+          )}
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-3" style={{ scrollbarWidth: "none" }}>
+        <div className={`flex-1 min-h-0 overflow-y-auto ${mob ? "p-2" : "p-3"}`} style={{ scrollbarWidth: "none" }}>
           {/* Stat cards */}
-          <div className="grid grid-cols-4 gap-2 mb-3">
+          <div className={`grid ${mob ? "grid-cols-2" : "grid-cols-4"} gap-2 mb-3`}>
             {stats.map((s, i) => (
               <motion.div
                 key={i}
@@ -309,9 +337,9 @@ export default function TaxComplianceDashboardDemo() {
           </div>
 
           {/* Chart + Deadlines */}
-          <div className="grid grid-cols-3 gap-2 mb-3">
+          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-3"} gap-2 mb-3`}>
             {/* Chart */}
-            <div className="col-span-2 bg-white rounded-lg border border-gray-100 p-3 flex flex-col" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Tax Payment Overview</h3>
               <p className="mb-3" style={{ fontSize: 8, color: "#9ca3af" }}>Monthly tax payments and obligations (Last 6 months)</p>
               <div className="flex-1"><BarChart onBarClick={(i) => setSelectedMonth(i)} /></div>
@@ -361,9 +389,9 @@ export default function TaxComplianceDashboardDemo() {
           </div>
 
           {/* Table + Quick Actions */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-3"} gap-2`}>
             {/* Table */}
-            <div className="col-span-2 bg-white rounded-lg border border-gray-100 p-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Recent Filings & Payments</h3>
               <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Your tax filing history and payment records</p>
               <table className="w-full" style={{ fontSize: 8 }}>
