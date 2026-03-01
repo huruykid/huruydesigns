@@ -20,9 +20,9 @@ const experience = [
     "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical best practices",
   ]},
   { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities",
-    "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%",
-    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements",
+    "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
+    "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
+    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
   ]},
 ];
 
