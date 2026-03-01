@@ -26,17 +26,21 @@ const experience = [
   ]},
 ];
 
+const sideProjects = [
+  { title: "EBT Finder", description: "Designed a review-first SNAP/EBT store locator for 12M+ users — UX Research, Figma, Prototyping" },
+  { title: "Beles", description: "Designed a culturally authentic dating app for the Tigrayan diaspora community" },
+];
+
 const leadership = [
-  { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray", location: "Portland, OR", description: "Directed communication strategy that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
+  { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray", location: "Portland, OR", description: "Led storytelling and advocacy campaigns that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
 ];
 
 const expertiseGroups = [
-  { label: "UX/UI Design", skills: "Wireframing, Prototyping, Journey Mapping, Information Architecture, Accessibility (WCAG), Storyboarding, Personas" },
-  { label: "Research & Strategy", skills: "Usability Testing, Heuristic Evaluation, Quantitative & Qualitative Analysis, Data Analytics, Competitive Analysis" },
-  { label: "Design Systems", skills: "Style Guides, Component Libraries, Responsive Design" },
-  { label: "Design Software", skills: "Figma, Sketch, Adobe XD, InVision, Protopie, Adobe Illustrator, Adobe Photoshop" },
-  { label: "Development", skills: "HTML, CSS, JavaScript Tools" },
-  { label: "Collaboration", skills: "Abstract, Agile, Scrum Master, Lean UX, Contentful" },
+  { label: "Design", skills: "Figma, Prototyping, Wireframing, Visual Design, Design Systems, Information Architecture, Journey Mapping" },
+  { label: "Research & Strategy", skills: "Usability Testing, Heuristic Evaluation, Quantitative & Qualitative Analysis, Competitive Analysis" },
+  { label: "Accessibility", skills: "WCAG Standards, Inclusive Design, Screen Reader Testing" },
+  { label: "Development", skills: "HTML, CSS, JavaScript, React, TypeScript" },
+  { label: "Collaboration", skills: "Agile, Scrum, Lean UX, Jira, Miro, Contentful" },
 ];
 
 const Resume = () => {
@@ -176,7 +180,22 @@ const Resume = () => {
 
         <Separator className="mb-6" />
 
-        {/* ── Education ── */}
+        {/* ── Side Projects & Impact ── */}
+        <div className="resume-section mb-6">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-5 flex items-center gap-2">
+            <Briefcase className="h-3.5 w-3.5" /> Side Projects & Impact
+          </h3>
+          <div className="space-y-3">
+            {sideProjects.map((p, i) => (
+              <div key={i}>
+                <h4 className="text-sm font-bold text-foreground">{p.title}</h4>
+                <p className="text-sm text-foreground/85">{p.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator className="mb-6" />
         <div className="resume-section mb-6">
           <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
             <GraduationCap className="h-3.5 w-3.5" /> Education
