@@ -19,11 +19,11 @@ const demoComponents: Record<string, ComponentType> = {
 
 const responsiveProjects = new Set(["oneasure-portal", "asure-compliance"]);
 
-const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const DemoComponent = demoComponents[project.id];
   const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
-  const shellWidth = featured ? 220 : 200;
-  const shellHeight = featured ? 380 : 340;
+  const shellWidth = 220;
+  const shellHeight = 380;
 
   return (
     <motion.div
@@ -33,11 +33,11 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link to={`/project/${project.id}`} className="group block">
-        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 ${featured ? 'md:flex md:items-stretch' : ''}`}>
+        <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30">
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-1/2' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -57,7 +57,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   <div onClick={(e) => e.stopPropagation()}>
                     <ResponsiveAppShell
                       allowToggle
-                      desktopWidth={featured ? 420 : 380}
+                      desktopWidth={380}
                       mobileWidth={shellWidth}
                       mobileHeight={shellHeight}
                     >
@@ -109,12 +109,12 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           </div>
 
           {/* Text content */}
-          <div className={`p-5 ${featured ? 'md:w-1/2 md:flex md:flex-col md:justify-center md:p-8' : ''}`}>
+          <div className="p-5">
             <p className="text-xs font-semibold text-accent mb-1">{project.impact}</p>
-            <h3 className={`font-bold mb-1 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
-            <p className={`text-muted-foreground mb-3 ${featured ? 'text-base' : 'text-sm line-clamp-2'}`}>{project.description}</p>
+            <h3 className="font-bold mb-1 text-lg" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
+            <p className="text-muted-foreground mb-3 text-sm line-clamp-2">{project.description}</p>
             <div className="flex flex-wrap gap-1.5">
-              {project.tags.slice(0, featured ? 6 : 4).map((tag) => (
+              {project.tags.slice(0, 4).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
               ))}
             </div>
