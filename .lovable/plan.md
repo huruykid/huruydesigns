@@ -1,21 +1,28 @@
 
 
-## Plan: Make Asure Compliance Engine the Featured Case Study with Interactive Hero
+## Plan: Even-Sized 4-Card Grid with Balanced Interactive Previews
 
-### 1. Reorder projects array (`src/lib/projects.ts`)
-Move the `asure-compliance` entry from index 3 to index 0. This makes it the featured project on the homepage (since `Index.tsx` renders `projects[0]` as featured).
+### Current State
+- Homepage renders `projects[0]` as a `featured` card spanning full width (`md:col-span-2`) with a horizontal layout (`md:flex`)
+- Remaining 3 cards are in a 2-column grid, creating an uneven 1+3 layout
 
-### 2. Add interactive preview to homepage card (`src/components/ProjectCard.tsx`)
-- Import `TaxComplianceDashboardDemo`
-- Add `"asure-compliance": TaxComplianceDashboardDemo` to `demoComponents`
-- Add `"asure-compliance"` to `responsiveProjects` set so it gets the `ResponsiveAppShell` with mobile/desktop toggle on the homepage card
+### Changes
 
-### 3. Replace static hero with interactive dashboard on case study page (`src/pages/ProjectPage.tsx`)
-- Replace the `AsureHeroCard` static component with a `ResponsiveAppShell` wrapping `TaxComplianceDashboardDemo` (similar to how `HeroPhoneMockup` works for OneAsure)
-- Remove or keep `AsureHeroCard` as unused (can clean up)
+**1. `src/pages/Index.tsx` (lines 149-158)**
+Remove the featured card treatment. Render all 4 projects identically in a 2x2 grid:
+```tsx
+<div className="grid md:grid-cols-2 gap-6">
+  {projects.map((p, i) => (
+    <ProjectCard key={p.id} project={p} index={i} />
+  ))}
+</div>
+```
 
-### Files Modified
-- `src/lib/projects.ts` — reorder array
-- `src/components/ProjectCard.tsx` — add Asure to interactive demos
-- `src/pages/ProjectPage.tsx` — swap static hero for interactive dashboard
+**2. `src/components/ProjectCard.tsx`**
+- Remove all `featured` prop logic (the horizontal layout, larger text sizes, different tag counts, different shell dimensions)
+- Optionally increase the default `shellWidth`/`shellHeight` slightly so the interactive previews look good in the equal-width cards (e.g. `shellWidth=220`, `shellHeight=380`)
+- Keep the `ResponsiveAppShell` `desktopWidth` at a reasonable size for the half-width card (e.g. 380px)
+
+### Result
+All 4 project cards will be equal-sized in a clean 2×2 grid, each with the same card structure (image/preview on top, text below).
 
