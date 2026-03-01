@@ -150,8 +150,11 @@ const Index = () => (
           <div className="md:col-span-2">
             <ProjectCard project={projects[0]} index={0} featured />
           </div>
-          {projects.slice(1).map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i + 1} />
+          <div className="md:col-span-2">
+            <ProjectCard project={projects[1]} index={1} featured />
+          </div>
+          {projects.slice(2).map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i + 2} />
           ))}
         </div>
       </div>
