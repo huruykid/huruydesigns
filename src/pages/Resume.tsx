@@ -8,21 +8,21 @@ import SEO from "@/components/SEO";
 
 const experience = [
   { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
-    "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates.",
-    "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights.",
-    "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines.",
-    "Facilitated workshops with stakeholders to align on product naming and messaging strategies, advocating for inclusive language and clear functional specs.",
+    "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
+    "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
+    "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
+    "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",
   ]},
   { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE", location: "Los Angeles, CA", bullets: [
-    "Wrote and designed end-to-end onboarding narratives for VR learning experiences, transforming complex 3D interactions into intuitive, bite-sized instructional text.",
-    "Developed Immerse's first content and design framework, establishing guidelines for tone, voice, and accessible instruction that were adopted company-wide.",
-    "Conducted usability testing to identify linguistic friction points. Rewrote prompt copy to reduce cognitive load, improving learner retention and reducing motion discomfort.",
-    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical goals and technical constraints.",
+    "Designed onboarding flows for VR-based English language learning experiences, improving learner retention",
+    "Developed Immerse's first content and design framework, establishing reusable guidelines for instructional designers",
+    "Conducted usability testing to identify linguistic friction points. Rewrote prompt sequences reducing user errors",
+    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical best practices",
   ]},
   { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities.",
-    "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%.",
-    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements.",
+    "Managed UX writing and design for multiple concurrent client projects across SaaS and fintech, adapting voice and tone to match distinct brand identities",
+    "Established a modular design system in Figma with standardized copy patterns for empty states and notifications, reducing design-to-dev turnaround by 30%",
+    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data, resulting in measurable engagement improvements",
   ]},
 ];
 
