@@ -18,6 +18,7 @@ import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
+import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -195,6 +196,10 @@ const ProjectPage = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
               {project.id === "oneasure-portal" ? (
                 <HeroPhoneMockup />
+              ) : project.id === "asure-compliance" ? (
+                <ResponsiveAppShell label="Asure Compliance Engine">
+                  <TaxComplianceDashboardDemo />
+                </ResponsiveAppShell>
               ) : imagesLoading ? (
                 <Skeleton className="w-full max-w-[420px] aspect-video rounded-xl" />
               ) : getSlotImage("hero") ? (
@@ -207,8 +212,6 @@ const ProjectPage = () => {
                     className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
                   />
                 </div>
-              ) : project.id === "asure-compliance" ? (
-                <AsureHeroCard />
               ) : rich ? (
                 <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
               ) : (

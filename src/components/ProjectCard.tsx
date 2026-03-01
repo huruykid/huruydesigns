@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesMatchDemo from "@/components/case-study/BelesMatchDemo";
+import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import type { Project } from "@/lib/projects";
 import type { ComponentType } from "react";
@@ -13,9 +14,10 @@ const demoComponents: Record<string, ComponentType> = {
   "oneasure-portal": BenefitsModuleDemo,
   "ebtfinder": EBTSearchDemo,
   "beles": BelesMatchDemo,
+  "asure-compliance": TaxComplianceDashboardDemo,
 };
 
-const responsiveProjects = new Set(["oneasure-portal"]);
+const responsiveProjects = new Set(["oneasure-portal", "asure-compliance"]);
 
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
   const DemoComponent = demoComponents[project.id];
