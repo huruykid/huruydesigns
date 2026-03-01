@@ -96,12 +96,11 @@ const Resume = () => {
           </h2>
           <p className="text-lg text-accent font-semibold mt-1 print-accent">UX Designer & Product Designer</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> Austin, TX</span>
-            <a href="mailto:huruy@huruy.tech" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-              <Mail className="h-3.5 w-3.5" /> huruy@huruy.tech
+            <a href="mailto:huruydesigns@gmail.com" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
+              <Mail className="h-3.5 w-3.5" /> huruydesigns@gmail.com
             </a>
             <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-              <Linkedin className="h-3.5 w-3.5" /> LinkedIn
+              <Linkedin className="h-3.5 w-3.5" /> linkedin.com/in/huruydesigns
             </a>
             <a href="https://huruy.tech" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
               <ExternalLink className="h-3.5 w-3.5" /> huruy.tech
@@ -115,10 +114,7 @@ const Resume = () => {
         <div className="resume-section mb-6">
           <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Summary</h3>
           <p className="text-foreground leading-relaxed">
-            UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. 
-            Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered 
-            interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot 
-            conversational design, and scalable design systems.
+            UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products — from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
           </p>
         </div>
 
