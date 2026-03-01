@@ -11,6 +11,7 @@ import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 import GenerateWireframe from "./pages/GenerateWireframe";
 import OGImage from "./pages/OGImage";
+import Resume from "./pages/Resume";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
+          <Route path="/resume" element={<Resume />} />
           <Route path="/generate-wireframe" element={<GenerateWireframe />} />
           <Route path="/og" element={<OGImage />} />
           <Route path="*" element={<NotFound />} />

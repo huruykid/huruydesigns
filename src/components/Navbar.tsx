@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, Download } from "lucide-react";
+import { Menu, X, Moon, Sun, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 
@@ -38,11 +38,11 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
-          <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+          <Link to="/resume">
             <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Download className="h-4 w-4 mr-1" /> Resume
+              <FileText className="h-4 w-4 mr-1" /> Resume
             </Button>
-          </a>
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -72,11 +72,11 @@ const Navbar = () => {
                 {l.label}
               </Link>
             ))}
-            <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+            <Link to="/resume" onClick={() => setOpen(false)}>
               <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
-                <Download className="h-4 w-4 mr-1" /> Resume
+                <FileText className="h-4 w-4 mr-1" /> Resume
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       )}
