@@ -1,43 +1,27 @@
 
 
 ## Problem
-The resume currently spills onto two pages when printed/saved as PDF. The content (3 jobs with 11 bullets, leadership, skills, education, side projects) needs to fit on a single US Letter page while preserving the site's design system (Space Grotesk headings, Inter body, orange accent, dark navy/white card style).
+The screenshot shows the PDF is rendering with the two-column layout but the content is still overflowing past one page. The `scale(0.67)` approach scales the visual rendering but the browser's print engine still calculates the element's original height for pagination, so it breaks across pages.
 
 ## Plan
 
-### Tighten print styles in `src/pages/Resume.tsx`
+### Change approach: use CSS `zoom` instead of `transform: scale()`
 
-Update the `@media print` block with these density changes:
+The `transform: scale()` approach doesn't actually reduce the element's layout size for print pagination — it only visually shrinks it while the original box dimensions remain. The browser still sees the full-height content and splits it across pages.
 
-1. **Reduce font size**: 10.5pt → 9pt
-2. **Tighten line-height**: 1.4 → 1.3
-3. **Reduce page margins**: 0.4in/0.5in → 0.25in/0.4in
-4. **Compact the card**: Remove border-radius and shadow in print, reduce internal padding from `px-8 py-6` to print-specific smaller values
-5. **Reduce spacing between sections**: Add print-specific utility overrides to shrink `space-y-6` gaps, `mb-6` margins, and `mb-5`/`mb-4`/`mb-3` heading margins
-6. **Compact header**: Reduce name header padding (`pt-8 pb-6` → tighter in print)
-7. **Shrink sidebar width**: 280px → 240px in print
-8. **Tighten experience bullets**: Reduce `space-y-6` between jobs to `space-y-3`, `space-y-1` between bullets stays
+**`zoom`** property actually changes the element's layout size, so the browser's print engine will see the reduced dimensions and fit everything on one page.
 
-Add print-specific CSS classes:
+### Changes in `src/pages/Resume.tsx`
+
+Replace the `transform: scale(0.67)` block (lines 109-114) with:
+
 ```css
-.resume-page .rounded-xl { border-radius: 0 !important; }
-.resume-page { padding: 0.25in 0.4in !important; }
-.resume-sidebar { width: 220px !important; padding: 0.3rem 1rem !important; }
-/* Compact all vertical spacing */
-.resume-page .space-y-6 > * + * { margin-top: 0.5rem !important; }
-.resume-page .space-y-4 > * + * { margin-top: 0.35rem !important; }
-.resume-page .mb-6 { margin-bottom: 0.4rem !important; }
-.resume-page .mb-5 { margin-bottom: 0.3rem !important; }
-.resume-page .mb-4 { margin-bottom: 0.25rem !important; }
-.resume-page .mb-3 { margin-bottom: 0.2rem !important; }
-.resume-page .py-6 { padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; }
-.resume-page .pt-8 { padding-top: 0.5rem !important; }
-.resume-page .pb-6 { padding-bottom: 0.3rem !important; }
-.resume-page .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+.resume-page > div {
+  zoom: 0.75;
+}
 ```
 
-The on-screen view remains unchanged -- all changes are scoped to `@media print`. The design system (Space Grotesk headings, Inter body, orange accent color `#e8590c`) is preserved in print output.
+This is simpler, doesn't need the reciprocal width hack, and crucially tells the print engine the content is smaller — fitting it on one page. We'll also remove the container `max-width`/`padding`/`margin` overrides that fight with the zoom, and keep everything else (two-column force, colors, accent).
 
-### Single file change
-- **`src/pages/Resume.tsx`** -- update the `<style>` print block (lines 66-93)
+If `0.75` is still too large, we can reduce to `0.7` or `0.65`.
 
