@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users } from "lucide-react";
+import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
@@ -121,9 +122,11 @@ const Index = () => (
             >
               View My Work <ArrowDown className="h-4 w-4 ml-1" />
             </Button>
-            <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
-              <Download className="h-4 w-4 mr-1" /> Download Resume
-            </Button>
+            <Link to="/resume" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
+                <FileText className="h-4 w-4 mr-1" /> Resume
+              </Button>
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
