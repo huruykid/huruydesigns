@@ -26,6 +26,17 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
 
   const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
 
+  // Scale desktop shell down on narrow viewports so it doesn't overflow
+  const [viewportWidth, setViewportWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  const desktopScale = activeLayout === "desktop"
+    ? Math.min(1, (viewportWidth - 48) / desktopWidth)
+    : 1;
+
   // Scroll prototype into view after toggle (delay to let AnimatePresence finish)
   useEffect(() => {
     if (forcedLayout && shellRef.current) {
@@ -128,8 +139,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           exit="exit"
           transition={{ duration: 0.35, ease: "easeInOut" }}
           className="flex flex-col items-center"
+          style={desktopScale < 1 ? { width: desktopWidth * desktopScale, height: (desktopHeight + 40) * desktopScale + 40 } : undefined}
         >
-          <div className="relative" style={{ width: desktopWidth }}>
+          <div className="relative" style={{ width: desktopWidth, transform: desktopScale < 1 ? `scale(${desktopScale})` : undefined, transformOrigin: 'top center' }}>
             <div
               className="rounded-xl border border-foreground/15 bg-background shadow-2xl overflow-hidden"
               style={{ width: desktopWidth }}
