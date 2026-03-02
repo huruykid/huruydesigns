@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_requests: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          project_id: string
+          status: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          project_id?: string
+          status?: string
+          token?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          project_id?: string
+          status?: string
+          token?: string
+        }
+        Relationships: []
+      }
       case_study_images: {
         Row: {
           created_at: string

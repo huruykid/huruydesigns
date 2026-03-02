@@ -177,15 +177,19 @@ const Index = () => (
           </h2>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="md:col-span-2">
-            <ProjectCard project={projects[0]} index={0} featured />
-          </div>
-          <div className="md:col-span-2">
-            <ProjectCard project={projects[1]} index={1} featured />
-          </div>
-          {projects.slice(2).map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i + 2} />
-          ))}
+          {projects.filter((p) => p.id !== "asure-compliance").map((p, i) => {
+            if (i === 0) return (
+              <div key={p.id} className="md:col-span-2">
+                <ProjectCard project={p} index={0} featured />
+              </div>
+            );
+            if (i === 1) return (
+              <div key={p.id} className="md:col-span-2">
+                <ProjectCard project={p} index={1} featured />
+              </div>
+            );
+            return <ProjectCard key={p.id} project={p} index={i} />;
+          })}
         </div>
       </div>
     </section>
