@@ -28,14 +28,16 @@ const AccessGate = ({ project }: AccessGateProps) => {
 
     setSubmitting(true);
     try {
-      const { error } = await supabase
-        .from("access_requests" as any)
-        .insert({ name: name.trim(), email: email.trim(), project_id: project.id } as any);
+      const { data, error } = await supabase
+        .from("access_requests")
+        .insert({ name: name.trim(), email: email.trim(), project_id: project.id })
+        .select("id")
+        .single();
 
       if (error) throw error;
 
       supabase.functions.invoke("notify-access-request", {
-        body: { name: name.trim(), email: email.trim(), project_id: project.id },
+        body: { name: name.trim(), email: email.trim(), project_id: project.id, request_id: data.id },
       }).catch(() => {});
 
       setSubmitted(true);
