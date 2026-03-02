@@ -1,10 +1,9 @@
-import { Download, Printer, MapPin, Mail, Linkedin, ExternalLink, Briefcase, GraduationCap } from "lucide-react";
+import { Download, Printer, Mail, Linkedin, ExternalLink, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 
-// ── Source of truth: mirrors About.tsx data exactly ──
+// ── Data ──
 
 const experience = [
   { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
@@ -35,12 +34,17 @@ const leadership = [
   { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray", location: "Portland, OR", description: "Led storytelling and advocacy campaigns that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
 ];
 
-const expertiseGroups = [
-  { label: "Design", skills: "Figma, Prototyping, Wireframing, Visual Design, Design Systems, Information Architecture, Journey Mapping" },
-  { label: "Research & Strategy", skills: "Usability Testing, Heuristic Evaluation, Quantitative & Qualitative Analysis, Competitive Analysis" },
-  { label: "Accessibility", skills: "WCAG Standards, Inclusive Design, Screen Reader Testing" },
-  { label: "Development", skills: "HTML, CSS, JavaScript, React, TypeScript" },
-  { label: "Collaboration", skills: "Agile, Scrum, Lean UX, Jira, Miro, Contentful" },
+const skillGroups = [
+  { label: "Design", skills: ["Figma", "Prototyping", "Wireframing", "Visual Design", "Design Systems", "Information Architecture", "Journey Mapping"] },
+  { label: "Research", skills: ["Usability Testing", "Heuristic Evaluation", "Competitive Analysis", "User Interviews"] },
+  { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
+  { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
+];
+
+const contact = [
+  { icon: Mail, label: "huruydesigns@gmail.com", href: "mailto:huruydesigns@gmail.com" },
+  { icon: Linkedin, label: "linkedin.com/in/huruydesigns", href: "https://www.linkedin.com/in/huruydesigns/" },
+  { icon: Globe, label: "huruy.tech", href: "https://huruy.tech" },
 ];
 
 const Resume = () => {
@@ -50,7 +54,7 @@ const Resume = () => {
     <Layout>
       <SEO
         title="Resume — Huruy Kidanemariam | UX Designer & Product Designer"
-        description="UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
+        description="UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
         path="/resume"
         breadcrumbs={[
           { name: "Home", path: "/" },
@@ -61,29 +65,45 @@ const Resume = () => {
       {/* Print styles */}
       <style>{`
         @media print {
-          header, footer, .no-print { display: none !important; }
+          header, footer, .no-print, nav { display: none !important; }
           main { padding-top: 0 !important; }
-          body { background: white !important; color: black !important; font-size: 11px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          .print-container { max-width: 100% !important; padding: 0 0.5in !important; margin: 0 !important; }
-          .print-container * { color: black !important; border-color: #ddd !important; }
+          body { 
+            background: white !important; 
+            color: #1a1a1a !important; 
+            font-size: 10.5pt !important; 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+            line-height: 1.4 !important;
+          }
+          .resume-page { 
+            max-width: 100% !important; 
+            padding: 0.4in 0.5in !important; 
+            margin: 0 !important; 
+          }
+          .resume-page * { border-color: #e5e5e5 !important; }
+          .resume-page h2, .resume-page h3, .resume-page h4 { color: #1a1a1a !important; }
+          .resume-page p, .resume-page li, .resume-page span, .resume-page a { color: #333 !important; }
           .print-accent { color: #e8590c !important; }
           .resume-section { break-inside: avoid; }
-          .resume-pill { background: #f3f4f6 !important; border-color: #e5e7eb !important; }
+          .resume-sidebar { border-right: 1px solid #e5e5e5 !important; }
+          .resume-pill { background: #f5f5f5 !important; border: 1px solid #e5e5e5 !important; color: #333 !important; }
+          .resume-divider { border-color: #e5e5e5 !important; }
+          @page { margin: 0; size: letter; }
         }
       `}</style>
 
-      <div className="container mx-auto px-4 py-12 md:py-20 max-w-4xl print-container">
-        {/* Action bar */}
-        <div className="no-print flex flex-wrap items-center justify-between gap-4 mb-10">
+      {/* Action bar — screen only */}
+      <div className="no-print container mx-auto px-4 pt-8 pb-4 max-w-5xl">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Resume
             </h1>
-            <p className="text-muted-foreground mt-1">Updated 2025</p>
+            <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
           </div>
           <div className="flex gap-3">
             <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Printer className="h-4 w-4 mr-1" /> Print / Save PDF
+              <Printer className="h-4 w-4 mr-1" /> Save as PDF
             </Button>
             <a href="/resume/huruy-kidanemariam-resume.pdf" download>
               <Button variant="outline">
@@ -92,147 +112,152 @@ const Resume = () => {
             </a>
           </div>
         </div>
+      </div>
 
-        {/* ── Header ── */}
-        <div className="resume-section mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Huruy Kidanemariam
-          </h2>
-          <p className="text-lg text-accent font-semibold mt-1 print-accent">UX Designer & Product Designer</p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-sm text-muted-foreground">
-            <a href="mailto:huruydesigns@gmail.com" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-              <Mail className="h-3.5 w-3.5" /> huruydesigns@gmail.com
-            </a>
-            <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-              <Linkedin className="h-3.5 w-3.5" /> linkedin.com/in/huruydesigns
-            </a>
-            <a href="https://huruy.tech" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-              <ExternalLink className="h-3.5 w-3.5" /> huruy.tech
-            </a>
-          </div>
-        </div>
-
-        <Separator className="mb-6" />
-
-        {/* ── Summary ── */}
-        <div className="resume-section mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Summary</h3>
-          <p className="text-foreground leading-relaxed">
-            UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products — from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
-          </p>
-        </div>
-
-        <Separator className="mb-6" />
-
-        {/* ── Experience ── */}
-        <div className="resume-section mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-5 flex items-center gap-2">
-            <Briefcase className="h-3.5 w-3.5" /> Experience
-          </h3>
-          <div className="space-y-7">
-            {experience.map((job, i) => (
-              <div key={i} className="resume-section">
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-                  <div>
-                    <h4 className="text-base font-bold text-foreground">{job.title}</h4>
-                    <p className="text-sm font-medium text-accent print-accent">{job.org}</p>
-                  </div>
-                  <div className="text-sm text-muted-foreground sm:text-right shrink-0">
-                    <p>{job.period}</p>
-                    <p>{job.location}</p>
-                  </div>
-                </div>
-                <ul className="mt-2 space-y-1.5">
-                  {job.bullets.map((b, j) => (
-                    <li key={j} className="text-sm text-foreground/85 leading-relaxed pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground">
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <Separator className="mb-6" />
-
-        {/* ── Design Leadership ── */}
-        <div className="resume-section mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-5 flex items-center gap-2">
-            <Briefcase className="h-3.5 w-3.5" /> Design Leadership
-          </h3>
-          {leadership.map((item, i) => (
-            <div key={i} className="resume-section">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-                <div>
-                  <h4 className="text-base font-bold text-foreground">{item.title}</h4>
-                  <p className="text-sm font-medium text-accent print-accent">{item.org}</p>
-                </div>
-                <div className="text-sm text-muted-foreground sm:text-right shrink-0">
-                  <p>{item.period}</p>
-                  <p>{item.location}</p>
-                </div>
-              </div>
-              <p className="text-sm text-foreground/85 leading-relaxed">{item.description}</p>
+      {/* Resume document */}
+      <div className="container mx-auto px-4 pb-16 max-w-5xl resume-page">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+          
+          {/* Name header */}
+          <div className="px-8 pt-8 pb-6 border-b border-border resume-divider">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Huruy Kidanemariam
+            </h2>
+            <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              UX Designer & Product Designer
+            </p>
+            <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
+              {contact.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target={c.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
+                >
+                  <c.icon className="h-3.5 w-3.5 shrink-0" />
+                  {c.label}
+                </a>
+              ))}
             </div>
-          ))}
-        </div>
-
-        <Separator className="mb-6" />
-
-        {/* ── Side Projects & Impact ── */}
-        <div className="resume-section mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-5 flex items-center gap-2">
-            <Briefcase className="h-3.5 w-3.5" /> Side Projects & Impact
-          </h3>
-          <div className="space-y-3">
-            {sideProjects.map((p, i) => (
-              <div key={i}>
-                <h4 className="text-sm font-bold text-foreground">{p.title}</h4>
-                <p className="text-sm text-foreground/85">{p.description}</p>
-              </div>
-            ))}
           </div>
-        </div>
 
-        <Separator className="mb-6" />
-        <div className="resume-section mb-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-            <GraduationCap className="h-3.5 w-3.5" /> Education
-          </h3>
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-            <div>
-              <h4 className="text-base font-bold text-foreground">Bachelor of Science in Psychology</h4>
-              <p className="text-sm text-muted-foreground">Ergonomics & Human Factors Concentration</p>
-              <p className="text-sm font-medium text-accent print-accent">CSU Eastbay</p>
-            </div>
-            <p className="text-sm text-muted-foreground shrink-0">2010 – 2014</p>
-          </div>
-        </div>
-
-        <Separator className="mb-6" />
-
-        {/* ── Expertise ── */}
-        <div className="resume-section mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-5 flex items-center gap-2">
-            <Briefcase className="h-3.5 w-3.5" /> Expertise
-          </h3>
-          <div className="grid sm:grid-cols-2 gap-5">
-            {expertiseGroups.map((g, i) => (
-              <div key={i}>
-                <h4 className="text-sm font-semibold text-foreground mb-1.5">{g.label}</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {g.skills.split(", ").map((skill) => (
-                    <span
-                      key={skill}
-                      className="resume-pill text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground border border-border"
-                    >
-                      {skill}
-                    </span>
+          {/* Two-column layout */}
+          <div className="flex flex-col md:flex-row">
+            
+            {/* ── Sidebar ── */}
+            <aside className="md:w-[280px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-8 py-6 space-y-6">
+              
+              {/* Skills */}
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Skills
+                </h3>
+                <div className="space-y-4">
+                  {skillGroups.map((g) => (
+                    <div key={g.label}>
+                      <h4 className="text-xs font-semibold text-foreground uppercase tracking-wide mb-1.5">{g.label}</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {g.skills.map((s) => (
+                          <span key={s} className="resume-pill text-[11px] px-2 py-0.5 rounded bg-secondary text-secondary-foreground border border-border">
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-            ))}
+
+              {/* Education */}
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Education
+                </h3>
+                <h4 className="text-sm font-semibold text-foreground leading-snug">B.S. Psychology</h4>
+                <p className="text-xs text-muted-foreground">Ergonomics & Human Factors</p>
+                <p className="text-xs text-muted-foreground">CSU Eastbay · 2010–2014</p>
+              </div>
+
+              {/* Side Projects */}
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Side Projects
+                </h3>
+                <div className="space-y-2.5">
+                  {sideProjects.map((p) => (
+                    <div key={p.title}>
+                      <h4 className="text-sm font-semibold text-foreground">{p.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{p.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+
+            {/* ── Main column ── */}
+            <div className="flex-1 px-8 py-6">
+              
+              {/* Summary */}
+              <div className="resume-section mb-6">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Summary
+                </h3>
+                <p className="text-sm text-foreground leading-relaxed">
+                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products — from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
+                </p>
+              </div>
+
+              <hr className="border-border resume-divider mb-6" />
+
+              {/* Experience */}
+              <div className="resume-section mb-6">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-5 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Experience
+                </h3>
+                <div className="space-y-6">
+                  {experience.map((job, i) => (
+                    <div key={i} className="resume-section">
+                      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
+                        <div>
+                          <h4 className="text-sm font-bold text-foreground">{job.title}</h4>
+                          <p className="text-xs font-medium text-accent print-accent">{job.org} · {job.location}</p>
+                        </div>
+                        <p className="text-xs text-muted-foreground shrink-0">{job.period}</p>
+                      </div>
+                      <ul className="mt-1.5 space-y-1">
+                        {job.bullets.map((b, j) => (
+                          <li key={j} className="text-sm text-foreground/85 leading-relaxed pl-3.5 relative before:content-['•'] before:absolute before:left-0 before:text-accent/60">
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <hr className="border-border resume-divider mb-6" />
+
+              {/* Design Leadership */}
+              <div className="resume-section">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Design Leadership
+                </h3>
+                {leadership.map((item, i) => (
+                  <div key={i}>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
+                      <div>
+                        <h4 className="text-sm font-bold text-foreground">{item.title}</h4>
+                        <p className="text-xs font-medium text-accent print-accent">{item.org} · {item.location}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground shrink-0">{item.period}</p>
+                    </div>
+                    <p className="text-sm text-foreground/85 leading-relaxed">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
