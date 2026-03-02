@@ -103,6 +103,32 @@ const Resume = () => {
             zoom: 0.8;
           }
           
+          /* Force light theme for print */
+          .resume-page, .resume-page * {
+            color-scheme: light !important;
+          }
+          .resume-page .rounded-xl {
+            background: white !important;
+          }
+          .resume-page, .resume-page div, .resume-page aside {
+            background: white !important;
+            color: #1a1a1a !important;
+            border-color: #e5e5e5 !important;
+          }
+          .resume-page .text-muted-foreground,
+          .resume-page .text-foreground\/85 {
+            color: #555 !important;
+          }
+          .resume-page .text-accent,
+          .resume-page .print-accent {
+            color: #f97316 !important;
+          }
+          .resume-page .resume-pill {
+            background: #f3f4f6 !important;
+            color: #333 !important;
+            border-color: #d1d5db !important;
+          }
+
           @page { margin: 0.2in; size: letter; }
         }
       `}</style>
