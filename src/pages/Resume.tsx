@@ -40,6 +40,7 @@ const skillGroups = [
   { label: "Research", skills: ["Usability Testing", "Heuristic Evaluation", "Competitive Analysis", "User Interviews"] },
   { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
   { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
+  { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] },
 ];
 
 const contact = [
