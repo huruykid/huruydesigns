@@ -410,25 +410,25 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
             </div>
 
             {/* Quick Actions */}
-            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-2.5 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Quick Actions</h3>
-              <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
-              <div className="grid grid-cols-2 gap-2 flex-1">
+              <p className="mb-2.5" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
+              <div className="grid grid-cols-2 gap-1.5 flex-1">
                 {[
-                  { icon: <Upload size={14} />, label: "Upload Docs" },
-                  { icon: <FileText size={14} />, label: "File Return" },
-                  { icon: <DollarSign size={14} />, label: "Make Pay" },
-                  { icon: <Download size={14} />, label: "Download" },
+                  { icon: <Upload size={13} />, label: "Upload Docs" },
+                  { icon: <FileText size={13} />, label: "File Return" },
+                  { icon: <DollarSign size={13} />, label: "Make Payment" },
+                  { icon: <Download size={13} />, label: "Download" },
                 ].map((a, i) => (
                   <motion.button
                     key={i}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex flex-col items-center justify-center gap-1.5 rounded-lg py-3 border transition-all cursor-pointer"
-                    style={{ borderColor: BLUE + "40", background: BLUE_LIGHT }}
+                    whileHover={{ scale: 1.04, y: -1 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="flex flex-col items-center justify-center gap-1 rounded-md py-2.5 border transition-all cursor-pointer"
+                    style={{ borderColor: BLUE + "30", background: BLUE_LIGHT }}
                   >
-                    <span style={{ color: BLUE }}>{a.icon}</span>
-                    <span className="font-semibold" style={{ fontSize: 8, color: BLUE }}>{a.label}</span>
+                    <span className="rounded-full p-1" style={{ color: BLUE, background: BLUE + "12" }}>{a.icon}</span>
+                    <span className="font-semibold leading-tight" style={{ fontSize: 8, color: BLUE }}>{a.label}</span>
                   </motion.button>
                 ))}
               </div>
