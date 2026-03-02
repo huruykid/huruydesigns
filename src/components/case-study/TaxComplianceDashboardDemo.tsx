@@ -319,54 +319,52 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           </div>
 
           {/* Chart + Deadlines */}
-          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-5"} gap-2 mb-3`}>
-            {/* Chart */}
-            <div className={`${mob ? "" : "col-span-3"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-              <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Tax Payment Overview</h3>
-              <p className="mb-3" style={{ fontSize: 8, color: "#9ca3af" }}>Monthly tax payments and obligations (Last 6 months)</p>
-              <div className="flex-1"><BarChart onBarClick={(i) => setSelectedMonth(i)} /></div>
-              <div className="flex items-center justify-center gap-4 mt-2">
-                <span className="flex items-center gap-1" style={{ fontSize: 8, color: "#6b7280" }}>
-                  <span className="w-2.5 h-2.5 rounded" style={{ background: GREEN }} /> Paid
-                </span>
-                <span className="flex items-center gap-1" style={{ fontSize: 8, color: "#6b7280" }}>
-                  <span className="w-2.5 h-2.5 rounded" style={{ background: ACCENT }} /> Pending
-                </span>
-              </div>
+          {/* Chart - full width */}
+          <div className="bg-white rounded-lg border border-gray-100 p-3 flex flex-col mb-2" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Tax Payment Overview</h3>
+            <p className="mb-3" style={{ fontSize: 8, color: "#9ca3af" }}>Monthly tax payments and obligations (Last 6 months)</p>
+            <div className="flex-1"><BarChart onBarClick={(i) => setSelectedMonth(i)} /></div>
+            <div className="flex items-center justify-center gap-4 mt-2">
+              <span className="flex items-center gap-1" style={{ fontSize: 8, color: "#6b7280" }}>
+                <span className="w-2.5 h-2.5 rounded" style={{ background: GREEN }} /> Paid
+              </span>
+              <span className="flex items-center gap-1" style={{ fontSize: 8, color: "#6b7280" }}>
+                <span className="w-2.5 h-2.5 rounded" style={{ background: ACCENT }} /> Pending
+              </span>
             </div>
+          </div>
 
-            {/* Deadlines */}
-            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-              <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Upcoming Deadlines</h3>
-              <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Important tax dates and filing requirements</p>
-              <div className="space-y-2">
-                {deadlines.map((dl, i) => (
-                  <motion.div
-                    key={i}
-                    onHoverStart={() => setHoveredDeadline(i)}
-                    onHoverEnd={() => setHoveredDeadline(null)}
-                    className="rounded-lg p-2 border transition-colors cursor-pointer"
-                    style={{
-                      borderColor: hoveredDeadline === i ? ACCENT + "60" : "#f3f4f6",
-                      background: hoveredDeadline === i ? "#fffbf5" : "white",
-                    }}
-                  >
-                    <div className="flex items-start justify-between gap-1 mb-1">
-                      <div className="flex items-start gap-1.5">
-                        <Calendar size={10} className="mt-0.5 shrink-0" style={{ color: ACCENT }} />
-                        <span className="font-semibold leading-tight" style={{ fontSize: 8, color: NAVY }}>{dl.title}</span>
-                      </div>
-                      <span className="shrink-0 px-1.5 py-0.5 rounded-full font-semibold text-white" style={{ fontSize: 6, background: dl.badgeColor }}>
-                        {dl.badge}
-                      </span>
+          {/* Deadlines - full width */}
+          <div className="bg-white rounded-lg border border-gray-100 p-3 mb-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Upcoming Deadlines</h3>
+            <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Important tax dates and filing requirements</p>
+            <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-2"} gap-2`}>
+              {deadlines.map((dl, i) => (
+                <motion.div
+                  key={i}
+                  onHoverStart={() => setHoveredDeadline(i)}
+                  onHoverEnd={() => setHoveredDeadline(null)}
+                  className="rounded-lg p-2 border transition-colors cursor-pointer"
+                  style={{
+                    borderColor: hoveredDeadline === i ? ACCENT + "60" : "#f3f4f6",
+                    background: hoveredDeadline === i ? "#fffbf5" : "white",
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-1 mb-1">
+                    <div className="flex items-start gap-1.5">
+                      <Calendar size={10} className="mt-0.5 shrink-0" style={{ color: ACCENT }} />
+                      <span className="font-semibold leading-tight" style={{ fontSize: 8, color: NAVY }}>{dl.title}</span>
                     </div>
-                    <div className="flex items-center gap-2 ml-4" style={{ fontSize: 7, color: "#9ca3af" }}>
-                      <span>{dl.date}</span>
-                      <span>• {dl.type}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    <span className="shrink-0 px-1.5 py-0.5 rounded-full font-semibold text-white" style={{ fontSize: 6, background: dl.badgeColor }}>
+                      {dl.badge}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 ml-4" style={{ fontSize: 7, color: "#9ca3af" }}>
+                    <span>{dl.date}</span>
+                    <span>• {dl.type}</span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
