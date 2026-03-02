@@ -291,7 +291,7 @@ export const projects: Project[] = [
   {
     id: "beles",
     title: "Beles",
-    description: "Designing a safe, authentic dating app for the Tigrayan community.",
+    description: "A culturally rooted dating and community app built for the Tigrayan diaspora — blending traditional matchmaking with modern UX to help a displaced community find connection, preserve identity, and heal during crisis.",
     impact: "Bridging Tradition and Technology",
     tags: ["UX Design", "User Research", "Dating App", "Cultural Design"],
     role: "UX Designer",
