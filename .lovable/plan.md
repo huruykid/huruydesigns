@@ -1,36 +1,37 @@
 
 
-## Plan: Show the interactive prototype unblurred + add richer preview content
+## Plan: Replace Request-Access Gate with Passcode Entry
 
-Currently the dashboard is blurred behind an overlay. The user wants to show more, including the actual interactive prototype and additional information, to entice visitors.
+### What changes
+Replace the current name/email request form in `AccessGate.tsx` with a simple passcode input. The user enters a passcode, it's checked against a hardcoded value stored as an environment variable (edge function), and if correct, the case study is unlocked immediately — no database, no Slack notifications, no approval flow.
 
-### Changes to `src/components/AccessGate.tsx`
+### Implementation
 
-1. **Unblur the dashboard prototype** - Remove the `blur-[6px]` filter and the overlay. Show the full interactive `TaxComplianceDashboardDemo` inside `ResponsiveAppShell` with `allowToggle` so visitors can actually click around and explore it. Add a label like "Interactive Prototype" and a prompt to interact.
+1. **Create a new edge function `verify-passcode/index.ts`**
+   - Accepts `{ passcode, project_id }` in the request body
+   - Compares against a secret `CASE_STUDY_PASSCODE` stored in backend secrets
+   - Returns `{ valid: true }` or `{ valid: false }`
 
-2. **Add the Entity Relationship Diagram** - Import and render the `EntityDiagram` component (currently only in the full case study) below the prototype. This visually communicates the system complexity without revealing proprietary details.
+2. **Add the `CASE_STUDY_PASSCODE` secret** via the secrets tool (will prompt you to enter the value)
 
-3. **Add the State Machine Diagram** - Import and render the `StateMachineDiagram` component to show the revision lifecycle (Draft → In Review → Locked → Released). Another visual hook that demonstrates design thinking.
+3. **Rewrite `AccessGate.tsx`**
+   - Remove the name/email form, Supabase insert, and Slack notification call
+   - Replace with a single passcode input field + submit button
+   - On submit, call the `verify-passcode` edge function
+   - On success, call a callback to unlock the case study (store in `sessionStorage` so it persists during the browsing session)
+   - Keep all the existing teaser content (prototype, diagrams, stats, before/after) above the form
 
-4. **Add a "Before → After" transformation snippet** - Show 3-4 rows from the `transformations` array (e.g., "Raw database relationships → Structured entity hierarchy") as a compact visual.
+4. **Update `ProjectPage.tsx` access check**
+   - Remove the token-based `useEffect` that queries `access_requests`
+   - Instead, check `sessionStorage` for a flag like `access_granted_asure-compliance`
+   - Pass an `onAccessGranted` callback to `AccessGate` that sets this flag and flips the state
 
-5. **Keep the "What's Inside" section and request form** below all of this.
-
-### Layout (top to bottom)
-- Lock icon + title + description + tags + role (unchanged)
-- Stats bar (unchanged)
-- **Interactive prototype** (unblurred, fully interactive, with label)
-- **Entity Relationship Diagram** (from case study)
-- **State Machine Diagram** (from case study)
-- **Before → After transformations** (3-4 rows)
-- "What's Inside" teaser (unchanged)
-- Request form card (unchanged)
+### What stays the same
+- All teaser/preview content in AccessGate (interactive prototype, entity diagram, state machine, before→after)
+- The gated project list (`GATED_PROJECTS`)
+- The `access_requests` table and edge functions remain in the database/deployed but are no longer called from the UI
 
 ### Technical detail
-- Export `EntityDiagram` and `StateMachineDiagram` from `AsureComplianceCaseStudy.tsx` (or extract to shared file) so `AccessGate` can import them
-- Widen the `max-w-2xl` container to `max-w-4xl` to accommodate the wider diagrams and prototype
-
-### Files to edit
-- `src/components/case-study/AsureComplianceCaseStudy.tsx` - Export `EntityDiagram`, `StateMachineDiagram`, and `transformations`
-- `src/components/AccessGate.tsx` - Import and render them; unblur the prototype; widen container
+- The passcode is never exposed client-side — validation happens server-side in the edge function
+- `sessionStorage` means the unlock lasts for the browser tab session only (closing the tab requires re-entry)
 
