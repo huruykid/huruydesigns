@@ -90,15 +90,30 @@ const Resume = () => {
           .resume-sidebar { border-right: 1px solid #e5e5e5 !important; }
           .resume-pill { background: #f5f5f5 !important; border: 1px solid #e5e5e5 !important; color: #333 !important; }
           .resume-divider { border-color: #e5e5e5 !important; }
-          
-          /* Scale entire resume to fit one page */
-          .resume-page > .rounded-xl {
-            transform: scale(0.78);
+
+          /* Force two-column layout in print */
+          .resume-two-col {
+            display: flex !important;
+            flex-direction: row !important;
+          }
+          .resume-sidebar {
+            width: 240px !important;
+            min-width: 240px !important;
+            flex-shrink: 0 !important;
+            border-bottom: none !important;
+          }
+          .resume-main {
+            flex: 1 !important;
+          }
+
+          /* Scale to fit one page */
+          .resume-page > div {
+            transform: scale(0.82);
             transform-origin: top left;
-            width: 128.2%; /* 1/0.78 to fill page width */
+            width: 121.95%; /* 1/0.82 */
           }
           
-          @page { margin: 0.3in; size: letter; }
+          @page { margin: 0.25in; size: letter; }
         }
       `}</style>
 
@@ -153,7 +168,7 @@ const Resume = () => {
           </div>
 
           {/* Two-column layout */}
-          <div className="flex flex-col md:flex-row">
+          <div className="resume-two-col flex flex-col md:flex-row">
             
             {/* ── Sidebar ── */}
             <aside className="md:w-[280px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-8 py-6 space-y-6">
@@ -206,7 +221,7 @@ const Resume = () => {
             </aside>
 
             {/* ── Main column ── */}
-            <div className="flex-1 px-8 py-6">
+            <div className="resume-main flex-1 px-8 py-6">
               
               {/* Summary */}
               <div className="resume-section mb-6">
