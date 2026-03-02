@@ -1,20 +1,18 @@
 
 
-## Plan: Add headshot to hero section (desktop only)
+## Plan: Enlarge headshot, add glow ring, reduce gap
 
-### Change in `src/pages/Index.tsx`
+### Changes in `src/pages/Index.tsx`
 
-1. **Import** the headshot: `import headshot from "@/assets/huruy-headshot.jpg"`
+1. **Line 103** — Reduce gap from `gap-10` to `gap-6` to bring headshot closer to text.
 
-2. **Convert** the hero inner container (line 101-106) from a single `max-w-3xl` div to a **flex row layout**:
-   - `flex flex-col md:flex-row md:items-center md:justify-between gap-10`
-   - Text content stays in a `max-w-3xl` div (left side)
-   - Headshot goes in a new div on the right, **hidden on mobile** (`hidden md:block`)
+2. **Lines 142-153** — Update the headshot block:
+   - Increase size from `h-64 w-64` to `h-[300px] w-[300px]`
+   - Wrap image in a container with a pulsing ring: `ring-4 ring-accent/30` with a CSS animation
+   - Add an outer glow using `shadow-[0_0_40px_rgba(249,115,22,0.25)]` for a subtle orange glow effect
 
-3. **Headshot element** (right side):
-   - Large circular image (~250px) with `rounded-full object-cover object-top`
-   - Subtle accent border (`border-4 border-accent/20`) and shadow (`shadow-2xl`)
-   - Gentle float-in animation via `motion.div` (fade + slight scale)
+3. **Add a keyframe** via inline Tailwind `animate-` or a small `@keyframes` for a subtle pulsing ring that cycles opacity (e.g., `ring-accent/20` → `ring-accent/40`). We'll use framer-motion's `animate` prop for a clean breathing glow effect instead of custom CSS keyframes.
 
-This keeps mobile unchanged and fills the empty right side on desktop with a personal photo.
+### Result
+The headshot will be 300px, closer to the text, with a soft animated orange glow ring that pulses subtly.
 
