@@ -104,7 +104,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
               </div>
               <div
                 className="relative overflow-y-auto"
-                style={{ height: mobileHeight, WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none" }}
+                style={{ height: mobileHeight, WebkitOverflowScrolling: "touch", scrollbarWidth: "none", msOverflowStyle: "none", overscrollBehavior: "contain" }}
               >
                 {enhancedChildren}
               </div>
@@ -153,6 +153,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
                   WebkitOverflowScrolling: "touch",
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
+                  overscrollBehavior: "contain",
                 }}
               >
                 {enhancedChildren}

@@ -197,7 +197,7 @@ const ProjectPage = () => {
               {project.id === "oneasure-portal" ? (
                 <HeroPhoneMockup />
               ) : project.id === "asure-compliance" ? (
-                <ResponsiveAppShell label="Asure Compliance Engine">
+                <ResponsiveAppShell label="Asure Compliance Engine" desktopHeight={440}>
                   <TaxComplianceDashboardDemo />
                 </ResponsiveAppShell>
               ) : imagesLoading ? (
