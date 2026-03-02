@@ -1,4 +1,5 @@
 import { Download, Printer, Mail, Linkedin, ExternalLink, Globe } from "lucide-react";
+import headshot from "@/assets/huruy-headshot.jpg";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
@@ -134,25 +135,34 @@ const Resume = () => {
           
           {/* Name header */}
           <div className="px-8 pt-8 pb-6 border-b border-border resume-divider">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Huruy Kidanemariam
-            </h2>
-            <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              UX Designer & Product Designer
-            </p>
-            <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
-              {contact.map((c) => (
-                <a
-                  key={c.label}
-                  href={c.href}
-                  target={c.href.startsWith("mailto") ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
-                >
-                  <c.icon className="h-3.5 w-3.5 shrink-0" />
-                  {c.label}
-                </a>
-              ))}
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Huruy Kidanemariam
+                </h2>
+                <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  UX Designer & Product Designer
+                </p>
+                <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
+                  {contact.map((c) => (
+                    <a
+                      key={c.label}
+                      href={c.href}
+                      target={c.href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
+                    >
+                      <c.icon className="h-3.5 w-3.5 shrink-0" />
+                      {c.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <img
+                src={headshot}
+                alt="Huruy Kidanemariam"
+                className="h-16 w-16 rounded-full object-cover border-2 border-accent/20 shrink-0"
+              />
             </div>
           </div>
 
