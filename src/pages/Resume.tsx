@@ -70,24 +70,35 @@ const Resume = () => {
           body { 
             background: white !important; 
             color: #1a1a1a !important; 
-            font-size: 10.5pt !important; 
+            font-size: 9pt !important; 
             -webkit-print-color-adjust: exact; 
             print-color-adjust: exact;
-            line-height: 1.4 !important;
+            line-height: 1.3 !important;
           }
           .resume-page { 
             max-width: 100% !important; 
-            padding: 0.4in 0.5in !important; 
+            padding: 0.25in 0.4in !important; 
             margin: 0 !important; 
           }
+          .resume-page .rounded-xl { border-radius: 0 !important; box-shadow: none !important; }
           .resume-page * { border-color: #e5e5e5 !important; }
           .resume-page h2, .resume-page h3, .resume-page h4 { color: #1a1a1a !important; }
           .resume-page p, .resume-page li, .resume-page span, .resume-page a { color: #333 !important; }
           .print-accent { color: #e8590c !important; }
           .resume-section { break-inside: avoid; }
-          .resume-sidebar { border-right: 1px solid #e5e5e5 !important; }
+          .resume-sidebar { border-right: 1px solid #e5e5e5 !important; width: 220px !important; padding: 0.3rem 1rem !important; }
           .resume-pill { background: #f5f5f5 !important; border: 1px solid #e5e5e5 !important; color: #333 !important; }
           .resume-divider { border-color: #e5e5e5 !important; }
+          .resume-page .space-y-6 > * + * { margin-top: 0.5rem !important; }
+          .resume-page .space-y-4 > * + * { margin-top: 0.35rem !important; }
+          .resume-page .mb-6 { margin-bottom: 0.4rem !important; }
+          .resume-page .mb-5 { margin-bottom: 0.3rem !important; }
+          .resume-page .mb-4 { margin-bottom: 0.25rem !important; }
+          .resume-page .mb-3 { margin-bottom: 0.2rem !important; }
+          .resume-page .py-6 { padding-top: 0.4rem !important; padding-bottom: 0.4rem !important; }
+          .resume-page .pt-8 { padding-top: 0.5rem !important; }
+          .resume-page .pb-6 { padding-bottom: 0.3rem !important; }
+          .resume-page .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
           @page { margin: 0; size: letter; }
         }
       `}</style>
