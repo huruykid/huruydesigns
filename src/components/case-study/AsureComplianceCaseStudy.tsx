@@ -211,10 +211,10 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
       {/* 02 - THE REAL PROBLEM */}
       <CaseStudySection label="02 | The Real Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
         <p className="mb-4">
-          Nobody (not engineering, not the SME team, not product) had a complete map of how the entities related to each other. Everyone held a partial model. Engineers understood the data layer. SMEs understood the regulatory logic. But the dependency chain connecting a tax code to a formula to a filing frequency to a payee to a holiday calendar had never been drawn end-to-end.
+          Once I was onsite, we quickly realized that nobody (not engineering, not the SME team, not product) had a complete map of how the entities related to each other. Everyone held a partial model. Engineers understood the data layer. SMEs understood the regulatory logic. But the dependency chain connecting a tax code to a formula to a filing frequency to a payee to a holiday calendar had never been drawn end-to-end.
         </p>
         <p className="mb-8">
-          That was the real problem. Not the screens. The absence of a shared mental model, and a product that had been built on top of that absence for years.
+          That was the real problem. Not the screens. The absence of a shared mental model, and a product that had been built on top of that absence for years. So we got together and built that map first.
         </p>
 
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
