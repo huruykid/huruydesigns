@@ -100,7 +100,7 @@ const Index = () => (
       <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.06] blur-3xl" />
       <DotGrid />
       <div className="container mx-auto px-4 py-10 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -141,14 +141,26 @@ const Index = () => (
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="hidden md:block shrink-0"
+            animate={{
+              opacity: 1,
+              scale: 1,
+              boxShadow: [
+                "0 0 20px hsl(24 95% 53% / 0.1)",
+                "0 0 40px hsl(24 95% 53% / 0.25)",
+                "0 0 20px hsl(24 95% 53% / 0.1)",
+              ],
+            }}
+            transition={{
+              opacity: { duration: 0.7, delay: 0.3 },
+              scale: { duration: 0.7, delay: 0.3 },
+              boxShadow: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="hidden md:block shrink-0 rounded-full"
           >
             <img
               src={headshot}
               alt="Huruy Kidanemariam headshot"
-              className="h-64 w-64 rounded-full object-cover object-top border-4 border-accent/20 shadow-2xl"
+              className="h-[300px] w-[300px] rounded-full object-cover object-top ring-4 ring-accent/30 shadow-2xl"
             />
           </motion.div>
         </div>
