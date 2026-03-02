@@ -108,12 +108,12 @@ const Resume = () => {
 
           /* Scale to fit one page */
           .resume-page > div {
-            transform: scale(0.82);
+            transform: scale(0.67);
             transform-origin: top left;
-            width: 121.95%; /* 1/0.82 */
+            width: 149.25%; /* 1/0.67 */
           }
           
-          @page { margin: 0.25in; size: letter; }
+          @page { margin: 0.2in; size: letter; }
         }
       `}</style>
 
