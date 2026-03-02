@@ -1,21 +1,20 @@
 
 
-## Plan: Add AI skill group to resume sidebar
+## Plan: Add headshot to hero section (desktop only)
 
-Add a new "AI" group to the `skillGroups` array in `src/pages/Resume.tsx` (line 42, before the closing bracket). Suggested skills for a UX designer leveraging AI:
+### Change in `src/pages/Index.tsx`
 
-- **Prompt Engineering** — crafting effective prompts for design/dev tools
-- **AI Prototyping** — using AI-assisted tools (Lovable, Cursor, v0) to rapidly build
-- **LLM Integration** — incorporating AI models into product workflows
-- **AI-Assisted Research** — using AI for synthesis, affinity mapping, survey analysis
+1. **Import** the headshot: `import headshot from "@/assets/huruy-headshot.jpg"`
 
-### Change
+2. **Convert** the hero inner container (line 101-106) from a single `max-w-3xl` div to a **flex row layout**:
+   - `flex flex-col md:flex-row md:items-center md:justify-between gap-10`
+   - Text content stays in a `max-w-3xl` div (left side)
+   - Headshot goes in a new div on the right, **hidden on mobile** (`hidden md:block`)
 
-**`src/pages/Resume.tsx`** (~line 42): Add a new entry to `skillGroups`:
+3. **Headshot element** (right side):
+   - Large circular image (~250px) with `rounded-full object-cover object-top`
+   - Subtle accent border (`border-4 border-accent/20`) and shadow (`shadow-2xl`)
+   - Gentle float-in animation via `motion.div` (fade + slight scale)
 
-```ts
-{ label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] }
-```
-
-This slots in naturally with the existing pill layout and requires no structural changes. Feel free to adjust the specific skill names if you'd prefer different wording.
+This keeps mobile unchanged and fills the empty right side on desktop with a personal photo.
 
