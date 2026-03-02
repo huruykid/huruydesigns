@@ -7,6 +7,7 @@ interface ResponsiveAppShellProps {
   children: React.ReactNode;
   label?: string;
   desktopWidth?: number;
+  desktopHeight?: number;
   mobileWidth?: number;
   mobileHeight?: number;
   allowToggle?: boolean;
@@ -18,7 +19,7 @@ const fadeVariants = {
   exit: { opacity: 0, scale: 0.97 },
 };
 
-export default function ResponsiveAppShell({ children, label, desktopWidth = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false }: ResponsiveAppShellProps) {
+export default function ResponsiveAppShell({ children, label, desktopWidth = 520, desktopHeight = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false }: ResponsiveAppShellProps) {
   const isMobile = useIsMobile();
   const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -148,7 +149,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
               <div
                 className="relative overflow-y-auto"
                 style={{
-                  height: 520,
+                  height: desktopHeight,
                   WebkitOverflowScrolling: "touch",
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
