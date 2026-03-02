@@ -102,7 +102,7 @@ const intuitionCards = [
   { title: "Consistent CRUD Patterns", body: "Create, edit, delete, and link interactions followed identical models regardless of entity type." },
 ];
 
-const transformations = [
+export const transformations = [
   { from: "Raw database relationships", to: "Structured entity hierarchy" },
   { from: "Implicit state changes", to: "Explicit state machine" },
   { from: "Hidden threshold logic", to: "Surfaced validation logic" },
@@ -137,7 +137,7 @@ const impactItems = [
 
 
 /* --- Entity Relationship Diagram --- */
-const EntityDiagram = () => {
+export const EntityDiagram = () => {
   const entities = ["Tax Code", "Payee", "Formula", "Filing Frequency", "Holiday Calendar", "Revision & Release"];
   return (
     <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto mb-6">
@@ -162,7 +162,7 @@ const EntityDiagram = () => {
 };
 
 /* --- State Machine Diagram --- */
-const StateMachineDiagram = () => {
+export const StateMachineDiagram = () => {
   const states = [
     { label: "Draft", desc: "Editable", color: "bg-yellow-500/20 border-yellow-500/50 text-yellow-600 dark:text-yellow-400" },
     { label: "In Review", desc: "SME sign-off", color: "bg-blue-500/20 border-blue-500/50 text-blue-600 dark:text-blue-400" },
