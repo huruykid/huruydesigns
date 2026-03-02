@@ -1,20 +1,28 @@
 
 
-## Plan: Update Asure case study narrative to be more collaborative
+## Plan: Enrich the Asure Compliance Access Gate Preview
 
-The user wants the story reframed: they were brought onsite to redesign screens, discovered the real problem together with the team, and collectively built the map. Three places need updating:
+Currently the access gate shows a generic blurred placeholder (3 colored rectangles + text lines). This doesn't give visitors any sense of what the case study contains or why it's worth requesting access.
 
-### Changes
+### Changes to `src/components/AccessGate.tsx`
 
-1. **`src/lib/projects.ts`** (line 94) — Project card description:
-   - From: "I discovered the real problem was that no one...So I built that map first."
-   - To: "I was brought onsite to redesign screens. We discovered the real problem was that no one...had ever fully mapped how the system worked. So we got together and built that map first."
+Replace the generic blurred placeholder (lines 87-107) with a much richer preview layout:
 
-2. **`src/components/case-study/AsureComplianceCaseStudy.tsx`** (lines 212-218) — Section 02 body text:
-   - Reframe the discovery as collaborative ("we discovered", "we mapped it together") rather than solo observation
-   - Keep the core insight (absence of a shared mental model) but position map-building as a team effort
+1. **Show the actual interactive dashboard (blurred)** - Render the real `TaxComplianceDashboardDemo` inside a `ResponsiveAppShell`, wrapped in a blur + overlay. This gives visitors a genuine glimpse of the work's complexity and polish.
 
-3. **`src/pages/ProjectPage.tsx`** (line 234) — Stat label:
-   - From: "1 Mental Model Built From Scratch"  
-   - To: "1 Shared Mental Model Built Together" (or similar collaborative framing)
+2. **Add key stats bar** - Show the stats (9,000+ Tax Codes, 3 Disciplines Aligned, 6 Entity Types Mapped, 1 Shared Mental Model) above or below the blurred preview to communicate scale and impact.
+
+3. **Add a "What's Inside" preview list** - Below the blurred dashboard, add 3-4 short bullet points hinting at the case study sections (e.g., "System-wide entity mapping", "Interactive compliance dashboard prototype", "Cross-discipline discovery process", "Before/after navigation redesign").
+
+4. **Keep the existing request form** unchanged below.
+
+### Layout (top to bottom)
+- Lock icon + title + description + tags + role (existing, unchanged)
+- **Stats bar** (moved from full project page hero)
+- **Blurred real dashboard** in a ResponsiveAppShell with overlay text
+- **"What's Inside" section** - 3-4 teaser items with icons
+- Request form card (existing, unchanged)
+
+### Files to edit
+- `src/components/AccessGate.tsx` - Replace generic blur placeholder with real dashboard + stats + teaser list
 
