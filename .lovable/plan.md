@@ -1,40 +1,21 @@
 
 
-## Plan: Light-mode print styles for resume PDF
+## Plan: Add AI skill group to resume sidebar
 
-Add print-specific CSS overrides to force a white background with dark text, so the PDF export looks clean and professional regardless of the site's dark theme.
+Add a new "AI" group to the `skillGroups` array in `src/pages/Resume.tsx` (line 42, before the closing bracket). Suggested skills for a UX designer leveraging AI:
 
-### Changes in `src/pages/Resume.tsx` (print styles block, ~line 70-107)
+- **Prompt Engineering** — crafting effective prompts for design/dev tools
+- **AI Prototyping** — using AI-assisted tools (Lovable, Cursor, v0) to rapidly build
+- **LLM Integration** — incorporating AI models into product workflows
+- **AI-Assisted Research** — using AI for synthesis, affinity mapping, survey analysis
 
-Add these overrides inside the existing `@media print` block:
+### Change
 
-```css
-/* Force light theme for print */
-.resume-page, .resume-page * {
-  color-scheme: light !important;
-}
-.resume-page .rounded-xl {
-  background: white !important;
-}
-.resume-page, .resume-page div, .resume-page aside {
-  background: white !important;
-  color: #1a1a1a !important;
-  border-color: #e5e5e5 !important;
-}
-.resume-page .text-muted-foreground,
-.resume-page .text-foreground\/85 {
-  color: #555 !important;
-}
-.resume-page .text-accent,
-.resume-page .print-accent {
-  color: #f97316 !important; /* keep orange accent */
-}
-.resume-page .resume-pill {
-  background: #f3f4f6 !important;
-  color: #333 !important;
-  border-color: #d1d5db !important;
-}
+**`src/pages/Resume.tsx`** (~line 42): Add a new entry to `skillGroups`:
+
+```ts
+{ label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] }
 ```
 
-This preserves the orange accent color while switching everything else to a clean white/dark-text layout for PDF output.
+This slots in naturally with the existing pill layout and requires no structural changes. Feel free to adjust the specific skill names if you'd prefer different wording.
 
