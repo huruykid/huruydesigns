@@ -39,13 +39,16 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { name, email, project_id } = await req.json();
+    const { name, email, project_id, request_id } = await req.json();
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const SLACK_API_KEY = Deno.env.get("SLACK_API_KEY");
     if (!SLACK_API_KEY) throw new Error("SLACK_API_KEY is not configured");
+
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const approveUrl = `${SUPABASE_URL}/functions/v1/approve-access-request?id=${request_id}`;
 
     const hdrs = authHeaders(LOVABLE_API_KEY, SLACK_API_KEY);
     const channelId = await findChannel("portfolio", LOVABLE_API_KEY, SLACK_API_KEY);
@@ -59,13 +62,13 @@ Deno.serve(async (req) => {
     const joinData = await joinRes.json();
     console.log("Join result:", JSON.stringify(joinData));
 
-    // Send message
+    // Send message with approve button
     const msgRes = await fetch(`${GATEWAY_URL}/chat.postMessage`, {
       method: "POST",
       headers: hdrs,
       body: JSON.stringify({
         channel: channelId,
-        text: `🔔 *New Case Study Access Request*\n\n• *Name:* ${name}\n• *Email:* ${email}\n• *Project:* ${project_id}\n• *Time:* ${new Date().toISOString()}`,
+        text: `🔔 *New Case Study Access Request*\n\n• *Name:* ${name}\n• *Email:* ${email}\n• *Project:* ${project_id}\n• *Time:* ${new Date().toISOString()}\n\n<${approveUrl}|✅ Click here to approve>`,
       }),
     });
     const msgData = await msgRes.json();
