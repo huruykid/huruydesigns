@@ -57,7 +57,7 @@ const filings = [
   { doc: "Form 941 - Q3 2025", date: "Oct 31, 2025", status: "Completed", amount: "$12,450" },
   { doc: "State Sales Tax - November", date: "Dec 20, 2025", status: "Completed", amount: "$3,280" },
   { doc: "Estimated Tax Payment Q4", date: "Dec 15, 2025", status: "Completed", amount: "$8,500" },
-  { doc: "Form 1099-MISC Preparation", date: "Jan 5, 2026", status: "Pending", amount: "—" },
+  { doc: "Form 1099-MISC Preparation", date: "Jan 5, 2026", status: "Pending", amount: "-" },
   { doc: "Property Tax Assessment", date: "Dec 28, 2025", status: "In Review", amount: "$5,200" },
 ];
 
@@ -431,7 +431,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           </div>
         </div>
 
-        {/* Modals — inside the flex-constrained main content area so absolute inset-0 stays visible */}
+        {/* Modals - inside the flex-constrained main content area so absolute inset-0 stays visible */}
         <AnimatePresence>
           {selectedFiling !== null && (
             <DetailModal filing={filings[selectedFiling]} onClose={() => setSelectedFiling(null)} />

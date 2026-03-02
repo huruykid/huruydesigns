@@ -136,7 +136,7 @@ const impactItems = [
 ];
 
 
-/* ─── Entity Relationship Diagram ─── */
+/* --- Entity Relationship Diagram --- */
 const EntityDiagram = () => {
   const entities = ["Tax Code", "Payee", "Formula", "Filing Frequency", "Holiday Calendar", "Revision & Release"];
   return (
@@ -161,7 +161,7 @@ const EntityDiagram = () => {
   );
 };
 
-/* ─── State Machine Diagram ─── */
+/* --- State Machine Diagram --- */
 const StateMachineDiagram = () => {
   const states = [
     { label: "Draft", desc: "Editable", color: "bg-yellow-500/20 border-yellow-500/50 text-yellow-600 dark:text-yellow-400" },
@@ -200,7 +200,7 @@ const StateMachineDiagram = () => {
 const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
   return (
     <>
-      {/* 01 — CONTEXT & SCALE */}
+      {/* 01 - CONTEXT & SCALE */}
       <CaseStudySection label="01 | Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
         <p className="mb-8">
           Asure's payroll compliance engine sits underneath payroll processing for thousands of employers across the US and Canada. Every state, province, and locality has its own rules, and misconfiguring any one of them doesn't produce a bug. It produces a failed tax filing or a regulatory penalty.
@@ -208,7 +208,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         <EntityDiagram />
       </CaseStudySection>
 
-      {/* 02 — THE REAL PROBLEM */}
+      {/* 02 - THE REAL PROBLEM */}
       <CaseStudySection label="02 | The Real Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
         <p className="mb-4">
           Nobody (not engineering, not the SME team, not product) had a complete map of how the entities related to each other. Everyone held a partial model. Engineers understood the data layer. SMEs understood the regulatory logic. But the dependency chain connecting a tax code to a formula to a filing frequency to a payee to a holiday calendar had never been drawn end-to-end.
@@ -244,7 +244,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 03 — MY ROLE & INFLUENCE */}
+      {/* 03 - MY ROLE & INFLUENCE */}
       <CaseStudySection label="03 | My Role & Influence" title="Embedded, cross-functional, onsite in Dallas." icon={<Users className="h-4 w-4" />}>
         <p className="mb-4">
           My most significant contribution wasn't a deliverable. It was forcing a conversation that hadn't happened yet.
@@ -273,7 +273,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 04 — CORE DESIGN CONTRIBUTIONS */}
+      {/* 04 - CORE DESIGN CONTRIBUTIONS */}
       <CaseStudySection label="04 | Core Design Contributions" title="Four architectural design systems" icon={<ClipboardList className="h-4 w-4" />}>
         <p className="mb-8">
           Each contribution addressed a distinct failure mode in the legacy system, and together they formed a coherent, scalable configuration platform.
@@ -355,7 +355,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 05 — DESIGNING FOR INTUITION */}
+      {/* 05 - DESIGNING FOR INTUITION */}
       <CaseStudySection label="05 | Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
         <p className="mb-6">
           The differentiator wasn't the UI patterns. It was the translation layer. Turning compliance logic into something a payroll admin can confidently configure without a tax law degree.
@@ -388,7 +388,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* Product Screenshot — Interactive Prototype */}
+      {/* Product Screenshot - Interactive Prototype */}
       <div className="mb-4">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
         <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Tax Compliance Dashboard</h2>
@@ -426,7 +426,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </div>
       </CaseStudySection>
 
-      {/* 07 — IMPACT */}
+      {/* 07 - IMPACT */}
       <CaseStudySection label="07 | Impact" title="Structural outcomes over vanity metrics" icon={<Star className="h-4 w-4" />}>
         <p className="mb-6">
           The results of this work aren't measured in clicks. They're measured in eliminated risk, increased clarity, and an architecture that scales to regulatory complexity.
@@ -462,7 +462,7 @@ const AsureComplianceCaseStudy = ({ project, getSlotImage }: Props) => {
         </CaseStudySection>
       )}
 
-      {/* 08 — LET'S WORK TOGETHER */}
+      {/* 08 - LET'S WORK TOGETHER */}
       <div className="rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center mt-12">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">08 | Let's Work Together</p>
         <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Let's Work Together</h2>

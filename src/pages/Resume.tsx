@@ -27,7 +27,7 @@ const experience = [
 ];
 
 const sideProjects = [
-  { title: "EBT Finder", description: "Designed a review-first SNAP/EBT store locator for 12M+ users — UX Research, Figma, Prototyping" },
+  { title: "EBT Finder", description: "Designed a review-first SNAP/EBT store locator for 12M+ users. UX Research, Figma, Prototyping" },
   { title: "Beles", description: "Designed a culturally authentic dating app for the Tigrayan diaspora community" },
 ];
 
@@ -55,7 +55,7 @@ const Resume = () => {
   return (
     <Layout>
       <SEO
-        title="Resume — Huruy Kidanemariam | UX Designer & Product Designer"
+        title="Resume | Huruy Kidanemariam | UX Designer & Product Designer"
         description="UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
         path="/resume"
         breadcrumbs={[
@@ -104,7 +104,7 @@ const Resume = () => {
             zoom: 0.8;
           }
           
-          /* Force light theme for print — override all dark mode colors */
+          /* Force light theme for print - override all dark mode colors */
           .resume-page, .resume-page * {
             color-scheme: light !important;
           }
@@ -157,7 +157,7 @@ const Resume = () => {
         }
       `}</style>
 
-      {/* Action bar — screen only */}
+      {/* Action bar - screen only */}
       <div className="no-print container mx-auto px-4 pt-8 pb-4 max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -278,7 +278,7 @@ const Resume = () => {
                   Summary
                 </h3>
                 <p className="text-sm text-foreground leading-relaxed">
-                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products — from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
+                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
                 </p>
               </div>
 

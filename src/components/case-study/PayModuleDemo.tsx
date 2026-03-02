@@ -76,7 +76,7 @@ function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i:
         </div>
       </div>
 
-      {/* Legend pills — 2 column grid */}
+      {/* Legend pills - 2 column grid */}
       <div className="grid grid-cols-2 gap-1.5 w-full">
         {SEGMENTS.map((seg, i) => (
           <button
@@ -602,7 +602,7 @@ export default function PayModuleDemo({ layout = "mobile" }: PayModuleDemoProps)
         </div>{/* end desktop content column */}
       </div>{/* end desktop flex row */}
 
-      {/* ── Bottom nav — always visible ───────────────────── */}
+      {/* ── Bottom nav - always visible ───────────────────── */}
       {layout === "mobile" && (
         <div
           className="shrink-0 flex items-center bg-white border-t border-gray-100"
