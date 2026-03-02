@@ -22,6 +22,7 @@ const responsiveProjects = new Set(["oneasure-portal", "asure-compliance"]);
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
   const DemoComponent = demoComponents[project.id];
   const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
+  const reverseLayout = featured && project.id === "asure-compliance";
   const shellWidth = featured ? 240 : 220;
   const shellHeight = featured ? 400 : 380;
 
@@ -33,7 +34,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link to={`/project/${project.id}`} className="group block">
-        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col ${featured ? 'md:flex-row md:items-stretch' : ''}`}>
+        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col ${featured ? `md:flex-row${reverseLayout ? '-reverse' : ''} md:items-stretch` : ''}`}>
           
           {/* Image / Interactive preview area */}
           <div
