@@ -37,7 +37,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-4' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -57,8 +57,8 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   <div onClick={(e) => e.stopPropagation()}>
                     <ResponsiveAppShell
                       allowToggle
-                      desktopWidth={featured ? 480 : 380}
-                      desktopHeight={featured ? 400 : 520}
+                      desktopWidth={featured ? 540 : 380}
+                      desktopHeight={featured ? 440 : 520}
                       mobileWidth={shellWidth}
                       mobileHeight={shellHeight}
                     >
