@@ -1,40 +1,21 @@
 
 
-## Analysis
+## Verification Results
 
-The featured project cards have text content (impact label, title, description) clustered at the top, then a large empty gap, then tags pushed to the very bottom by `mt-auto`. This creates an awkward vertical gap that makes the cards feel hollow.
+**Desktop featured cards**: Text layout looks balanced. Impact label, title, description, role line, and tags are all vertically centered as a group. No awkward gaps.
 
-The root cause: the text container has `md:justify-center` but `mt-auto` on the tags wrapper overrides this by forcing tags to the bottom, splitting the content into two distant groups.
+**Mobile featured cards**: Text stacks naturally below the interactive preview. Description, role, and tags flow well with no issues.
 
-## Plan
+## Plan: Lengthen Beles description
 
-**File: `src/components/ProjectCard.tsx` (lines 112-122)**
+**File: `src/lib/projects.ts` (line 294)**
 
-1. For featured cards, remove `mt-auto` from the tags wrapper so all text content stays grouped together and the parent's `md:justify-center` can vertically center everything as a unit
-2. Increase spacing between description and tags slightly (`mb-4` instead of `mb-3`) for breathing room
-3. Bump the featured description size to `text-lg` for more visual weight and to fill the space better
-4. Add the project role as a subtle detail line between description and tags to give recruiters more context and fill space naturally
+The current Beles description is too short at just one line:
+> "Designing a safe, authentic dating app for the Tigrayan community."
 
-```text
-Before:
-┌──────────────────┐
-│ Impact label     │
-│ Title            │
-│ Description      │
-│                  │  ← awkward gap
-│                  │
-│ Tags (mt-auto)   │
-└──────────────────┘
+Update it to something richer that conveys the cultural significance, the crisis context, and the design challenge -- matching the depth of the other project descriptions:
 
-After:
-┌──────────────────┐
-│                  │
-│ Impact label     │
-│ Title            │  ← vertically centered
-│ Description      │     as a group
-│ Role             │
-│ Tags             │
-│                  │
-└──────────────────┘
-```
+> "A culturally rooted dating and community app built for the Tigrayan diaspora -- blending traditional matchmaking with modern UX to help a displaced community find connection, preserve identity, and heal during crisis."
+
+This adds context about the diaspora angle, the Shmagele matchmaking concept, and the emotional weight of the project, all in a single compelling sentence that works well in both the featured and non-featured card contexts.
 
