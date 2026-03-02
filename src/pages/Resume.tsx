@@ -170,11 +170,6 @@ const Resume = () => {
             <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90">
               <Printer className="h-4 w-4 mr-1" /> Save as PDF
             </Button>
-            <a href="/resume/huruy-kidanemariam-resume.pdf" download>
-              <Button variant="outline">
-                <Download className="h-4 w-4 mr-1" /> Download PDF
-              </Button>
-            </a>
           </div>
         </div>
       </div>
