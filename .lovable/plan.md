@@ -1,31 +1,28 @@
 
 
-## Problem Analysis
+## Analysis
 
-The `TaxComplianceDashboardDemo` component has two layout issues:
+The Tax Compliance Dashboard currently renders at:
+- **Case study page**: 680px desktop shell (looks fine)
+- **Homepage card (featured)**: 480px desktop shell (looks stretched/squished)
+- **Homepage card (non-featured)**: 380px desktop shell
 
-1. **Desktop version looks squished**: The dashboard renders a 130px sidebar + main content with 4-column stat grids and 3-column content grids. When embedded in the homepage ProjectCard (480px shell) or ProjectPage (520px shell), there's only ~350-390px left for the main content area, crushing everything.
-
-2. **Mobile version table overflow**: The "Recent Filings & Payments" table has 5 columns (Document, Date, Status, Amount, Actions) that overflow the mobile shell width (~240-280px).
+The user says it "fits but looks stretched vertically" — this means the content height is too tall relative to the width. The fix is to widen the desktop shell on the homepage card so the dashboard has more room, reducing the vertical stretch.
 
 ## Plan
 
-### 1. Fix desktop layout density for small containers
-In `TaxComplianceDashboardDemo.tsx`:
-- Reduce sidebar width from 130px to ~110px and tighten padding/font sizes
-- Change desktop stat cards from `grid-cols-4` to `grid-cols-2` (the container is too narrow for 4 columns)
-- Change the chart+deadlines row from `grid-cols-3` to `grid-cols-5` with `col-span-3` / `col-span-2` split, or keep `grid-cols-3` but ensure the chart area has enough breathing room
-- Reduce stat card value font-size from 16px to ~13px to prevent cramping
+### 1. Widen the desktop shell for the Asure card on the homepage
 
-### 2. Fix mobile table overflow
-In the same file:
-- For the mobile layout, hide the "Date" and "Actions" columns from the filings table (show only Document, Status, Amount)
-- Add `overflow-x-hidden` and `min-w-0` to ensure the table card stays within bounds
-- Reduce document name text with truncation (`max-w-[100px] truncate`)
+In `src/components/ProjectCard.tsx`:
+- Increase the `desktopWidth` for featured cards from `480` to `580` (or `600`) so the dashboard layout breathes better
+- This keeps it within the card's 3/5 preview area on desktop
 
-### 3. Tighten Quick Actions for desktop
-- The Quick Actions panel shares the `grid-cols-3` row with the table; ensure it doesn't get too narrow by adjusting padding
+### 2. Optionally reduce the inner content height
+
+In `src/components/case-study/ResponsiveAppShell.tsx`:
+- The desktop shell has a fixed inner height of `520px` (line ~137). Consider reducing it to ~420–440px so the dashboard isn't so tall in the homepage card context, or make it configurable via a `desktopHeight` prop.
 
 ### Files changed
-- `src/components/case-study/TaxComplianceDashboardDemo.tsx` — all fixes in this single file
+- `src/components/ProjectCard.tsx` — increase `desktopWidth` for featured cards
+- `src/components/case-study/ResponsiveAppShell.tsx` — add optional `desktopHeight` prop (default 520) so cards can use a shorter height
 
