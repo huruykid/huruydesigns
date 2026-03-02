@@ -87,6 +87,7 @@ const Index = () => (
       description="Huruy Kidanemariam is a UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products."
       path="/"
       jsonLd={personJsonLd}
+      breadcrumbs={[{ name: "Home", path: "/" }]}
     />
     <Helmet>
       <script type="application/ld+json">{JSON.stringify(portfolioJsonLd)}</script>
