@@ -177,6 +177,15 @@ const ProjectPage = () => {
           { name: "Home", path: "/" },
           { name: project.title, path: `/project/${project.id}` },
         ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: project.title,
+          description: project.description,
+          url: `https://huruy.tech/project/${project.id}`,
+          author: { "@type": "Person", name: "Huruy Kidanemariam" },
+          genre: "UX Case Study",
+        }}
       />
       {/* Hero */}
       <section className="py-20 bg-muted/30">
