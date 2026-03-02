@@ -37,16 +37,6 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
     ? Math.min(1, (viewportWidth - 48) / desktopWidth)
     : 1;
 
-  // Scroll prototype into view after toggle (delay to let AnimatePresence finish)
-  useEffect(() => {
-    if (forcedLayout && shellRef.current) {
-      const timeout = setTimeout(() => {
-        const top = shellRef.current?.offsetTop ?? 0;
-        window.scrollTo({ top: top - 80, behavior: "smooth" });
-      }, 400);
-      return () => clearTimeout(timeout);
-    }
-  }, [forcedLayout]);
 
   // Pass layout prop to children via cloneElement
   const enhancedChildren = React.Children.map(children, (child) => {
