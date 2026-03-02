@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, Mail, User, Send, CheckCircle, Eye } from "lucide-react";
+import { Lock, Mail, User, Send, CheckCircle, Eye, Map, BarChart3, Users, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Project } from "@/lib/projects";
+import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
+import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 
 interface AccessGateProps {
   project: Project;
@@ -83,26 +85,65 @@ const AccessGate = ({ project }: AccessGateProps) => {
             </div>
           </div>
 
-          {/* Blurred preview teaser */}
+          {/* Stats bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            {[
+              { number: "9,000+", label: "Tax Codes" },
+              { number: "3", label: "Disciplines Aligned" },
+              { number: "6", label: "Entity Types Mapped" },
+              { number: "1", label: "Shared Mental Model" },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                className="text-center p-3 rounded-lg border border-border bg-card"
+              >
+                <p className="text-lg font-bold text-accent">{stat.number}</p>
+                <p className="text-xs text-muted-foreground">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Blurred real dashboard preview */}
           <div className="relative rounded-xl overflow-hidden mb-8 border border-border">
-            <div className="bg-muted/50 p-8 blur-[6px] select-none pointer-events-none">
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-16 rounded-lg bg-accent/10" />
-                ))}
-              </div>
-              <div className="space-y-2">
-                <div className="h-4 bg-foreground/10 rounded w-full" />
-                <div className="h-4 bg-foreground/10 rounded w-4/5" />
-                <div className="h-4 bg-foreground/10 rounded w-3/5" />
-              </div>
-              <div className="mt-4 h-32 rounded-lg bg-accent/5" />
+            <div className="blur-[6px] select-none pointer-events-none">
+              <ResponsiveAppShell>
+                <TaxComplianceDashboardDemo />
+              </ResponsiveAppShell>
             </div>
             <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Eye className="h-5 w-5" />
                 <span className="text-sm font-medium">Full case study available upon request</span>
               </div>
+            </div>
+          </div>
+
+          {/* What's Inside teaser */}
+          <div className="mb-8">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4 text-center">
+              What's Inside
+            </h3>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { icon: <Map className="h-4 w-4 text-accent" />, text: "System-wide entity mapping" },
+                { icon: <BarChart3 className="h-4 w-4 text-accent" />, text: "Interactive compliance dashboard prototype" },
+                { icon: <Users className="h-4 w-4 text-accent" />, text: "Cross-discipline discovery process" },
+                { icon: <Layers className="h-4 w-4 text-accent" />, text: "Before / after navigation redesign" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 + i * 0.1 }}
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card"
+                >
+                  {item.icon}
+                  <span className="text-sm text-foreground">{item.text}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
 
