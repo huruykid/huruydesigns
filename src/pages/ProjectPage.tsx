@@ -231,7 +231,7 @@ const ProjectPage = () => {
                     { number: "9,000+", label: "Tax Codes" },
                     { number: "3", label: "Disciplines Aligned" },
                     { number: "6", label: "Entity Types Mapped" },
-                    { number: "1", label: "Mental Model Built From Scratch" },
+                    { number: "1", label: "Shared Mental Model Built Together" },
                   ].map((stat, i) => (
                     <div key={i} className={`flex-1 min-w-[140px] px-4 py-3 text-center ${i > 0 ? "border-l border-border" : ""}`}>
                       <p className="text-lg font-bold text-accent">{stat.number}</p>
