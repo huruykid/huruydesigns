@@ -157,7 +157,7 @@ const Resume = () => {
               </div>
               <img
                 src={headshot}
-                alt="Huruy Kidanemariam"
+                alt="Huruy Kidanemariam, UX Designer"
                 className="h-20 w-20 rounded-full object-cover object-top border-2 border-accent/20 shrink-0"
               />
             </div>
