@@ -132,11 +132,11 @@ const Index = () => (
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
-                <Linkedin className="h-5 w-5" />
+              <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>
-              <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors">
-                <Mail className="h-5 w-5" />
+              <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors" aria-label="Email">
+                <Mail className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
           </motion.div>
