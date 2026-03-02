@@ -238,21 +238,21 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           <span className="font-bold" style={{ fontSize: 10, color: NAVY }}>Tax Compliance</span>
         </div>
       ) : (
-        <div className="shrink-0 flex flex-col border-r border-gray-200 bg-white" style={{ width: 130 }}>
-          <div className="flex items-center gap-2 px-3 py-3 border-b border-gray-100">
-            <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: ACCENT }}>
-              <span className="font-bold text-white" style={{ fontSize: 10 }}>A</span>
+        <div className="shrink-0 flex flex-col border-r border-gray-200 bg-white" style={{ width: 110 }}>
+          <div className="flex items-center gap-1.5 px-2.5 py-2.5 border-b border-gray-100">
+            <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: ACCENT }}>
+              <span className="font-bold text-white" style={{ fontSize: 8 }}>A</span>
             </div>
-            <span className="font-bold" style={{ fontSize: 11, color: NAVY }}>Compliance</span>
+            <span className="font-bold" style={{ fontSize: 10, color: NAVY }}>Compliance</span>
           </div>
           <nav className="flex-1 py-2">
             {navItems.map((item, i) => (
               <button
                 key={i}
                 onClick={() => setActiveNav(i)}
-                className="w-full flex items-center gap-2 px-3 py-2 text-left transition-colors"
+                className="w-full flex items-center gap-1.5 px-2 py-1.5 text-left transition-colors"
                 style={{
-                  fontSize: 10,
+                  fontSize: 9,
                   fontWeight: activeNav === i ? 600 : 400,
                   color: activeNav === i ? ACCENT : "#6b7280",
                   background: activeNav === i ? "#fff7ed" : "transparent",
@@ -264,11 +264,11 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
               </button>
             ))}
           </nav>
-          <div className="border-t border-gray-100 px-3 py-2 flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 8, background: BLUE }}>JD</div>
+          <div className="border-t border-gray-100 px-2 py-2 flex items-center gap-1.5">
+            <div className="w-5 h-5 rounded-full flex items-center justify-center text-white font-bold" style={{ fontSize: 7, background: BLUE }}>JD</div>
             <div>
-              <p className="font-semibold" style={{ fontSize: 8, color: NAVY }}>John Doe</p>
-              <p style={{ fontSize: 7, color: "#9ca3af" }}>john@company.com</p>
+              <p className="font-semibold" style={{ fontSize: 7, color: NAVY }}>John Doe</p>
+              <p style={{ fontSize: 6, color: "#9ca3af" }}>john@company.com</p>
             </div>
           </div>
         </div>
@@ -293,7 +293,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
         {/* Scrollable body */}
         <div className={`flex-1 min-h-0 overflow-y-auto ${mob ? "p-2" : "p-3"}`} style={{ scrollbarWidth: "none" }}>
           {/* Stat cards */}
-          <div className={`grid ${mob ? "grid-cols-2" : "grid-cols-4"} gap-2 mb-3`}>
+          <div className="grid grid-cols-2 gap-2 mb-3">
             {stats.map((s, i) => (
               <motion.div
                 key={i}
@@ -307,7 +307,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
                   <span style={{ fontSize: 8, color: "#6b7280" }}>{s.label}</span>
                   <span style={{ color: ACCENT }}>{s.icon}</span>
                 </div>
-                <p className="font-bold" style={{ fontSize: 16, color: NAVY }}>{s.value}</p>
+                <p className="font-bold" style={{ fontSize: mob ? 14 : 13, color: NAVY }}>{s.value}</p>
                 <p style={{ fontSize: 7, color: "#9ca3af" }}>{s.sub}</p>
                 {s.trend && (
                   <span className="inline-block mt-1 px-1.5 py-0.5 rounded-full font-semibold" style={{ fontSize: 7, background: s.trendColor!, color: s.trendText! }}>
@@ -319,9 +319,9 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           </div>
 
           {/* Chart + Deadlines */}
-          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-3"} gap-2 mb-3`}>
+          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-5"} gap-2 mb-3`}>
             {/* Chart */}
-            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-3"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Tax Payment Overview</h3>
               <p className="mb-3" style={{ fontSize: 8, color: "#9ca3af" }}>Monthly tax payments and obligations (Last 6 months)</p>
               <div className="flex-1"><BarChart onBarClick={(i) => setSelectedMonth(i)} /></div>
@@ -336,7 +336,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
             </div>
 
             {/* Deadlines */}
-            <div className="bg-white rounded-lg border border-gray-100 p-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Upcoming Deadlines</h3>
               <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Important tax dates and filing requirements</p>
               <div className="space-y-2">
@@ -371,36 +371,38 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
           </div>
 
           {/* Table + Quick Actions */}
-          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-3"} gap-2`}>
+          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-5"} gap-2`}>
             {/* Table */}
-            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-3"} bg-white rounded-lg border border-gray-100 p-3 min-w-0 overflow-hidden`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Recent Filings & Payments</h3>
               <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Your tax filing history and payment records</p>
               <table className="w-full" style={{ fontSize: 8 }}>
                 <thead>
                   <tr className="border-b border-gray-200">
                     <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Document</th>
-                    <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Date</th>
+                    {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Date</th>}
                     <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Status</th>
                     <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Amount</th>
-                    <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Actions</th>
+                    {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
                   {filings.map((f, i) => (
                     <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setSelectedFiling(i)}>
-                      <td className="py-1.5 flex items-center gap-1.5">
-                        <FileText size={10} style={{ color: "#9ca3af" }} />
-                        <span style={{ color: NAVY }}>{f.doc}</span>
+                      <td className="py-1.5 flex items-center gap-1">
+                        <FileText size={10} className="shrink-0" style={{ color: "#9ca3af" }} />
+                        <span className={mob ? "max-w-[100px] truncate block" : ""} style={{ color: NAVY }}>{f.doc}</span>
                       </td>
-                      <td className="py-1.5" style={{ color: "#6b7280" }}>{f.date}</td>
+                      {!mob && <td className="py-1.5" style={{ color: "#6b7280" }}>{f.date}</td>}
                       <td className="py-1.5">{statusBadge(f.status)}</td>
                       <td className="py-1.5 font-semibold" style={{ color: NAVY }}>{f.amount}</td>
-                      <td className="py-1.5">
-                        <button className="text-gray-400 hover:text-gray-600" onClick={(e) => { e.stopPropagation(); }}>
-                          <Download size={10} />
-                        </button>
-                      </td>
+                      {!mob && (
+                        <td className="py-1.5">
+                          <button className="text-gray-400 hover:text-gray-600" onClick={(e) => { e.stopPropagation(); }}>
+                            <Download size={10} />
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -408,7 +410,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg border border-gray-100 p-3 flex flex-col" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-2.5 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Quick Actions</h3>
               <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
               <div className="grid grid-cols-2 gap-2 flex-1">
