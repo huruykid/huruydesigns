@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users, FileText } from "lucide-react";
+import headshot from "@/assets/huruy-headshot.jpg";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -99,44 +100,58 @@ const Index = () => (
       <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.06] blur-3xl" />
       <DotGrid />
       <div className="container mx-auto px-4 py-10 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">UX Designer & Software Developer</p>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Hi, I'm <span className="text-gradient">Huruy</span>.
-            <br />
-            I design experiences that <span className="italic">matter</span>.
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
-            I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
-          </p>
-          <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
-            <Button
-              size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center w-full sm:w-auto"
-              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              View My Work <ArrowDown className="h-4 w-4 ml-1" />
-            </Button>
-            <Link to="/resume" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
-                <FileText className="h-4 w-4 mr-1" /> Resume
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
+          >
+            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">UX Designer & Software Developer</p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Hi, I'm <span className="text-gradient">Huruy</span>.
+              <br />
+              I design experiences that <span className="italic">matter</span>.
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
+              I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
+            </p>
+            <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
+              <Button
+                size="lg"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center w-full sm:w-auto"
+                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                View My Work <ArrowDown className="h-4 w-4 ml-1" />
               </Button>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors">
-              <Mail className="h-5 w-5" />
-            </a>
-          </div>
-        </motion.div>
+              <Link to="/resume" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
+                  <FileText className="h-4 w-4 mr-1" /> Resume
+                </Button>
+              </Link>
+            </div>
+            <div className="flex items-center gap-4">
+              <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors">
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors">
+                <Mail className="h-5 w-5" />
+              </a>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="hidden md:block shrink-0"
+          >
+            <img
+              src={headshot}
+              alt="Huruy Kidanemariam headshot"
+              className="h-64 w-64 rounded-full object-cover object-top border-4 border-accent/20 shadow-2xl"
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
 
