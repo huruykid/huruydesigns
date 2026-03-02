@@ -1,18 +1,29 @@
 
 
-## Plan: Enlarge headshot, add glow ring, reduce gap
+## Problem
 
-### Changes in `src/pages/Index.tsx`
+The print/PDF styles have a CSS selector `[class*="text-accent"]` that's too greedy. Bullet list items use the class `before:text-accent/60` for the bullet marker, but the `[class*="text-accent"]` selector matches the whole `<li>` element and turns all its body text orange too. This makes the PDF appear with far too much orange text compared to what's shown on screen.
 
-1. **Line 103** — Reduce gap from `gap-10` to `gap-6` to bring headshot closer to text.
+## Fix in `src/pages/Resume.tsx`
 
-2. **Lines 142-153** — Update the headshot block:
-   - Increase size from `h-64 w-64` to `h-[300px] w-[300px]`
-   - Wrap image in a container with a pulsing ring: `ring-4 ring-accent/30` with a CSS animation
-   - Add an outer glow using `shadow-[0_0_40px_rgba(249,115,22,0.25)]` for a subtle orange glow effect
+**Replace the broad print selectors** (lines 138-148) with more targeted ones:
 
-3. **Add a keyframe** via inline Tailwind `animate-` or a small `@keyframes` for a subtle pulsing ring that cycles opacity (e.g., `ring-accent/20` → `ring-accent/40`). We'll use framer-motion's `animate` prop for a clean breathing glow effect instead of custom CSS keyframes.
+1. Remove `[class*="text-accent"]` — it's matching elements that only use accent on pseudo-elements
+2. Keep `.text-accent` and `.print-accent` as explicit class matches (these are the section headers and org names that should genuinely be orange)
+3. For bullet `::before` pseudo-elements, target them directly with `.resume-page li::before` using the accent color
+4. Ensure bullet body text (`text-foreground/85`) stays dark (`#333`) by not accidentally overriding it with orange
 
-### Result
-The headshot will be 300px, closer to the text, with a soft animated orange glow ring that pulses subtly.
+**Specific CSS change:**
+```css
+/* REMOVE this overly broad rule */
+.resume-page [class*="text-accent"] { color: #f97316 !important; }
+.resume-page [class*="before:text-accent"] { color: #f97316 !important; }
+
+/* KEEP these targeted rules */
+.resume-page .text-accent,
+.resume-page .print-accent { color: #f97316 !important; }
+.resume-page li::before { color: rgba(249, 115, 22, 0.6) !important; }
+```
+
+This is a ~6-line change in the print `<style>` block. No other files affected.
 
