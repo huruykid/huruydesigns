@@ -1,21 +1,24 @@
 
 
-## Verification Results
+## Plan: Maximize interactive preview space in featured cards
 
-**Desktop featured cards**: Text layout looks balanced. Impact label, title, description, role line, and tags are all vertically centered as a group. No awkward gaps.
+Looking at the screenshot and code, there are two sources of wasted space:
 
-**Mobile featured cards**: Text stacks naturally below the interactive preview. Description, role, and tags flow well with no issues.
+1. **`py-8` padding** on the preview container (line 40) — adds 64px of vertical padding around the shell
+2. **Desktop shell dimensions** could be larger since there's room within the 3/5 width area
 
-## Plan: Lengthen Beles description
+**File: `src/components/ProjectCard.tsx`**
 
-**File: `src/lib/projects.ts` (line 294)**
+### Changes:
 
-The current Beles description is too short at just one line:
-> "Designing a safe, authentic dating app for the Tigrayan community."
+1. **Reduce vertical padding** on the preview area for featured cards: change `py-8` to `py-4` (keeps some breathing room without wasting space)
+2. **Increase desktop shell size** for featured cards: bump `desktopWidth` from `480` → `540` and `desktopHeight` from `400` → `440` (line 60-61). This keeps the same aspect ratio (~1.2:1) while filling more of the available area
+3. Keep mobile shell dimensions unchanged since mobile cards already fill their width well
 
-Update it to something richer that conveys the cultural significance, the crisis context, and the design challenge -- matching the depth of the other project descriptions:
+```text
+Before:  480 × 400 shell with py-8 padding
+After:   540 × 440 shell with py-4 padding
+```
 
-> "A culturally rooted dating and community app built for the Tigrayan diaspora -- blending traditional matchmaking with modern UX to help a displaced community find connection, preserve identity, and heal during crisis."
-
-This adds context about the diaspora angle, the Shmagele matchmaking concept, and the emotional weight of the project, all in a single compelling sentence that works well in both the featured and non-featured card contexts.
+The proportions stay the same (~1.35 width:height ratio), just scaled up with less padding around it.
 
