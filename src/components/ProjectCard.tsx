@@ -33,7 +33,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link to={`/project/${project.id}`} className="group block">
-        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 ${featured ? 'md:flex md:items-stretch' : ''}`}>
+        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col ${featured ? 'md:flex-row md:items-stretch' : ''}`}>
           
           {/* Image / Interactive preview area */}
           <div
@@ -110,11 +110,11 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           </div>
 
           {/* Text content */}
-          <div className={`p-5 ${featured ? 'md:w-2/5 md:flex md:flex-col md:justify-center md:p-8' : ''}`}>
+          <div className={`p-5 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-8' : 'flex-1'}`}>
             <p className="text-xs font-semibold text-accent mb-1">{project.impact}</p>
             <h3 className={`font-bold mb-1 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
             <p className={`text-muted-foreground mb-3 ${featured ? 'text-base' : 'text-sm line-clamp-2'}`}>{project.description}</p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5 mt-auto">
               {project.tags.slice(0, featured ? 6 : 4).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
               ))}
