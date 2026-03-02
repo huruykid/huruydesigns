@@ -1,27 +1,13 @@
 
 
-## Problem
-The screenshot shows the PDF is rendering with the two-column layout but the content is still overflowing past one page. The `scale(0.67)` approach scales the visual rendering but the browser's print engine still calculates the element's original height for pagination, so it breaks across pages.
+## Plan: Add headshot avatar to resume header
 
-## Plan
-
-### Change approach: use CSS `zoom` instead of `transform: scale()`
-
-The `transform: scale()` approach doesn't actually reduce the element's layout size for print pagination — it only visually shrinks it while the original box dimensions remain. The browser still sees the full-height content and splits it across pages.
-
-**`zoom`** property actually changes the element's layout size, so the browser's print engine will see the reduced dimensions and fit everything on one page.
+Add the existing headshot image (`src/assets/huruy-headshot.jpg`) as a circular avatar in the top-right of the resume name header section.
 
 ### Changes in `src/pages/Resume.tsx`
 
-Replace the `transform: scale(0.67)` block (lines 109-114) with:
+1. **Import** the headshot image (already used in About page)
+2. **Update the header section** (lines 136-157): Wrap the existing name/title/contact block and a new avatar image in a flex row with `justify-between`, placing the circular photo on the right
 
-```css
-.resume-page > div {
-  zoom: 0.75;
-}
-```
-
-This is simpler, doesn't need the reciprocal width hack, and crucially tells the print engine the content is smaller — fitting it on one page. We'll also remove the container `max-width`/`padding`/`margin` overrides that fight with the zoom, and keep everything else (two-column force, colors, accent).
-
-If `0.75` is still too large, we can reduce to `0.7` or `0.65`.
+The avatar will be ~64px, circular, with object-cover styling — visible both on screen and in print.
 
