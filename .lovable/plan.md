@@ -1,27 +1,20 @@
 
 
-## Plan: Remove all em dashes site-wide
+## Plan: Update Asure case study narrative to be more collaborative
 
-I found em dashes (`—`) in **7 files** across the project (117 total matches). Here's the breakdown and what changes are needed:
+The user wants the story reframed: they were brought onsite to redesign screens, discovered the real problem together with the team, and collectively built the map. Three places need updating:
 
-### Files to edit
+### Changes
 
-| File | Type of em dashes | Count |
-|---|---|---|
-| `src/lib/projects.ts` | User-facing text in project descriptions, problems, solutions, learnings | ~8 |
-| `src/pages/Resume.tsx` | SEO title, summary text, side project description, plus CSS comments | ~5 (2 rendered, 3 comments) |
-| `src/components/case-study/AsureComplianceCaseStudy.tsx` | Code comments only (already cleaned rendered text) | ~8 comments |
-| `src/components/case-study/OneAsureCaseStudy.tsx` | Code comment only | 1 comment |
-| `src/components/case-study/BelesCaseStudy.tsx` | Code comment only | 1 comment |
-| `src/components/case-study/PayModuleDemo.tsx` | Code comments only | 2 comments |
-| `src/components/case-study/TaxComplianceDashboardDemo.tsx` | 1 rendered value (`"—"` as placeholder amount), plus 1 comment | 2 |
+1. **`src/lib/projects.ts`** (line 94) — Project card description:
+   - From: "I discovered the real problem was that no one...So I built that map first."
+   - To: "I was brought onsite to redesign screens. We discovered the real problem was that no one...had ever fully mapped how the system worked. So we got together and built that map first."
 
-### Approach
+2. **`src/components/case-study/AsureComplianceCaseStudy.tsx`** (lines 212-218) — Section 02 body text:
+   - Reframe the discovery as collaborative ("we discovered", "we mapped it together") rather than solo observation
+   - Keep the core insight (absence of a shared mental model) but position map-building as a team effort
 
-- **Rendered/user-facing text**: Replace em dashes with commas, colons, periods, or slight rewording depending on sentence context (same approach already used for the Asure case study)
-- **Code comments**: Replace `—` with `–` or just remove for cleaner comments
-- **Data placeholder** (`"—"` as amount in TaxComplianceDashboardDemo): Replace with `"N/A"` or `"-"`
-
-### No other files affected
-The AccessGate, Contact, About, Index, Footer, and Navbar files are clean.
+3. **`src/pages/ProjectPage.tsx`** (line 234) — Stat label:
+   - From: "1 Mental Model Built From Scratch"  
+   - To: "1 Shared Mental Model Built Together" (or similar collaborative framing)
 
