@@ -2,22 +2,33 @@
 
 ## Plan
 
-The homepage featured card and the case study hero for Asure Compliance have different `ResponsiveAppShell` dimensions:
+### Change: Full-width bar chart with deadlines below
 
-| Prop | Homepage (ProjectCard) | Case Study (ProjectPage) |
-|------|----------------------|--------------------------|
-| desktopWidth | 480 | 580 |
-| desktopHeight | 400 | 440 |
+**File: `src/components/case-study/TaxComplianceDashboardDemo.tsx` (lines 322-336)**
 
-### Change
+Currently the chart and deadlines sit in a `grid-cols-5` with a 3:2 split. Change this to stack them vertically:
 
-**`src/pages/ProjectPage.tsx` (line 198)**
+1. Remove the `grid-cols-5` layout on the chart + deadlines wrapper
+2. Make the chart card full-width (remove `col-span-3`)
+3. Move the deadlines card below (remove `col-span-2`), keeping it full-width
+4. Optionally lay out the deadline items in a 2-column grid on desktop to use the wider space well
 
-Update the `ResponsiveAppShell` props to match the homepage:
+```text
+Before (desktop):
+┌──────────────┬──────────┐
+│  Bar Chart   │Deadlines │
+│  (3/5 width) │(2/5)     │
+└──────────────┴──────────┘
 
-```tsx
-<ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
+After (desktop):
+┌─────────────────────────┐
+│  Bar Chart (full width) │
+└─────────────────────────┘
+┌─────────────────────────┐
+│  Deadlines (full width) │
+│  (2-col grid on desktop)│
+└─────────────────────────┘
 ```
 
-This aligns both instances so the interactive preview looks identical on both the homepage and case study page.
+This gives the bar chart room to breathe and makes the bars more readable. The deadlines section benefits from the wider layout with a 2-column arrangement on desktop.
 
