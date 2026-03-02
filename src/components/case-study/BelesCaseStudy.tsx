@@ -352,7 +352,7 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
         </CardContent>
       </Card>
 
-      {/* Appendix Images — only onboarding & profile screens, not feature screens */}
+      {/* Appendix Images - only onboarding & profile screens, not feature screens */}
       {project.appendixImages && project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").length > 0 && (
         <div className="mt-10">
           <h3 className="font-bold text-foreground mb-4">Additional Screens</h3>
