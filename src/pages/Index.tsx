@@ -91,7 +91,7 @@ const Index = () => (
       <script type="application/ld+json">{JSON.stringify(portfolioJsonLd)}</script>
     </Helmet>
     {/* Hero */}
-    <section className="min-h-[80vh] flex items-center relative overflow-hidden">
+    <section className="min-h-[60vh] flex items-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
       {/* Decorative blobs */}
       <div className="absolute -top-10 right-[5%] w-[28rem] h-[28rem] rounded-full bg-accent/[0.12] blur-3xl" />
