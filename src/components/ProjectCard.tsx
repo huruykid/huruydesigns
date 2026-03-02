@@ -113,8 +113,11 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           <div className={`p-5 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-8' : 'flex-1'}`}>
             <p className="text-xs font-semibold text-accent mb-1">{project.impact}</p>
             <h3 className={`font-bold mb-1 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
-            <p className={`text-muted-foreground mb-3 ${featured ? 'text-base' : 'text-sm line-clamp-2'}`}>{project.description}</p>
-            <div className="flex flex-wrap gap-1.5 mt-auto">
+            <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-3'}`}>{project.description}</p>
+            {featured && (
+              <p className="text-sm text-muted-foreground/80 mb-4">{project.role}</p>
+            )}
+            <div className={`flex flex-wrap gap-1.5 ${featured ? '' : 'mt-auto'}`}>
               {project.tags.slice(0, featured ? 6 : 4).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
               ))}
