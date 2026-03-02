@@ -185,12 +185,10 @@ const ProjectPage = () => {
                 </a>
               )}
               {project.challenge && (
-                <Card className="border-accent/30 bg-accent/5 max-w-2xl">
-                  <CardContent className="p-5">
-                    <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-1">The Challenge</p>
-                    <p className="text-foreground">{project.challenge}</p>
-                  </CardContent>
-                </Card>
+                <div className="border-l-2 border-accent/40 pl-4 max-w-2xl">
+                  <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-1">The Challenge</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{project.challenge}</p>
+                </div>
               )}
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
