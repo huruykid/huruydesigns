@@ -68,8 +68,6 @@ const Resume = () => {
           header, footer, .no-print, nav { display: none !important; }
           main { padding-top: 0 !important; }
           body { 
-            background: white !important; 
-            color: #1a1a1a !important; 
             -webkit-print-color-adjust: exact; 
             print-color-adjust: exact;
           }
@@ -83,13 +81,6 @@ const Resume = () => {
             box-shadow: none !important; 
             border: none !important;
           }
-          .resume-page * { border-color: #e5e5e5 !important; }
-          .resume-page h2, .resume-page h3, .resume-page h4 { color: #1a1a1a !important; }
-          .resume-page p, .resume-page li, .resume-page span, .resume-page a { color: #333 !important; }
-          .print-accent { color: #e8590c !important; }
-          .resume-sidebar { border-right: 1px solid #e5e5e5 !important; }
-          .resume-pill { background: #f5f5f5 !important; border: 1px solid #e5e5e5 !important; color: #333 !important; }
-          .resume-divider { border-color: #e5e5e5 !important; }
 
           /* Force two-column layout in print */
           .resume-two-col {
