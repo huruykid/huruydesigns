@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, Mail, User, Send, CheckCircle, Map, BarChart3, Users, Layers, ArrowRight, Sparkles } from "lucide-react";
+import { Lock, KeyRound, Send, CheckCircle, Map, BarChart3, Users, Layers, ArrowRight, Sparkles, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,33 +14,33 @@ import { EntityDiagram, StateMachineDiagram, transformations } from "@/component
 
 interface AccessGateProps {
   project: Project;
+  onAccessGranted: () => void;
 }
 
-const AccessGate = ({ project }: AccessGateProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const AccessGate = ({ project, onAccessGranted }: AccessGateProps) => {
+  const [passcode, setPasscode] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
+    if (!passcode.trim()) return;
 
     setSubmitting(true);
+    setError("");
     try {
-      const { data, error } = await supabase
-        .from("access_requests")
-        .insert({ name: name.trim(), email: email.trim(), project_id: project.id })
-        .select("id")
-        .single();
+      const { data, error: fnError } = await supabase.functions.invoke("verify-passcode", {
+        body: { passcode: passcode.trim() },
+      });
 
-      if (error) throw error;
+      if (fnError) throw fnError;
 
-      supabase.functions.invoke("notify-access-request", {
-        body: { name: name.trim(), email: email.trim(), project_id: project.id, request_id: data.id },
-      }).catch(() => {});
-
-      setSubmitted(true);
+      if (data?.valid) {
+        sessionStorage.setItem(`access_granted_${project.id}`, "true");
+        onAccessGranted();
+      } else {
+        setError("Incorrect passcode. Please try again.");
+      }
     } catch {
       toast({
         title: "Something went wrong",
@@ -108,18 +108,11 @@ const AccessGate = ({ project }: AccessGateProps) => {
             ))}
           </div>
 
-          {/* Interactive prototype - fully visible */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-10"
-          >
+          {/* Interactive prototype */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mb-10">
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="h-4 w-4 text-accent" />
-              <h3 className="text-sm font-semibold text-accent uppercase tracking-wide">
-                Interactive Prototype
-              </h3>
+              <h3 className="text-sm font-semibold text-accent uppercase tracking-wide">Interactive Prototype</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
               Click through the dashboard to explore the compliance configuration interface I designed.
@@ -132,15 +125,8 @@ const AccessGate = ({ project }: AccessGateProps) => {
           </motion.div>
 
           {/* Entity Relationship Diagram */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-10"
-          >
-            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-3">
-              System Architecture
-            </h3>
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
+            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-3">System Architecture</h3>
             <p className="text-sm text-muted-foreground mb-4">
               I mapped six interconnected entity types into a navigable hierarchy — the foundation for all configuration flows.
             </p>
@@ -148,31 +134,17 @@ const AccessGate = ({ project }: AccessGateProps) => {
           </motion.div>
 
           {/* State Machine Diagram */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-10"
-          >
-            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-3">
-              Revision Lifecycle
-            </h3>
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
+            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-3">Revision Lifecycle</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Every configuration change follows an explicit state machine — no silent edits, no compliance drift.
             </p>
             <StateMachineDiagram />
           </motion.div>
 
-          {/* Before → After transformations */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-10"
-          >
-            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-4">
-              Before → After
-            </h3>
+          {/* Before → After */}
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
+            <h3 className="text-sm font-semibold text-accent uppercase tracking-wide mb-4">Before → After</h3>
             <div className="grid gap-2">
               {transformations.slice(0, 4).map((t, i) => (
                 <motion.div
@@ -191,7 +163,7 @@ const AccessGate = ({ project }: AccessGateProps) => {
             </div>
           </motion.div>
 
-          {/* What's Inside teaser */}
+          {/* What's Inside */}
           <div className="mb-10">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4 text-center">
               What's Inside the Full Case Study
@@ -218,83 +190,54 @@ const AccessGate = ({ project }: AccessGateProps) => {
             </div>
           </div>
 
-          {/* Request form */}
-          <Card className="border-accent/20 max-w-2xl mx-auto">
+          {/* Passcode form */}
+          <Card className="border-accent/20 max-w-md mx-auto">
             <CardContent className="p-6 sm:p-8">
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-4"
+              <div className="text-center mb-6">
+                <KeyRound className="h-8 w-8 text-accent mx-auto mb-3" />
+                <h3
+                  className="text-lg font-bold mb-1"
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
-                  <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
-                  <h3
-                    className="text-xl font-bold mb-2"
-                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    Request Submitted
-                  </h3>
-                  <p className="text-muted-foreground">
-                    You'll receive an email with a private link once your request is approved.
-                  </p>
-                </motion.div>
-              ) : (
-                <>
-                  <div className="text-center mb-6">
-                    <h3
-                      className="text-lg font-bold mb-1"
-                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                    >
-                      Request Full Access
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      The full case study includes proprietary process details, stakeholder validation, and design rationale. Request a private viewing link below.
-                    </p>
+                  Enter Passcode
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  This case study contains proprietary work. Enter the passcode to view the full study.
+                </p>
+              </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="password"
+                    placeholder="Enter passcode"
+                    value={passcode}
+                    onChange={(e) => { setPasscode(e.target.value); setError(""); }}
+                    className="pl-10"
+                    required
+                    autoFocus
+                  />
+                </div>
+                {error && (
+                  <div className="flex items-center gap-2 text-sm text-destructive">
+                    <ShieldAlert className="h-4 w-4 shrink-0" />
+                    <span>{error}</span>
                   </div>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="Your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="pl-10"
-                        required
-                        maxLength={100}
-                      />
-                    </div>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="email"
-                        placeholder="Your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
-                        required
-                        maxLength={255}
-                      />
-                    </div>
-                    <Button
-                      type="submit"
-                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-                      disabled={submitting}
-                    >
-                      {submitting ? "Submitting…" : (
-                        <>
-                          <Send className="h-4 w-4 mr-2" /> Request Full Access
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                  <p className="text-xs text-muted-foreground text-center mt-4">
-                    Or email me directly at{" "}
-                    <a href="mailto:huruydesigns@gmail.com" className="text-accent hover:underline">
-                      huruydesigns@gmail.com
-                    </a>
-                  </p>
-                </>
-              )}
+                )}
+                <Button
+                  type="submit"
+                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                  disabled={submitting}
+                >
+                  {submitting ? "Verifying…" : "Unlock Case Study"}
+                </Button>
+              </form>
+              <p className="text-xs text-muted-foreground text-center mt-4">
+                Need access? Email{" "}
+                <a href="mailto:huruydesigns@gmail.com" className="text-accent hover:underline">
+                  huruydesigns@gmail.com
+                </a>
+              </p>
             </CardContent>
           </Card>
         </motion.div>
