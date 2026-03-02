@@ -136,11 +136,7 @@ const Resume = () => {
             color: #1a1a1a !important;
           }
           .resume-page .text-accent,
-          .resume-page .print-accent,
-          .resume-page [class*="text-accent"] {
-            color: #f97316 !important;
-          }
-          .resume-page [class*="before:text-accent"] {
+          .resume-page .print-accent {
             color: #f97316 !important;
           }
           .resume-page li::before,
