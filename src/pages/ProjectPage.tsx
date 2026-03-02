@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Target, MessageSquareQuote, Lightbulb, Search, Users, BookOpen, ChevronRight, BarChart3, Palette, Rocket, Heart, ImageIcon, AlertTriangle } from "lucide-react";
@@ -21,6 +21,7 @@ import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
+import AccessGate from "@/components/AccessGate";
 
 const isRichCaseStudy = (p: Project) => !!p.challenge;
 
@@ -93,14 +94,53 @@ interface SlotProps {
   getSlotImage: (slot: string) => string | undefined;
 }
 
+const GATED_PROJECTS = ["asure-compliance"];
+
 const ProjectPage = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
   const [imagesLoading, setImagesLoading] = useState(true);
+  const [accessGranted, setAccessGranted] = useState(false);
+  const [checkingAccess, setCheckingAccess] = useState(true);
 
   const idx = projects.findIndex((p) => p.id === id);
   const project = idx !== -1 ? projects[idx] : null;
-  const next = idx !== -1 ? projects[(idx + 1) % projects.length] : null;
+  const isGated = project ? GATED_PROJECTS.includes(project.id) : false;
+
+  // Find next project, skipping gated ones
+  const publicProjects = projects.filter((p) => !GATED_PROJECTS.includes(p.id));
+  const nextPublicIdx = publicProjects.findIndex((p) => p.id === id);
+  const next = nextPublicIdx !== -1
+    ? publicProjects[(nextPublicIdx + 1) % publicProjects.length]
+    : publicProjects[0] || project;
+
+  // Check token access for gated projects
+  useEffect(() => {
+    if (!isGated) {
+      setAccessGranted(true);
+      setCheckingAccess(false);
+      return;
+    }
+    const token = searchParams.get("token");
+    if (!token) {
+      setCheckingAccess(false);
+      return;
+    }
+    const checkToken = async () => {
+      const { data } = await supabase
+        .from("access_requests" as any)
+        .select("id")
+        .eq("token", token)
+        .eq("status", "approved")
+        .eq("project_id", project!.id) as any;
+      if (data && data.length > 0) {
+        setAccessGranted(true);
+      }
+      setCheckingAccess(false);
+    };
+    checkToken();
+  }, [isGated, searchParams, project?.id]);
 
   useEffect(() => {
     if (!project) return;
@@ -129,6 +169,29 @@ const ProjectPage = () => {
   }, [uploadedImages, project?.sectionImages, imagesLoading]);
 
   if (!project || !next) return <Navigate to="/" />;
+
+  // Show access gate for gated projects without valid token
+  if (isGated && !accessGranted) {
+    if (checkingAccess) {
+      return (
+        <Layout>
+          <div className="min-h-[50vh] flex items-center justify-center">
+            <div className="animate-pulse text-muted-foreground">Checking access…</div>
+          </div>
+        </Layout>
+      );
+    }
+    return (
+      <Layout>
+        <SEO
+          title={`${project.title} – Request Access`}
+          description="This case study contains proprietary work and is available by request."
+          path={`/project/${project.id}`}
+        />
+        <AccessGate project={project} />
+      </Layout>
+    );
+  }
 
   const rich = isRichCaseStudy(project);
   const slotProps: SlotProps = { getSlotImage };
