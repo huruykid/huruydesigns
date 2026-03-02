@@ -108,7 +108,7 @@ const Resume = () => {
 
           /* Scale to fit one page */
           .resume-page > div {
-            zoom: 0.75;
+            zoom: 0.8;
           }
           
           @page { margin: 0.2in; size: letter; }
