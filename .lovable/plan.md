@@ -1,31 +1,40 @@
 
 
-## Plan: Make Recent Filings & Quick Actions full-width too
+## Analysis
 
-Same approach as the chart/deadlines change. The "Recent Filings & Payments" table and "Quick Actions" currently share a `grid-cols-5` row (3:2 split). Stack them vertically instead.
+The featured project cards have text content (impact label, title, description) clustered at the top, then a large empty gap, then tags pushed to the very bottom by `mt-auto`. This creates an awkward vertical gap that makes the cards feel hollow.
 
-**File: `src/components/case-study/TaxComplianceDashboardDemo.tsx` (lines 371-434)**
+The root cause: the text container has `md:justify-center` but `mt-auto` on the tags wrapper overrides this by forcing tags to the bottom, splitting the content into two distant groups.
 
-1. Remove the `grid grid-cols-5` wrapper around the table and Quick Actions
-2. Make the **Recent Filings & Payments** table full-width (remove `col-span-3`)
-3. Move **Quick Actions** below the table as a full-width card (remove `col-span-2`)
-4. Change Quick Actions from a 2x2 grid to a single horizontal row (4 columns) on desktop to use the wider space
+## Plan
+
+**File: `src/components/ProjectCard.tsx` (lines 112-122)**
+
+1. For featured cards, remove `mt-auto` from the tags wrapper so all text content stays grouped together and the parent's `md:justify-center` can vertically center everything as a unit
+2. Increase spacing between description and tags slightly (`mb-4` instead of `mb-3`) for breathing room
+3. Bump the featured description size to `text-lg` for more visual weight and to fill the space better
+4. Add the project role as a subtle detail line between description and tags to give recruiters more context and fill space naturally
 
 ```text
-Before (desktop):
-┌────────────────────┬──────────────┐
-│  Filings Table     │ Quick Actions│
-│  (3/5 width)       │ (2/5)        │
-└────────────────────┴──────────────┘
+Before:
+┌──────────────────┐
+│ Impact label     │
+│ Title            │
+│ Description      │
+│                  │  ← awkward gap
+│                  │
+│ Tags (mt-auto)   │
+└──────────────────┘
 
-After (desktop):
-┌────────────────────────────────────┐
-│  Filings Table (full width)        │
-└────────────────────────────────────┘
-┌────────────────────────────────────┐
-│  Quick Actions (full width, 4-col) │
-└────────────────────────────────────┘
+After:
+┌──────────────────┐
+│                  │
+│ Impact label     │
+│ Title            │  ← vertically centered
+│ Description      │     as a group
+│ Role             │
+│ Tags             │
+│                  │
+└──────────────────┘
 ```
-
-The table gets more room for columns (Date and Actions won't feel cramped), and the Quick Actions buttons spread out in a single row.
 
