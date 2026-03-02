@@ -177,7 +177,7 @@ const Index = () => (
           </h2>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.filter((p) => p.id !== "asure-compliance").map((p, i) => {
+          {projects.map((p, i) => {
             if (i === 0) return (
               <div key={p.id} className="md:col-span-2">
                 <ProjectCard project={p} index={0} featured />
