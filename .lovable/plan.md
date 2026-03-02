@@ -1,18 +1,48 @@
 
 
-## Plan: Fix Resume Print Styles & Hide Chat in Print
+## Plan: Update SEO for All Pages
 
-### Problem 1: Resume print doesn't match screen appearance
-The current print CSS (lines 107-154 in `Resume.tsx`) forces light theme colors (`background: white`, `color: #1a1a1a`, etc.) regardless of the active theme. The user wants the PDF to look exactly like what's on screen — dark mode prints dark, light mode prints light.
+### Current State
+- **SEO component** exists with title, description, canonical, OG, Twitter, JSON-LD, and breadcrumbs
+- **Missing from SEO component**: `og:image`, `twitter:image`, `twitter:card` meta tags — these are only set in `index.html` and don't update per-page
+- **index.html** has duplicate/hardcoded OG and Twitter tags that conflict with Helmet-injected tags
+- **Sitemap** is missing `/resume` and `/about` routes; missing `asure-compliance` project; no `<lastmod>` dates
+- **NotFound page** has no SEO component
+- **Resume page** has no description in SEO call
 
-**Fix**: Remove the "Force light theme for print" block (lines 107-154) that overrides all colors. Keep the structural print styles (layout, zoom, hiding nav) intact.
+### Changes
 
-### Problem 2: ChatBubble appears in print
-The floating chat button isn't hidden during print.
+#### 1. Enhance `src/components/SEO.tsx`
+- Add `og:image` and `twitter:image` pointing to the uploaded social image
+- Add `twitter:card` as `summary_large_image`
+- Accept optional `image` prop, default to the social card URL
+- Add `og:site_name` for brand consistency
 
-**Fix**: Add `print:hidden` to the ChatBubble's outermost wrapper elements (the floating button and the chat panel) so they disappear when printing.
+#### 2. Clean up `index.html`
+- Remove all duplicated `og:title`, `og:description`, `twitter:title`, `twitter:description` tags (lines 33-36) — Helmet handles these per-page
+- Keep the fallback `og:image` and `twitter:image` for non-JS crawlers
+- Remove the `<!-- TODO -->` comments
+
+#### 3. Update per-page SEO calls
+- **Index**: Already good — add breadcrumbs (Home)
+- **About**: Already good
+- **Contact**: Already good
+- **Resume**: Add a proper description to the SEO call
+- **ProjectPage**: Add JSON-LD `CreativeWork` schema per project
+- **NotFound**: Add basic SEO with `noindex` robot directive
+
+#### 4. Update `public/sitemap.xml`
+- Add `/resume` page
+- Add `/project/asure-compliance`
+- Add `<lastmod>` dates
+- Add `<changefreq>` hints
 
 ### Files to change
-- `src/pages/Resume.tsx` — Remove lines 107-154 (the forced light-theme print overrides)
-- `src/components/ChatBubble.tsx` — Add `print:hidden` class to the fixed-position button and panel
+- `src/components/SEO.tsx` — Add image/twitter:card support
+- `index.html` — Remove duplicate meta tags
+- `src/pages/Index.tsx` — Add breadcrumbs to SEO
+- `src/pages/Resume.tsx` — Add description
+- `src/pages/ProjectPage.tsx` — Add CreativeWork JSON-LD
+- `src/pages/NotFound.tsx` — Add SEO with noindex
+- `public/sitemap.xml` — Add missing pages, lastmod, changefreq
 
