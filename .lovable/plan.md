@@ -1,28 +1,36 @@
 
 
-## Plan: Enrich the Asure Compliance Access Gate Preview
+## Plan: Show the interactive prototype unblurred + add richer preview content
 
-Currently the access gate shows a generic blurred placeholder (3 colored rectangles + text lines). This doesn't give visitors any sense of what the case study contains or why it's worth requesting access.
+Currently the dashboard is blurred behind an overlay. The user wants to show more, including the actual interactive prototype and additional information, to entice visitors.
 
 ### Changes to `src/components/AccessGate.tsx`
 
-Replace the generic blurred placeholder (lines 87-107) with a much richer preview layout:
+1. **Unblur the dashboard prototype** - Remove the `blur-[6px]` filter and the overlay. Show the full interactive `TaxComplianceDashboardDemo` inside `ResponsiveAppShell` with `allowToggle` so visitors can actually click around and explore it. Add a label like "Interactive Prototype" and a prompt to interact.
 
-1. **Show the actual interactive dashboard (blurred)** - Render the real `TaxComplianceDashboardDemo` inside a `ResponsiveAppShell`, wrapped in a blur + overlay. This gives visitors a genuine glimpse of the work's complexity and polish.
+2. **Add the Entity Relationship Diagram** - Import and render the `EntityDiagram` component (currently only in the full case study) below the prototype. This visually communicates the system complexity without revealing proprietary details.
 
-2. **Add key stats bar** - Show the stats (9,000+ Tax Codes, 3 Disciplines Aligned, 6 Entity Types Mapped, 1 Shared Mental Model) above or below the blurred preview to communicate scale and impact.
+3. **Add the State Machine Diagram** - Import and render the `StateMachineDiagram` component to show the revision lifecycle (Draft → In Review → Locked → Released). Another visual hook that demonstrates design thinking.
 
-3. **Add a "What's Inside" preview list** - Below the blurred dashboard, add 3-4 short bullet points hinting at the case study sections (e.g., "System-wide entity mapping", "Interactive compliance dashboard prototype", "Cross-discipline discovery process", "Before/after navigation redesign").
+4. **Add a "Before → After" transformation snippet** - Show 3-4 rows from the `transformations` array (e.g., "Raw database relationships → Structured entity hierarchy") as a compact visual.
 
-4. **Keep the existing request form** unchanged below.
+5. **Keep the "What's Inside" section and request form** below all of this.
 
 ### Layout (top to bottom)
-- Lock icon + title + description + tags + role (existing, unchanged)
-- **Stats bar** (moved from full project page hero)
-- **Blurred real dashboard** in a ResponsiveAppShell with overlay text
-- **"What's Inside" section** - 3-4 teaser items with icons
-- Request form card (existing, unchanged)
+- Lock icon + title + description + tags + role (unchanged)
+- Stats bar (unchanged)
+- **Interactive prototype** (unblurred, fully interactive, with label)
+- **Entity Relationship Diagram** (from case study)
+- **State Machine Diagram** (from case study)
+- **Before → After transformations** (3-4 rows)
+- "What's Inside" teaser (unchanged)
+- Request form card (unchanged)
+
+### Technical detail
+- Export `EntityDiagram` and `StateMachineDiagram` from `AsureComplianceCaseStudy.tsx` (or extract to shared file) so `AccessGate` can import them
+- Widen the `max-w-2xl` container to `max-w-4xl` to accommodate the wider diagrams and prototype
 
 ### Files to edit
-- `src/components/AccessGate.tsx` - Replace generic blur placeholder with real dashboard + stats + teaser list
+- `src/components/case-study/AsureComplianceCaseStudy.tsx` - Export `EntityDiagram`, `StateMachineDiagram`, and `transformations`
+- `src/components/AccessGate.tsx` - Import and render them; unblur the prototype; widen container
 
