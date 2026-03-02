@@ -21,7 +21,7 @@ const responsiveProjects = new Set(["oneasure-portal", "asure-compliance"]);
 
 const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
   const DemoComponent = demoComponents[project.id];
-  const isResponsive = DemoComponent && responsiveProjects.has(project.id);
+  const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
   const shellWidth = featured ? 240 : 220;
   const shellHeight = featured ? 400 : 380;
 
@@ -37,7 +37,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-gradient-to-b from-muted/20 to-muted/40 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-8' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -45,19 +45,48 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             }}
           >
             {DemoComponent ? (
-              <div className="relative pointer-events-auto flex flex-col items-center" onClick={(e) => e.preventDefault()}>
-                <div onClick={(e) => e.stopPropagation()}>
-                  <ResponsiveAppShell
-                    compact
-                    allowToggle={!!isResponsive}
-                    desktopWidth={featured ? 480 : 380}
-                    desktopHeight={featured ? 400 : 520}
-                    mobileWidth={shellWidth}
-                    mobileHeight={shellHeight}
+              <div className="relative pointer-events-auto flex flex-col items-center gap-3" onClick={(e) => e.preventDefault()}>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent tracking-wide uppercase">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                  </span>
+                  Interactive Preview
+                </span>
+                {useResponsiveShell ? (
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <ResponsiveAppShell
+                      allowToggle
+                      desktopWidth={featured ? 480 : 380}
+                      desktopHeight={featured ? 400 : 520}
+                      mobileWidth={shellWidth}
+                      mobileHeight={shellHeight}
+                    >
+                      <DemoComponent />
+                    </ResponsiveAppShell>
+                  </div>
+                ) : (
+                  <div
+                    className="rounded-[2rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden"
+                    style={{ width: shellWidth }}
                   >
-                    <DemoComponent />
-                  </ResponsiveAppShell>
-                </div>
+                    <div className="bg-foreground/10 h-5 flex items-center justify-center shrink-0">
+                      <div className="w-14 h-1 rounded-full bg-foreground/20" />
+                    </div>
+                    <div
+                      className="relative overflow-y-auto"
+                      style={{
+                        height: shellHeight,
+                        WebkitOverflowScrolling: "touch",
+                        scrollbarWidth: "none",
+                        msOverflowStyle: "none",
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <DemoComponent />
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <img

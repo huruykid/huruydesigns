@@ -11,7 +11,6 @@ interface ResponsiveAppShellProps {
   mobileWidth?: number;
   mobileHeight?: number;
   allowToggle?: boolean;
-  compact?: boolean;
 }
 
 const fadeVariants = {
@@ -20,7 +19,7 @@ const fadeVariants = {
   exit: { opacity: 0, scale: 0.97 },
 };
 
-export default function ResponsiveAppShell({ children, label, desktopWidth = 520, desktopHeight = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false, compact = false }: ResponsiveAppShellProps) {
+export default function ResponsiveAppShell({ children, label, desktopWidth = 520, desktopHeight = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false }: ResponsiveAppShellProps) {
   const isMobile = useIsMobile();
   const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -115,12 +114,10 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
             </div>
             <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
           </div>
-          {(!compact || allowToggle) && (
-            <div className={`${compact ? 'mt-1.5' : 'mt-3'} flex flex-col items-center gap-2`}>
-              {!compact && scrollHint}
-              {togglePill}
-            </div>
-          )}
+          <div className="mt-3 flex flex-col items-center gap-2">
+            {scrollHint}
+            {togglePill}
+          </div>
         </motion.div>
       ) : (
         <motion.div
@@ -167,9 +164,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.4 }}
-            className={`${compact ? 'mt-1.5' : 'mt-3'} flex flex-col items-center gap-2`}
+            className="mt-3 flex flex-col items-center gap-2"
           >
-            {!compact && scrollHint}
+            {scrollHint}
             {togglePill}
           </motion.div>
         </motion.div>
