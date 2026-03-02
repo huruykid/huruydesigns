@@ -57,7 +57,8 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   <div onClick={(e) => e.stopPropagation()}>
                     <ResponsiveAppShell
                       allowToggle
-                      desktopWidth={featured ? 480 : 380}
+                      desktopWidth={featured ? 580 : 380}
+                      desktopHeight={featured ? 440 : 520}
                       mobileWidth={shellWidth}
                       mobileHeight={shellHeight}
                     >
