@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import ChatBubble from "./ChatBubble";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         </motion.main>
       </AnimatePresence>
       <Footer />
+      <ChatBubble />
     </div>
   );
 };
