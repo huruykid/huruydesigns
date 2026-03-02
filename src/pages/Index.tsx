@@ -34,7 +34,7 @@ const skillCategories = [
 ];
 
 const DotGrid = () => (
-  <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.15]" xmlns="http://www.w3.org/2000/svg">
+  <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.15]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
     {Array.from({ length: 20 }).map((_, row) =>
       Array.from({ length: 20 }).map((_, col) => (
         <circle

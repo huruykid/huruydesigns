@@ -63,7 +63,7 @@ const AccessGate = ({ project, onAccessGranted }: AccessGateProps) => {
           {/* Teaser header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 mb-6">
-              <Lock className="h-7 w-7 text-accent" />
+              <Lock className="h-7 w-7 text-accent" aria-hidden="true" />
             </div>
             <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">
               {project.impact}
