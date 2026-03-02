@@ -137,7 +137,7 @@ const ChatBubble = () => {
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors flex items-center justify-center"
+            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors flex items-center justify-center print:hidden"
             aria-label="Open chat"
           >
             <MessageCircle className="h-6 w-6" />
@@ -154,7 +154,7 @@ const ChatBubble = () => {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              "fixed z-50 flex flex-col bg-card border border-border rounded-2xl shadow-2xl overflow-hidden",
+              "fixed z-50 flex flex-col bg-card border border-border rounded-2xl shadow-2xl overflow-hidden print:hidden",
               isMobile
                 ? "inset-2 rounded-2xl"
                 : "bottom-6 right-6 w-[400px] h-[560px]"

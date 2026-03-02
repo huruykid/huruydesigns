@@ -104,54 +104,6 @@ const Resume = () => {
             zoom: 0.8;
           }
           
-          /* Force light theme for print - override all dark mode colors */
-          .resume-page, .resume-page * {
-            color-scheme: light !important;
-          }
-          .resume-page,
-          .resume-page .rounded-xl,
-          .resume-page div,
-          .resume-page aside,
-          .resume-page section {
-            background: white !important;
-            background-color: white !important;
-            color: #1a1a1a !important;
-            border-color: #e5e5e5 !important;
-          }
-          .resume-page hr,
-          .resume-page .resume-divider {
-            border-color: #e5e5e5 !important;
-          }
-          .resume-page .text-muted-foreground,
-          .resume-page .text-foreground\/85,
-          .resume-page [class*="text-foreground"] {
-            color: #555 !important;
-          }
-          .resume-page h2,
-          .resume-page h3,
-          .resume-page h4,
-          .resume-page .text-foreground,
-          .resume-page [class*="font-bold"],
-          .resume-page [class*="font-semibold"] {
-            color: #1a1a1a !important;
-          }
-          .resume-page .text-accent,
-          .resume-page .print-accent {
-            color: #f97316 !important;
-          }
-          .resume-page li::before,
-          .resume-page li:before {
-            color: rgba(249, 115, 22, 0.6) !important;
-          }
-          .resume-page .resume-pill {
-            background: #f3f4f6 !important;
-            background-color: #f3f4f6 !important;
-            color: #333 !important;
-            border-color: #d1d5db !important;
-          }
-          .resume-page img {
-            border-color: rgba(249, 115, 22, 0.2) !important;
-          }
 
           @page { margin: 0.2in; size: letter; }
         }
