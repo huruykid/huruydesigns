@@ -368,68 +368,65 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
             </div>
           </div>
 
-          {/* Table + Quick Actions */}
-          <div className={`grid ${mob ? "grid-cols-1" : "grid-cols-5"} gap-2`}>
-            {/* Table */}
-            <div className={`${mob ? "" : "col-span-3"} bg-white rounded-lg border border-gray-100 p-3 min-w-0 overflow-hidden`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-              <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Recent Filings & Payments</h3>
-              <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Your tax filing history and payment records</p>
-              <table className="w-full" style={{ fontSize: 8 }}>
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Document</th>
-                    {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Date</th>}
-                    <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Status</th>
-                    <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Amount</th>
-                    {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Actions</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filings.map((f, i) => (
-                    <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setSelectedFiling(i)}>
-                      <td className="py-1.5 flex items-center gap-1">
-                        <FileText size={10} className="shrink-0" style={{ color: "#9ca3af" }} />
-                        <span className={mob ? "max-w-[100px] truncate block" : ""} style={{ color: NAVY }}>{f.doc}</span>
+          {/* Table - full width */}
+          <div className="bg-white rounded-lg border border-gray-100 p-3 min-w-0 overflow-hidden mb-2" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Recent Filings & Payments</h3>
+            <p className="mb-2" style={{ fontSize: 8, color: "#9ca3af" }}>Your tax filing history and payment records</p>
+            <table className="w-full" style={{ fontSize: 8 }}>
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Document</th>
+                  {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Date</th>}
+                  <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Status</th>
+                  <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Amount</th>
+                  {!mob && <th className="text-left py-1.5 font-bold" style={{ color: NAVY }}>Actions</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {filings.map((f, i) => (
+                  <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => setSelectedFiling(i)}>
+                    <td className="py-1.5 flex items-center gap-1">
+                      <FileText size={10} className="shrink-0" style={{ color: "#9ca3af" }} />
+                      <span className={mob ? "max-w-[100px] truncate block" : ""} style={{ color: NAVY }}>{f.doc}</span>
+                    </td>
+                    {!mob && <td className="py-1.5" style={{ color: "#6b7280" }}>{f.date}</td>}
+                    <td className="py-1.5">{statusBadge(f.status)}</td>
+                    <td className="py-1.5 font-semibold" style={{ color: NAVY }}>{f.amount}</td>
+                    {!mob && (
+                      <td className="py-1.5">
+                        <button className="text-gray-400 hover:text-gray-600" onClick={(e) => { e.stopPropagation(); }}>
+                          <Download size={10} />
+                        </button>
                       </td>
-                      {!mob && <td className="py-1.5" style={{ color: "#6b7280" }}>{f.date}</td>}
-                      <td className="py-1.5">{statusBadge(f.status)}</td>
-                      <td className="py-1.5 font-semibold" style={{ color: NAVY }}>{f.amount}</td>
-                      {!mob && (
-                        <td className="py-1.5">
-                          <button className="text-gray-400 hover:text-gray-600" onClick={(e) => { e.stopPropagation(); }}>
-                            <Download size={10} />
-                          </button>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Quick Actions */}
-            <div className={`${mob ? "" : "col-span-2"} bg-white rounded-lg border border-gray-100 p-3 flex flex-col`} style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-              <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Quick Actions</h3>
-              <p className="mb-2.5" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
-              <div className="grid grid-cols-2 gap-1.5 flex-1">
-                {[
-                  { icon: <Upload size={13} />, label: "Upload Docs" },
-                  { icon: <FileText size={13} />, label: "File Return" },
-                  { icon: <DollarSign size={13} />, label: "Make Payment" },
-                  { icon: <Download size={13} />, label: "Download" },
-                ].map((a, i) => (
-                  <motion.button
-                    key={i}
-                    whileHover={{ scale: 1.04, y: -1 }}
-                    whileTap={{ scale: 0.96 }}
-                    className="flex flex-col items-center justify-center gap-1 rounded-md py-2.5 border transition-all cursor-pointer"
-                    style={{ borderColor: BLUE + "30", background: BLUE_LIGHT }}
-                  >
-                    <span className="rounded-full p-1" style={{ color: BLUE, background: BLUE + "12" }}>{a.icon}</span>
-                    <span className="font-semibold leading-tight" style={{ fontSize: 8, color: BLUE }}>{a.label}</span>
-                  </motion.button>
+                    )}
+                  </tr>
                 ))}
-              </div>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Quick Actions - full width */}
+          <div className="bg-white rounded-lg border border-gray-100 p-3" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <h3 className="font-bold mb-0.5" style={{ fontSize: 11, color: NAVY }}>Quick Actions</h3>
+            <p className="mb-2.5" style={{ fontSize: 8, color: "#9ca3af" }}>Common tasks and utilities</p>
+            <div className={`grid ${mob ? "grid-cols-2" : "grid-cols-4"} gap-1.5`}>
+              {[
+                { icon: <Upload size={13} />, label: "Upload Docs" },
+                { icon: <FileText size={13} />, label: "File Return" },
+                { icon: <DollarSign size={13} />, label: "Make Payment" },
+                { icon: <Download size={13} />, label: "Download" },
+              ].map((a, i) => (
+                <motion.button
+                  key={i}
+                  whileHover={{ scale: 1.04, y: -1 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="flex flex-col items-center justify-center gap-1 rounded-md py-2.5 border transition-all cursor-pointer"
+                  style={{ borderColor: BLUE + "30", background: BLUE_LIGHT }}
+                >
+                  <span className="rounded-full p-1" style={{ color: BLUE, background: BLUE + "12" }}>{a.icon}</span>
+                  <span className="font-semibold leading-tight" style={{ fontSize: 8, color: BLUE }}>{a.label}</span>
+                </motion.button>
+              ))}
             </div>
           </div>
         </div>
