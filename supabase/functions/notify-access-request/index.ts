@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const GATEWAY_URL = "https://connector-gateway.lovable.dev/slack/api";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,16 +14,36 @@ Deno.serve(async (req) => {
   try {
     const { name, email, project_id } = await req.json();
 
-    // Log the request for the portfolio owner to see in function logs
-    console.log(
-      `🔔 New access request!\nName: ${name}\nEmail: ${email}\nProject: ${project_id}\nTime: ${new Date().toISOString()}`
-    );
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    // In the future, you could integrate Resend or another email service here.
-    // For now, requests are logged and visible in the database + function logs.
+    const SLACK_API_KEY = Deno.env.get("SLACK_API_KEY");
+    if (!SLACK_API_KEY) throw new Error("SLACK_API_KEY is not configured");
+
+    // Send Slack notification to #portfolio
+    const slackRes = await fetch(`${GATEWAY_URL}/chat.postMessage`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "X-Connection-Api-Key": SLACK_API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        channel: "#portfolio",
+        text: `🔔 *New Case Study Access Request*\n\n• *Name:* ${name}\n• *Email:* ${email}\n• *Project:* ${project_id}\n• *Time:* ${new Date().toISOString()}`,
+      }),
+    });
+
+    const slackData = await slackRes.json();
+    if (!slackRes.ok || !slackData.ok) {
+      console.error("Slack API error:", JSON.stringify(slackData));
+      throw new Error(`Slack API failed [${slackRes.status}]: ${JSON.stringify(slackData)}`);
+    }
+
+    console.log(`✅ Slack notification sent for access request from ${name} (${email})`);
 
     return new Response(
-      JSON.stringify({ success: true, message: "Request logged" }),
+      JSON.stringify({ success: true, message: "Notification sent" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
