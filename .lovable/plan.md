@@ -1,34 +1,47 @@
 
 
-## Plan: Accessibility Audit — Alt Text & Aria-Labels
+## Plan: Replace UX Pong with UX Slot Machine
 
-After reviewing all pages and components, the site is already in good shape. Here are the specific gaps to fix:
+Replace the current `HeroPongGame.tsx` with a new UX Slot Machine game component.
 
-### Issues Found
+### Game Design
 
-1. **Navbar mobile hamburger button** (`src/components/Navbar.tsx`, line 53) — Missing `aria-label`. The button only contains an icon (Menu/X) with no accessible name.
+**Core Mechanic**: Three spinning reels, each containing UX principles/concepts. Click "SPIN" to play. Reels stop one by one (left → right) with a satisfying stagger.
 
-2. **About page headshot alt text** (`src/pages/About.tsx`, line 88) — Generic `alt="Huruy Kidanemariam"`. Should be more descriptive: `"Huruy Kidanemariam, UX Designer"`.
+**Reel Symbols** (with emoji icons):
+- Reel items: Empathy, Usability, Accessibility, Hierarchy, Consistency, Feedback, Affordance, Clarity
 
-3. **Resume page headshot alt text** (`src/pages/Resume.tsx`, line 160) — Same generic alt. Should match: `"Huruy Kidanemariam, UX Designer"`.
+**Winning Conditions**:
+- **3 matching**: "Perfect Design System! 🎯" — big celebration
+- **2 matching**: "Almost pixel-perfect! ✨"  
+- **No match**: Witty UX roast (e.g., "Inconsistent design tokens!", "Jakob is disappointed")
 
-4. **Index page DotGrid SVG** (`src/pages/Index.tsx`, line 37) — Decorative SVG missing `aria-hidden="true"` and `role="presentation"`.
+**UX Twist**: Each spin result displays a short UX tip related to the winning/losing combination. Your headshot sits above the reels, reacting to results (happy/sad expression via CSS filter or overlay emoji).
 
-5. **AccessGate decorative icons** (`src/components/AccessGate.tsx`) — The Lock icon in the header (line 66) is decorative but not hidden from screen readers. Add `aria-hidden="true"`.
+**States**: idle (headshot + "Spin to test your UX luck"), spinning, result (shows message + play again)
 
-6. **Footer social links** (`src/components/Footer.tsx`) — Already have aria-labels. No changes needed.
+### Visual Layout
 
-7. **ChatBubble** — Already has aria-labels on all buttons. No changes needed.
+Same ~340×340 canvas area. Built with **DOM/CSS** instead of canvas for smoother animations:
+- Headshot circle at top (reuses existing import)
+- 3 reel columns with CSS overflow hidden + translateY animation
+- Accent-colored SPIN button below
+- Result message area at bottom
 
-### Files to Change
+### Files Changed
 
 | File | Change |
 |------|--------|
-| `src/components/Navbar.tsx` | Add `aria-label="Toggle navigation menu"` to mobile menu button |
-| `src/pages/About.tsx` | Improve headshot alt text |
-| `src/pages/Resume.tsx` | Improve headshot alt text |
-| `src/pages/Index.tsx` | Add `aria-hidden="true"` and `role="presentation"` to DotGrid SVG |
-| `src/components/AccessGate.tsx` | Add `aria-hidden="true"` to decorative Lock icon |
+| `src/components/HeroPongGame.tsx` | **Rewrite** — replace Pong with Slot Machine (keep same export name to avoid touching Index.tsx) |
 
-All changes are single-line attribute additions — no structural changes needed.
+No changes needed to `Index.tsx` since we keep the same component name and export.
+
+### Key Implementation Details
+
+- Use `framer-motion` for reel spin animations (already installed)
+- Each reel is a vertical strip of items animated via `motion.div` with `y` transforms
+- Staggered stop: reel 1 stops after 0.8s, reel 2 after 1.2s, reel 3 after 1.6s
+- Headshot uses the existing `@/assets/huruy-headshot.jpg` import
+- Mobile: stays hidden (`hidden md:flex`)
+- Zero skill required — pure click-to-play fun
 
