@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users, FileText } from "lucide-react";
-import headshot from "@/assets/huruy-headshot.jpg";
 import { Link } from "react-router-dom";
+import HeroPongGame from "@/components/HeroPongGame";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
@@ -140,30 +140,7 @@ const Index = () => (
               </a>
             </div>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              boxShadow: [
-                "0 0 20px hsl(24 95% 53% / 0.1)",
-                "0 0 40px hsl(24 95% 53% / 0.25)",
-                "0 0 20px hsl(24 95% 53% / 0.1)",
-              ],
-            }}
-            transition={{
-              opacity: { duration: 0.7, delay: 0.3 },
-              scale: { duration: 0.7, delay: 0.3 },
-              boxShadow: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-            }}
-            className="hidden md:block shrink-0 rounded-full"
-          >
-            <img
-              src={headshot}
-              alt="Huruy Kidanemariam headshot"
-              className="h-[300px] w-[300px] rounded-full object-cover object-top ring-4 ring-accent/30 shadow-2xl"
-            />
-          </motion.div>
+          <HeroPongGame />
         </div>
       </div>
     </section>
