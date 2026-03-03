@@ -150,7 +150,7 @@ const HeroPongGame: React.FC = () => {
             <img
               src={headshot}
               alt="Huruy"
-              className={`w-full h-full object-cover transition-all duration-300 ${
+              className={`w-full h-full object-cover object-top transition-all duration-300 ${
                 gameState === "result" && messageType === "lose" ? "grayscale" : ""
               }`}
             />
