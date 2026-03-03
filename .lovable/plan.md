@@ -1,47 +1,38 @@
 
 
-## Plan: Replace UX Pong with UX Slot Machine
+## 5 Game Ideas That Showcase Your Skills to Recruiters
 
-Replace the current `HeroPongGame.tsx` with a new UX Slot Machine game component.
+### 1. UX Roast Machine
+You paste any website URL (or pick from presets like "bad login forms"). The game shows a mock screenshot and you tap hotspots to identify UX issues — missing contrast, no error states, bad hierarchy. Each correct find earns points. **Shows**: Your eye for UX problems, heuristic evaluation skills.
 
-### Game Design
+### 2. Design System Builder
+Three broken UI components appear (mismatched button, wrong spacing, inconsistent typography). Drag-and-drop the correct design tokens (color, spacing, font) onto each component to "fix" them. Timer optional. **Shows**: Design systems knowledge, attention to detail, component thinking.
 
-**Core Mechanic**: Three spinning reels, each containing UX principles/concepts. Click "SPIN" to play. Reels stop one by one (left → right) with a satisfying stagger.
+### 3. UX Trivia Challenge
+Flip a card → UX question appears (e.g., "What does Fitts's Law predict?") with 3 choices. Your headshot reacts to correct/wrong answers. After 5 questions, shows a score with a witty title ("Senior UX Architect" vs "Intern Energy"). **Shows**: Deep UX knowledge, that you actually understand the theory behind your designs.
 
-**Reel Symbols** (with emoji icons):
-- Reel items: Empathy, Usability, Accessibility, Hierarchy, Consistency, Feedback, Affordance, Clarity
+### 4. Wireframe Speed Sketch
+A brief appears: "Design a checkout flow for mobile." Three wireframe options slide in — pick the best one. Your headshot explains why the right answer works. Quick 3-round game. **Shows**: Design thinking, ability to evaluate solutions quickly, product sense.
 
-**Winning Conditions**:
-- **3 matching**: "Perfect Design System! 🎯" — big celebration
-- **2 matching**: "Almost pixel-perfect! ✨"  
-- **No match**: Witty UX roast (e.g., "Inconsistent design tokens!", "Jakob is disappointed")
+### 5. Accessibility Audit Game
+A mock UI appears with intentional a11y violations (missing alt text, low contrast, no focus states). Click to find all the issues before time runs out. Score reflects how many you caught. **Shows**: Accessibility expertise — a huge differentiator that recruiters increasingly care about.
 
-**UX Twist**: Each spin result displays a short UX tip related to the winning/losing combination. Your headshot sits above the reels, reacting to results (happy/sad expression via CSS filter or overlay emoji).
+---
 
-**States**: idle (headshot + "Spin to test your UX luck"), spinning, result (shows message + play again)
+### My Recommendation: **#3 — UX Trivia Challenge**
 
-### Visual Layout
+- Zero-friction (click to flip, click to answer)
+- Directly proves you know UX theory, not just tools
+- Educational for the recruiter too — they learn something
+- Your headshot reacting adds personality
+- Easy to implement with the existing framer-motion setup
+- 5 questions keeps it under 60 seconds
 
-Same ~340×340 canvas area. Built with **DOM/CSS** instead of canvas for smoother animations:
-- Headshot circle at top (reuses existing import)
-- 3 reel columns with CSS overflow hidden + translateY animation
-- Accent-colored SPIN button below
-- Result message area at bottom
-
-### Files Changed
+### Implementation (if you pick Trivia)
 
 | File | Change |
 |------|--------|
-| `src/components/HeroPongGame.tsx` | **Rewrite** — replace Pong with Slot Machine (keep same export name to avoid touching Index.tsx) |
+| `src/components/HeroPongGame.tsx` | Rewrite — card flip UI, question bank, score tracker, headshot reactions |
 
-No changes needed to `Index.tsx` since we keep the same component name and export.
-
-### Key Implementation Details
-
-- Use `framer-motion` for reel spin animations (already installed)
-- Each reel is a vertical strip of items animated via `motion.div` with `y` transforms
-- Staggered stop: reel 1 stops after 0.8s, reel 2 after 1.2s, reel 3 after 1.6s
-- Headshot uses the existing `@/assets/huruy-headshot.jpg` import
-- Mobile: stays hidden (`hidden md:flex`)
-- Zero skill required — pure click-to-play fun
+Same 340×340 desktop-only layout. Uses framer-motion for card flip animations. ~15 curated questions, randomly picks 5 per session.
 
