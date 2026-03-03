@@ -1,34 +1,42 @@
 
 
-## Plan: Accessibility Audit — Alt Text & Aria-Labels
+## Plan: UX Pong — Hero Section Game
 
-After reviewing all pages and components, the site is already in good shape. Here are the specific gaps to fix:
+Replace the static headshot on desktop with an interactive Pong game where your face is the ball.
 
-### Issues Found
+### Game Concept
 
-1. **Navbar mobile hamburger button** (`src/components/Navbar.tsx`, line 53) — Missing `aria-label`. The button only contains an icon (Menu/X) with no accessible name.
+- **Your headshot** is the ball, bouncing between two paddles
+- **Paddles** are labeled with UX principles: left paddle = "Empathy", right paddle = "Usability" (or similar rotating labels)
+- **Scoring**: each successful volley increments a score. Missing the ball triggers a "Dark Pattern detected!" or "Heuristic violation!" message with a brief screen shake
+- **Start state**: your headshot sits static (current look) with a subtle "Click to play" prompt. Game activates on click
+- **Idle/end state**: after game over, headshot returns to its resting position with score displayed and "Play again?" option
 
-2. **About page headshot alt text** (`src/pages/About.tsx`, line 88) — Generic `alt="Huruy Kidanemariam"`. Should be more descriptive: `"Huruy Kidanemariam, UX Designer"`.
+### Layout
 
-3. **Resume page headshot alt text** (`src/pages/Resume.tsx`, line 160) — Same generic alt. Should match: `"Huruy Kidanemariam, UX Designer"`.
+The game canvas replaces the `motion.div` containing the headshot (right side of hero, desktop only). Same ~300x300 area. On mobile, the game is hidden — no change to mobile layout.
 
-4. **Index page DotGrid SVG** (`src/pages/Index.tsx`, line 37) — Decorative SVG missing `aria-hidden="true"` and `role="presentation"`.
+### Technical Approach
 
-5. **AccessGate decorative icons** (`src/components/AccessGate.tsx`) — The Lock icon in the header (line 66) is decorative but not hidden from screen readers. Add `aria-hidden="true"`.
+- **New component**: `src/components/HeroPongGame.tsx` — a self-contained React component using `<canvas>` with `requestAnimationFrame`
+- **Ball rendering**: draw your headshot image (circular clip) as the ball on the canvas
+- **Paddles**: drawn as rounded rectangles with UX labels rendered via `fillText`
+- **Controls**: mouse/trackpad moves the right paddle vertically; left paddle is AI-controlled
+- **State machine**: idle → playing → game-over, managed with `useState`
+- **Styling**: canvas gets `rounded-2xl` wrapper, same glow ring animation as current headshot via framer-motion on the container
 
-6. **Footer social links** (`src/components/Footer.tsx`) — Already have aria-labels. No changes needed.
+### Files
 
-7. **ChatBubble** — Already has aria-labels on all buttons. No changes needed.
-
-### Files to Change
-
-| File | Change |
+| File | Action |
 |------|--------|
-| `src/components/Navbar.tsx` | Add `aria-label="Toggle navigation menu"` to mobile menu button |
-| `src/pages/About.tsx` | Improve headshot alt text |
-| `src/pages/Resume.tsx` | Improve headshot alt text |
-| `src/pages/Index.tsx` | Add `aria-hidden="true"` and `role="presentation"` to DotGrid SVG |
-| `src/components/AccessGate.tsx` | Add `aria-hidden="true"` to decorative Lock icon |
+| `src/components/HeroPongGame.tsx` | **Create** — full game component (~200 lines) |
+| `src/pages/Index.tsx` | **Edit** — swap headshot `motion.div` for `<HeroPongGame />` on desktop, keep headshot import for the game to use |
 
-All changes are single-line attribute additions — no structural changes needed.
+### UX Details
+
+- Ball speed increases slightly each volley
+- On miss: brief red flash + witty UX anti-pattern message (randomized from a list: "Dark pattern detected!", "Jakob's Law violated!", "Where's the affordance?!")
+- On 5-point streak: "Pixel perfect!" celebration text
+- Score persists in top-right of canvas
+- Subtle canvas border matching `ring-4 ring-accent/30` to blend with current design
 
