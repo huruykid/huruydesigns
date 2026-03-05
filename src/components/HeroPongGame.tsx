@@ -122,6 +122,39 @@ const shuffle = <T,>(arr: T[]): T[] => {
   return a;
 };
 
+const CONFETTI_COLORS = ["#f59e0b", "#ef4444", "#10b981", "#3b82f6", "#8b5cf6", "#ec4899"];
+
+const ConfettiBurst: React.FC = () => {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        x: (Math.random() - 0.5) * 280,
+        y: (Math.random() - 0.5) * 280,
+        rotate: Math.random() * 720 - 360,
+        scale: Math.random() * 0.6 + 0.4,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+        delay: Math.random() * 0.3,
+      })),
+    []
+  );
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{ opacity: 1, x: 0, y: 0, scale: 0, rotate: 0 }}
+          animate={{ opacity: 0, x: p.x, y: p.y, scale: p.scale, rotate: p.rotate }}
+          transition={{ duration: 1.4, delay: p.delay, ease: "easeOut" }}
+          className="absolute left-1/2 top-1/2 w-2 h-2 rounded-full"
+          style={{ backgroundColor: p.color }}
+        />
+      ))}
+    </div>
+  );
+};
+
 type Phase = "intro" | "question" | "answered" | "result";
 
 const HeroPongGame: React.FC = () => {
