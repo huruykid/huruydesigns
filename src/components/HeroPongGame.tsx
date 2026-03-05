@@ -380,6 +380,7 @@ const HeroPongGame: React.FC = () => {
                 exit={{ opacity: 0 }}
                 className="flex flex-col items-center gap-3 text-center"
               >
+                {score === 5 && <ConfettiBurst />}
                 <span className="text-3xl">{titleData.emoji}</span>
                 <div>
                   <p className="text-lg font-bold text-foreground">
