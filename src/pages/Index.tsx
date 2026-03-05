@@ -101,7 +101,7 @@ const Index = () => (
       <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.06] blur-3xl" />
       <DotGrid />
       <div className="container mx-auto px-4 py-10 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
