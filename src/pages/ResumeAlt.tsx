@@ -99,7 +99,7 @@ const ResumeAlt = () => {
             flex: 1 !important;
           }
           .resume-page > div {
-            zoom: 0.8;
+            zoom: 0.75;
           }
           @page { margin: 0.2in; size: letter; }
         }
