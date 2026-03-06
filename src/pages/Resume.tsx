@@ -119,7 +119,12 @@ const Resume = () => {
             <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
           </div>
           <div className="flex gap-3">
-            <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button asChild variant="outline">
+              <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+                <Download className="h-4 w-4 mr-1" /> Download PDF
+              </a>
+            </Button>
+            <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90 hidden sm:inline-flex">
               <Printer className="h-4 w-4 mr-1" /> Save as PDF
             </Button>
           </div>
@@ -131,10 +136,10 @@ const Resume = () => {
         <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
           
           {/* Name header */}
-          <div className="px-8 pt-8 pb-6 border-b border-border resume-divider">
+          <div className="px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h2 className="text-xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                   Huruy Kidanemariam
                 </h2>
                 <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -167,7 +172,7 @@ const Resume = () => {
           <div className="resume-two-col flex flex-col md:flex-row">
             
             {/* ── Sidebar ── */}
-            <aside className="md:w-[280px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-8 py-6 space-y-6">
+            <aside className="md:w-[280px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-4 md:px-8 py-6 space-y-6 order-2 md:order-1">
               
               {/* Skills */}
               <div>
@@ -217,7 +222,7 @@ const Resume = () => {
             </aside>
 
             {/* ── Main column ── */}
-            <div className="resume-main flex-1 px-8 py-6">
+            <div className="resume-main flex-1 px-4 md:px-8 py-6 order-1 md:order-2">
               
               {/* Summary */}
               <div className="resume-section mb-6">
