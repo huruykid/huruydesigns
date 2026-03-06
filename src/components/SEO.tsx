@@ -56,6 +56,8 @@ const SEO = ({ title, description, path = "/", image, jsonLd, breadcrumbs, noind
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
 
+      <meta name="theme-color" content="#0f172a" />
+
       {jsonLd && (
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       )}
