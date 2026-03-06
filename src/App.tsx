@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import GenerateWireframe from "./pages/GenerateWireframe";
 import OGImage from "./pages/OGImage";
 import Resume from "./pages/Resume";
+import ResumeAlt from "./pages/ResumeAlt";
 
 const queryClient = new QueryClient();
 
