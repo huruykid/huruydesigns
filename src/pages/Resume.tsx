@@ -136,7 +136,7 @@ const Resume = () => {
         <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
           
           {/* Name header */}
-          <div className="px-8 pt-8 pb-6 border-b border-border resume-divider">
+          <div className="px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
