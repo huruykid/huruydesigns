@@ -13,19 +13,16 @@ const experience = [
     "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
     "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",
   ]},
+  { period: "2020 – 2023", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
+    "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
+    "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
+    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
+  ]},
   { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Independent", location: "Remote", bullets: [
     "Top 1% Lovable developer with expertise in AI-assisted product development, rapid MVP prototyping, and full-stack application workflows",
     "Designed and shipped production apps integrating Supabase backends, OpenAI APIs, and real-time data pipelines",
     "Built end-to-end UX flows for AI-powered tools — from prompt architecture and conversational UI to dashboards and admin panels",
     "Prototyped and validated product concepts in days instead of weeks using AI-assisted design-to-code workflows",
-  ]},
-  { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
-    "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
-    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
-    "Led user research initiatives including interviews, contextual inquiries, and usability testing to validate design decisions",
-    "Presented design rationale and research findings to client stakeholders, translating insights into actionable product improvements",
-    "Ran A/B tests on onboarding flows and landing pages, iterating on copy and layout to improve conversion rates",
   ]},
 ];
 
@@ -102,7 +99,7 @@ const ResumeAlt = () => {
             flex: 1 !important;
           }
           .resume-page > div {
-            zoom: 0.8;
+            zoom: 0.75;
           }
           @page { margin: 0.2in; size: letter; }
         }
