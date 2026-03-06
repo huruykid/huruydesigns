@@ -222,7 +222,7 @@ const Resume = () => {
             </aside>
 
             {/* ── Main column ── */}
-            <div className="resume-main flex-1 px-8 py-6">
+            <div className="resume-main flex-1 px-4 md:px-8 py-6 order-1 md:order-2">
               
               {/* Summary */}
               <div className="resume-section mb-6">
