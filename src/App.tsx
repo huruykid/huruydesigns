@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import GenerateWireframe from "./pages/GenerateWireframe";
 import OGImage from "./pages/OGImage";
 import Resume from "./pages/Resume";
+import ResumeAlt from "./pages/ResumeAlt";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
           <Route path="/resume" element={<Resume />} />
+          <Route path="/resume/alt" element={<ResumeAlt />} />
           <Route path="/generate-wireframe" element={<GenerateWireframe />} />
           <Route path="/og" element={<OGImage />} />
           <Route path="*" element={<NotFound />} />
