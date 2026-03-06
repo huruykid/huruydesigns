@@ -1,4 +1,4 @@
-import { Download, Printer, Mail, Linkedin, Globe, Award } from "lucide-react";
+import { Download, Printer, Mail, Linkedin, ExternalLink, Globe } from "lucide-react";
 import headshot from "@/assets/huruy-headshot.jpg";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
@@ -13,16 +13,16 @@ const experience = [
     "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
     "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",
   ]},
-  { period: "2020 – 2023", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
+  { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE", location: "Los Angeles, CA", bullets: [
+    "Designed onboarding flows for VR-based English language learning experiences, improving learner retention",
+    "Developed Immerse's first content and design framework, establishing reusable guidelines for instructional designers",
+    "Conducted usability testing to identify linguistic friction points. Rewrote prompt sequences reducing user errors",
+    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical best practices",
+  ]},
+  { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
     "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
     "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
     "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
-  ]},
-  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Independent", location: "Remote", bullets: [
-    "Top 1% Lovable developer with expertise in AI-assisted product development, rapid MVP prototyping, and full-stack application workflows",
-    "Designed and shipped production apps integrating Supabase backends, OpenAI APIs, and real-time data pipelines",
-    "Built end-to-end UX flows for AI-powered tools — from prompt architecture and conversational UI to dashboards and admin panels",
-    "Prototyped and validated product concepts in days instead of weeks using AI-assisted design-to-code workflows",
   ]},
 ];
 
@@ -41,11 +41,6 @@ const skillGroups = [
   { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
   { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
   { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] },
-];
-
-const certificates = [
-  { title: "Google UX Design Certificate", issuer: "Google" },
-  { title: "Top 1% Developer", issuer: "Lovable" },
 ];
 
 const contact = [
@@ -85,6 +80,8 @@ const ResumeAlt = () => {
             box-shadow: none !important; 
             border: none !important;
           }
+
+          /* Force two-column layout in print */
           .resume-two-col {
             display: flex !important;
             flex-direction: row !important;
@@ -98,14 +95,18 @@ const ResumeAlt = () => {
           .resume-main {
             flex: 1 !important;
           }
+
+          /* Scale to fit one page */
           .resume-page > div {
-            zoom: 0.75;
+            zoom: 0.8;
           }
+          
+
           @page { margin: 0.2in; size: letter; }
         }
       `}</style>
 
-      {/* Action bar */}
+      {/* Action bar - screen only */}
       <div className="no-print container mx-auto px-4 pt-8 pb-4 max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -191,31 +192,14 @@ const ResumeAlt = () => {
                 </div>
               </div>
 
-              {/* Certificates */}
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Certificates
-                </h3>
-                <div className="space-y-2.5">
-                  {certificates.map((cert) => (
-                    <div key={cert.title} className="flex items-start gap-2">
-                      <Award className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
-                      <div>
-                        <h4 className="text-sm font-semibold text-foreground leading-snug">{cert.title}</h4>
-                        <p className="text-xs text-muted-foreground">{cert.issuer}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Education */}
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                   Education
                 </h3>
-                <h4 className="text-sm font-semibold text-foreground leading-snug">Psychology</h4>
-                <p className="text-xs text-muted-foreground">CSU Eastbay</p>
+                <h4 className="text-sm font-semibold text-foreground leading-snug">B.S. Psychology</h4>
+                <p className="text-xs text-muted-foreground">Ergonomics & Human Factors</p>
+                <p className="text-xs text-muted-foreground">CSU Eastbay · 2010–2014</p>
               </div>
 
               {/* Side Projects */}
@@ -243,7 +227,7 @@ const ResumeAlt = () => {
                   Summary
                 </h3>
                 <p className="text-sm text-foreground leading-relaxed">
-                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products — from HR compliance platforms serving 9,000+ agencies to AI-powered tools and social impact applications.
+                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
                 </p>
               </div>
 
