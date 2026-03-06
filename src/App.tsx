@@ -37,6 +37,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
           <Route path="/resume" element={<Resume />} />
+          <Route path="/resume/alt" element={<ResumeAlt />} />
           <Route path="/generate-wireframe" element={<GenerateWireframe />} />
           <Route path="/og" element={<OGImage />} />
           <Route path="*" element={<NotFound />} />
