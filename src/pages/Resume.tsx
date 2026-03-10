@@ -200,9 +200,7 @@ const Resume = () => {
                 <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                   Education
                 </h3>
-                <h4 className="text-sm font-semibold text-foreground leading-snug">B.S. Psychology</h4>
-                <p className="text-xs text-muted-foreground">Ergonomics & Human Factors</p>
-                <p className="text-xs text-muted-foreground">CSU Eastbay</p>
+                <p className="text-sm text-foreground">CSU Eastbay</p>
               </div>
 
               {/* Side Projects */}
