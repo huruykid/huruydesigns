@@ -161,7 +161,7 @@ const About = () => (
               <h2 className="text-xl font-bold flex items-center gap-2 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 <GraduationCap className="h-5 w-5 text-accent" /> Education
               </h2>
-              <p className="text-sm font-semibold text-accent">2010 – 2014</p>
+              
               <p className="font-semibold">Bachelor of Science in Psychology, Ergonomics & Human Factors Concentration</p>
               <p className="text-sm text-muted-foreground">CSU Eastbay</p>
             </div>
