@@ -79,7 +79,7 @@ function buildSidebar(): TableCell {
     }));
     children.push(new Paragraph({
       spacing: { after: 80 },
-      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 19, color: "444444" })],
+      children: [new TextRun({ text: group.skills.join(", "), font: FONT, size: 19, color: "444444" })],
     }));
   }
 
@@ -103,8 +103,9 @@ function buildSidebar(): TableCell {
   }
 
   return new TableCell({
-    width: { size: 30, type: WidthType.PERCENTAGE },
+    width: { size: 25, type: WidthType.PERCENTAGE },
     borders: NO_BORDERS,
+    margins: { right: 200 },
     children,
   });
 }
@@ -118,7 +119,7 @@ function buildMainColumn(): TableCell {
     spacing: { after: 160 },
     children: [new TextRun({
       text: "UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.",
-      font: FONT, size: 24,
+      font: FONT, size: 22,
     })],
   }));
 
@@ -129,7 +130,7 @@ function buildMainColumn(): TableCell {
       spacing: { before: 180, after: 30 },
       children: [
         new TextRun({ text: job.title, font: FONT, size: 24, bold: true }),
-        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "888888" }),
+        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "666666" }),
       ],
     }));
     children.push(new Paragraph({
@@ -138,7 +139,7 @@ function buildMainColumn(): TableCell {
     }));
     for (const bullet of job.bullets) {
       children.push(new Paragraph({
-        spacing: { after: 50 },
+        spacing: { after: 80 },
         bullet: { level: 0 },
         children: [new TextRun({ text: bullet, font: FONT, size: 22 })],
       }));
@@ -152,7 +153,7 @@ function buildMainColumn(): TableCell {
       spacing: { before: 180, after: 30 },
       children: [
         new TextRun({ text: item.title, font: FONT, size: 24, bold: true }),
-        new TextRun({ text: `  |  ${item.period}`, font: FONT, size: 20, color: "888888" }),
+        new TextRun({ text: `  |  ${item.period}`, font: FONT, size: 20, color: "666666" }),
       ],
     }));
     children.push(new Paragraph({
@@ -166,8 +167,9 @@ function buildMainColumn(): TableCell {
   }
 
   return new TableCell({
-    width: { size: 70, type: WidthType.PERCENTAGE },
+    width: { size: 75, type: WidthType.PERCENTAGE },
     borders: NO_BORDERS,
+    margins: { left: 200 },
     children,
   });
 }
@@ -195,7 +197,7 @@ export async function generateAndDownloadDocx() {
           }),
           // Contact
           new Paragraph({
-            spacing: { after: 280 },
+            spacing: { after: 120 },
             children: [
               new ExternalHyperlink({
                 link: "mailto:huruydesigns@gmail.com",
@@ -212,6 +214,12 @@ export async function generateAndDownloadDocx() {
                 children: [new TextRun({ text: "huruy.tech", font: FONT, size: 20, color: "555555" })],
               }),
             ],
+          }),
+          // Orange separator line
+          new Paragraph({
+            spacing: { after: 200 },
+            border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: ACCENT_COLOR } },
+            children: [],
           }),
           // Two-column table
           new Table({
