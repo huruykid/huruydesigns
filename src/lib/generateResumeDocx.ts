@@ -195,21 +195,21 @@ export async function generateAndDownloadDocx() {
           }),
           // Contact
           new Paragraph({
-            spacing: { after: 200 },
+            spacing: { after: 280 },
             children: [
               new ExternalHyperlink({
                 link: "mailto:huruydesigns@gmail.com",
-                children: [new TextRun({ text: "huruydesigns@gmail.com", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "huruydesigns@gmail.com", font: FONT, size: 20, color: "555555" })],
               }),
-              new TextRun({ text: "  |  ", font: FONT, size: 18, color: "AAAAAA" }),
+              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
                 link: "https://www.linkedin.com/in/huruydesigns/",
-                children: [new TextRun({ text: "linkedin.com/in/huruydesigns", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "linkedin.com/in/huruydesigns", font: FONT, size: 20, color: "555555" })],
               }),
-              new TextRun({ text: "  |  ", font: FONT, size: 18, color: "AAAAAA" }),
+              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
                 link: "https://huruy.tech",
-                children: [new TextRun({ text: "huruy.tech", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "huruy.tech", font: FONT, size: 20, color: "555555" })],
               }),
             ],
           }),
