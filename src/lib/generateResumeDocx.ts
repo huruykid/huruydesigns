@@ -60,9 +60,9 @@ const NO_BORDERS = { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, r
 
 function sectionHeading(text: string): Paragraph {
   return new Paragraph({
-    spacing: { before: 200, after: 100 },
+    spacing: { before: 300, after: 140 },
     children: [
-      new TextRun({ text: text.toUpperCase(), font: FONT, size: 18, bold: true, color: ACCENT_COLOR }),
+      new TextRun({ text: text.toUpperCase(), font: FONT, size: 22, bold: true, color: ACCENT_COLOR }),
     ],
   });
 }
