@@ -130,7 +130,7 @@ function buildMainColumn(): TableCell {
       spacing: { before: 180, after: 30 },
       children: [
         new TextRun({ text: job.title, font: FONT, size: 24, bold: true }),
-        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "888888" }),
+        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "666666" }),
       ],
     }));
     children.push(new Paragraph({
