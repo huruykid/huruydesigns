@@ -119,14 +119,17 @@ const Resume = () => {
             </h1>
             <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button asChild variant="outline">
               <a href="/resume/huruy-kidanemariam-resume.pdf" download>
-                <Download className="h-4 w-4 mr-1" /> Download PDF
+                <Download className="h-4 w-4 mr-1" /> PDF
               </a>
             </Button>
+            <Button variant="outline" onClick={generateAndDownloadDocx}>
+              <FileText className="h-4 w-4 mr-1" /> Word
+            </Button>
             <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90 hidden sm:inline-flex">
-              <Printer className="h-4 w-4 mr-1" /> Save as PDF
+              <Printer className="h-4 w-4 mr-1" /> Print
             </Button>
           </div>
         </div>
