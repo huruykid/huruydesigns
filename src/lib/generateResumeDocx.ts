@@ -167,8 +167,9 @@ function buildMainColumn(): TableCell {
   }
 
   return new TableCell({
-    width: { size: 70, type: WidthType.PERCENTAGE },
+    width: { size: 75, type: WidthType.PERCENTAGE },
     borders: NO_BORDERS,
+    margins: { left: 200 },
     children,
   });
 }
