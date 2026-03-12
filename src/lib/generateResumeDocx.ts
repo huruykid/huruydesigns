@@ -186,7 +186,7 @@ export async function generateAndDownloadDocx() {
           // Name
           new Paragraph({
             spacing: { after: 40 },
-            children: [new TextRun({ text: "Huruy Kidanemariam", font: FONT, size: 32, bold: true })],
+            children: [new TextRun({ text: "Huruy Kidanemariam", font: FONT, size: 40, bold: true })],
           }),
           // Title
           new Paragraph({
