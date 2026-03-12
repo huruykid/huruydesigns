@@ -176,7 +176,7 @@ export async function generateAndDownloadDocx() {
   const doc = new Document({
     styles: {
       default: {
-        document: { run: { font: FONT, size: 20 } },
+        document: { run: { font: FONT, size: 22 } },
       },
     },
     sections: [
