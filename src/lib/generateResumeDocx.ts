@@ -54,7 +54,7 @@ const skillGroups = [
 ];
 
 const FONT = "Calibri";
-const ACCENT_COLOR = "2563EB";
+const ACCENT_COLOR = "F97316";
 const BORDER_NONE = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
 const NO_BORDERS = { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, right: BORDER_NONE };
 
