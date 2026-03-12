@@ -91,8 +91,8 @@ const Resume = () => {
             flex-direction: row !important;
           }
           .resume-sidebar {
-            width: 240px !important;
-            min-width: 240px !important;
+            width: 200px !important;
+            min-width: 200px !important;
             flex-shrink: 0 !important;
             border-bottom: none !important;
           }
