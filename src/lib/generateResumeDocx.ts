@@ -74,12 +74,12 @@ function buildSidebar(): TableCell {
   children.push(sectionHeading("Skills"));
   for (const group of skillGroups) {
     children.push(new Paragraph({
-      spacing: { before: 100, after: 40 },
-      children: [new TextRun({ text: group.label, font: FONT, size: 18, bold: true })],
+      spacing: { before: 120, after: 50 },
+      children: [new TextRun({ text: group.label, font: FONT, size: 20, bold: true })],
     }));
     children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 17, color: "444444" })],
+      spacing: { after: 80 },
+      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 19, color: "444444" })],
     }));
   }
 
