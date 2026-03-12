@@ -139,7 +139,7 @@ function buildMainColumn(): TableCell {
     }));
     for (const bullet of job.bullets) {
       children.push(new Paragraph({
-        spacing: { after: 50 },
+        spacing: { after: 80 },
         bullet: { level: 0 },
         children: [new TextRun({ text: bullet, font: FONT, size: 22 })],
       }));
