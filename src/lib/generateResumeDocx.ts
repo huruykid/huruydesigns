@@ -79,7 +79,7 @@ function buildSidebar(): TableCell {
     }));
     children.push(new Paragraph({
       spacing: { after: 80 },
-      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 19, color: "444444" })],
+      children: [new TextRun({ text: group.skills.join(", "), font: FONT, size: 19, color: "444444" })],
     }));
   }
 
