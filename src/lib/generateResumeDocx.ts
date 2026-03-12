@@ -103,8 +103,9 @@ function buildSidebar(): TableCell {
   }
 
   return new TableCell({
-    width: { size: 30, type: WidthType.PERCENTAGE },
+    width: { size: 25, type: WidthType.PERCENTAGE },
     borders: NO_BORDERS,
+    margins: { right: 200 },
     children,
   });
 }
