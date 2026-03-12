@@ -93,12 +93,12 @@ function buildSidebar(): TableCell {
   children.push(sectionHeading("Side Projects"));
   for (const p of sideProjects) {
     children.push(new Paragraph({
-      spacing: { before: 60, after: 20 },
-      children: [new TextRun({ text: p.title, font: FONT, size: 20, bold: true })],
+      spacing: { before: 80, after: 30 },
+      children: [new TextRun({ text: p.title, font: FONT, size: 22, bold: true })],
     }));
     children.push(new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: p.description, font: FONT, size: 17, color: "666666" })],
+      spacing: { after: 100 },
+      children: [new TextRun({ text: p.description, font: FONT, size: 19, color: "666666" })],
     }));
   }
 
