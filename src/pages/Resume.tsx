@@ -91,8 +91,8 @@ const Resume = () => {
             flex-direction: row !important;
           }
           .resume-sidebar {
-            width: 240px !important;
-            min-width: 240px !important;
+            width: 200px !important;
+            min-width: 200px !important;
             flex-shrink: 0 !important;
             border-bottom: none !important;
           }
@@ -173,10 +173,10 @@ const Resume = () => {
           </div>
 
           {/* Two-column layout */}
-          <div className="resume-two-col flex flex-col md:flex-row">
+          <div className="resume-two-col flex flex-col md:flex-row md:gap-6">
             
             {/* ── Sidebar ── */}
-            <aside className="md:w-[280px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-4 md:px-8 py-6 space-y-6 order-2 md:order-1">
+            <aside className="md:w-[220px] shrink-0 border-b md:border-b-0 md:border-r border-border resume-sidebar px-4 md:px-8 py-6 space-y-6 order-2 md:order-1">
               
               {/* Skills */}
               <div>
