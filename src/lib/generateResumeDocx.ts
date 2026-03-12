@@ -119,7 +119,7 @@ function buildMainColumn(): TableCell {
     spacing: { after: 160 },
     children: [new TextRun({
       text: "UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.",
-      font: FONT, size: 24,
+      font: FONT, size: 22,
     })],
   }));
 
