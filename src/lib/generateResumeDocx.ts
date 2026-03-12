@@ -126,21 +126,21 @@ function buildMainColumn(): TableCell {
   children.push(sectionHeading("Experience"));
   for (const job of experience) {
     children.push(new Paragraph({
-      spacing: { before: 120, after: 20 },
+      spacing: { before: 180, after: 30 },
       children: [
-        new TextRun({ text: job.title, font: FONT, size: 20, bold: true }),
-        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 18, color: "888888" }),
+        new TextRun({ text: job.title, font: FONT, size: 24, bold: true }),
+        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "888888" }),
       ],
     }));
     children.push(new Paragraph({
-      spacing: { after: 40 },
-      children: [new TextRun({ text: `${job.org} · ${job.location}`, font: FONT, size: 18, color: ACCENT_COLOR })],
+      spacing: { after: 60 },
+      children: [new TextRun({ text: `${job.org} · ${job.location}`, font: FONT, size: 20, color: ACCENT_COLOR })],
     }));
     for (const bullet of job.bullets) {
       children.push(new Paragraph({
-        spacing: { after: 30 },
+        spacing: { after: 50 },
         bullet: { level: 0 },
-        children: [new TextRun({ text: bullet, font: FONT, size: 19 })],
+        children: [new TextRun({ text: bullet, font: FONT, size: 22 })],
       }));
     }
   }
