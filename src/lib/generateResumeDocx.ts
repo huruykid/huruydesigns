@@ -197,7 +197,7 @@ export async function generateAndDownloadDocx() {
           }),
           // Contact
           new Paragraph({
-            spacing: { after: 280 },
+            spacing: { after: 120 },
             children: [
               new ExternalHyperlink({
                 link: "mailto:huruydesigns@gmail.com",
