@@ -215,6 +215,12 @@ export async function generateAndDownloadDocx() {
               }),
             ],
           }),
+          // Orange separator line
+          new Paragraph({
+            spacing: { after: 200 },
+            border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: ACCENT_COLOR } },
+            children: [],
+          }),
           // Two-column table
           new Table({
             width: { size: 100, type: WidthType.PERCENTAGE },
