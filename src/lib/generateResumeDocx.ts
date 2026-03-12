@@ -54,15 +54,15 @@ const skillGroups = [
 ];
 
 const FONT = "Calibri";
-const ACCENT_COLOR = "2563EB";
+const ACCENT_COLOR = "F97316";
 const BORDER_NONE = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
 const NO_BORDERS = { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, right: BORDER_NONE };
 
 function sectionHeading(text: string): Paragraph {
   return new Paragraph({
-    spacing: { before: 200, after: 100 },
+    spacing: { before: 300, after: 140 },
     children: [
-      new TextRun({ text: text.toUpperCase(), font: FONT, size: 18, bold: true, color: ACCENT_COLOR }),
+      new TextRun({ text: text.toUpperCase(), font: FONT, size: 22, bold: true, color: ACCENT_COLOR }),
     ],
   });
 }
@@ -74,31 +74,31 @@ function buildSidebar(): TableCell {
   children.push(sectionHeading("Skills"));
   for (const group of skillGroups) {
     children.push(new Paragraph({
-      spacing: { before: 100, after: 40 },
-      children: [new TextRun({ text: group.label, font: FONT, size: 18, bold: true })],
+      spacing: { before: 120, after: 50 },
+      children: [new TextRun({ text: group.label, font: FONT, size: 20, bold: true })],
     }));
     children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 17, color: "444444" })],
+      spacing: { after: 80 },
+      children: [new TextRun({ text: group.skills.join("  •  "), font: FONT, size: 19, color: "444444" })],
     }));
   }
 
   // Education
   children.push(sectionHeading("Education"));
   children.push(new Paragraph({
-    children: [new TextRun({ text: "CSU Eastbay", font: FONT, size: 20 })],
+    children: [new TextRun({ text: "CSU Eastbay", font: FONT, size: 22 })],
   }));
 
   // Side Projects
   children.push(sectionHeading("Side Projects"));
   for (const p of sideProjects) {
     children.push(new Paragraph({
-      spacing: { before: 60, after: 20 },
-      children: [new TextRun({ text: p.title, font: FONT, size: 20, bold: true })],
+      spacing: { before: 80, after: 30 },
+      children: [new TextRun({ text: p.title, font: FONT, size: 22, bold: true })],
     }));
     children.push(new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: p.description, font: FONT, size: 17, color: "666666" })],
+      spacing: { after: 100 },
+      children: [new TextRun({ text: p.description, font: FONT, size: 19, color: "666666" })],
     }));
   }
 
@@ -115,10 +115,10 @@ function buildMainColumn(): TableCell {
   // Summary
   children.push(sectionHeading("Summary"));
   children.push(new Paragraph({
-    spacing: { after: 120 },
+    spacing: { after: 160 },
     children: [new TextRun({
       text: "UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.",
-      font: FONT, size: 20,
+      font: FONT, size: 24,
     })],
   }));
 
@@ -126,21 +126,21 @@ function buildMainColumn(): TableCell {
   children.push(sectionHeading("Experience"));
   for (const job of experience) {
     children.push(new Paragraph({
-      spacing: { before: 120, after: 20 },
+      spacing: { before: 180, after: 30 },
       children: [
-        new TextRun({ text: job.title, font: FONT, size: 20, bold: true }),
-        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 18, color: "888888" }),
+        new TextRun({ text: job.title, font: FONT, size: 24, bold: true }),
+        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "888888" }),
       ],
     }));
     children.push(new Paragraph({
-      spacing: { after: 40 },
-      children: [new TextRun({ text: `${job.org} · ${job.location}`, font: FONT, size: 18, color: ACCENT_COLOR })],
+      spacing: { after: 60 },
+      children: [new TextRun({ text: `${job.org} · ${job.location}`, font: FONT, size: 20, color: ACCENT_COLOR })],
     }));
     for (const bullet of job.bullets) {
       children.push(new Paragraph({
-        spacing: { after: 30 },
+        spacing: { after: 50 },
         bullet: { level: 0 },
-        children: [new TextRun({ text: bullet, font: FONT, size: 19 })],
+        children: [new TextRun({ text: bullet, font: FONT, size: 22 })],
       }));
     }
   }
@@ -149,19 +149,19 @@ function buildMainColumn(): TableCell {
   children.push(sectionHeading("Design Leadership"));
   for (const item of leadership) {
     children.push(new Paragraph({
-      spacing: { before: 100, after: 20 },
+      spacing: { before: 180, after: 30 },
       children: [
-        new TextRun({ text: item.title, font: FONT, size: 20, bold: true }),
-        new TextRun({ text: `  |  ${item.period}`, font: FONT, size: 18, color: "888888" }),
+        new TextRun({ text: item.title, font: FONT, size: 24, bold: true }),
+        new TextRun({ text: `  |  ${item.period}`, font: FONT, size: 20, color: "888888" }),
       ],
     }));
     children.push(new Paragraph({
-      spacing: { after: 40 },
-      children: [new TextRun({ text: `${item.org} · ${item.location}`, font: FONT, size: 18, color: ACCENT_COLOR })],
+      spacing: { after: 60 },
+      children: [new TextRun({ text: `${item.org} · ${item.location}`, font: FONT, size: 20, color: ACCENT_COLOR })],
     }));
     children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: item.description, font: FONT, size: 19 })],
+      spacing: { after: 80 },
+      children: [new TextRun({ text: item.description, font: FONT, size: 22 })],
     }));
   }
 
@@ -176,7 +176,7 @@ export async function generateAndDownloadDocx() {
   const doc = new Document({
     styles: {
       default: {
-        document: { run: { font: FONT, size: 20 } },
+        document: { run: { font: FONT, size: 22 } },
       },
     },
     sections: [
@@ -186,30 +186,30 @@ export async function generateAndDownloadDocx() {
           // Name
           new Paragraph({
             spacing: { after: 40 },
-            children: [new TextRun({ text: "Huruy Kidanemariam", font: FONT, size: 32, bold: true })],
+            children: [new TextRun({ text: "Huruy Kidanemariam", font: FONT, size: 40, bold: true })],
           }),
           // Title
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: "UX Designer & Product Designer", font: FONT, size: 22, color: ACCENT_COLOR, bold: true })],
+            children: [new TextRun({ text: "UX Designer & Product Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
           }),
           // Contact
           new Paragraph({
-            spacing: { after: 200 },
+            spacing: { after: 280 },
             children: [
               new ExternalHyperlink({
                 link: "mailto:huruydesigns@gmail.com",
-                children: [new TextRun({ text: "huruydesigns@gmail.com", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "huruydesigns@gmail.com", font: FONT, size: 20, color: "555555" })],
               }),
-              new TextRun({ text: "  |  ", font: FONT, size: 18, color: "AAAAAA" }),
+              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
                 link: "https://www.linkedin.com/in/huruydesigns/",
-                children: [new TextRun({ text: "linkedin.com/in/huruydesigns", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "linkedin.com/in/huruydesigns", font: FONT, size: 20, color: "555555" })],
               }),
-              new TextRun({ text: "  |  ", font: FONT, size: 18, color: "AAAAAA" }),
+              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
                 link: "https://huruy.tech",
-                children: [new TextRun({ text: "huruy.tech", font: FONT, size: 18, color: "555555" })],
+                children: [new TextRun({ text: "huruy.tech", font: FONT, size: 20, color: "555555" })],
               }),
             ],
           }),
