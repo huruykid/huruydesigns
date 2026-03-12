@@ -1,38 +1,50 @@
+## Investigation: Word Document Download for Resume
 
+### Can we generate a .docx that matches the PDF exactly?
 
-## 5 Game Ideas That Showcase Your Skills to Recruiters
+**Short answer: Not exactly, but close enough to be professional.**
 
-### 1. UX Roast Machine
-You paste any website URL (or pick from presets like "bad login forms"). The game shows a mock screenshot and you tap hotspots to identify UX issues — missing contrast, no error states, bad hierarchy. Each correct find earns points. **Shows**: Your eye for UX problems, heuristic evaluation skills.
+### Options Analyzed
 
-### 2. Design System Builder
-Three broken UI components appear (mismatched button, wrong spacing, inconsistent typography). Drag-and-drop the correct design tokens (color, spacing, font) onto each component to "fix" them. Timer optional. **Shows**: Design systems knowledge, attention to detail, component thinking.
+**Option A: Static .docx file in `/public**` (like the current PDF approach)
 
-### 3. UX Trivia Challenge
-Flip a card → UX question appears (e.g., "What does Fitts's Law predict?") with 3 choices. Your headshot reacts to correct/wrong answers. After 5 questions, shows a score with a witty title ("Senior UX Architect" vs "Intern Energy"). **Shows**: Deep UX knowledge, that you actually understand the theory behind your designs.
+- You'd create the Word file manually and upload it
+- Guaranteed formatting control
+- But requires manual updates whenever resume content changes
 
-### 4. Wireframe Speed Sketch
-A brief appears: "Design a checkout flow for mobile." Three wireframe options slide in — pick the best one. Your headshot explains why the right answer works. Quick 3-round game. **Shows**: Design thinking, ability to evaluate solutions quickly, product sense.
+**Option B: Dynamic .docx generation using the `docx` npm library**
 
-### 5. Accessibility Audit Game
-A mock UI appears with intentional a11y violations (missing alt text, low contrast, no focus states). Click to find all the issues before time runs out. Score reflects how many you caught. **Shows**: Accessibility expertise — a huge differentiator that recruiters increasingly care about.
+- The `docx` package can create Word documents client-side in the browser
+- We can replicate the resume structure: headings, bullet points, two-column layout, skills pills, contact info
+- **Limitation**: Word's rendering engine differs from HTML/CSS — it won't be pixel-identical to the PDF, but it can match the content, hierarchy, and general layout closely
+- Two-column layouts in Word use tables or sections with columns, which work but aren't as flexible as CSS flexbox
 
----
+### Recommendation
 
-### My Recommendation: **#3 — UX Trivia Challenge**
+**Option B (dynamic generation)** is the better fit because:
 
-- Zero-friction (click to flip, click to answer)
-- Directly proves you know UX theory, not just tools
-- Educational for the recruiter too — they learn something
-- Your headshot reacting adds personality
-- Easy to implement with the existing framer-motion setup
-- 5 questions keeps it under 60 seconds
+- Resume data is already structured in code — we just map it to `docx` paragraphs/tables
+- No manual file maintenance
+- Content stays in sync automatically
 
-### Implementation (if you pick Trivia)
+### Plan
 
-| File | Change |
-|------|--------|
-| `src/components/HeroPongGame.tsx` | Rewrite — card flip UI, question bank, score tracker, headshot reactions |
+1. **Install `docx` and `file-saver` packages** for Word document generation and download
+2. **Create a `generateResumeDocx` utility** (`src/lib/generateResumeDocx.ts`) that:
+  - Builds a two-column layout using a Word table (sidebar | main content)
+  - Includes: name, title, contact links, summary, experience with bullets, leadership, skills groups, education, side projects
+  - Applies consistent fonts (Calibri/Arial) and styling to approximate the PDF look
+3. **Add a "Download Word" button** next to the existing PDF/print buttons on the Resume page
 
-Same 340×340 desktop-only layout. Uses framer-motion for card flip animations. ~15 curated questions, randomly picks 5 per session.
+### What will match the PDF
 
+- All content, section order, and hierarchy
+- Two-column structure (sidebar + main)
+- Bold headings, bullet points, skill groupings
+
+### What will differ slightly
+
+- Exact spacing, font rendering, and pixel precision (inherent Word vs PDF difference)
+- Skill "pills" will render as comma-separated or bracketed text rather than styled badges.   
+  
+make sure you allow users to download both versions. in a way that is user friendly for all equipment types. 
