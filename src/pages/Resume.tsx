@@ -1,4 +1,5 @@
-import { Download, Printer, Mail, Linkedin, ExternalLink, Globe } from "lucide-react";
+import { Download, Printer, Mail, Linkedin, ExternalLink, Globe, FileText } from "lucide-react";
+import { generateAndDownloadDocx } from "@/lib/generateResumeDocx";
 import headshot from "@/assets/huruy-headshot.jpg";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
