@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const valid = passcode.trim() === expectedPasscode.trim();
+    const valid = passcode.trim().toLowerCase() === expectedPasscode.trim().toLowerCase();
 
     return new Response(JSON.stringify({ valid }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
