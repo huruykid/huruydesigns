@@ -80,6 +80,14 @@ const portfolioJsonLd = {
   })),
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Huruy Kidanemariam – UX Designer Portfolio",
+  url: "https://huruy.tech",
+  author: { "@type": "Person", name: "Huruy Kidanemariam" },
+};
+
 const Index = () => (
   <Layout>
     <SEO
