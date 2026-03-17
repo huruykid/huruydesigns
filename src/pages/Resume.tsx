@@ -50,15 +50,34 @@ const contact = [
   { icon: Globe, label: "huruy.tech", href: "https://huruy.tech" },
 ];
 
+const resumeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Huruy Kidanemariam",
+  jobTitle: "UX Designer",
+  url: "https://huruy.tech",
+  sameAs: [
+    "https://www.linkedin.com/in/huruydesigns/",
+    "https://huruy.tech",
+  ],
+  hasOccupation: [
+    { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Austin, TX" } },
+    { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
+    { "@type": "Occupation", name: "Product Designer", occupationLocation: { "@type": "Place", name: "Oakland, CA" } },
+  ],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Portland State University" },
+};
+
 const Resume = () => {
   const handlePrint = () => window.print();
 
   return (
     <Layout>
       <SEO
-        title="Resume | Huruy Kidanemariam | UX Designer & Product Designer"
-        description="UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
+        title="Huruy Kidanemariam | Resume – UX Designer & Product Designer"
+        description="Resume of Huruy Kidanemariam – UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
         path="/resume"
+        jsonLd={resumeJsonLd}
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Resume", path: "/resume" },

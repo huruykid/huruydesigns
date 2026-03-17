@@ -1,57 +1,38 @@
 
 
-## Maximize Google Search Presence for "Huruy Kidanemariam"
+## 5 Game Ideas That Showcase Your Skills to Recruiters
 
-### Current State (Already Good)
-- All pages have SEO component with unique titles/descriptions containing "Huruy Kidanemariam"
-- JSON-LD structured data on Home (Person + ItemList) and About (ProfilePage)
-- Sitemap.xml and robots.txt configured
-- Breadcrumb JSON-LD on key pages
-- Canonical URLs set
+### 1. UX Roast Machine
+You paste any website URL (or pick from presets like "bad login forms"). The game shows a mock screenshot and you tap hotspots to identify UX issues — missing contrast, no error states, bad hierarchy. Each correct find earns points. **Shows**: Your eye for UX problems, heuristic evaluation skills.
 
-### What's Missing / Can Be Improved
+### 2. Design System Builder
+Three broken UI components appear (mismatched button, wrong spacing, inconsistent typography). Drag-and-drop the correct design tokens (color, spacing, font) onto each component to "fix" them. Timer optional. **Shows**: Design systems knowledge, attention to detail, component thinking.
 
-**1. Add "Huruy Kidanemariam" to every page title**
-Some titles don't include the full name prominently:
-- Contact: "Contact Huruy Kidanemariam | UX Designer" ✓
-- Resume: "Resume | Huruy Kidanemariam | UX Designer..." — name buried after "Resume"
-- Project pages: ✓
+### 3. UX Trivia Challenge
+Flip a card → UX question appears (e.g., "What does Fitts's Law predict?") with 3 choices. Your headshot reacts to correct/wrong answers. After 5 questions, shows a score with a witty title ("Senior UX Architect" vs "Intern Energy"). **Shows**: Deep UX knowledge, that you actually understand the theory behind your designs.
 
-Fix: Reorder titles so name comes first on Resume page.
+### 4. Wireframe Speed Sketch
+A brief appears: "Design a checkout flow for mobile." Three wireframe options slide in — pick the best one. Your headshot explains why the right answer works. Quick 3-round game. **Shows**: Design thinking, ability to evaluate solutions quickly, product sense.
 
-**2. Add JSON-LD to pages that lack it**
-- **Contact** page: No JSON-LD. Add `ContactPage` schema.
-- **Resume** page: No JSON-LD. Add `Person` schema with `hasOccupation` and career details — this is the most impactful missing schema for name searches.
-
-**3. Add a WebSite schema with SearchAction to homepage**
-This helps Google understand the site as a unified entity tied to "Huruy Kidanemariam" and can generate sitelinks (multiple results from same domain).
-
-**4. Add sameAs links consistently**
-The Person JSON-LD on Index only has LinkedIn and email. Add the portfolio URL itself and match the About page's schema.
-
-**5. Update sitemap.xml lastmod dates**
-All dates say `2026-03-06`. Update to current date so Google knows content is fresh.
-
-**6. Add inter-page linking in footer or nav**
-Google rewards sites with strong internal linking. The footer should link to all key pages (About, Resume, Contact, Projects) to help Google discover and rank each page.
+### 5. Accessibility Audit Game
+A mock UI appears with intentional a11y violations (missing alt text, low contrast, no focus states). Click to find all the issues before time runs out. Score reflects how many you caught. **Shows**: Accessibility expertise — a huge differentiator that recruiters increasingly care about.
 
 ---
 
-### Changes
+### My Recommendation: **#3 — UX Trivia Challenge**
+
+- Zero-friction (click to flip, click to answer)
+- Directly proves you know UX theory, not just tools
+- Educational for the recruiter too — they learn something
+- Your headshot reacting adds personality
+- Easy to implement with the existing framer-motion setup
+- 5 questions keeps it under 60 seconds
+
+### Implementation (if you pick Trivia)
 
 | File | Change |
 |------|--------|
-| `src/pages/Resume.tsx` | Reorder title to "Huruy Kidanemariam | Resume – UX Designer". Add Person JSON-LD with job history. |
-| `src/pages/Contact.tsx` | Add ContactPage JSON-LD schema with name. |
-| `src/pages/Index.tsx` | Add WebSite JSON-LD schema for sitelinks. |
-| `src/components/SEO.tsx` | No changes needed. |
-| `src/components/Footer.tsx` | Add nav links to About, Resume, Contact for internal linking. |
-| `public/sitemap.xml` | Update all `lastmod` to `2026-03-17`. |
+| `src/components/HeroPongGame.tsx` | Rewrite — card flip UI, question bank, score tracker, headshot reactions |
 
-### Beyond Code (Recommendations)
-These are things you should do outside Lovable to dominate page 1:
-- **Google Search Console**: Submit sitemap at `https://huruy.tech/sitemap.xml` and request indexing of each page
-- **Publish the site** (click Update in publish dialog) so Google can crawl the latest version
-- **Backlinks**: Your LinkedIn profile linking to huruy.tech is valuable. Add the URL to any other profiles (GitHub, Dribbble, Medium, etc.)
-- **Google yourself** periodically and click your own results to signal relevance
+Same 340×340 desktop-only layout. Uses framer-motion for card flip animations. ~15 curated questions, randomly picks 5 per session.
 

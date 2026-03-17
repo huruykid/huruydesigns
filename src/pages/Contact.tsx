@@ -41,6 +41,20 @@ const Contact = () => {
         title="Contact Huruy Kidanemariam | UX Designer"
         description="Get in touch with Huruy Kidanemariam for UX design collaborations, freelance projects, or full-time opportunities."
         path="/contact"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact Huruy Kidanemariam",
+          description: "Get in touch with Huruy Kidanemariam for UX design collaborations, freelance projects, or full-time opportunities.",
+          url: "https://huruy.tech/contact",
+          mainEntity: {
+            "@type": "Person",
+            name: "Huruy Kidanemariam",
+            email: "huruydesigns@gmail.com",
+            url: "https://huruy.tech",
+            sameAs: ["https://www.linkedin.com/in/huruydesigns/"],
+          },
+        }}
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Contact", path: "/contact" },

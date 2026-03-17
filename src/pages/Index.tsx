@@ -57,8 +57,9 @@ const personJsonLd = {
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruydesigns/",
-    "mailto:huruydesigns@gmail.com",
+    "https://huruy.tech",
   ],
+  email: "huruydesigns@gmail.com",
   description:
     "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
 };
@@ -80,6 +81,14 @@ const portfolioJsonLd = {
   })),
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Huruy Kidanemariam – UX Designer Portfolio",
+  url: "https://huruy.tech",
+  author: { "@type": "Person", name: "Huruy Kidanemariam" },
+};
+
 const Index = () => (
   <Layout>
     <SEO
@@ -91,6 +100,7 @@ const Index = () => (
     />
     <Helmet>
       <script type="application/ld+json">{JSON.stringify(portfolioJsonLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
     </Helmet>
     {/* Hero */}
     <section className="min-h-[50vh] flex items-center relative overflow-hidden">
