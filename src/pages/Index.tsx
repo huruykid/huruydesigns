@@ -99,6 +99,7 @@ const Index = () => (
     />
     <Helmet>
       <script type="application/ld+json">{JSON.stringify(portfolioJsonLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
     </Helmet>
     {/* Hero */}
     <section className="min-h-[50vh] flex items-center relative overflow-hidden">
