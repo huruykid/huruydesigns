@@ -21,10 +21,12 @@ const Footer = () => (
           </a>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <nav className="flex items-center gap-4 text-sm text-muted-foreground" aria-label="Footer navigation">
           <Link to="/about" className="hover:text-accent transition-colors">About</Link>
+          <Link to="/resume" className="hover:text-accent transition-colors">Resume</Link>
           <Link to="/contact" className="hover:text-accent transition-colors">Contact</Link>
-        </div>
+          <Link to="/#projects" className="hover:text-accent transition-colors">Projects</Link>
+        </nav>
       </div>
       <p className="text-center text-xs text-muted-foreground mt-8">© {new Date().getFullYear()} Huruy. All rights reserved.</p>
     </div>

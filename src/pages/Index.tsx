@@ -57,8 +57,9 @@ const personJsonLd = {
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruydesigns/",
-    "mailto:huruydesigns@gmail.com",
+    "https://huruy.tech",
   ],
+  email: "huruydesigns@gmail.com",
   description:
     "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
 };
