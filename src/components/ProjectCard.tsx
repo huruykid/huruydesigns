@@ -92,7 +92,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             ) : (
               <img
                 src={project.image}
-                alt={project.title}
+                alt={`UX case study: ${project.title} by Huruy Kidanemariam`}
                 className={`transition-transform duration-500 group-hover:scale-105 ${
                   project.image === "/placeholder.svg"
                     ? "w-full h-full object-cover"
@@ -112,7 +112,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
 
           {/* Text content */}
           <div className={`p-5 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-8' : 'flex-1'}`}>
-            <p className="text-xs font-semibold text-accent mb-1">{project.impact}</p>
+            <span className={`inline-block font-semibold text-accent mb-1 ${featured ? 'text-sm bg-accent/10 px-2 py-0.5 rounded-full' : 'text-xs'}`}>{project.impact}</span>
             <h3 className={`font-bold mb-1 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
             <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-3'}`}>{project.description}</p>
             {featured && (

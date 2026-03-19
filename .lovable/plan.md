@@ -1,40 +1,38 @@
 
 
-## Front-End SEO & UX Improvements
+## 5 Game Ideas That Showcase Your Skills to Recruiters
 
-### 1. Hero H1 Update (`src/pages/Index.tsx`, lines 122-126)
-Change the heading to:
-```
-Hi, I'm Huruy Kidanemariam.
-I'm a UX Designer & Software Developer building experiences that matter.
-```
-Use `text-gradient` on "Huruy Kidanemariam", keep "matter" italic. Reduce font size slightly on smaller text to maintain visual balance (e.g., `text-4xl sm:text-5xl lg:text-6xl` for the second line).
+### 1. UX Roast Machine
+You paste any website URL (or pick from presets like "bad login forms"). The game shows a mock screenshot and you tap hotspots to identify UX issues — missing contrast, no error states, bad hierarchy. Each correct find earns points. **Shows**: Your eye for UX problems, heuristic evaluation skills.
 
-### 2. Footer Copyright (`src/components/Footer.tsx`)
-Change `© {year} Huruy. All rights reserved.` to `© {year} Huruy Kidanemariam | UX Designer. All rights reserved.`
+### 2. Design System Builder
+Three broken UI components appear (mismatched button, wrong spacing, inconsistent typography). Drag-and-drop the correct design tokens (color, spacing, font) onto each component to "fix" them. Timer optional. **Shows**: Design systems knowledge, attention to detail, component thinking.
 
-### 3. Navigation Contact CTA (`src/components/Navbar.tsx`)
-Style the "Contact" link in both desktop and mobile nav as a solid orange button (matching the Resume button style: `bg-accent text-accent-foreground hover:bg-accent/90`). Move it next to the Resume button in the desktop nav. Use `variant="outline"` or similar differentiation so both buttons don't look identical (Contact = solid accent, Resume = outline or vice versa).
+### 3. UX Trivia Challenge
+Flip a card → UX question appears (e.g., "What does Fitts's Law predict?") with 3 choices. Your headshot reacts to correct/wrong answers. After 5 questions, shows a score with a witty title ("Senior UX Architect" vs "Intern Energy"). **Shows**: Deep UX knowledge, that you actually understand the theory behind your designs.
 
-### 4. Image Alt Text Improvements
-| File | Current Alt | New Alt |
-|------|------------|---------|
-| `HeroPongGame.tsx` (line 228) | "Huruy" | "Huruy Kidanemariam, UX Designer and Software Developer" |
-| `OGImage.tsx` (line 82) | "Huruy Kidanemariam" | "Huruy Kidanemariam, UX Designer and Product Designer headshot" |
-| `ProjectCard.tsx` (line 95) | `project.title` | `"UX case study: {project.title} by Huruy Kidanemariam"` |
-About.tsx and Resume.tsx already have good alt text.
+### 4. Wireframe Speed Sketch
+A brief appears: "Design a checkout flow for mobile." Three wireframe options slide in — pick the best one. Your headshot explains why the right answer works. Quick 3-round game. **Shows**: Design thinking, ability to evaluate solutions quickly, product sense.
 
-### 5. Project Card Impact Visibility (`src/components/ProjectCard.tsx`, line 115)
-Make the impact line more prominent on featured cards:
-- Increase size to `text-sm` (from `text-xs`) on featured cards
-- Add a subtle accent background pill/badge style: `inline-block bg-accent/10 text-accent px-2 py-0.5 rounded-full font-semibold`
-- This makes "Re-Architecting Enterprise Payroll Compliance" and "Redesigned for 12M+ SNAP users" scannable at a glance
+### 5. Accessibility Audit Game
+A mock UI appears with intentional a11y violations (missing alt text, low contrast, no focus states). Click to find all the issues before time runs out. Score reflects how many you caught. **Shows**: Accessibility expertise — a huge differentiator that recruiters increasingly care about.
 
-### Files Changed
-- `src/pages/Index.tsx` (hero H1)
-- `src/components/Footer.tsx` (copyright)
-- `src/components/Navbar.tsx` (Contact CTA button)
-- `src/components/HeroPongGame.tsx` (alt text)
-- `src/pages/OGImage.tsx` (alt text)
-- `src/components/ProjectCard.tsx` (alt text + impact badge)
+---
+
+### My Recommendation: **#3 — UX Trivia Challenge**
+
+- Zero-friction (click to flip, click to answer)
+- Directly proves you know UX theory, not just tools
+- Educational for the recruiter too — they learn something
+- Your headshot reacting adds personality
+- Easy to implement with the existing framer-motion setup
+- 5 questions keeps it under 60 seconds
+
+### Implementation (if you pick Trivia)
+
+| File | Change |
+|------|--------|
+| `src/components/HeroPongGame.tsx` | Rewrite — card flip UI, question bank, score tracker, headshot reactions |
+
+Same 340×340 desktop-only layout. Uses framer-motion for card flip animations. ~15 curated questions, randomly picks 5 per session.
 

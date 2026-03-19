@@ -79,7 +79,7 @@ const OGImage = () => {
       >
         <img
           src={headshot}
-          alt="Huruy Kidanemariam"
+          alt="Huruy Kidanemariam, UX Designer and Product Designer headshot"
           style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
         />
       </div>
