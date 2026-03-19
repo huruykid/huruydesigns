@@ -28,7 +28,7 @@ const Footer = () => (
           <Link to="/#projects" className="hover:text-accent transition-colors">Projects</Link>
         </nav>
       </div>
-      <p className="text-center text-xs text-muted-foreground mt-8">© {new Date().getFullYear()} Huruy. All rights reserved.</p>
+      <p className="text-center text-xs text-muted-foreground mt-8">© {new Date().getFullYear()} Huruy Kidanemariam | UX Designer. All rights reserved.</p>
     </div>
   </footer>
 );

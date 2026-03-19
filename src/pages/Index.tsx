@@ -119,11 +119,12 @@ const Index = () => (
             className="max-w-3xl"
           >
             <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">UX Designer & Software Developer</p>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Hi, I'm <span className="text-gradient">Huruy</span>.
-              <br />
-              I design experiences that <span className="italic">matter</span>.
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.
             </h1>
+            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.2] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              I'm a UX Designer & Software Developer building experiences that <span className="italic">matter</span>.
+            </p>
             <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
               I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
             </p>

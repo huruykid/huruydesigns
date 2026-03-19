@@ -78,8 +78,13 @@ const Navbar = () => {
               </Link>
             ))}
             <Link to="/resume" onClick={() => setOpen(false)}>
-              <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
+              <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 w-fit">
                 <FileText className="h-4 w-4 mr-1" /> Resume
+              </Button>
+            </Link>
+            <Link to="/contact" onClick={() => setOpen(false)}>
+              <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
+                Contact
               </Button>
             </Link>
           </div>
