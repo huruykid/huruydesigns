@@ -31,7 +31,8 @@ const buildBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => ({
 });
 
 const SEO = ({ title, description, path = "/", image, jsonLd, breadcrumbs, noindex }: SEOProps) => {
-  const url = `${SITE_URL}${path}`;
+  const normalizedPath = path.replace(/\/+$/, "") || "/";
+  const url = `${SITE_URL}${normalizedPath}`;
   const ogImage = image || DEFAULT_OG_IMAGE;
   const breadcrumbJsonLd = breadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs) : null;
 
