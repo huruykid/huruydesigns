@@ -39,8 +39,13 @@ const Navbar = () => {
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           <Link to="/resume">
-            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10">
               <FileText className="h-4 w-4 mr-1" /> Resume
+            </Button>
+          </Link>
+          <Link to="/contact">
+            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+              Contact
             </Button>
           </Link>
         </div>
