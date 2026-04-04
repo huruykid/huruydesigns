@@ -122,12 +122,35 @@ const Index = () => (
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.
             </h1>
-            <p className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.2] mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              I'm a UX Designer & Software Developer building experiences that <span className="italic">matter</span>.
-            </p>
-            <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
+            <p className="text-lg text-muted-foreground max-w-xl mb-4 leading-relaxed">
               I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
             </p>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mb-6">
+              <span className="font-medium text-foreground">5+ Years Experience</span>
+              <span className="text-accent">•</span>
+              <span className="font-medium text-foreground">Enterprise & Social Impact</span>
+              <span className="text-accent">•</span>
+              <span className="font-medium text-foreground">12M+ Users Impacted</span>
+            </div>
+            {/* Mobile project thumbnails — visual hook for mobile visitors */}
+            <div className="flex gap-3 mb-6 md:hidden overflow-x-auto pb-2">
+              {projects.slice(0, 4).map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                  className="shrink-0 w-16 h-16 rounded-xl bg-muted/50 border border-border overflow-hidden hover:border-accent/50 transition-colors"
+                  aria-label={`View ${p.title} project`}
+                >
+                  {p.image !== "/placeholder.svg" ? (
+                    <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-accent text-xs font-bold">
+                      {p.title.charAt(0)}
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
             <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
               <Button
                 size="lg"

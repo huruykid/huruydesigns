@@ -32,6 +32,9 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileInView-once
+      className={index === 0 ? "scroll-mt-8" : ""}
+      id={index === 0 ? "first-project" : undefined}
     >
       <Link to={`/project/${project.id}`} className="group block">
         <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col ${featured ? (reverseLayout ? 'md:flex-row-reverse md:items-stretch' : 'md:flex-row md:items-stretch') : ''}`}>
