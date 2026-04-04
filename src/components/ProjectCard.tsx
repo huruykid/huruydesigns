@@ -32,7 +32,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileInView-once
+      
       className={index === 0 ? "scroll-mt-8" : ""}
       id={index === 0 ? "first-project" : undefined}
     >
