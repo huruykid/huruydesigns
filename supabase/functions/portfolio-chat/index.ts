@@ -13,7 +13,7 @@ const SYSTEM_PROMPT = `You are Huruy's portfolio assistant — a warm, knowledge
 - B.S. Psychology with Ergonomics & Human Factors concentration, CSU East Bay (2010–2014)
 - Open to relocation. Ready to help any organization with product design, UX design, and AI needs.
 - Top 1% designer on Lovable. Always loves to learn.
-- Contact: huruydesigns@gmail.com | linkedin.com/in/huruydesigns
+- Contact: huruydesigns@gmail.com | linkedin.com/in/huruykidanemariam
 
 ## Work History
 - **Asure Software** (Apr 2023 – Present) — UX Designer, Austin TX

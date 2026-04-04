@@ -56,7 +56,7 @@ const personJsonLd = {
   jobTitle: "UX Designer & Product Designer",
   url: "https://huruy.tech",
   sameAs: [
-    "https://www.linkedin.com/in/huruydesigns/",
+    "https://www.linkedin.com/in/huruykidanemariam/",
     "https://huruy.tech",
   ],
   email: "huruydesigns@gmail.com",
@@ -147,7 +147,7 @@ const Index = () => (
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/huruykidanemariam/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors" aria-label="LinkedIn">
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
               </a>
               <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors" aria-label="Email">

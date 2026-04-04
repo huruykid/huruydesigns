@@ -45,7 +45,7 @@ const skillGroups = [
 
 const contact = [
   { icon: Mail, label: "huruydesigns@gmail.com", href: "mailto:huruydesigns@gmail.com" },
-  { icon: Linkedin, label: "linkedin.com/in/huruydesigns", href: "https://www.linkedin.com/in/huruydesigns/" },
+  { icon: Linkedin, label: "linkedin.com/in/huruykidanemariam", href: "https://www.linkedin.com/in/huruykidanemariam/" },
   { icon: Globe, label: "huruy.tech", href: "https://huruy.tech" },
 ];
 
