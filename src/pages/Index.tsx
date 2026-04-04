@@ -132,25 +132,6 @@ const Index = () => (
               <span className="text-accent">•</span>
               <span className="font-medium text-foreground">12M+ Users Impacted</span>
             </div>
-            {/* Mobile project thumbnails — visual hook for mobile visitors */}
-            <div className="flex gap-3 mb-6 md:hidden overflow-x-auto pb-2">
-              {projects.slice(0, 4).map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                  className="shrink-0 w-16 h-16 rounded-xl bg-muted/50 border border-border overflow-hidden hover:border-accent/50 transition-colors"
-                  aria-label={`View ${p.title} project`}
-                >
-                  {p.image !== "/placeholder.svg" ? (
-                    <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-accent text-xs font-bold">
-                      {p.title.charAt(0)}
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
             <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
               <Button
                 size="lg"
