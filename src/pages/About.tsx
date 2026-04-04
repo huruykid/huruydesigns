@@ -23,7 +23,7 @@ const profilePageJsonLd = {
       name: "Psychology (B.S.)",
     },
     sameAs: [
-      "https://www.linkedin.com/in/huruydesigns/",
+      "https://www.linkedin.com/in/huruykidanemariam/",
     ],
     worksFor: {
       "@type": "Organization",

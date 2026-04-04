@@ -46,7 +46,7 @@ const skillGroups = [
 
 const contact = [
   { icon: Mail, label: "huruydesigns@gmail.com", href: "mailto:huruydesigns@gmail.com" },
-  { icon: Linkedin, label: "linkedin.com/in/huruydesigns", href: "https://www.linkedin.com/in/huruydesigns/" },
+  { icon: Linkedin, label: "linkedin.com/in/huruykidanemariam", href: "https://www.linkedin.com/in/huruykidanemariam/" },
   { icon: Globe, label: "huruy.tech", href: "https://huruy.tech" },
 ];
 
@@ -57,7 +57,7 @@ const resumeJsonLd = {
   jobTitle: "UX Designer",
   url: "https://huruy.tech",
   sameAs: [
-    "https://www.linkedin.com/in/huruydesigns/",
+    "https://www.linkedin.com/in/huruykidanemariam/",
     "https://huruy.tech",
   ],
   hasOccupation: [

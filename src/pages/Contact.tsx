@@ -52,7 +52,7 @@ const Contact = () => {
             name: "Huruy Kidanemariam",
             email: "huruydesigns@gmail.com",
             url: "https://huruy.tech",
-            sameAs: ["https://www.linkedin.com/in/huruydesigns/"],
+            sameAs: ["https://www.linkedin.com/in/huruykidanemariam/"],
           },
         }}
         breadcrumbs={[
@@ -79,7 +79,7 @@ const Contact = () => {
                 <a href="mailto:huruydesigns@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
                   <Mail className="h-5 w-5" /> huruydesigns@gmail.com
                 </a>
-                <a href="https://www.linkedin.com/in/huruydesigns/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
+                <a href="https://www.linkedin.com/in/huruykidanemariam/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
                   <Linkedin className="h-5 w-5" /> LinkedIn Profile
                 </a>
               </div>

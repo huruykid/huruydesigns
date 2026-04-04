@@ -205,8 +205,8 @@ export async function generateAndDownloadDocx() {
               }),
               new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
-                link: "https://www.linkedin.com/in/huruydesigns/",
-                children: [new TextRun({ text: "linkedin.com/in/huruydesigns", font: FONT, size: 20, color: "555555" })],
+                link: "https://www.linkedin.com/in/huruykidanemariam/",
+                children: [new TextRun({ text: "linkedin.com/in/huruykidanemariam", font: FONT, size: 20, color: "555555" })],
               }),
               new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
