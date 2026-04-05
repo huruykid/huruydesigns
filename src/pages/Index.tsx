@@ -126,7 +126,7 @@ const Index = () => (
               I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
             </p>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mb-6">
-              <span className="font-medium text-foreground">5+ Years Experience</span>
+              <span className="font-medium text-foreground"><span className="font-medium text-foreground">8+ Years Experience</span></span>
               <span className="text-accent">•</span>
               <span className="font-medium text-foreground">Enterprise & Social Impact</span>
               <span className="text-accent">•</span>
