@@ -187,7 +187,7 @@ const About = () => (
     </section>
 
     {/* UX Trivia Challenge */}
-    <section className="py-20 border-t border-border/50">
+    <section id="ux-trivia" className="py-20 border-t border-border/50">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-2xl font-bold mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
           Test Your UX Knowledge
