@@ -41,7 +41,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-4' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-6' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -114,15 +114,15 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           </div>
 
           {/* Text content */}
-          <div className={`p-5 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-8' : 'flex-1'}`}>
-            <span className={`inline-block font-semibold text-accent mb-1 ${featured ? 'text-sm bg-accent/10 px-2 py-0.5 rounded-full' : 'text-xs'}`}>{project.impact}</span>
-            <h3 className={`font-bold mb-1 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
-            <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-3'}`}>{project.description}</p>
+          <div className={`p-6 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-10' : 'flex-1'}`}>
+            <span className={`inline-block font-semibold text-accent mb-2 ${featured ? 'text-sm bg-accent/10 px-2 py-0.5 rounded-full' : 'text-xs'}`}>{project.impact}</span>
+            <h3 className={`font-bold mb-2 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
+            <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-4'}`}>{project.description}</p>
             {featured && (
               <p className="text-sm text-muted-foreground/80 mb-4">{project.role}</p>
             )}
-            <div className={`flex flex-wrap gap-1.5 ${featured ? '' : 'mt-auto'}`}>
-              {project.tags.slice(0, featured ? 6 : 4).map((tag) => (
+            <div className={`flex flex-wrap gap-1.5 ${featured ? 'mt-2' : 'mt-auto'}`}>
+              {project.tags.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
               ))}
             </div>
