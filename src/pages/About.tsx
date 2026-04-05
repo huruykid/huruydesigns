@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Download, Briefcase, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
+import HeroPongGame from "@/components/HeroPongGame";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
 import { Helmet } from "react-helmet-async";
@@ -182,6 +183,16 @@ const About = () => (
             </div>
           </motion.div>
         </div>
+      </div>
+    </section>
+
+    {/* UX Trivia Challenge */}
+    <section className="py-20 border-t border-border/50">
+      <div className="container mx-auto px-4 text-center">
+        <h2 className="text-2xl font-bold mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          Test Your UX Knowledge
+        </h2>
+        <HeroPongGame />
       </div>
     </section>
   </Layout>

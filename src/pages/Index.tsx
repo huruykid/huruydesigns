@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users, FileText } from "lucide-react";
-import HeroPongGame from "@/components/HeroPongGame";
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -155,7 +155,7 @@ const Index = () => (
               </a>
             </div>
           </motion.div>
-          <HeroPongGame />
+          
         </div>
       </div>
     </section>
