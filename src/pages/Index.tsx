@@ -206,12 +206,14 @@ const Index = () => (
               <Card className="h-full border-border hover:border-accent/30 transition-colors duration-300">
                 <CardContent className="p-5">
                   <cat.icon className="h-5 w-5 text-accent mb-3" />
-                  <h3 className="font-bold text-sm mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{cat.title}</h3>
-                  <ul className="space-y-1.5">
+                  <h3 className="font-bold text-sm mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{cat.title}</h3>
+                  <div className="flex flex-wrap gap-2">
                     {cat.skills.map((s) => (
-                      <li key={s} className="text-sm text-muted-foreground">{s}</li>
+                      <span key={s} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
+                        {s}
+                      </span>
                     ))}
-                  </ul>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
