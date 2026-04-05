@@ -173,11 +173,17 @@ const About = () => (
               <h2 className="text-xl font-bold flex items-center gap-2 mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 <Briefcase className="h-5 w-5 text-accent" /> Expertise
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {expertiseGroups.map((g, i) => (
                   <div key={i}>
-                    <p className="font-semibold text-sm">{g.label}</p>
-                    <p className="text-sm text-muted-foreground">{g.skills}</p>
+                    <p className="font-semibold text-sm mb-2">{g.label}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {g.skills.split(", ").map((s) => (
+                        <span key={s} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
