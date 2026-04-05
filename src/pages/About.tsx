@@ -102,7 +102,8 @@ const About = () => (
               Huruy Kidanemariam
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems. I'm drawn to projects where good design removes barriers, whether that means making enterprise software less frustrating or helping underserved communities access the tools they deserve. Design, for me, is about dignity.
+              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems. I'm drawn to projects where good design removes barriers, whether that means making enterprise software less frustrating or helping underserved communities access the tools they deserve. Design, for me, is about dignity.{" "}When I'm not simplifying complex workflows, I'm probably building silly things like{" "}
+              <a href="#ux-trivia" className="text-accent underline underline-offset-4 hover:text-accent/80 transition-colors">this UX trivia game</a>.
             </p>
 
             {/* Experience */}
@@ -187,7 +188,7 @@ const About = () => (
     </section>
 
     {/* UX Trivia Challenge */}
-    <section className="py-20 border-t border-border/50">
+    <section id="ux-trivia" className="py-20 border-t border-border/50">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-2xl font-bold mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
           Test Your UX Knowledge
