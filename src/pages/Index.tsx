@@ -194,7 +194,7 @@ const Index = () => (
           <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Skills & Tools</p>
           <h2 className="text-2xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>What I Work With</h2>
         </motion.div>
-        <div className="<div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto"> mx-auto">
+        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {skillCategories.map((cat, i) => (
             <motion.div
               key={cat.title}
