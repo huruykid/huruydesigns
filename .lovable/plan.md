@@ -1,20 +1,32 @@
 
 
-## Declutter Project Cards
+## Replace Skill Lists with Chip Layout
 
-### Changes in `src/components/ProjectCard.tsx`
+### Change in `src/pages/Index.tsx`
 
-1. **Reduce tags to 3 max**: Change `project.tags.slice(0, featured ? 6 : 4)` to `project.tags.slice(0, 3)` for all cards (line 125)
+In the Skills & Tools section, replace the `<ul>` / `<li>` list with a flex-wrap chip layout:
 
-2. **Increase spacing in text content area**:
-   - Impact label: `mb-1` → `mb-2` (line 118)
-   - Title: `mb-1` → `mb-2` (line 119)
-   - Description: `mb-3` → `mb-4` for non-featured cards (line 120)
-   - Tags container: add `mt-2` for featured cards (line 124)
+**Before (~lines 179-183):**
+```tsx
+<ul className="space-y-1.5">
+  {cat.skills.map((s) => (
+    <li key={s} className="text-sm text-muted-foreground">{s}</li>
+  ))}
+</ul>
+```
 
-3. **Add more padding to preview area**: Change `py-4` → `py-6` on the interactive preview container (line 44) to give demos more breathing room
+**After:**
+```tsx
+<div className="flex flex-wrap gap-2">
+  {cat.skills.map((s) => (
+    <span key={s} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
+      {s}
+    </span>
+  ))}
+</div>
+```
 
-4. **Increase text content padding**: Change `p-5` → `p-6` for non-featured cards and `md:p-8` → `md:p-10` for featured cards (line 117)
+Also adjust heading margin from `mb-3` to `mb-4` for balanced spacing above chips.
 
-Single file change. No structural or behavioral modifications.
+Single file, single section change.
 
