@@ -1,19 +1,20 @@
 
 
-## Update LinkedIn URL Across the Site
+## Declutter Project Cards
 
-Replace all occurrences of `https://www.linkedin.com/in/huruydesigns/` with `https://www.linkedin.com/in/huruykidanemariam/` and update display text from `linkedin.com/in/huruydesigns` to `linkedin.com/in/huruykidanemariam`.
+### Changes in `src/components/ProjectCard.tsx`
 
-### Files to update (8 files, ~15 occurrences)
+1. **Reduce tags to 3 max**: Change `project.tags.slice(0, featured ? 6 : 4)` to `project.tags.slice(0, 3)` for all cards (line 125)
 
-1. **`src/pages/Index.tsx`** — hero link + JSON-LD `sameAs`
-2. **`src/components/Footer.tsx`** — footer link
-3. **`src/pages/Contact.tsx`** — contact link + JSON-LD `sameAs`
-4. **`src/pages/Resume.tsx`** — contact array + JSON-LD `sameAs`
-5. **`src/pages/ResumeAlt.tsx`** — contact array
-6. **`src/pages/About.tsx`** — JSON-LD `sameAs`
-7. **`src/lib/generateResumeDocx.ts`** — Word doc link + display text
-8. **`supabase/functions/portfolio-chat/index.ts`** — AI chat context string
+2. **Increase spacing in text content area**:
+   - Impact label: `mb-1` → `mb-2` (line 118)
+   - Title: `mb-1` → `mb-2` (line 119)
+   - Description: `mb-3` → `mb-4` for non-featured cards (line 120)
+   - Tags container: add `mt-2` for featured cards (line 124)
 
-Simple find-and-replace across all files. No structural changes.
+3. **Add more padding to preview area**: Change `py-4` → `py-6` on the interactive preview container (line 44) to give demos more breathing room
+
+4. **Increase text content padding**: Change `p-5` → `p-6` for non-featured cards and `md:p-8` → `md:p-10` for featured cards (line 117)
+
+Single file change. No structural or behavioral modifications.
 
