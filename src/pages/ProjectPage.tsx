@@ -409,7 +409,7 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
           </div>
         )}
         <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} />
-        <p className="text-xs text-muted-foreground/60 mt-2 italic">
+        <p className="text-xs text-muted-foreground mt-2 italic">
           We started with real voices. User interviews helped us understand what builds trust, what causes friction, and why a simple sign doesn't always mean a store is accessible or welcoming.
         </p>
       </CaseStudySection>
