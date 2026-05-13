@@ -334,7 +334,7 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
         </Card>
       )}
       <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} />
-      <p className="text-xs text-muted-foreground/60 mt-2 italic">
+      <p className="text-xs text-muted-foreground mt-2 italic">
         "A perfect example of a tool that delivers data but fails in user experience."
       </p>
     </CaseStudySection>

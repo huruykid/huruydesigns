@@ -119,7 +119,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             <h3 className={`font-bold mb-2 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
             <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-4'}`}>{project.description}</p>
             {featured && (
-              <p className="text-sm text-muted-foreground/80 mb-4">{project.role}</p>
+              <p className="text-sm text-muted-foreground mb-4">{project.role}</p>
             )}
             <div className={`flex flex-wrap gap-1.5 ${featured ? 'mt-2' : 'mt-auto'}`}>
               {project.tags.slice(0, 3).map((tag) => (

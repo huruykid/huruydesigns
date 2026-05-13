@@ -73,7 +73,7 @@ const Contact = () => {
                 I'm always open to new opportunities, collaborations, or just a friendly chat about design and technology. Drop me a message and I'll get back to you within 24 hours.
               </p>
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground/80 leading-relaxed mb-6">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                   I'm especially excited about projects involving accessible design, social impact, and complex enterprise systems. Currently open to full-time roles and select freelance collaborations.
                 </p>
                 <a href="mailto:huruydesigns@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-accent transition-colors">
