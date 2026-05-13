@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Download, RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import SEO from "@/components/SEO";
 
 const GenerateWireframe = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -55,6 +56,12 @@ const GenerateWireframe = () => {
 
   return (
     <div className="min-h-screen bg-background p-8 max-w-4xl mx-auto">
+      <SEO
+        title="Wireframe Generator – Internal Tool | Huruy Kidanemariam"
+        description="Internal AI-powered wireframe generator used to produce annotated wireframes for case studies on Huruy Kidanemariam's portfolio."
+        path="/generate-wireframe"
+        noindex
+      />
       <h1 className="text-3xl font-bold mb-2">Generate Wireframe Image</h1>
       <p className="text-muted-foreground mb-6">
         This generates an annotated wireframe for the EBT Finder case study using AI.

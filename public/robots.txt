@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://huruy.tech/sitemap.xml
+Sitemap: https://huruydesigns.lovable.app/sitemap.xml

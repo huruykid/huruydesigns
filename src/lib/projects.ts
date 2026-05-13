@@ -85,12 +85,14 @@ export interface Project {
   appendixImages?: { slot: string; caption: string }[];
   nextSteps?: string[];
   sectionImages?: SectionImages;
+  seoDescription?: string;
 }
 
 export const projects: Project[] = [
   {
     id: "asure-compliance",
     title: "Asure Compliance Engine",
+    seoDescription: "Onsite redesign of Asure's enterprise payroll compliance engine for 9,000+ tax agencies across the US and Canada.",
     description: "I was brought onsite to redesign screens. We discovered the real problem was that no one (not engineering, not product, not the SME team) had ever fully mapped how the system worked. So we got together and built that map first.",
     impact: "Re-Architecting Enterprise Payroll Compliance",
     tags: ["Enterprise SaaS", "Payroll Compliance", "Multi-Jurisdiction", "State-Driven System", "9,000+ Agencies"],
@@ -291,6 +293,7 @@ export const projects: Project[] = [
   {
     id: "beles",
     title: "Beles",
+    seoDescription: "Culturally rooted dating and community app for the Tigrayan diaspora, blending traditional matchmaking with modern UX.",
     description: "A culturally rooted dating and community app built for the Tigrayan diaspora, blending traditional matchmaking with modern UX to help a displaced community find connection, preserve identity, and heal during crisis.",
     impact: "Bridging Tradition and Technology",
     tags: ["UX Design", "User Research", "Dating App", "Cultural Design"],

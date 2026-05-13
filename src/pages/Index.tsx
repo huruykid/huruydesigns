@@ -92,8 +92,8 @@ const websiteJsonLd = {
 const Index = () => (
   <Layout>
     <SEO
-      title="Huruy Kidanemariam | UX Designer & Product Designer Portfolio"
-      description="Huruy Kidanemariam is a UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products."
+      title="Huruy Kidanemariam | UX Designer & Developer"
+      description="Huruy Kidanemariam is a UX Designer and Software Developer crafting accessible, human-centered products for enterprise and social impact."
       path="/"
       jsonLd={personJsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }]}

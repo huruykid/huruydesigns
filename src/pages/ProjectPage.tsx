@@ -171,7 +171,7 @@ const ProjectPage = () => {
     <Layout>
       <SEO
         title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
-        description={project.description}
+        description={project.seoDescription || project.description}
         path={`/project/${project.id}`}
         breadcrumbs={[
           { name: "Home", path: "/" },
