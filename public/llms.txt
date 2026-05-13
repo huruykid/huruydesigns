@@ -1,0 +1,18 @@
+# Huruy Kidanemariam — UX Designer & Software Developer
+
+> Portfolio of Huruy Kidanemariam, a UX Designer and Software Developer crafting accessible, human-centered products for enterprise and social impact, with 8+ years of experience and 12M+ users impacted.
+
+## Pages
+
+- [Home](/): Featured UX case studies, skills, and overview.
+- [About](/about): Background, expertise, and a UX trivia game.
+- [Resume](/resume): Work history, education, and downloadable resume.
+- [Contact](/contact): Get in touch about UX design and product work.
+
+## Case Studies
+
+- [Asure Compliance Engine](/project/asure-compliance): Onsite redesign of an enterprise payroll compliance engine serving 9,000+ tax agencies.
+- [OneAsure Portal](/project/oneasure-portal): Unifying enterprise HR (time, benefits, payroll) into a single portal.
+- [EBT Finder](/project/ebtfinder): Review-first store locator for 12M+ SNAP/EBT users.
+- [Beles](/project/beles): Culturally rooted dating and community app for the Tigrayan diaspora.
+- [FentFinder](/project/fentfinder): Harm-reduction tool for locating fentanyl test resources.
