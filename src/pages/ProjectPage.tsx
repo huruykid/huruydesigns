@@ -173,6 +173,9 @@ const ProjectPage = () => {
         title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
         description={project.seoDescription || project.description}
         path={`/project/${project.id}`}
+        image={project.image}
+        imageAlt={`${project.title} case study cover, by Huruy Kidanemariam`}
+        ogType="article"
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: project.title, path: `/project/${project.id}` },
@@ -183,6 +186,7 @@ const ProjectPage = () => {
           name: project.title,
           description: project.description,
           url: `https://huruy.tech/project/${project.id}`,
+          image: project.image,
           author: { "@type": "Person", name: "Huruy Kidanemariam" },
           genre: "UX Case Study",
         }}

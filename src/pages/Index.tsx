@@ -95,6 +95,7 @@ const Index = () => (
       title="Huruy Kidanemariam | UX Designer & Developer"
       description="Huruy Kidanemariam is a UX Designer and Software Developer crafting accessible, human-centered products for enterprise and social impact."
       path="/"
+      imageAlt="Huruy Kidanemariam, UX Designer and Software Developer portfolio"
       jsonLd={personJsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }]}
     />
