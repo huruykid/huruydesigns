@@ -10,6 +10,10 @@ interface SEOProps {
   description: string;
   path?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  ogType?: "website" | "article" | "profile";
   jsonLd?: Record<string, unknown>;
   breadcrumbs?: BreadcrumbItem[];
   noindex?: boolean;
@@ -18,6 +22,9 @@ interface SEOProps {
 const SITE_URL = "https://huruy.tech";
 const DEFAULT_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp";
+const DEFAULT_OG_IMAGE_ALT =
+  "Huruy Kidanemariam, UX Designer and Software Developer";
+const TWITTER_HANDLE = "@huruydesigns";
 
 const buildBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => ({
   "@context": "https://schema.org",
@@ -30,10 +37,23 @@ const buildBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => ({
   })),
 });
 
-const SEO = ({ title, description, path = "/", image, jsonLd, breadcrumbs, noindex }: SEOProps) => {
+const SEO = ({
+  title,
+  description,
+  path = "/",
+  image,
+  imageAlt,
+  imageWidth = 1200,
+  imageHeight = 630,
+  ogType = "website",
+  jsonLd,
+  breadcrumbs,
+  noindex,
+}: SEOProps) => {
   const normalizedPath = path.replace(/\/+$/, "") || "/";
   const url = `${SITE_URL}${normalizedPath}`;
   const ogImage = image || DEFAULT_OG_IMAGE;
+  const ogImageAlt = imageAlt || DEFAULT_OG_IMAGE_ALT;
   const breadcrumbJsonLd = breadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs) : null;
 
   return (
@@ -47,15 +67,22 @@ const SEO = ({ title, description, path = "/", image, jsonLd, breadcrumbs, noind
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content={ogType} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="Huruy Kidanemariam – UX Portfolio" />
+      <meta property="og:image:width" content={String(imageWidth)} />
+      <meta property="og:image:height" content={String(imageHeight)} />
+      <meta property="og:image:alt" content={ogImageAlt} />
+      <meta property="og:site_name" content="Huruy Kidanemariam, UX Portfolio" />
+      <meta property="og:locale" content="en_US" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content={TWITTER_HANDLE} />
+      <meta name="twitter:creator" content={TWITTER_HANDLE} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image:alt" content={ogImageAlt} />
 
       <meta name="theme-color" content="#0f172a" />
 
