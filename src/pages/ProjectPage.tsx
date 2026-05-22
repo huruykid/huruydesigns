@@ -17,6 +17,8 @@ import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
+import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
+import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -34,62 +36,6 @@ const HeroPhoneMockup = () => {
   );
 };
 
-const AsureHeroCard = () => (
-  <div className="w-full max-w-[420px] rounded-2xl overflow-hidden border border-border bg-[hsl(220,30%,12%)] shadow-2xl">
-    <div className="px-6 pt-6 pb-4">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-          <span className="font-bold text-white text-sm">A</span>
-        </div>
-        <div>
-          <p className="text-white font-bold text-sm">Asure Compliance Engine</p>
-          <p className="text-white/50 text-xs">Tax Configuration Platform</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        {[
-          { label: "Compliance", value: "98.5%" },
-          { label: "Tax Codes", value: "9,000+" },
-          { label: "Entities", value: "6 Types" },
-        ].map((s, i) => (
-          <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
-            <p className="text-accent font-bold text-sm">{s.value}</p>
-            <p className="text-white/40 text-[10px]">{s.label}</p>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-white/70 text-xs font-medium">Tax Payment Overview</span>
-          <span className="text-white/30 text-[10px]">Last 6 months</span>
-        </div>
-        <div className="flex items-end gap-1.5 h-16">
-          {[65, 44, 80, 60, 72, 52].map((h, i) => (
-            <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 5 ? '#e07b39' : '#2d9b5a' }} />
-          ))}
-        </div>
-        <div className="flex justify-between mt-1">
-          {["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
-            <span key={m} className="flex-1 text-center text-[8px] text-white/30">{m}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-    <div className="bg-white/[0.03] border-t border-white/10 px-6 py-3 flex items-center justify-between">
-      <div className="flex gap-3">
-        {["Draft", "In Review", "Released"].map((s, i) => (
-          <span key={i} className={`text-[9px] px-2 py-0.5 rounded-full font-medium ${
-            i === 0 ? "bg-yellow-500/20 text-yellow-400" :
-            i === 1 ? "bg-blue-500/20 text-blue-400" :
-            "bg-green-500/20 text-green-400"
-          }`}>{s}</span>
-        ))}
-      </div>
-      <span className="text-white/30 text-[9px]">Revision Lifecycle →</span>
-    </div>
-  </div>
-);
-
 interface SlotProps {
   getSlotImage: (slot: string) => string | undefined;
 }
@@ -101,18 +47,18 @@ const ProjectPage = () => {
   const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
   const [imagesLoading, setImagesLoading] = useState(true);
   const [accessGranted, setAccessGranted] = useState(false);
-  const idx = projects.findIndex((p) => p.id === id);
+  
+  const normalizedId = id?.replace(/-/g, "");
+  const idx = projects.findIndex((p) => p.id === id || p.id === normalizedId);
   const project = idx !== -1 ? projects[idx] : null;
   const isGated = project ? GATED_PROJECTS.includes(project.id) : false;
 
-  // Find next project, skipping gated ones
   const publicProjects = projects.filter((p) => !GATED_PROJECTS.includes(p.id));
-  const nextPublicIdx = publicProjects.findIndex((p) => p.id === id);
+  const nextPublicIdx = publicProjects.findIndex((p) => p.id === id || p.id === normalizedId);
   const next = nextPublicIdx !== -1
     ? publicProjects[(nextPublicIdx + 1) % publicProjects.length]
     : publicProjects[0] || project;
 
-  // Check sessionStorage for passcode-based access
   useEffect(() => {
     if (!isGated) {
       setAccessGranted(true);
@@ -150,7 +96,6 @@ const ProjectPage = () => {
 
   if (!project || !next) return <Navigate to="/" />;
 
-  // Show access gate for gated projects
   if (isGated && !accessGranted) {
     return (
       <Layout>
@@ -209,28 +154,6 @@ const ProjectPage = () => {
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
               </div>
-              {project.id === "asure-compliance" && (
-                <div className="flex flex-wrap items-center gap-0 mb-4 rounded-lg border border-border bg-card overflow-hidden">
-                  {[
-                    { number: "9,000+", label: "Tax Codes" },
-                    { number: "3", label: "Disciplines Aligned" },
-                    { number: "6", label: "Entity Types Mapped" },
-                    { number: "1", label: "Shared Mental Model Built Together" },
-                  ].map((stat, i) => (
-                    <div key={i} className={`flex-1 min-w-[140px] px-4 py-3 text-center ${i > 0 ? "border-l border-border" : ""}`}>
-                      <p className="text-lg font-bold text-accent">{stat.number}</p>
-                      <p className="text-xs text-muted-foreground">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {project.id === "ebtfinder" && (
-                <a href="https://ebtfinder.org" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 mb-8">
-                  <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                    Visit EBTFinder.org <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </a>
-              )}
               {project.challenge && (
                 <div className="border-l-2 border-accent/40 pl-4 max-w-2xl">
                   <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-1">The Challenge</p>
@@ -245,6 +168,10 @@ const ProjectPage = () => {
                 <ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
                   <TaxComplianceDashboardDemo />
                 </ResponsiveAppShell>
+              ) : project.id === "ebtfinder" ? (
+                <ResponsiveAppShell label="EBT Finder Prototype" allowToggle>
+                  <EBTSearchDemo />
+                </ResponsiveAppShell>
               ) : imagesLoading ? (
                 <Skeleton className="w-full max-w-[420px] aspect-video rounded-xl" />
               ) : getSlotImage("hero") ? (
@@ -257,8 +184,6 @@ const ProjectPage = () => {
                     className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
                   />
                 </div>
-              ) : rich ? (
-                <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
               ) : (
                 <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted w-full">
                   <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
@@ -277,6 +202,8 @@ const ProjectPage = () => {
           <OneAsureCaseStudy project={project} {...slotProps} />
         ) : project.id === "asure-compliance" ? (
           <AsureComplianceCaseStudy project={project} {...slotProps} />
+        ) : project.id === "ebtfinder" ? (
+          <EBTFinderCaseStudy project={project} {...slotProps} />
         ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
@@ -295,7 +222,6 @@ const ProjectPage = () => {
   );
 };
 
-/* ===== Simple case study (non-EBT projects) ===== */
 const SimpleCaseStudy = ({ project }: { project: Project }) => (
   <>
     <CaseStudySection label="The Problem" title="What needed to change" icon={<Search className="h-4 w-4" />}>
@@ -313,10 +239,8 @@ const SimpleCaseStudy = ({ project }: { project: Project }) => (
   </>
 );
 
-/* ===== Rich case study (EBT Finder style) ===== */
 const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotProps) => (
   <>
-    {/* Section 2: Problem & Context */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
       <p className="mb-4">{project.problem}</p>
       {project.problemBullets && (
@@ -338,22 +262,16 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
         </Card>
       )}
       <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} />
-      <p className="text-xs text-muted-foreground mt-2 italic">
-        "A perfect example of a tool that delivers data but fails in user experience."
-      </p>
     </CaseStudySection>
 
-    {/* Insight */}
     {project.insight && (
       <CaseStudySection label="The Insight" title="The opportunity I saw" icon={<Lightbulb className="h-4 w-4" />}>
         <p className="whitespace-pre-line">{project.insight}</p>
       </CaseStudySection>
     )}
 
-    {/* Section 3: Research */}
     {project.competitors && (
       <CaseStudySection label="Research" title="Competitive Analysis" icon={<Search className="h-4 w-4" />}>
-        <p className="mb-6">I conducted a deep dive into direct and indirect competitors to understand where the ecosystem was falling short.</p>
         <div className="space-y-4 mb-6">
           {project.competitors.map((c, i) => (
             <Card key={i} className="border-border bg-card/50">
@@ -379,348 +297,13 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
             { name: "Show only EBT-accepting businesses", support: [true, true, false, true] },
           ]}
         />
-        {project.competitiveKeyTakeaways && (
-          <div className="mt-6">
-            <h3 className="font-bold text-foreground mb-3">Key Takeaways</h3>
-            <ul className="space-y-2">
-              {project.competitiveKeyTakeaways.map((t, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </CaseStudySection>
     )}
 
-    {/* User Interviews */}
     {project.interviews && (
       <CaseStudySection label="User Interviews" title="Hearing from real users" icon={<Users className="h-4 w-4" />}>
         <p className="mb-4">{project.interviews}</p>
-        {project.interviewGoals && (
-          <div className="mb-6">
-            <h3 className="font-bold text-foreground mb-3">Interview Goals</h3>
-            <ul className="space-y-2">
-              {project.interviewGoals.map((g, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <Target className="h-4 w-4 mt-1 text-accent shrink-0" />
-                  <span>{g}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
         <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} />
-        <p className="text-xs text-muted-foreground mt-2 italic">
-          We started with real voices. User interviews helped us understand what builds trust, what causes friction, and why a simple sign doesn't always mean a store is accessible or welcoming.
-        </p>
-      </CaseStudySection>
-    )}
-
-    {/* Research Findings */}
-    {project.findings && (
-      <CaseStudySection label="Key Findings" title="What users told us" icon={<MessageSquareQuote className="h-4 w-4" />}>
-        <div className="grid gap-4">
-          {project.findings.map((f, i) => (
-            <Card key={i} className="border-border bg-muted/30 overflow-hidden">
-              <CardContent className="p-6">
-                <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-2">Finding {i + 1}</p>
-                <h3 className="text-lg font-bold mb-3 text-foreground">{f.title}</h3>
-                <blockquote className="border-l-2 border-accent pl-4 italic mb-3">
-                  "{f.quote}"
-                </blockquote>
-                {f.insight && (
-                  <div className="bg-accent/5 rounded-lg p-3 border border-accent/20">
-                    <p className="text-sm"><strong className="text-accent">Insight:</strong> {f.insight}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </CaseStudySection>
-    )}
-
-    {/* Section 4: Research to Design */}
-    {project.researchToDesign && (
-      <CaseStudySection label="Translating Research" title="From Research to Features" icon={<Lightbulb className="h-4 w-4" />}>
-        <p className="mb-6">Every design decision was backed by user voice, not assumptions.</p>
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left p-3 font-bold text-foreground">User Need (Research Finding)</th>
-                <th className="text-left p-3 font-bold text-foreground">Design Solution</th>
-              </tr>
-            </thead>
-            <tbody>
-              {project.researchToDesign.map((r, i) => (
-                <tr key={i} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
-                  <td className="p-3 italic">{r.need}</td>
-                  <td className="p-3">{r.solution}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} />
-      </CaseStudySection>
-    )}
-
-    {/* Section 5: The Solution */}
-    {project.solutionFeatures && (
-      <CaseStudySection label="The Solution" title="What we built" icon={<Rocket className="h-4 w-4" />}>
-        {project.goals && (
-          <div className="grid sm:grid-cols-2 gap-4 mb-10">
-            {project.goals.map((g, i) => (
-              <Card key={i} className="border-border bg-card/50">
-                <CardContent className="p-5 flex items-start gap-3">
-                  <span className="text-accent font-bold text-lg shrink-0">0{i + 1}</span>
-                  <p>{g}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-        <div className="space-y-16">
-          {project.solutionFeatures.map((feat, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <h3 className="text-xl font-bold text-foreground mb-2">{i + 1}. {feat.title}</h3>
-              <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
-              {feat.details.length > 0 && (
-                <ul className="mt-4 space-y-1">
-                  {feat.details.map((d, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-                      <span>{d}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Card className="border-accent/30 bg-accent/5 mt-4">
-                <CardContent className="p-4">
-                  <p className="text-sm"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </CaseStudySection>
-    )}
-
-    {/* Section 6: Design System */}
-    {project.designPrinciples && (
-      <CaseStudySection label="Design System" title="Visual Design Principles" icon={<Palette className="h-4 w-4" />}>
-        <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          {project.designPrinciples.map((p, i) => (
-            <Card key={i} className="border-border bg-card/50">
-              <CardContent className="p-5">
-                <h3 className="font-bold text-foreground mb-1">{p.title}</h3>
-                <p className="text-sm">{p.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        <ImageSlot slot="design-system" label="Design system: colors, typography, buttons, icons" imageSrc={getSlotImage("design-system")} />
-        {project.userFlow && (
-          <div className="mt-10">
-            <h3 className="font-bold text-foreground mb-4">User Flow: Search → Filter → Review → Visit</h3>
-            <div className="space-y-3">
-              {project.userFlow.map((step, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="bg-accent text-accent-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</span>
-                  <p>{step}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6">
-              <div className="rounded-xl border border-border bg-card/50 p-6 overflow-x-auto">
-                <div className="flex items-center gap-0 min-w-[700px]">
-                  {[
-                    { step: "1", title: "Locate", desc: "Enter location or use GPS", emoji: "📍" },
-                    { step: "2", title: "Filter", desc: "Hot Food, Open Now, etc.", emoji: "🔍" },
-                    { step: "3", title: "Browse", desc: "View profiles, photos & ratings", emoji: "🏪" },
-                    { step: "4", title: "Navigate", desc: "Get directions or save", emoji: "🗺️" },
-                    { step: "5", title: "Review", desc: "Leave feedback for others", emoji: "⭐" },
-                  ].map((item, i, arr) => (
-                    <div key={i} className="flex items-center flex-1">
-                      <div className="flex flex-col items-center text-center flex-1">
-                        <div className="w-14 h-14 rounded-full bg-accent/15 border-2 border-accent flex items-center justify-center text-2xl mb-2">
-                          {item.emoji}
-                        </div>
-                        <p className="font-bold text-foreground text-sm">{item.title}</p>
-                        <p className="text-xs text-muted-foreground mt-1 max-w-[120px]">{item.desc}</p>
-                      </div>
-                      {i < arr.length - 1 && (
-                        <div className="w-8 h-0.5 bg-accent/40 shrink-0" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </CaseStudySection>
-    )}
-
-    {/* Section 7: Impact & Validation */}
-    {project.validationMetrics && (
-      <CaseStudySection label="Impact & Validation" title="Prototype Testing Results" icon={<BarChart3 className="h-4 w-4" />}>
-        <p className="mb-6">Even without launch, usability testing validated the concept:</p>
-        <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          {project.validationMetrics.map((m, i) => (
-            <Card key={i} className="border-accent/30 bg-accent/5">
-              <CardContent className="p-5 text-center">
-                <p className="text-3xl font-bold text-accent mb-1">{m.value}</p>
-                <p className="font-semibold text-foreground text-sm mb-1">{m.label}</p>
-                <p className="text-xs text-muted-foreground">{m.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        <div className="rounded-xl border border-border bg-card/50 p-6">
-          <h3 className="font-bold text-foreground mb-6 text-center">EBT Finder vs. USDA SNAP Locator</h3>
-          <div className="space-y-5">
-            {[
-              { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec", maxVal: 180 },
-              { label: "Mobile usability", ebt: 95, usda: 30, unit: "%", maxVal: 100 },
-              { label: "User satisfaction", ebt: 95, usda: 20, unit: "%", maxVal: 100 },
-              { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%", maxVal: 100 },
-            ].map((row, i) => {
-              const ebtWidth = Math.max((row.ebt / row.maxVal) * 100, 8);
-              const usdaWidth = Math.max((row.usda / row.maxVal) * 100, 8);
-              return (
-                <div key={i}>
-                  <p className="text-sm font-medium text-foreground mb-2">{row.label}</p>
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-24 shrink-0">EBT Finder</span>
-                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
-                        <div
-                          className="h-full bg-accent rounded-full"
-                          style={{ width: `${ebtWidth}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-bold text-foreground w-16 shrink-0 text-right">{row.ebt}{row.unit}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-24 shrink-0">USDA Tool</span>
-                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
-                        <div
-                          className="h-full bg-muted-foreground/30 rounded-full"
-                          style={{ width: `${usdaWidth}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-bold text-muted-foreground w-16 shrink-0 text-right">{row.usda}{row.unit}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </CaseStudySection>
-    )}
-
-    {/* Section 8: Learnings */}
-    {project.learnings && (
-      <CaseStudySection label="Learnings" title="What I Learned" icon={<Lightbulb className="h-4 w-4" />}>
-        <div className="space-y-4 mb-10">
-          {project.learnings.map((l, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-              <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-              <p>{l}</p>
-            </div>
-          ))}
-        </div>
-        {project.whatIdDoDifferently && (
-          <>
-            <h3 className="text-xl font-bold text-foreground mb-4">What I'd Do Differently</h3>
-            <div className="space-y-4">
-              {project.whatIdDoDifferently.map((w, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/10 border border-border/50">
-                  <span className="text-muted-foreground font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-                  <p>{w}</p>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </CaseStudySection>
-    )}
-
-    {/* Section 9: Business Model & Next Steps */}
-    {project.businessModel && (
-      <CaseStudySection label="Business Model" title="How It Works" icon={<Rocket className="h-4 w-4" />}>
-        <p className="mb-6">{project.businessModel}</p>
-        {project.businessModelDetails && (
-          <div className="grid sm:grid-cols-2 gap-4 mb-10">
-            {project.businessModelDetails.map((d, i) => (
-              <Card key={i} className="border-border bg-card/50">
-                <CardContent className="p-5">
-                  <h3 className="font-bold text-foreground mb-1">{d.label}</h3>
-                  <p className="text-sm">{d.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-        {project.phasedRoadmap && (
-          <>
-            <h3 className="text-xl font-bold text-foreground mb-4">What's Next</h3>
-            <div className="space-y-4">
-              {project.phasedRoadmap.map((p, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-                  <span className="text-accent font-bold text-sm shrink-0 mt-0.5 whitespace-nowrap">{p.phase}</span>
-                  <div>
-                    <h4 className="font-bold text-foreground">{p.title}</h4>
-                    <p className="text-sm mt-1">{p.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </CaseStudySection>
-    )}
-
-    {/* Closing Statement */}
-    {project.closingStatement && (
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-20">
-        <Card className="border-accent/30 bg-gradient-to-br from-accent/10 to-accent/5">
-          <CardContent className="p-8 text-center">
-            <Heart className="h-8 w-8 text-accent mx-auto mb-4" />
-            <p className="text-lg text-foreground font-medium mb-6">{project.closingStatement}</p>
-            {project.closingStats && (
-              <div className="grid sm:grid-cols-3 gap-4">
-                {project.closingStats.map((s, i) => (
-                  <div key={i}>
-                    <p className="text-xs text-accent uppercase font-semibold tracking-wide">{s.label}</p>
-                    <p className="text-sm text-foreground mt-1">{s.value}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-    )}
-
-    {/* Appendix */}
-    {project.appendixImages && project.appendixImages.length > 0 && (
-      <CaseStudySection label="Appendix" title="Additional Screens" icon={<ImageIcon className="h-4 w-4" />}>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {project.appendixImages.map((img, i) => (
-            <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} />
-              <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
-            </div>
-          ))}
-        </div>
       </CaseStudySection>
     )}
   </>
