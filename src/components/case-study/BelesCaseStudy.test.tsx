@@ -58,3 +58,21 @@ describe('Beles Interactive Components', () => {
     expect(screen.getByText(/Makda, 28/i)).toBeInTheDocument();
   });
 });
+
+import BelesCaseStudy from './BelesCaseStudy';
+import { projects } from '../../lib/projects';
+
+describe('BelesCaseStudy Component', () => {
+  it('renders without crashing', () => {
+    const belesProject = projects.find(p => p.id === 'beles');
+    expect(belesProject).toBeDefined();
+    
+    const getSlotImage = (slot: string) => '/test-image.png';
+    
+    render(<BelesCaseStudy project={belesProject!} getSlotImage={getSlotImage} />);
+    
+    expect(screen.getByText(/The Problem/i)).toBeInTheDocument();
+    expect(screen.getByText(/Existing Solutions Fall Short/i)).toBeInTheDocument();
+    expect(screen.getByText(/Phase 1: Empathize & Define/i)).toBeInTheDocument();
+  });
+});
