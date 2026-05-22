@@ -1,334 +1,19 @@
-import { useParams, Link, Navigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Target, MessageSquareQuote, Lightbulb, Search, Users, BookOpen, ChevronRight, BarChart3, Palette, Rocket, Heart, ImageIcon, AlertTriangle } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { AlertTriangle, Search, Lightbulb, ChevronRight, Target, Users, MessageSquareQuote, Rocket, Palette, BarChart3, ImageIcon, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import Layout from "@/components/Layout";
-import SEO from "@/components/SEO";
-import { projects, Project } from "@/lib/projects";
-import CaseStudySection from "@/components/case-study/CaseStudySection";
-import ImageSlot from "@/components/case-study/ImageSlot";
-import CompetitiveAuditTable from "@/components/case-study/CompetitiveAuditTable";
-import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
+import CaseStudySection from "./CaseStudySection";
+import ImageSlot from "./ImageSlot";
+import CompetitiveAuditTable from "./CompetitiveAuditTable";
+import ResponsiveAppShell from "./ResponsiveAppShell";
+import EBTSearchDemo from "./EBTSearchDemo";
+import { Project } from "@/lib/projects";
 
-import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
-import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
-import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
-import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
-import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
-import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
-import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
-import AccessGate from "@/components/AccessGate";
-
-const isRichCaseStudy = (p: Project) => !!p.challenge;
-
-const HeroPhoneMockup = () => {
-  const isMobile = useIsMobile();
-  return (
-    <ResponsiveAppShell label="OneAsure Portal">
-      <BenefitsModuleDemo layout={isMobile ? "mobile" : "desktop"} />
-    </ResponsiveAppShell>
-  );
-};
-
-const AsureHeroCard = () => (
-  <div className="w-full max-w-[420px] rounded-2xl overflow-hidden border border-border bg-[hsl(220,30%,12%)] shadow-2xl">
-    <div className="px-6 pt-6 pb-4">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-          <span className="font-bold text-white text-sm">A</span>
-        </div>
-        <div>
-          <p className="text-white font-bold text-sm">Asure Compliance Engine</p>
-          <p className="text-white/50 text-xs">Tax Configuration Platform</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        {[
-          { label: "Compliance", value: "98.5%" },
-          { label: "Tax Codes", value: "9,000+" },
-          { label: "Entities", value: "6 Types" },
-        ].map((s, i) => (
-          <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
-            <p className="text-accent font-bold text-sm">{s.value}</p>
-            <p className="text-white/40 text-[10px]">{s.label}</p>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-white/70 text-xs font-medium">Tax Payment Overview</span>
-          <span className="text-white/30 text-[10px]">Last 6 months</span>
-        </div>
-        <div className="flex items-end gap-1.5 h-16">
-          {[65, 44, 80, 60, 72, 52].map((h, i) => (
-            <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 5 ? '#e07b39' : '#2d9b5a' }} />
-          ))}
-        </div>
-        <div className="flex justify-between mt-1">
-          {["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((m) => (
-            <span key={m} className="flex-1 text-center text-[8px] text-white/30">{m}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-    <div className="bg-white/[0.03] border-t border-white/10 px-6 py-3 flex items-center justify-between">
-      <div className="flex gap-3">
-        {["Draft", "In Review", "Released"].map((s, i) => (
-          <span key={i} className={`text-[9px] px-2 py-0.5 rounded-full font-medium ${
-            i === 0 ? "bg-yellow-500/20 text-yellow-400" :
-            i === 1 ? "bg-blue-500/20 text-blue-400" :
-            "bg-green-500/20 text-green-400"
-          }`}>{s}</span>
-        ))}
-      </div>
-      <span className="text-white/30 text-[9px]">Revision Lifecycle →</span>
-    </div>
-  </div>
-);
-
-interface SlotProps {
+interface Props {
+  project: Project;
   getSlotImage: (slot: string) => string | undefined;
 }
 
-const GATED_PROJECTS = ["asure-compliance"];
-
-const ProjectPage = () => {
-  const { id } = useParams();
-  const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
-  const [imagesLoading, setImagesLoading] = useState(true);
-  const [accessGranted, setAccessGranted] = useState(false);
-  const idx = projects.findIndex((p) => p.id === id);
-  const project = idx !== -1 ? projects[idx] : null;
-  const isGated = project ? GATED_PROJECTS.includes(project.id) : false;
-
-  // Find next project, skipping gated ones
-  const publicProjects = projects.filter((p) => !GATED_PROJECTS.includes(p.id));
-  const nextPublicIdx = publicProjects.findIndex((p) => p.id === id || p.id === normalizedId);
-  const next = nextPublicIdx !== -1
-    ? publicProjects[(nextPublicIdx + 1) % publicProjects.length]
-    : publicProjects[0] || project;
-
-  // Check sessionStorage for passcode-based access
-  useEffect(() => {
-    if (!isGated) {
-      setAccessGranted(true);
-      return;
-    }
-    const granted = sessionStorage.getItem(`access_granted_${project!.id}`) === "true";
-    setAccessGranted(granted);
-  }, [isGated, project?.id]);
-
-  useEffect(() => {
-    if (!project) return;
-    setImagesLoading(true);
-    const fetchImages = async () => {
-      try {
-        const { data } = await supabase
-          .from("case_study_images" as any)
-          .select("slot, image_url")
-          .eq("project_id", project.id) as any;
-        if (data) {
-          const map: Record<string, string> = {};
-          for (const row of data) map[row.slot] = row.image_url;
-          setUploadedImages(map);
-        }
-      } finally {
-        setImagesLoading(false);
-      }
-    };
-    fetchImages();
-  }, [project?.id]);
-
-  const getSlotImage = useCallback((slot: string) => {
-    if (imagesLoading) return uploadedImages[slot];
-    return uploadedImages[slot] || project?.sectionImages?.[slot];
-  }, [uploadedImages, project?.sectionImages, imagesLoading]);
-
-  if (!project || !next) return <Navigate to="/" />;
-
-  // Show access gate for gated projects
-  if (isGated && !accessGranted) {
-    return (
-      <Layout>
-        <SEO
-          title={`${project.title} – Request Access`}
-          description="This case study contains proprietary work and is available by request."
-          path={`/project/${project.id}`}
-        />
-        <AccessGate project={project} onAccessGranted={() => setAccessGranted(true)} />
-      </Layout>
-    );
-  }
-
-  const rich = isRichCaseStudy(project);
-  const slotProps: SlotProps = { getSlotImage };
-
-  return (
-    <Layout>
-      <SEO
-        title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
-        description={project.seoDescription || project.description}
-        path={`/project/${project.id}`}
-        image={project.image}
-        imageAlt={`${project.title} case study cover, by Huruy Kidanemariam`}
-        ogType="article"
-        breadcrumbs={[
-          { name: "Home", path: "/" },
-          { name: project.title, path: `/project/${project.id}` },
-        ]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "CreativeWork",
-          name: project.title,
-          description: project.description,
-          url: `https://huruy.tech/project/${project.id}`,
-          image: project.image,
-          author: { "@type": "Person", name: "Huruy Kidanemariam" },
-          genre: "UX Case Study",
-        }}
-      />
-      {/* Hero */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Back to Projects
-          </Link>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mb-6">{project.description}</p>
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-                <span><strong className="text-foreground">Role:</strong> {project.role}</span>
-                <span><strong className="text-foreground">Timeline:</strong> {project.timeline}</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
-              </div>
-              {project.id === "asure-compliance" && (
-                <div className="flex flex-wrap items-center gap-0 mb-4 rounded-lg border border-border bg-card overflow-hidden">
-                  {[
-                    { number: "9,000+", label: "Tax Codes" },
-                    { number: "3", label: "Disciplines Aligned" },
-                    { number: "6", label: "Entity Types Mapped" },
-                    { number: "1", label: "Shared Mental Model Built Together" },
-                  ].map((stat, i) => (
-                    <div key={i} className={`flex-1 min-w-[140px] px-4 py-3 text-center ${i > 0 ? "border-l border-border" : ""}`}>
-                      <p className="text-lg font-bold text-accent">{stat.number}</p>
-                      <p className="text-xs text-muted-foreground">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {project.id === "ebtfinder" && (
-                <a href="https://ebtfinder.org" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 mb-8">
-                  <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                    Visit EBTFinder.org <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </a>
-              )}
-              {project.challenge && (
-                <div className="border-l-2 border-accent/40 pl-4 max-w-2xl">
-                  <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-1">The Challenge</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{project.challenge}</p>
-                </div>
-              )}
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
-              {project.id === "oneasure-portal" ? (
-                <HeroPhoneMockup />
-              ) : project.id === "asure-compliance" ? (
-              ) : project.id === "ebtfinder" ? (
-                <ResponsiveAppShell label="EBT Finder Prototype" allowToggle>
-                  <EBTSearchDemo />
-                </ResponsiveAppShell>
-                <ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
-                  <TaxComplianceDashboardDemo />
-                </ResponsiveAppShell>
-              ) : imagesLoading ? (
-                <Skeleton className="w-full max-w-[420px] aspect-video rounded-xl" />
-              ) : getSlotImage("hero") ? (
-                <ImageSlot slot="hero" label="Hero Image" imageSrc={getSlotImage("hero")} />
-              ) : rich && project.image && project.image !== "/placeholder.svg" ? (
-                <div className="flex items-center justify-center w-full">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
-                  />
-                </div>
-              ) : project.id === "ebtfinder" ? (
-          <EBTFinderCaseStudy project={project} {...slotProps} />
-        ) : project.id === "ebtfinder" ? (
-          <EBTFinderCaseStudy project={project} {...slotProps} />
-        ) : rich ? (
-                <ImageSlot slot="hero" label="Main app screen or USDA vs. Your design comparison" />
-              ) : (
-                <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted w-full">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-                </div>
-              )}
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 pb-24 max-w-4xl">
-        {project.id === "beles" ? (
-          <BelesCaseStudy project={project} {...slotProps} />
-        ) : project.id === "oneasure-portal" ? (
-          <OneAsureCaseStudy project={project} {...slotProps} />
-        ) : project.id === "asure-compliance" ? (
-          <AsureComplianceCaseStudy project={project} {...slotProps} />
-        ) : project.id === "ebtfinder" ? (
-          <EBTFinderCaseStudy project={project} {...slotProps} />
-        ) : project.id === "ebtfinder" ? (
-          <EBTFinderCaseStudy project={project} {...slotProps} />
-        ) : rich ? (
-          <RichCaseStudy project={project} {...slotProps} />
-        ) : (
-          <SimpleCaseStudy project={project} />
-        )}
-
-        {/* Next project */}
-        <div className="border-t border-border pt-12">
-          <p className="text-sm text-muted-foreground mb-2">Next Project</p>
-          <Link to={`/project/${next.id}`} className="group inline-flex items-center gap-2 text-2xl font-bold hover:text-accent transition-colors" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            {next.title} <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </div>
-    </Layout>
-  );
-};
-
-/* ===== Simple case study (non-EBT projects) ===== */
-const SimpleCaseStudy = ({ project }: { project: Project }) => (
-  <>
-    <CaseStudySection label="The Problem" title="What needed to change" icon={<Search className="h-4 w-4" />}>
-      <p>{project.problem}</p>
-    </CaseStudySection>
-    <CaseStudySection label="The Process" title="How I approached it">
-      <p>{project.process}</p>
-    </CaseStudySection>
-    <CaseStudySection label="The Solution" title="What we built">
-      <p>{project.solution}</p>
-    </CaseStudySection>
-    <CaseStudySection label="The Impact" title="Measurable outcomes" icon={<Target className="h-4 w-4" />}>
-      <p>{project.outcomeMetrics}</p>
-    </CaseStudySection>
-  </>
-);
-
-/* ===== Rich case study (EBT Finder style) ===== */
-const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotProps) => (
+const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
   <>
     {/* Section 2: Problem & Context */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
@@ -409,7 +94,6 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
       </CaseStudySection>
     )}
 
-    {/* User Interviews */}
     {project.interviews && (
       <CaseStudySection label="User Interviews" title="Hearing from real users" icon={<Users className="h-4 w-4" />}>
         <p className="mb-4">{project.interviews}</p>
@@ -433,7 +117,6 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
       </CaseStudySection>
     )}
 
-    {/* Research Findings */}
     {project.findings && (
       <CaseStudySection label="Key Findings" title="What users told us" icon={<MessageSquareQuote className="h-4 w-4" />}>
         <div className="grid gap-4">
@@ -457,7 +140,6 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
       </CaseStudySection>
     )}
 
-    {/* Section 4: Research to Design */}
     {project.researchToDesign && (
       <CaseStudySection label="Translating Research" title="From Research to Features" icon={<Lightbulb className="h-4 w-4" />}>
         <p className="mb-6">Every design decision was backed by user voice, not assumptions.</p>
@@ -503,7 +185,17 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h3 className="text-xl font-bold text-foreground mb-2">{i + 1}. {feat.title}</h3>
               <p className="mb-4">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
+              
+              {feat.imageSlot === "feature-search" ? (
+                <div className="my-8 flex justify-center">
+                  <ResponsiveAppShell label="EBT Finder Prototype" allowToggle>
+                    <EBTSearchDemo />
+                  </ResponsiveAppShell>
+                </div>
+              ) : (
+                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
+              )}
+
               {feat.details.length > 0 && (
                 <ul className="mt-4 space-y-1">
                   {feat.details.map((d, j) => (
@@ -740,4 +432,4 @@ const RichCaseStudy = ({ project, getSlotImage }: { project: Project } & SlotPro
   </>
 );
 
-export default ProjectPage;
+export default EBTFinderCaseStudy;
