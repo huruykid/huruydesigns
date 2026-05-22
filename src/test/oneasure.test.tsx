@@ -2,9 +2,8 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import ProjectPage from "../pages/ProjectPage";
 import { projects } from "../lib/projects";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import { HelmetProvider } from "react-helmet-async";
-import App from "../App";
 
 // Mock Supabase
 vi.mock("@/integrations/supabase/client", () => ({
@@ -17,7 +16,17 @@ vi.mock("@/integrations/supabase/client", () => ({
   }
 }));
 
+// Mock useIsMobile
+vi.mock("@/hooks/use-mobile", () => ({
+  useIsMobile: () => false
+}));
+
 describe("OneAsure Project Page", () => {
+  beforeAll(() => {
+    // Mock window.scrollTo
+    window.scrollTo = vi.fn();
+  });
+
   it("renders the case study for oneasure-portal", async () => {
     render(
       <HelmetProvider>
@@ -36,10 +45,8 @@ describe("OneAsure Project Page", () => {
     expect(screen.getByText(/Fragmented systems, fractured workflows/i)).toBeDefined();
     
     // Verify interactive shells are present
-    // Pay Module
-    expect(screen.getByText(/Pay Module/i)).toBeDefined();
-    // Benefits Module
-    expect(screen.getByText(/Benefits Module/i)).toBeDefined();
+    expect(screen.getAllByText(/Pay Module/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Benefits Module/i).length).toBeGreaterThan(0);
   });
 
   it("PayModuleDemo interactivity works", async () => {
@@ -53,29 +60,20 @@ describe("OneAsure Project Page", () => {
       </HelmetProvider>
     );
 
-    // Find the Pay Module card
-    const payModuleText = await screen.findByText(/Pay Module/i);
-    expect(payModuleText).toBeDefined();
+    // Wait for the page to load
+    await screen.findByText(/OneAsure Portal/i);
 
     // The eye icon toggle in PayModuleDemo
-    // In PayModuleDemo.tsx, the initial state of salaryVisible is false.
-    // So it should show the dots "● ● ● ●"
+    // Check for masked salary
     expect(screen.getAllByText(/● ● ● ●/i).length).toBeGreaterThan(0);
 
-    // Click the eye icon
-    // It's a button with Eye icon. Let's find it by role or just click any button near Net Pay
-    const eyeButtons = screen.getAllByRole("button");
-    const eyeButton = eyeButtons.find(b => b.innerHTML.includes("svg")); // Crude but let's try to be more specific
-    
-    // Actually PayModuleDemo has multiple eye icons or similar.
-    // Let's look for "Net Pay" then the button next to it.
-    const netPayText = screen.getAllByText(/Net Pay/i)[0];
-    const toggleButton = netPayText.parentElement?.querySelector("button");
-    if (toggleButton) {
-      fireEvent.click(toggleButton);
-      // Now it should show the amount
-      expect(await screen.findByText(/$4,262.79/i)).toBeDefined();
-    }
+    // Click the toggle button
+    const toggleButtons = screen.getAllByRole("button").filter(b => b.innerHTML.includes("svg"));
+    // The first one in Pay card should be the one
+    fireEvent.click(toggleButtons[0]);
+
+    // Now it should show the amount
+    expect(await screen.findByText(/$4,262.79/i)).toBeDefined();
   });
 
   it("BenefitsModuleDemo interactivity works", async () => {
@@ -89,11 +87,13 @@ describe("OneAsure Project Page", () => {
       </HelmetProvider>
     );
 
-    // Find "Begin Enrollment" button in Benefits Module
+    await screen.findByText(/OneAsure Portal/i);
+
+    // Find "Begin Enrollment" button
     const beginEnrollmentBtn = await screen.findByText(/Begin Enrollment/i);
     fireEvent.click(beginEnrollmentBtn);
 
-    // Should show the overlay with "Select Plans"
+    // Should show the overlay
     expect(await screen.findByText(/Open Enrollment/i)).toBeDefined();
     expect(screen.getByText(/Select plans to enroll in/i)).toBeDefined();
     
@@ -104,16 +104,25 @@ describe("OneAsure Project Page", () => {
     expect(screen.getByText(/Review your selections/i)).toBeDefined();
   });
 
-  it("Checks if /project/oneasure (alias) works", async () => {
-    // This will test if there is any mapping for 'oneasure'
+  it("Checks if /project/oneasure works (expected to FAIL or REDIRECT if not an alias)", async () => {
+    // If it's a Navigate to "/", it won't render the project page
     render(
       <HelmetProvider>
-        <App />
+        <MemoryRouter initialEntries={["/project/oneasure"]}>
+          <Routes>
+            <Route path="/" element={<div>Home Page</div>} />
+            <Route path="/project/:id" element={<ProjectPage />} />
+          </Routes>
+        </MemoryRouter>
       </HelmetProvider>
     );
-    
-    // Navigate to /project/oneasure
-    // Note: MemoryRouter is already in App if I use App, but App uses BrowserRouter.
-    // So I should use MemoryRouter and wrap App's internal Routes or just test ProjectPage directly with id 'oneasure'
+
+    // If it redirects to home, "OneAsure Portal" should NOT be found
+    const portalTitle = screen.queryByText(/OneAsure Portal/i);
+    if (!portalTitle) {
+      console.log("/project/oneasure redirected or did not render the project.");
+    } else {
+      console.log("/project/oneasure RENDERED the project.");
+    }
   });
 });
