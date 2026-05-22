@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 test('chatbot works as expected', async ({ page }) => {
+  const consoleErrors: string[] = [];
+  page.on('console', msg => {
+    if (msg.type() === 'error') consoleErrors.push(msg.text());
+  });
+
   await page.goto('https://huruydesigns.lovable.app');
 
   // Check if chatbot button is visible
@@ -23,24 +28,17 @@ test('chatbot works as expected', async ({ page }) => {
   await expect(page.locator('text=What are Huruy\'s top skills?')).toBeVisible();
 
   // Verify streaming response (incremental updates)
-  // We can't easily "see" streaming in one go, but we can check if content appears and changes
   const assistantMessage = page.locator('.prose-sm').last();
   await expect(assistantMessage).toBeVisible({ timeout: 15000 });
   
-  const initialText = await assistantMessage.textContent();
-  // Wait a bit to see if it updates (streaming)
-  await page.waitForTimeout(1000);
-  const updatedText = await assistantMessage.textContent();
+  // Wait for it to finish streaming (loading indicator disappears)
+  await expect(page.locator('.animate-spin')).not.toBeVisible({ timeout: 20000 });
   
-  // Note: Streaming might be fast, but usually we can catch a change if we're lucky or just verify it finishes
-  console.log('Assistant response:', updatedText);
-  expect(updatedText?.length).toBeGreaterThan(0);
-
-  // Verify markdown rendering (e.g. check for bold text or list items if expected)
-  // The assistant usually responds with markdown.
-  // We can check if there are any HTML tags inside the prose container
-  const hasHtml = await assistantMessage.evaluate(el => el.children.length > 0);
-  expect(hasHtml).toBeTruthy();
+  const finalContent = await assistantMessage.innerHTML();
+  console.log('Final Assistant response:', finalContent);
+  
+  // Verify markdown renders (e.g. bold text)
+  expect(finalContent).toContain('<strong>'); // ReactMarkdown converts ** to <strong>
 
   // Close chatbot
   const closeButton = page.locator('button[aria-label="Close chat"]');
@@ -53,4 +51,10 @@ test('chatbot works as expected', async ({ page }) => {
   
   // Verify history is still there
   await expect(page.locator('text=What are Huruy\'s top skills?')).toBeVisible();
+
+  // Check for console errors
+  if (consoleErrors.length > 0) {
+    console.error('Console errors found:', consoleErrors);
+  }
+  expect(consoleErrors).toHaveLength(0);
 });
