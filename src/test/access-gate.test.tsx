@@ -3,6 +3,13 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import AccessGate from "../components/AccessGate";
 import { supabase } from "../integrations/supabase/client";
 
+// Mock IntersectionObserver
+const mockIntersectionObserver = vi.fn();
+mockIntersectionObserver.prototype.observe = vi.fn();
+mockIntersectionObserver.prototype.unobserve = vi.fn();
+mockIntersectionObserver.prototype.disconnect = vi.fn();
+window.IntersectionObserver = mockIntersectionObserver;
+
 // Mock Supabase
 vi.mock("../integrations/supabase/client", () => ({
   supabase: {
@@ -10,6 +17,11 @@ vi.mock("../integrations/supabase/client", () => ({
       invoke: vi.fn(),
     },
   },
+}));
+
+// Mock components that might use window features not in jsdom
+vi.mock("../components/case-study/TaxComplianceDashboardDemo", () => ({
+  default: () => <div data-testid="dashboard-demo">Tax Compliance Dashboard Demo</div>
 }));
 
 const mockProject = {
@@ -58,7 +70,7 @@ describe("AccessGate", () => {
 
   it("unlocks when 'UX' is entered (mocking successful response)", async () => {
     (supabase.functions.invoke as any).mockImplementation(async (fnName, options) => {
-      if (options.body.passcode.toLowerCase() === 'ux') {
+      if (options.body.passcode.trim().toLowerCase() === 'ux') {
         return { data: { valid: true }, error: null };
       }
       return { data: { valid: false }, error: null };
