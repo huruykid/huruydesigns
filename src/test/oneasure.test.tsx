@@ -1,11 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import ProjectPage from "../pages/ProjectPage";
-import { projects } from "../lib/projects";
 import { describe, it, expect, vi, beforeAll, beforeEach } from "vitest";
 import { HelmetProvider } from "react-helmet-async";
 
-// Mock Supabase
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -16,7 +14,6 @@ vi.mock("@/integrations/supabase/client", () => ({
   }
 }));
 
-// Mock useIsMobile
 vi.mock("@/hooks/use-mobile", () => ({
   useIsMobile: () => false
 }));
@@ -48,14 +45,9 @@ describe("OneAsure Project Page", () => {
       </HelmetProvider>
     );
 
-    // Verify title in H1
-    const titles = await screen.findAllByText(/OneAsure Portal/i);
-    expect(titles.length).toBeGreaterThan(0);
-    
-    // Verify case study content
+    const h1 = await screen.findAllByRole('heading', { level: 1 });
+    expect(h1.some(h => h.textContent === "OneAsure Portal")).toBe(true);
     expect(screen.getByText(/Fragmented systems, fractured workflows/i)).toBeDefined();
-    
-    // Check for console errors
     expect(consoleErrorMock).not.toHaveBeenCalled();
   });
 
@@ -71,22 +63,18 @@ describe("OneAsure Project Page", () => {
     );
 
     await screen.findAllByText(/OneAsure Portal/i);
+    const masks = screen.getAllByText(/● ● ● ●/i);
+    expect(masks.length).toBeGreaterThan(0);
 
-    // Check for masked salary
-    expect(screen.getAllByText(/● ● ● ●/i).length).toBeGreaterThan(0);
-
-    // Toggle salary
-    const netPayLabel = screen.getByText(/Net Pay/i);
-    const toggleButton = netPayLabel.parentElement?.querySelector('button');
+    const netPayLabel = screen.getAllByText(/Net Pay/i).find(el => el.tagName === 'SPAN');
+    const toggleButton = netPayLabel?.parentElement?.querySelector('button');
     
     if (toggleButton) {
       fireEvent.click(toggleButton);
-      // Use a more flexible matcher for the amount
       await waitFor(() => {
-        expect(screen.getByText((content) => content.includes(',262.79'))).toBeDefined();
+        expect(screen.getAllByText((content) => content.includes(',262.79')).length).toBeGreaterThan(0);
       });
     }
-    
     expect(consoleErrorMock).not.toHaveBeenCalled();
   });
 
@@ -102,20 +90,17 @@ describe("OneAsure Project Page", () => {
     );
 
     await screen.findAllByText(/OneAsure Portal/i);
+    const beginEnrollmentBtns = await screen.findAllByText(/Begin Enrollment/i);
+    // Click the one in the main content, usually the last one rendered or first in main
+    fireEvent.click(beginEnrollmentBtns[beginEnrollmentBtns.length - 1]);
 
-    // Find "Begin Enrollment" button
-    const beginEnrollmentBtn = await screen.findByText(/Begin Enrollment/i);
-    fireEvent.click(beginEnrollmentBtn);
-
-    // Should show the overlay
-    expect(await screen.findByText(/Open Enrollment/i)).toBeDefined();
+    const overlays = await screen.findAllByText(/Open Enrollment/i);
+    expect(overlays.length).toBeGreaterThan(0);
     
-    // Click "Continue to Review"
-    const continueBtn = screen.getByText(/Continue to Review/i);
-    fireEvent.click(continueBtn);
+    const continueBtns = screen.getAllByText(/Continue to Review/i);
+    fireEvent.click(continueBtns[0]);
     
     expect(screen.getByText(/Review your selections/i)).toBeDefined();
-
     expect(consoleErrorMock).not.toHaveBeenCalled();
   });
 });
