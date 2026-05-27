@@ -55,7 +55,46 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const body = await req.json().catch(() => null);
+    const rawMessages = body && Array.isArray((body as any).messages) ? (body as any).messages : null;
+
+    if (!rawMessages) {
+      return new Response(
+        JSON.stringify({ error: "Invalid request: messages array required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const MAX_MESSAGES = 20;
+    const MAX_LEN = 2000;
+
+    if (rawMessages.length === 0 || rawMessages.length > MAX_MESSAGES) {
+      return new Response(
+        JSON.stringify({ error: `Messages must be between 1 and ${MAX_MESSAGES}` }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const messages: { role: "user" | "assistant"; content: string }[] = [];
+    for (const m of rawMessages) {
+      if (!m || typeof m !== "object") continue;
+      const role = (m as any).role;
+      const content = (m as any).content;
+      if ((role !== "user" && role !== "assistant") || typeof content !== "string") {
+        return new Response(
+          JSON.stringify({ error: "Each message needs role 'user'|'assistant' and string content" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      if (content.length === 0 || content.length > MAX_LEN) {
+        return new Response(
+          JSON.stringify({ error: `Message content must be 1-${MAX_LEN} characters` }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      messages.push({ role, content });
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
