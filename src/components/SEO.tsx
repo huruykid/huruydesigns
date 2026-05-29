@@ -52,7 +52,11 @@ const SEO = ({
 }: SEOProps) => {
   const normalizedPath = path.replace(/\/+$/, "") || "/";
   const url = `${SITE_URL}${normalizedPath}`;
-  const ogImage = image || DEFAULT_OG_IMAGE;
+  const rawImage = image || DEFAULT_OG_IMAGE;
+  // og:image must be an absolute URL — social crawlers can't resolve relative paths.
+  const ogImage = /^https?:\/\//i.test(rawImage)
+    ? rawImage
+    : `${SITE_URL}${rawImage.startsWith("/") ? rawImage : `/${rawImage}`}`;
   const ogImageAlt = imageAlt || DEFAULT_OG_IMAGE_ALT;
   const breadcrumbJsonLd = breadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs) : null;
 
