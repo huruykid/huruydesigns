@@ -180,13 +180,13 @@ const ProjectPage = () => {
                 <div className="flex items-center justify-center w-full">
                   <img
                     src={project.image}
-                    alt={project.title}
+                    alt={`${project.title} case study cover by Huruy Kidanemariam`}
                     className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
                   />
                 </div>
               ) : (
                 <div className="rounded-xl overflow-hidden border border-border aspect-video bg-muted w-full">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                  <img src={project.image} alt={`${project.title} preview, UX case study by Huruy Kidanemariam`} className="w-full h-full object-cover" />
                 </div>
               )}
             </motion.div>

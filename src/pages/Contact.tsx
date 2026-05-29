@@ -67,7 +67,7 @@ const Contact = () => {
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
               <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Get In Touch</p>
               <h1 className="text-4xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                Let's work together!
+                Contact Huruy Kidanemariam
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 I'm always open to new opportunities, collaborations, or just a friendly chat about design and technology. Drop me a message and I'll get back to you within 24 hours.
