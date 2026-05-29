@@ -127,6 +127,7 @@ const OGImage = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 
