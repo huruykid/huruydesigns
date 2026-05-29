@@ -1,4 +1,5 @@
 import headshot from "@/assets/huruy-headshot.jpg";
+import SEO from "@/components/SEO";
 
 const OGImage = () => {
   const dots = [];
