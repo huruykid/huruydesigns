@@ -1,4 +1,5 @@
 import headshot from "@/assets/huruy-headshot.jpg";
+import SEO from "@/components/SEO";
 
 const OGImage = () => {
   const dots = [];
@@ -17,6 +18,13 @@ const OGImage = () => {
   }
 
   return (
+    <>
+      <SEO
+        title="Open Graph Preview – Huruy Kidanemariam"
+        description="Internal Open Graph card preview used to render the 1200x630 social image for Huruy Kidanemariam's portfolio."
+        path="/og"
+        noindex
+      />
     <div
       style={{
         width: 1200,
@@ -119,6 +127,7 @@ const OGImage = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 

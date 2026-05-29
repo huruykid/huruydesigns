@@ -8,10 +8,13 @@ interface ImageSlotProps {
 }
 
 const ImageSlot = ({ slot, label, aspectRatio = "aspect-video", imageSrc }: ImageSlotProps) => {
+  const descriptiveAlt = label && label.trim().split(/\s+/).length >= 2
+    ? `${label} — case study visual by Huruy Kidanemariam`
+    : `${label || "Case study"} visual from Huruy Kidanemariam's UX portfolio`;
   if (imageSrc) {
     return (
       <div className="relative rounded-xl overflow-hidden border border-border bg-muted">
-        <img src={imageSrc} alt={label} className="w-full max-h-[600px] object-contain" />
+        <img src={imageSrc} alt={descriptiveAlt} className="w-full max-h-[600px] object-contain" />
       </div>
     );
   }
