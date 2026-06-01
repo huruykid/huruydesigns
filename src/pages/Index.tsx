@@ -53,7 +53,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Huruy Kidanemariam",
-  jobTitle: "UX Designer & Product Designer",
+  jobTitle: "Senior UX Designer & Product Designer",
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruykidanemariam/",
@@ -61,13 +61,13 @@ const personJsonLd = {
   ],
   email: "huruydesigns@gmail.com",
   description:
-    "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
+    "Senior UX Designer and Product Designer with 8+ years specializing in accessible, human-centered design for enterprise SaaS and social impact products.",
 };
 
 const portfolioJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "UX Design Portfolio – Huruy Kidanemariam",
+  name: "Senior UX Design Portfolio – Huruy Kidanemariam",
   itemListElement: projects.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
@@ -84,7 +84,7 @@ const portfolioJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Huruy Kidanemariam – UX Designer Portfolio",
+  name: "Huruy Kidanemariam – Senior UX Designer Portfolio",
   url: "https://huruy.tech",
   author: { "@type": "Person", name: "Huruy Kidanemariam" },
 };
@@ -92,10 +92,10 @@ const websiteJsonLd = {
 const Index = () => (
   <Layout>
     <SEO
-      title="Huruy Kidanemariam | UX Designer & Developer"
-      description="Huruy Kidanemariam is a UX Designer and Software Developer crafting accessible, human-centered products for enterprise and social impact."
+      title="Huruy Kidanemariam | Senior UX Designer & Developer"
+      description="Senior UX Designer and Software Developer with 8+ years crafting accessible, human-centered products for enterprise SaaS and social impact."
       path="/"
-      imageAlt="Huruy Kidanemariam, UX Designer and Software Developer portfolio"
+      imageAlt="Huruy Kidanemariam, Senior UX Designer and Software Developer portfolio"
       jsonLd={personJsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }]}
     />
@@ -119,7 +119,7 @@ const Index = () => (
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">UX Designer & Software Developer</p>
+            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">Senior UX Designer & Software Developer</p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.
             </h1>

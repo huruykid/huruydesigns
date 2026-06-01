@@ -13,11 +13,11 @@ const profilePageJsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Huruy Kidanemariam",
-    jobTitle: "UX Designer & Product Designer",
+    jobTitle: "Senior UX Designer & Product Designer",
     url: "https://huruy.tech",
     image: "https://huruy.tech/og-image.png",
     description:
-      "UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
+      "Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
     knowsAbout: ["UX Design", "Product Design", "Accessibility", "Design Systems", "User Research"],
     alumniOf: {
       "@type": "EducationalOrganization",
@@ -69,8 +69,8 @@ const expertiseGroups = [
 const About = () => (
   <Layout>
     <SEO
-      title="About Huruy Kidanemariam | UX Designer & Product Designer"
-      description="Huruy Kidanemariam is a UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
+      title="About Huruy Kidanemariam | Senior UX Designer & Product Designer"
+      description="Huruy Kidanemariam is a Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
       path="/about"
       breadcrumbs={[
         { name: "Home", path: "/" },
@@ -86,7 +86,7 @@ const About = () => (
           {/* Left: Photo + intro */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             <div className="aspect-[3/4] max-w-sm rounded-2xl bg-muted border border-border overflow-hidden mb-8">
-              <img src={huruyHeadshot} alt="Huruy Kidanemariam, UX Designer" className="w-full h-full object-cover" />
+              <img src={huruyHeadshot} alt="Huruy Kidanemariam, Senior UX Designer" className="w-full h-full object-cover" />
             </div>
             <a href="/resume/huruy-kidanemariam-resume.pdf" download>
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
