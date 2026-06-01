@@ -243,8 +243,8 @@ const Hire = () => (
           </Link>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProjects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+          {featuredProjects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>
