@@ -119,7 +119,7 @@ const Index = () => (
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">UX Designer & Software Developer</p>
+            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">Senior UX Designer & Software Developer</p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.
             </h1>
