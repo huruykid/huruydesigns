@@ -53,7 +53,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Huruy Kidanemariam",
-  jobTitle: "UX Designer & Product Designer",
+  jobTitle: "Senior UX Designer & Product Designer",
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruykidanemariam/",
@@ -61,7 +61,7 @@ const personJsonLd = {
   ],
   email: "huruydesigns@gmail.com",
   description:
-    "UX Designer and Product Designer specializing in accessible, human-centered design for enterprise and social impact products.",
+    "Senior UX Designer and Product Designer with 8+ years specializing in accessible, human-centered design for enterprise SaaS and social impact products.",
 };
 
 const portfolioJsonLd = {
