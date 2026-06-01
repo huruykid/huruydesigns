@@ -20,6 +20,7 @@ import GenerateWireframe from "./pages/GenerateWireframe";
 import OGImage from "./pages/OGImage";
 import Resume from "./pages/Resume";
 import ResumeAlt from "./pages/ResumeAlt";
+import Hire from "./pages/Hire";
 
 const queryClient = new QueryClient();
 
