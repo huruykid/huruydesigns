@@ -84,7 +84,7 @@ const portfolioJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Huruy Kidanemariam – UX Designer Portfolio",
+  name: "Huruy Kidanemariam – Senior UX Designer Portfolio",
   url: "https://huruy.tech",
   author: { "@type": "Person", name: "Huruy Kidanemariam" },
 };
@@ -92,10 +92,10 @@ const websiteJsonLd = {
 const Index = () => (
   <Layout>
     <SEO
-      title="Huruy Kidanemariam | UX Designer & Developer"
-      description="Huruy Kidanemariam is a UX Designer and Software Developer crafting accessible, human-centered products for enterprise and social impact."
+      title="Huruy Kidanemariam | Senior UX Designer & Developer"
+      description="Senior UX Designer and Software Developer with 8+ years crafting accessible, human-centered products for enterprise SaaS and social impact."
       path="/"
-      imageAlt="Huruy Kidanemariam, UX Designer and Software Developer portfolio"
+      imageAlt="Huruy Kidanemariam, Senior UX Designer and Software Developer portfolio"
       jsonLd={personJsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }]}
     />
