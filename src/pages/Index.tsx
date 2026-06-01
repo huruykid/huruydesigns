@@ -67,7 +67,7 @@ const personJsonLd = {
 const portfolioJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "UX Design Portfolio – Huruy Kidanemariam",
+  name: "Senior UX Design Portfolio – Huruy Kidanemariam",
   itemListElement: projects.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
