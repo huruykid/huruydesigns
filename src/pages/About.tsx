@@ -13,11 +13,11 @@ const profilePageJsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Huruy Kidanemariam",
-    jobTitle: "UX Designer & Product Designer",
+    jobTitle: "Senior UX Designer & Product Designer",
     url: "https://huruy.tech",
     image: "https://huruy.tech/og-image.png",
     description:
-      "UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
+      "Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
     knowsAbout: ["UX Design", "Product Design", "Accessibility", "Design Systems", "User Research"],
     alumniOf: {
       "@type": "EducationalOrganization",
