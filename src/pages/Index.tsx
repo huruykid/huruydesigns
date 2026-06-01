@@ -154,6 +154,10 @@ const Index = () => (
               <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors" aria-label="Email">
                 <Mail className="h-5 w-5" aria-hidden="true" />
               </a>
+              <span className="text-muted-foreground" aria-hidden="true">|</span>
+              <Link to="/senior-ux-designer" className="text-sm font-semibold text-accent hover:underline">
+                Hiring a Senior UX Designer?
+              </Link>
             </div>
           </motion.div>
           
