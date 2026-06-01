@@ -69,8 +69,8 @@ const expertiseGroups = [
 const About = () => (
   <Layout>
     <SEO
-      title="About Huruy Kidanemariam | UX Designer & Product Designer"
-      description="Huruy Kidanemariam is a UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
+      title="About Huruy Kidanemariam | Senior UX Designer & Product Designer"
+      description="Huruy Kidanemariam is a Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
       path="/about"
       breadcrumbs={[
         { name: "Home", path: "/" },
