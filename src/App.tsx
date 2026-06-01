@@ -39,6 +39,8 @@ const App = () => (
           <Route path="/project/:id" element={<ProjectPage />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/resume/alt" element={<ResumeAlt />} />
+          <Route path="/senior-ux-designer" element={<Hire />} />
+          <Route path="/hire" element={<Hire />} />
           <Route path="/generate-wireframe" element={<GenerateWireframe />} />
           <Route path="/og" element={<OGImage />} />
           <Route path="*" element={<NotFound />} />
