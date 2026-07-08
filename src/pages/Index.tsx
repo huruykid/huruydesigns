@@ -92,7 +92,7 @@ const websiteJsonLd = {
 const Index = () => (
   <Layout>
     <SEO
-      title="Huruy Kidanemariam | Senior UX Designer & Developer"
+      title="Huruy Kidanemariam | Senior UX Designer Portfolio"
       description="Senior UX Designer and Software Developer with 8+ years crafting accessible, human-centered products for enterprise SaaS and social impact."
       path="/"
       imageAlt="Huruy Kidanemariam, Senior UX Designer and Software Developer portfolio"
