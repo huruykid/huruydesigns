@@ -9,9 +9,9 @@ import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { Helmet } from "react-helmet-async";
 
-const PAGE_TITLE = "Senior UX Designer Portfolio | Huruy Kidanemariam, Available for Hire";
+const PAGE_TITLE = "Senior UX Designer Portfolio | Huruy Kidanemariam";
 const PAGE_DESC =
-  "Senior UX Designer with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and social impact. Portfolio, case studies, and resume for hiring teams.";
+  "Senior UX Designer with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and social impact. Portfolio and resume.";
 
 const valueProps = [
   {
