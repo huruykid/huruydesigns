@@ -92,7 +92,7 @@ const websiteJsonLd = {
 const Index = () => (
   <Layout>
     <SEO
-      title="Huruy Kidanemariam | Senior UX Designer & Developer"
+      title="Huruy Kidanemariam | Senior UX Designer Portfolio"
       description="Senior UX Designer and Software Developer with 8+ years crafting accessible, human-centered products for enterprise SaaS and social impact."
       path="/"
       imageAlt="Huruy Kidanemariam, Senior UX Designer and Software Developer portfolio"
@@ -121,7 +121,7 @@ const Index = () => (
           >
             <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">Senior UX Designer & Software Developer</p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.
+              Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.<span className="sr-only"> Senior UX Designer Portfolio.</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl mb-4 leading-relaxed">
               I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
