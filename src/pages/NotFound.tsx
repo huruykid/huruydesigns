@@ -13,7 +13,7 @@ const NotFound = () => {
     <div className="flex min-h-screen items-center justify-center bg-muted">
       <SEO
         title="Page Not Found | Huruy Kidanemariam"
-        description="The page you're looking for can't be found on Huruy Kidanemariam's UX design portfolio. Try heading back to the home page or browsing the featured case studies."
+        description="This page can't be found on Huruy Kidanemariam's UX portfolio. Head back home or browse the featured case studies."
         path={location.pathname}
         noindex
       />
