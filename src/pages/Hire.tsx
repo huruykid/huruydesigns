@@ -102,7 +102,7 @@ const personJsonLd = {
   },
   worksFor: {
     "@type": "Organization",
-    name: "Asure Software",
+    name: "Capital Group (via Luxoft)",
   },
   knowsAbout: [
     "Senior UX Design",
