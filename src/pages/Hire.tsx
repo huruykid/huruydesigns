@@ -18,7 +18,7 @@ const valueProps = [
   {
     icon: Briefcase,
     title: "8+ Years, Enterprise-Tested",
-    body: "Lead designer on HR, compliance, and AI surfaces at Asure Software. Shipped end-to-end on VR learning at IMMERSE and fintech SaaS at Datable.",
+    body: "Senior UX Designer at Capital Group designing research tools for investment analysts. Previously lead designer on HR, compliance, and AI surfaces at Asure Software, VR learning at IMMERSE, and fintech SaaS at Datable.",
   },
   {
     icon: Shield,
