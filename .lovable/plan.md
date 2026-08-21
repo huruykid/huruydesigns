@@ -1,63 +1,39 @@
-## Current state
+# Hire Page: Metadata, Speed, Schema, and Recruiter CTAs
 
-`src/components/SEO.tsx` already emits a baseline set of social tags on every route (home, projects, about, resume, contact):
+SSR is skipped per your call, so social previews stay sitewide-generic for LinkedIn and Facebook (those crawlers do not run JavaScript). Everything else below still lands.
 
-- `og:title`, `og:description`, `og:url`, `og:type="website"`, `og:image`, `og:site_name`
-- `twitter:card="summary_large_image"`, `twitter:title`, `twitter:description`, `twitter:image`
+## 1. Social preview reality check
 
-Gaps that hurt how links actually render on LinkedIn, X/Twitter, Slack, iMessage, Facebook:
+- Verify what crawlers actually receive by fetching the published HTML for `/senior-ux-designer` and `/hire` and reading the static head.
+- Make sure the static fallback in `index.html` is accurate and appealing as a sitewide card: correct title, description, `og:type`, absolute image, `twitter:card=summary_large_image`.
+- Keep the per-route tags from the `SEO` component for Google and other JS-executing crawlers.
+- I cannot log into Facebook Sharing Debugger or LinkedIn Post Inspector. I will give you the two direct debugger URLs plus what you should see, and you can hit "Scrape Again" / "Inspect" to clear their caches. Note: cached previews can lag a day or two after any tag change.
 
-1. Every page uses the same default OG image — project links don't show project-specific previews.
-2. `og:type` is hardcoded to `website`, even on case-study pages where `article` is more accurate.
-3. No `og:image:width` / `og:image:height` / `og:image:alt`. LinkedIn and Slack frequently fail to render large cards without explicit dimensions.
-4. No `twitter:site` / `twitter:creator` handle, so X attributes the card to nobody.
-5. The static fallback in `index.html` (for non-JS crawlers like LinkedIn/Slack/Facebook) is fine for the homepage but is the only thing those crawlers ever see — they don't execute Helmet. Worth confirming the chosen default image is the right one.
+## 2. Core Web Vitals for /senior-ux-designer
 
-## Changes
+Measure first with Lighthouse (mobile emulation) against a production build, then fix what the report names. Likely candidates already visible in the code:
 
-### 1. `src/components/SEO.tsx`
+- The hero block animates in with Framer Motion on mount, which delays LCP paint. Render hero text immediately and drop the entrance animation on the largest text element.
+- Featured case-study images: add explicit width/height (or aspect ratio) and `loading="lazy"` / `decoding="async"` below the fold to cut layout shift.
+- Preload the hero font weights already preconnected in `index.html`.
+- Re-run Lighthouse after the changes and report before/after numbers for LCP, CLS, and TBT.
 
-Extend props and rendered tags:
+## 3. JSON-LD validation
 
-- Add optional props: `ogType?: "website" | "article"` (default `"website"`), `imageAlt?: string`, `imageWidth?: number`, `imageHeight?: number`.
-- Render additional tags inside `<Helmet>`:
-  - `<meta property="og:image:width" />`, `<meta property="og:image:height" />`, `<meta property="og:image:alt" />`
-  - `<meta property="og:type" content={ogType} />` (replace the hardcoded `website`)
-  - `<meta name="twitter:site" content="@huruydesigns" />` and `<meta name="twitter:creator" content="@huruydesigns" />` (confirm handle with user — see Questions)
-  - `<meta name="twitter:image:alt" content={imageAlt} />`
-- Default image dimensions match the existing default OG image (1200×630 — confirm by inspecting the asset).
+- Validate the `Person` and `FAQPage` blocks on the page against schema.org and Google's structured-data rules.
+- Fix issues found: `Person.seeks` currently carries a bare `Demand`; add `image`, `worksFor`, and `address` locality so the entity is richer and unambiguous.
+- Add a `Service`/`ProfessionalService`-style offer block describing senior UX design engagements, linked to the Person entity.
+- Honest note: `FAQPage` rich results were retired for most sites and `Person` is not a rich-result type, so passing validation means clean, machine-readable markup for Google and AI answer engines, not a guaranteed visual rich snippet.
 
-### 2. `src/pages/ProjectPage.tsx`
+## 4. "Available for Hire" CTAs
 
-- Pass `ogType="article"` to `<SEO>` for the main case-study render (the access-gate branch stays `website`).
-- Pass `image={project.ogImage ?? project.image}` so each project link previews with its own visual.
-- Pass `imageAlt={\`${project.title} case study cover\`}`.
+- Add a persistent availability signal: a small status pill ("Available for Hire") in the hero and a sticky bottom CTA bar on mobile that appears after the hero scrolls out.
+- Add mid-page CTA buttons after the value props and after the FAQ so a recruiter never has to scroll back up.
+- All CTAs route to the existing `/contact` page (your choice), passing a `?role=senior-ux-designer` hint so the contact form prefills its subject line with the role context.
+- Keep the resume download CTA paired with each contact CTA, since recruiters usually want both.
 
-### 3. `src/lib/projects.ts`
+## Technical notes
 
-- Add optional `ogImage?: string` field to the `Project` interface for projects whose `image` is not a good 1200×630 social card. Most projects can fall back to `project.image`.
-- No data changes required unless the user wants to supply dedicated social cards (see Questions).
-
-### 4. `src/pages/Index.tsx`
-
-- Pass `imageAlt="Huruy Kidanemariam — UX Designer and Software Developer"` to `<SEO>` for the homepage. `ogType` stays default.
-
-### 5. `index.html`
-
-- Add `og:image:width="1200"`, `og:image:height="630"`, `og:image:alt="..."`, and `twitter:site` / `twitter:creator` to the static head so non-JS social crawlers (LinkedIn, Slack, Facebook) get the same enrichment for the homepage.
-
-## Verification
-
-- Open `view-source:` on `huruydesigns.lovable.app` and on a project URL after publishing — confirm tags are present.
-- Run each URL through the LinkedIn Post Inspector and X Card Validator.
-- Mark the relevant SEO findings fixed via `seo_chat--update_findings` after the next scan.
-
-## Out of scope
-
-- Generating new social card images (would require imagegen and user direction on style).
-- SSR for accurate per-route previews on non-JS crawlers — would need a stack change. Per-route OG via Helmet still works for JS-executing crawlers (Googlebot, X, Discord).
-
-## Questions for you
-
-1. What's your X/Twitter handle? (I'll use it for `twitter:site` / `twitter:creator`. Skip if you don't want one.)
-2. Each project's `image` field — is it a landscape 1200×630-ish asset suitable for social previews, or should I generate dedicated OG cards per project later?
+- Files touched: `src/pages/Hire.tsx`, `src/pages/Contact.tsx` (prefill from query param), `src/components/SEO.tsx` (if image/type gaps show up), `index.html` (static fallback tags only).
+- No backend, no schema, no auth changes.
+- Lighthouse runs headless in the sandbox against a local production preview build; results are directional but comparable before/after.
