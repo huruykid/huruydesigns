@@ -65,8 +65,8 @@ const ResumeAlt = () => {
   return (
     <Layout>
       <SEO
-        title="Resume | Huruy Kidanemariam | UX Designer & Product Designer"
-        description="UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
+        title="Resume | Huruy Kidanemariam | Senior UX Designer"
+        description="Senior UX Designer with 8+ years in enterprise SaaS, compliance, conversational AI, and product design."
         path="/resume/alt"
         noindex
       />
