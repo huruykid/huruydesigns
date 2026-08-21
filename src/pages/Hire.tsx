@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { ArrowRight, Mail, Download, CheckCircle2, Briefcase, Users, Zap, Shield } from "lucide-react";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
@@ -72,14 +73,37 @@ const featuredProjects = projects.filter((p) =>
   ["asure-compliance", "oneasure-portal", "ebtfinder"].includes(p.id)
 );
 
+const PERSON_ID = "https://huruy.tech/#huruy";
+const HIRE_URL = "https://huruy.tech/senior-ux-designer";
+const CONTACT_CTA = "/contact?role=senior-ux-designer";
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": PERSON_ID,
   name: "Huruy Kidanemariam",
+  givenName: "Huruy",
+  familyName: "Kidanemariam",
   jobTitle: "Senior UX Designer",
-  url: "https://huruy.tech/senior-ux-designer",
-  email: "huruydesigns@gmail.com",
+  url: HIRE_URL,
+  mainEntityOfPage: HIRE_URL,
+  image:
+    "https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp",
+  email: "mailto:huruydesigns@gmail.com",
   description: PAGE_DESC,
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "CA",
+    addressCountry: "US",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "CSU Eastbay",
+  },
+  worksFor: {
+    "@type": "Organization",
+    name: "Asure Software",
+  },
   knowsAbout: [
     "Senior UX Design",
     "Product Design",
@@ -92,13 +116,53 @@ const personJsonLd = {
   sameAs: ["https://www.linkedin.com/in/huruykidanemariam/"],
   seeks: {
     "@type": "Demand",
-    name: "Senior UX Designer, Senior Product Designer, Staff UX roles",
+    name: "Senior UX Designer, Senior Product Designer, and Staff UX roles",
+    availabilityStarts: "2026-01-01",
+    businessFunction: "https://purl.org/goodrelations/v1#ProvideService",
+    itemOffered: {
+      "@type": "Service",
+      name: "Senior UX design engagements",
+      serviceType: "UX design",
+    },
+  },
+};
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${HIRE_URL}#service`,
+  name: "Senior UX Design Services, Huruy Kidanemariam",
+  url: HIRE_URL,
+  description:
+    "Senior UX and product design for enterprise SaaS, compliance, and AI products: user research, design systems, accessibility, and coded prototypes.",
+  provider: { "@id": PERSON_ID },
+  areaServed: { "@type": "Country", name: "United States" },
+  availableLanguage: "English",
+  serviceType: "UX design, product design, design systems, accessibility",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Engagement types",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Full-time senior UX designer role" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Contract product design engagement" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Design system and accessibility consulting" },
+      },
+    ],
   },
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${HIRE_URL}#faq`,
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
@@ -106,7 +170,37 @@ const faqJsonLd = {
   })),
 };
 
+/** Mobile-only sticky bar: appears once the hero CTAs scroll out of view. */
+const StickyHireCta = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div className="sm:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/95 backdrop-blur px-4 py-3 flex gap-2">
+      <Link to={CONTACT_CTA} className="flex-1">
+        <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+          <Mail className="h-4 w-4 mr-2" /> Available for Hire
+        </Button>
+      </Link>
+      <a href="/resume/huruy-kidanemariam-resume.pdf" download aria-label="Download resume">
+        <Button variant="outline" size="icon" className="h-10 w-10">
+          <Download className="h-4 w-4" />
+        </Button>
+      </a>
+    </div>
+  );
+};
+
 const Hire = () => (
+
   <Layout>
     <SEO
       title={PAGE_TITLE}
@@ -121,6 +215,7 @@ const Hire = () => (
       ]}
     />
     <Helmet>
+      <script type="application/ld+json">{JSON.stringify(serviceJsonLd)}</script>
       <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
     </Helmet>
 
@@ -129,14 +224,19 @@ const Hire = () => (
       <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
       <div className="absolute -top-20 right-[5%] w-[28rem] h-[28rem] rounded-full bg-accent/[0.12] blur-3xl" />
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl"
-        >
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">
-            Senior UX Designer, Available for Hire
+        {/* Rendered without an entrance animation so the H1 paints immediately (LCP). */}
+        <div className="max-w-4xl">
+          <p className="flex flex-wrap items-center gap-3 mb-4">
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+              </span>
+              Available for Hire
+            </span>
+            <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+              Senior UX Designer
+            </span>
           </p>
           <h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
@@ -151,9 +251,9 @@ const Hire = () => (
             UX role, this page is the fastest way to evaluate fit.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link to="/contact" className="sm:min-w-[200px]">
+            <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
               <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                <Mail className="h-4 w-4 mr-2" /> Start a conversation
+                <Mail className="h-4 w-4 mr-2" /> Available for hire, get in touch
               </Button>
             </Link>
             <a href="/resume/huruy-kidanemariam-resume.pdf" download className="sm:min-w-[200px]">
@@ -171,8 +271,9 @@ const Hire = () => (
             <span className="text-accent">•</span>
             <span className="font-medium text-foreground">Open to relocation</span>
           </div>
-        </motion.div>
+        </div>
       </div>
+
     </section>
 
     {/* Value props */}
@@ -203,8 +304,21 @@ const Hire = () => (
             </Card>
           ))}
         </div>
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:items-center">
+          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
+            <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+              <Mail className="h-4 w-4 mr-2" /> Available for hire, start a conversation
+            </Button>
+          </Link>
+          <a href="/resume/huruy-kidanemariam-resume.pdf" download className="sm:min-w-[200px]">
+            <Button size="lg" variant="outline" className="w-full">
+              <Download className="h-4 w-4 mr-2" /> Download resume
+            </Button>
+          </a>
+        </div>
       </div>
     </section>
+
 
     {/* What you get */}
     <section className="py-20">
@@ -271,20 +385,38 @@ const Hire = () => (
       </div>
     </section>
 
+    {/* CTA after FAQ */}
+    <section className="pb-4">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl rounded-xl border border-accent/30 bg-accent/5 p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <p className="text-base font-medium flex-1">
+            Still have a question about fit? I answer hiring emails within one business day.
+          </p>
+          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
+            <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+              <Mail className="h-4 w-4 mr-2" /> Available for hire
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
+
+
+
     {/* Final CTA */}
     <section className="py-20 bg-gradient-to-br from-accent/10 via-transparent to-accent/5">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Ready to talk?
+          Available for hire, ready to talk?
         </h2>
         <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
           The fastest signal is a quick call. Send a role description and I will respond within
           one business day.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/contact" className="sm:min-w-[200px]">
+          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
             <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              <Mail className="h-4 w-4 mr-2" /> Contact Huruy
+              <Mail className="h-4 w-4 mr-2" /> Available for hire, contact Huruy
             </Button>
           </Link>
           <Link to="/about" className="sm:min-w-[200px]">
@@ -295,7 +427,10 @@ const Hire = () => (
         </div>
       </div>
     </section>
+
+    <StickyHireCta />
   </Layout>
 );
+
 
 export default Hire;

@@ -279,7 +279,7 @@ export default function TaxComplianceDashboardDemo({ layout = "desktop" }: { lay
         {/* Header */}
         <div className={`flex items-center justify-between ${mob ? "px-3 py-2" : "px-4 py-2.5"} border-b border-gray-200 bg-white shrink-0`}>
           <div>
-            <h1 className="font-bold" style={{ fontSize: mob ? 12 : 14, color: NAVY }}>Tax Compliance Dashboard</h1>
+            <p className="font-bold" style={{ fontSize: mob ? 12 : 14, color: NAVY }}>Tax Compliance Dashboard</p>
             {!mob && <p style={{ fontSize: 9, color: "#6b7280" }}>Monitor your tax obligations, deadlines, and compliance status</p>}
           </div>
           {!mob && (

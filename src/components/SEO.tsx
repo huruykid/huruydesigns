@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 interface BreadcrumbItem {
@@ -59,6 +60,14 @@ const SEO = ({
     : `${SITE_URL}${rawImage.startsWith("/") ? rawImage : `/${rawImage}`}`;
   const ogImageAlt = imageAlt || DEFAULT_OG_IMAGE_ALT;
   const breadcrumbJsonLd = breadcrumbs ? buildBreadcrumbJsonLd(breadcrumbs) : null;
+
+  // The static index.html carries baseline og/twitter tags for crawlers that do not run
+  // JavaScript. Once React mounts, drop them so the per-route tags below are unambiguous.
+  useEffect(() => {
+    document
+      .querySelectorAll("meta[data-fallback-social]")
+      .forEach((el) => el.remove());
+  }, []);
 
   return (
     <Helmet>

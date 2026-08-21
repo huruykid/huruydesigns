@@ -12,11 +12,42 @@
     <link rel="preconnect" href="https://storage.googleapis.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Non-render-blocking font load: swaps in once downloaded. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
 
-    <!-- Open Graph / Twitter Card tags are set per-route via react-helmet-async.
-         No static sitewide og:url is included here because it would incorrectly
-         attribute every subroute (e.g., /senior-ux-designer, /project/*) to the
-         homepage for crawlers that do not execute JavaScript. -->
+
+    <!-- Baseline Open Graph / Twitter card for crawlers that do not execute JavaScript
+         (LinkedIn, Facebook, Slack). Per-route tags are layered on by react-helmet-async
+         for JS-executing crawlers. Deliberately no static og:url: it would attribute every
+         subroute (e.g. /senior-ux-designer, /project/*) to the homepage. -->
+    <meta data-fallback-social property="og:title" content="Huruy Kidanemariam | Senior UX Designer" />
+    <meta data-fallback-social property="og:description" content="Senior UX Designer with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and AI. Portfolio, case studies, and resume." />
+    <meta data-fallback-social property="og:type" content="website" />
+    <meta data-fallback-social property="og:site_name" content="Huruy Kidanemariam, UX Portfolio" />
+    <meta data-fallback-social property="og:locale" content="en_US" />
+    <meta data-fallback-social property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp" />
+    <meta data-fallback-social property="og:image:width" content="1200" />
+    <meta data-fallback-social property="og:image:height" content="630" />
+    <meta data-fallback-social property="og:image:alt" content="Huruy Kidanemariam, Senior UX Designer portfolio" />
+    <meta data-fallback-social name="twitter:card" content="summary_large_image" />
+    <meta data-fallback-social name="twitter:site" content="@huruydesigns" />
+    <meta data-fallback-social name="twitter:creator" content="@huruydesigns" />
+    <meta data-fallback-social name="twitter:title" content="Huruy Kidanemariam | Senior UX Designer" />
+    <meta data-fallback-social name="twitter:description" content="Senior UX Designer with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and AI." />
+    <meta data-fallback-social name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp" />
+    <meta data-fallback-social name="twitter:image:alt" content="Huruy Kidanemariam, Senior UX Designer portfolio" />
+
   </head>
   <body>
     <div id="root"></div>
@@ -24,7 +55,9 @@
       <h1>Huruy Kidanemariam | Senior UX Designer &amp; Software Developer</h1>
       <p>Senior UX Designer and Product Designer with 8+ years specializing in accessible, human-centered design for enterprise SaaS and social impact products.</p>
       <nav>
+        <a href="/senior-ux-designer">Hire a Senior UX Designer</a> |
         <a href="/about">About</a> |
+
         <a href="/resume">Resume</a> |
         <a href="/contact">Contact</a> |
         <a href="/project/asure-compliance">Asure Compliance</a> |

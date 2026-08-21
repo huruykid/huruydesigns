@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -12,15 +12,17 @@ const ScrollToTop = () => {
   return null;
 };
 import Index from "./pages/Index";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import ProjectPage from "./pages/ProjectPage";
-import NotFound from "./pages/NotFound";
-import GenerateWireframe from "./pages/GenerateWireframe";
-import OGImage from "./pages/OGImage";
-import Resume from "./pages/Resume";
-import ResumeAlt from "./pages/ResumeAlt";
-import Hire from "./pages/Hire";
+
+// Route-level code splitting: keeps the initial bundle small on every entry route.
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const ProjectPage = lazy(() => import("./pages/ProjectPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const GenerateWireframe = lazy(() => import("./pages/GenerateWireframe"));
+const OGImage = lazy(() => import("./pages/OGImage"));
+const Resume = lazy(() => import("./pages/Resume"));
+const ResumeAlt = lazy(() => import("./pages/ResumeAlt"));
+const Hire = lazy(() => import("./pages/Hire"));
 
 const queryClient = new QueryClient();
 
@@ -32,19 +34,21 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/project/:id" element={<ProjectPage />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/resume/alt" element={<ResumeAlt />} />
-          <Route path="/senior-ux-designer" element={<Hire />} />
-          <Route path="/hire" element={<Hire />} />
-          <Route path="/generate-wireframe" element={<GenerateWireframe />} />
-          <Route path="/og" element={<OGImage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/project/:id" element={<ProjectPage />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/resume/alt" element={<ResumeAlt />} />
+            <Route path="/senior-ux-designer" element={<Hire />} />
+            <Route path="/hire" element={<Hire />} />
+            <Route path="/generate-wireframe" element={<GenerateWireframe />} />
+            <Route path="/og" element={<OGImage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
@@ -52,3 +56,4 @@ const App = () => (
 );
 
 export default App;
+

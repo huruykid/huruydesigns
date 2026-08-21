@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 import { Send, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,9 +10,19 @@ import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 
+const ROLE_CONTEXT: Record<string, { subject: string; message: string }> = {
+  "senior-ux-designer": {
+    subject: "Senior UX Designer role for Huruy Kidanemariam",
+    message:
+      "Hi Huruy, I found your Senior UX Designer page and would like to talk about a role.\n\nCompany:\nRole:\nLocation / remote:\n\nDetails:\n",
+  },
+};
+
 const Contact = () => {
   const { toast } = useToast();
   const [sending] = useState(false);
+  const [searchParams] = useSearchParams();
+  const roleContext = ROLE_CONTEXT[searchParams.get("role") ?? ""];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,13 +38,16 @@ const Contact = () => {
     }
 
     // Build mailto link with form data
-    const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+    const subject = encodeURIComponent(
+      roleContext ? `${roleContext.subject}, from ${name}` : `Portfolio inquiry from ${name}`
+    );
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
     window.location.href = `mailto:huruydesigns@gmail.com?subject=${subject}&body=${body}`;
     
     toast({ title: "Opening your email client", description: "Complete sending in your email app." });
     form.reset();
   };
+
 
   return (
     <Layout>
@@ -98,7 +112,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" name="message" placeholder="Tell me about your project or opportunity..." required rows={5} className="mt-1.5" maxLength={2000} />
+                  <Textarea id="message" name="message" placeholder="Tell me about your project or opportunity..." required rows={5} className="mt-1.5" maxLength={2000} defaultValue={roleContext?.message ?? ""} />
                 </div>
                 <Button type="submit" size="lg" disabled={sending} className="bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto">
                   {sending ? "Sending..." : <><Send className="h-4 w-4 mr-1" /> Send Message</>}
