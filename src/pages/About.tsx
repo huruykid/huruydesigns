@@ -28,7 +28,7 @@ const profilePageJsonLd = {
     ],
     worksFor: {
       "@type": "Organization",
-      name: "Asure Software",
+      name: "Capital Group (via Luxoft)",
     },
   },
 };
