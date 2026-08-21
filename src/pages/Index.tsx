@@ -53,7 +53,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Huruy Kidanemariam",
-  jobTitle: "Senior UX Designer & Product Designer",
+  jobTitle: "Senior UX Designer",
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruykidanemariam/",
