@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: "What industries have you worked in?",
-    a: "Enterprise HR and compliance SaaS at Asure Software, VR learning at IMMERSE, fintech and SaaS at Datable, plus social impact work for diaspora communities. The common thread is high-stakes systems where clarity and accessibility matter.",
+    a: "Asset management and financial research at Capital Group, enterprise HR and compliance SaaS at Asure Software, VR learning at IMMERSE, fintech and SaaS at Datable, plus social impact work for diaspora communities. The common thread is high-stakes systems where clarity and accessibility matter.",
   },
   {
     q: "Do you design or do you also code?",
