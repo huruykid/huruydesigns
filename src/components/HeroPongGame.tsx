@@ -225,7 +225,7 @@ const HeroPongGame: React.FC = () => {
         >
           <img
             src={headshot}
-            alt="Huruy Kidanemariam, UX Designer and Software Developer"
+            alt="Huruy Kidanemariam, Senior UX Designer and Builder"
             className={`w-full h-full object-cover object-top transition-all duration-300 ${
               phase === "answered" && !isCorrect ? "grayscale" : ""
             }`}

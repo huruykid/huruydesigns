@@ -24,7 +24,7 @@ const SITE_URL = "https://huruy.tech";
 const DEFAULT_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp";
 const DEFAULT_OG_IMAGE_ALT =
-  "Huruy Kidanemariam, UX Designer and Software Developer";
+  "Huruy Kidanemariam, Senior UX Designer and Builder";
 const TWITTER_HANDLE = "@huruydesigns";
 
 const buildBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => ({

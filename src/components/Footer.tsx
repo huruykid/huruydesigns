@@ -9,7 +9,7 @@ const Footer = () => (
           <p className="font-semibold text-lg" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             <span className="text-gradient">Huruy</span>
           </p>
-          <p className="text-sm text-muted-foreground mt-1">UX Designer & Software Developer</p>
+          <p className="text-sm text-muted-foreground mt-1">Senior UX Designer & Builder</p>
         </div>
 
         <div className="flex items-center gap-4">
