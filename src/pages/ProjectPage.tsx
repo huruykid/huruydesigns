@@ -18,6 +18,7 @@ import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
+import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
@@ -204,6 +205,8 @@ const ProjectPage = () => {
           <AsureComplianceCaseStudy project={project} {...slotProps} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
+        ) : project.id === "fentfinder" ? (
+          <FentFinderCaseStudy project={project} {...slotProps} />
         ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
