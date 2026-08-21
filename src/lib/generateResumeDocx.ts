@@ -203,7 +203,7 @@ export async function generateAndDownloadDocx() {
           // Title
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: "UX Designer & Product Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
+            children: [new TextRun({ text: "Senior UX Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
           }),
           // Contact
           new Paragraph({
