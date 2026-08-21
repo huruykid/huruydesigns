@@ -64,18 +64,19 @@ const resumeJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Huruy Kidanemariam",
-  jobTitle: "UX Designer",
+  jobTitle: "Senior UX Designer",
   url: "https://huruy.tech",
   sameAs: [
     "https://www.linkedin.com/in/huruykidanemariam/",
     "https://huruy.tech",
   ],
   hasOccupation: [
+    { "@type": "Occupation", name: "Senior UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
     { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Austin, TX" } },
     { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
     { "@type": "Occupation", name: "Product Designer", occupationLocation: { "@type": "Place", name: "Oakland, CA" } },
   ],
-  alumniOf: { "@type": "CollegeOrUniversity", name: "Portland State University" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "CSU Eastbay" },
 };
 
 const Resume = () => {
