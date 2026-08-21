@@ -13,7 +13,7 @@ const profilePageJsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Huruy Kidanemariam",
-    jobTitle: "Senior UX Designer & Product Designer",
+    jobTitle: "Senior UX Designer",
     url: "https://huruy.tech",
     image: "https://huruy.tech/og-image.png",
     description:
