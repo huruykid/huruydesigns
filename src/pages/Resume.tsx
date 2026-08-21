@@ -85,8 +85,8 @@ const Resume = () => {
   return (
     <Layout>
       <SEO
-        title="Huruy Kidanemariam | Resume – UX Designer & Product Designer"
-        description="Resume of Huruy Kidanemariam – UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
+        title="Huruy Kidanemariam | Resume – Senior UX Designer"
+        description="Resume of Huruy Kidanemariam – Senior UX Designer with 8+ years in enterprise SaaS, compliance, conversational AI, and product design."
         path="/resume"
         jsonLd={resumeJsonLd}
         breadcrumbs={[
