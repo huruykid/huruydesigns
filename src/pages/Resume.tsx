@@ -8,7 +8,17 @@ import SEO from "@/components/SEO";
 // ── Data ──
 
 const experience = [
-  { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
+  { period: "Mar 2025 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft)", location: "Los Angeles, CA", bullets: [
+    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
+    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
+    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
+  ]},
+  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent)", location: "Los Angeles, CA", bullets: [
+    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns",
+    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand",
+    "Build production React interfaces that connect design decisions directly to working code",
+  ]},
+  { period: "Apr 2023 – Mar 2025", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
     "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
     "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
     "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
