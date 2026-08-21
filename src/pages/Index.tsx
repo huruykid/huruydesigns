@@ -61,7 +61,7 @@ const personJsonLd = {
   ],
   email: "huruydesigns@gmail.com",
   description:
-    "Senior UX Designer and Product Designer with 8+ years specializing in accessible, human-centered design for enterprise SaaS and social impact products.",
+    "Senior UX Designer at Capital Group with 8+ years specializing in accessible, human-centered design for enterprise SaaS, financial research tools, compliance, and social impact products.",
 };
 
 const portfolioJsonLd = {
