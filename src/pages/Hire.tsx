@@ -246,7 +246,7 @@ const Hire = () => (
             <span className="text-gradient">enterprise SaaS, compliance, and AI products</span>.
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mb-8 leading-relaxed">
-            I am Huruy Kidanemariam, a Senior UX Designer and Product Designer who bridges
+            I am Huruy Kidanemariam, a Senior UX Designer at Capital Group who bridges
             research, design systems, and production code. If your team is hiring for a senior
             UX role, this page is the fastest way to evaluate fit.
           </p>
