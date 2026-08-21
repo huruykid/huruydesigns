@@ -205,6 +205,8 @@ const ProjectPage = () => {
           <AsureComplianceCaseStudy project={project} {...slotProps} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
+        ) : project.id === "fentfinder" ? (
+          <FentFinderCaseStudy project={project} {...slotProps} />
         ) : rich ? (
           <RichCaseStudy project={project} {...slotProps} />
         ) : (
