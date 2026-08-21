@@ -150,7 +150,7 @@ const ResumeAlt = () => {
                   Huruy Kidanemariam
                 </h2>
                 <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  UX Designer & Product Designer
+                  Senior UX Designer
                 </p>
                 <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
                   {contact.map((c) => (
