@@ -262,7 +262,7 @@ const Resume = () => {
                   Summary
                 </h3>
                 <p className="text-sm text-foreground leading-relaxed">
-                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
+                  Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.
                 </p>
               </div>
 
