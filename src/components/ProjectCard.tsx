@@ -95,7 +95,12 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             ) : (
               <img
                 src={project.image}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                width={1200}
+                height={750}
                 alt={`UX case study: ${project.title} by Huruy Kidanemariam`}
+
                 className={`transition-transform duration-500 group-hover:scale-105 ${
                   project.image === "/placeholder.svg"
                     ? "w-full h-full object-cover"
