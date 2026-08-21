@@ -7,7 +7,17 @@ import SEO from "@/components/SEO";
 // ── Data ──
 
 const experience = [
-  { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
+  { period: "Mar 2025 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft)", location: "Los Angeles, CA", bullets: [
+    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
+    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
+    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
+  ]},
+  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent)", location: "Los Angeles, CA", bullets: [
+    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns",
+    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand",
+    "Build production React interfaces that connect design decisions directly to working code",
+  ]},
+  { period: "Apr 2023 – Mar 2025", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
     "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
     "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
     "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
@@ -55,8 +65,8 @@ const ResumeAlt = () => {
   return (
     <Layout>
       <SEO
-        title="Resume | Huruy Kidanemariam | UX Designer & Product Designer"
-        description="UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products."
+        title="Resume | Huruy Kidanemariam | Senior UX Designer"
+        description="Senior UX Designer with 8+ years in enterprise SaaS, compliance, conversational AI, and product design."
         path="/resume/alt"
         noindex
       />
@@ -140,7 +150,7 @@ const ResumeAlt = () => {
                   Huruy Kidanemariam
                 </h2>
                 <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  UX Designer & Product Designer
+                  Senior UX Designer
                 </p>
                 <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
                   {contact.map((c) => (
@@ -159,7 +169,7 @@ const ResumeAlt = () => {
               </div>
               <img
                 src={headshot}
-                alt="Huruy Kidanemariam, UX Designer"
+                alt="Huruy Kidanemariam, Senior UX Designer"
                 className="h-20 w-20 rounded-full object-cover object-top border-2 border-accent/20 shrink-0"
               />
             </div>
@@ -225,7 +235,7 @@ const ResumeAlt = () => {
                   Summary
                 </h3>
                 <p className="text-sm text-foreground leading-relaxed">
-                  UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.
+                  Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.
                 </p>
               </div>
 

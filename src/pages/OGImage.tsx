@@ -113,7 +113,7 @@ const OGImage = () => {
             fontWeight: 500,
           }}
         >
-          UX Designer & Product Designer
+          Senior UX Designer
         </p>
         <p
           style={{

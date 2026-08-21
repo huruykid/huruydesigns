@@ -18,7 +18,7 @@ const valueProps = [
   {
     icon: Briefcase,
     title: "8+ Years, Enterprise-Tested",
-    body: "Lead designer on HR, compliance, and AI surfaces at Asure Software. Shipped end-to-end on VR learning at IMMERSE and fintech SaaS at Datable.",
+    body: "Senior UX Designer at Capital Group designing research tools for investment analysts. Previously lead designer on HR, compliance, and AI surfaces at Asure Software, VR learning at IMMERSE, and fintech SaaS at Datable.",
   },
   {
     icon: Shield,
@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: "What industries have you worked in?",
-    a: "Enterprise HR and compliance SaaS at Asure Software, VR learning at IMMERSE, fintech and SaaS at Datable, plus social impact work for diaspora communities. The common thread is high-stakes systems where clarity and accessibility matter.",
+    a: "Asset management and financial research at Capital Group, enterprise HR and compliance SaaS at Asure Software, VR learning at IMMERSE, fintech and SaaS at Datable, plus social impact work for diaspora communities. The common thread is high-stakes systems where clarity and accessibility matter.",
   },
   {
     q: "Do you design or do you also code?",
@@ -102,7 +102,7 @@ const personJsonLd = {
   },
   worksFor: {
     "@type": "Organization",
-    name: "Asure Software",
+    name: "Capital Group (via Luxoft)",
   },
   knowsAbout: [
     "Senior UX Design",
@@ -246,7 +246,7 @@ const Hire = () => (
             <span className="text-gradient">enterprise SaaS, compliance, and AI products</span>.
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mb-8 leading-relaxed">
-            I am Huruy Kidanemariam, a Senior UX Designer and Product Designer who bridges
+            I am Huruy Kidanemariam, a Senior UX Designer at Capital Group who bridges
             research, design systems, and production code. If your team is hiring for a senior
             UX role, this page is the fastest way to evaluate fit.
           </p>

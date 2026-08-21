@@ -17,7 +17,17 @@ import { saveAs } from "file-saver";
 // ── Resume Data (mirrored from Resume.tsx) ──
 
 const experience = [
-  { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
+  { period: "Mar 2025 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft)", location: "Los Angeles, CA", bullets: [
+    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
+    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
+    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
+  ]},
+  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent)", location: "Los Angeles, CA", bullets: [
+    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns",
+    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand",
+    "Build production React interfaces that connect design decisions directly to working code",
+  ]},
+  { period: "Apr 2023 – Mar 2025", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
     "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
     "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
     "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
@@ -118,7 +128,7 @@ function buildMainColumn(): TableCell {
   children.push(new Paragraph({
     spacing: { after: 160 },
     children: [new TextRun({
-      text: "UX Designer with 8+ years bridging psychology, design, and code to ship accessible enterprise products, from HR compliance platforms serving 9,000+ agencies to VR learning experiences and social impact tools.",
+      text: "Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.",
       font: FONT, size: 22,
     })],
   }));
@@ -193,7 +203,7 @@ export async function generateAndDownloadDocx() {
           // Title
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: "UX Designer & Product Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
+            children: [new TextRun({ text: "Senior UX Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
           }),
           // Contact
           new Paragraph({

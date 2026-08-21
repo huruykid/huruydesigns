@@ -13,7 +13,7 @@ const profilePageJsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Huruy Kidanemariam",
-    jobTitle: "Senior UX Designer & Product Designer",
+    jobTitle: "Senior UX Designer",
     url: "https://huruy.tech",
     image: "https://huruy.tech/og-image.png",
     description:
@@ -28,13 +28,23 @@ const profilePageJsonLd = {
     ],
     worksFor: {
       "@type": "Organization",
-      name: "Asure Software",
+      name: "Capital Group (via Luxoft)",
     },
   },
 };
 
 const experience = [
-  { period: "Apr 2023 – Present", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
+  { period: "Mar 2025 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft) | Los Angeles, CA", bullets: [
+    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces.",
+    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards.",
+    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform.",
+  ]},
+  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent) | Los Angeles, CA", bullets: [
+    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns.",
+    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand.",
+    "Build production React interfaces that connect design decisions directly to working code.",
+  ]},
+  { period: "Apr 2023 – Mar 2025", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
     "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates.",
     "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights.",
     "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines.",
@@ -102,7 +112,7 @@ const About = () => (
               About Huruy Kidanemariam
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              UX specialist with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Leveraging a background in Psychology and Human Factors, I simplify complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems. I'm drawn to projects where good design removes barriers, whether that means making enterprise software less frustrating or helping underserved communities access the tools they deserve. Design, for me, is about dignity.{" "}When I'm not simplifying complex workflows, I'm probably building silly things like{" "}
+              Senior UX Designer with 8+ years of experience crafting accessible, data-informed product narratives for enterprise, SaaS, and immersive tech. Currently designing research and analysis tools for investment analysts at Capital Group. Previously led UX and content strategy at Asure Software, where I simplified complex compliance and technical workflows into coherent, human-centered interface copy. Experienced in partnering with product, engineering, and legal teams to drive growth through clear messaging, chatbot conversational design, and scalable design systems. I'm drawn to projects where good design removes barriers, whether that means making enterprise software less frustrating or helping underserved communities access the tools they deserve. Design, for me, is about dignity.{" "}When I'm not simplifying complex workflows, I'm probably building silly things like{" "}
               <a href="#ux-trivia" className="text-accent underline underline-offset-4 hover:text-accent/80 transition-colors">this UX trivia game</a>.
             </p>
 
