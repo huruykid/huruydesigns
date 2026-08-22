@@ -34,7 +34,7 @@ const profilePageJsonLd = {
 };
 
 const experience = [
-  { period: "Mar 2025 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft) | Los Angeles, CA", bullets: [
+  { period: "Mar 2026 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft) | Los Angeles, CA", bullets: [
     "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces.",
     "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards.",
     "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform.",
@@ -44,7 +44,7 @@ const experience = [
     "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand.",
     "Build production React interfaces that connect design decisions directly to working code.",
   ]},
-  { period: "Apr 2023 – Mar 2025", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
+  { period: "Apr 2023 – Mar 2026", title: "UX Designer", org: "Asure Software | Austin, TX", bullets: [
     "Led content strategy for enterprise HR and compliance workflows across web and mobile. Mapped out edge cases and rewrote error messaging to reduce friction, improving task completion rates.",
     "Designed the persona and conversational scripts for 'Luna,' an AI chatbot. Partnered with PMs and QA to refine prompt engineering and AI-driven insights.",
     "Authored usage guidelines and accessibility standards (WCAG) for a new design system, ensuring consistent terminology and responsive layouts across 3 product lines.",
