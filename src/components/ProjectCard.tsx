@@ -9,6 +9,7 @@ import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDas
 import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import type { Project } from "@/lib/projects";
 import type { ComponentType } from "react";
+import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
 
 const AppleLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 384 512" fill="currentColor" className={className} aria-hidden="true">
@@ -155,7 +156,8 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.open(project.appStoreUrl, "_blank", "noopener,noreferrer");
+                  trackAppStoreClick("homepage_card");
+                  window.open(getAppStoreUrl(project.appStoreUrl!, "homepage_card"), "_blank", "noopener,noreferrer");
                 }}
               >
                 <AppleLogo className="h-5 w-5" />
