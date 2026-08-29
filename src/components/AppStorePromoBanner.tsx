@@ -20,7 +20,7 @@ const AppStorePromoBanner = ({ project }: { project: Project }) => {
       rel="noopener noreferrer"
       aria-label={`Download ${project.title} on the App Store`}
       onClick={() => trackAppStoreClick(PLACEMENT)}
-      className="inline-flex items-center gap-3 rounded-xl bg-[#0d0d12] px-5 py-2.5 text-white shadow-md transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#0d0d12] px-5 py-2.5 text-white shadow-md transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto sm:justify-start"
     >
       <AppleLogo className="h-7 w-7" />
       <span className="whitespace-nowrap text-base font-semibold">Download on the App Store</span>
