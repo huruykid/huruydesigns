@@ -9,6 +9,7 @@ import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDas
 import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import type { Project } from "@/lib/projects";
 import type { ComponentType } from "react";
+import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
 
 const AppleLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 384 512" fill="currentColor" className={className} aria-hidden="true">
