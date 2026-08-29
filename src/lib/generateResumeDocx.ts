@@ -93,11 +93,6 @@ function buildSidebar(): TableCell {
     }));
   }
 
-  // Education
-  children.push(sectionHeading("Education"));
-  children.push(new Paragraph({
-    children: [new TextRun({ text: "CSU Eastbay", font: FONT, size: 22 })],
-  }));
 
   // Side Projects
   children.push(sectionHeading("Side Projects"));
