@@ -123,15 +123,30 @@ const Index = () => (
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Hi, I'm <span className="text-gradient">Huruy Kidanemariam</span>.<span className="sr-only"> Senior UX Designer Portfolio.</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl mb-4 leading-relaxed">
+            <p className="text-lg text-muted-foreground max-w-xl mb-2 leading-relaxed">
               I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
             </p>
+            <p className="text-sm text-foreground/80 max-w-xl mb-4">
+              Currently designing research tools for investment analysts at <span className="font-semibold text-foreground">Capital Group</span>.
+            </p>
+            <Link
+              to="/senior-ux-designer"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent/20 transition-colors mb-5"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+              </span>
+              Open to senior UX opportunities
+            </Link>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mb-6">
-              <span className="font-medium text-foreground"><span className="font-medium text-foreground">8+ Years Experience</span></span>
-              <span className="text-accent">•</span>
-              <span className="font-medium text-foreground">Enterprise & Social Impact</span>
+              <span className="font-medium text-foreground">8+ Years Experience</span>
               <span className="text-accent">•</span>
               <span className="font-medium text-foreground">12M+ Users Impacted</span>
+              <span className="text-accent">•</span>
+              <span className="font-medium text-foreground">Los Angeles, CA</span>
+              <span className="text-accent">•</span>
+              <span className="font-medium text-foreground">Open to Remote / Hybrid</span>
             </div>
             <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
               <Button
@@ -141,23 +156,30 @@ const Index = () => (
               >
                 View My Work <ArrowDown className="h-4 w-4 ml-1" />
               </Button>
+              <Link to="/contact?role=senior-ux-designer" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
+                  <Mail className="h-4 w-4 mr-1" /> Get in Touch
+                </Button>
+              </Link>
               <Link to="/resume" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
                   <FileText className="h-4 w-4 mr-1" /> Resume
                 </Button>
               </Link>
             </div>
-            <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/in/huruykidanemariam/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-accent transition-colors" aria-label="LinkedIn">
-                <Linkedin className="h-5 w-5" aria-hidden="true" />
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a href="https://www.linkedin.com/in/huruykidanemariam/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
+                <Linkedin className="h-4 w-4" aria-hidden="true" />
+                linkedin.com/in/huruykidanemariam
               </a>
-              <a href="mailto:huruydesigns@gmail.com" className="text-muted-foreground hover:text-accent transition-colors" aria-label="Email">
-                <Mail className="h-5 w-5" aria-hidden="true" />
+              <a href="mailto:huruydesigns@gmail.com" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
+                <Mail className="h-4 w-4" aria-hidden="true" />
+                huruydesigns@gmail.com
               </a>
               <span className="text-muted-foreground" aria-hidden="true">|</span>
-              <Link to="/senior-ux-designer" className="text-sm font-semibold text-accent hover:underline">
-                Hiring a Senior UX Designer?
-              </Link>
+              <a href="/resume/huruy-kidanemariam-resume.pdf" download className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
+                <Download className="h-4 w-4" aria-hidden="true" /> Download Resume (PDF)
+              </a>
             </div>
           </motion.div>
           
