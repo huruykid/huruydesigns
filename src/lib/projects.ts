@@ -87,6 +87,7 @@ export interface Project {
   sectionImages?: SectionImages;
   seoDescription?: string;
   keyResults?: { value: string; label: string }[];
+  appStoreUrl?: string;
 }
 
 export const projects: Project[] = [
@@ -146,6 +147,7 @@ export const projects: Project[] = [
     title: "EBT Finder",
     description: "A review-first platform that helps SNAP/EBT users discover nearby businesses with confidence and dignity.",
     impact: "Redesigned for 12M+ SNAP users",
+    appStoreUrl: "https://apps.apple.com/app/ebt-finder/id6751323829",
     tags: ["UX Research", "Figma", "Prototyping", "Competitive Analysis"],
     role: "Product Designer (Solo Project)",
     timeline: "4 weeks",

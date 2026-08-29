@@ -68,7 +68,7 @@ const portfolioJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Senior UX Design Portfolio – Huruy Kidanemariam",
-  itemListElement: projects.map((p, i) => ({
+  itemListElement: visibleProjects.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
     item: {
@@ -197,7 +197,7 @@ const Index = () => (
           </h2>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((p, i) => {
+          {visibleProjects.map((p, i) => {
             if (i === 0) return (
               <div key={p.id} className="md:col-span-2">
                 <ProjectCard project={p} index={0} featured />
