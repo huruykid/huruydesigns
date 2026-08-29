@@ -64,6 +64,9 @@ const personJsonLd = {
     "Senior UX Designer at Capital Group with 8+ years specializing in accessible, human-centered design for enterprise SaaS, financial research tools, compliance, and social impact products.",
 };
 
+// Hidden from the homepage; case study route stays live by direct link.
+const visibleProjects = projects.filter((p) => p.id !== "fentfinder");
+
 const portfolioJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
