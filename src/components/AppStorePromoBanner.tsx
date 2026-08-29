@@ -23,10 +23,7 @@ const AppStorePromoBanner = ({ project }: { project: Project }) => {
       className="inline-flex items-center gap-3 rounded-xl bg-[#0d0d12] px-5 py-2.5 text-white shadow-md transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <AppleLogo className="h-7 w-7" />
-      <span className="text-left leading-tight">
-        <span className="block text-[10px] uppercase tracking-widest opacity-80">Download on the</span>
-        <span className="block text-lg font-semibold">App Store</span>
-      </span>
+      <span className="whitespace-nowrap text-base font-semibold">Download on the App Store</span>
     </a>
   );
 };
