@@ -144,11 +144,13 @@ const ProjectPage = () => {
           <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Projects
           </Link>
-          <AppStorePromoBanner project={project} />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}<span className="sr-only">: UX Case Study</span></h1>
+              <h1 className="text-4xl sm:text-5xl font-bold mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}<span className="sr-only">: UX Case Study</span></h1>
+              <div className="mb-6">
+                <AppStorePromoBanner project={project} />
+              </div>
               <p className="text-lg text-muted-foreground max-w-2xl mb-6">{project.description}</p>
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
                 <span><strong className="text-foreground">Role:</strong> {project.role}</span>

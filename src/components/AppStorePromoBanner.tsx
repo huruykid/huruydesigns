@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Project } from "@/lib/projects";
 import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
 
@@ -15,38 +14,20 @@ const AppStorePromoBanner = ({ project }: { project: Project }) => {
   const url = getAppStoreUrl(project.appStoreUrl, PLACEMENT);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-10 rounded-2xl border border-accent/30 bg-gradient-to-r from-accent/10 via-accent/5 to-transparent p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6"
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Download ${project.title} on the App Store`}
+      onClick={() => trackAppStoreClick(PLACEMENT)}
+      className="inline-flex items-center gap-3 rounded-xl bg-[#0d0d12] px-5 py-2.5 text-white shadow-md transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-foreground text-background shadow-lg">
-        <AppleLogo className="h-8 w-8" />
-      </div>
-      <div className="flex-1">
-        <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-1">Live on iOS</p>
-        <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Get {project.title} on the App Store
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          This concept shipped. Download the real app and find EBT-friendly stores near you.
-        </p>
-      </div>
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Download ${project.title} on the App Store`}
-        onClick={() => trackAppStoreClick(PLACEMENT)}
-        className="inline-flex shrink-0 items-center gap-2.5 rounded-lg bg-foreground px-4 py-2.5 text-background transition-opacity hover:opacity-90"
-      >
-        <AppleLogo className="h-5 w-5" />
-        <span className="text-left leading-tight">
-          <span className="block text-[9px] uppercase tracking-wide opacity-80">Download on the</span>
-          <span className="block text-sm font-semibold">App Store</span>
-        </span>
-      </a>
-    </motion.div>
+      <AppleLogo className="h-7 w-7" />
+      <span className="text-left leading-tight">
+        <span className="block text-[10px] uppercase tracking-widest opacity-80">Download on the</span>
+        <span className="block text-lg font-semibold">App Store</span>
+      </span>
+    </a>
   );
 };
 
