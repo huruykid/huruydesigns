@@ -152,7 +152,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
               <button
                 type="button"
                 aria-label="Download EBT Finder on the App Store"
-                className="mt-3 inline-flex w-fit items-center gap-2.5 rounded-lg bg-foreground px-3.5 py-2 text-background transition-opacity hover:opacity-90 cursor-pointer"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-lg bg-foreground px-3.5 py-2 text-background transition-opacity hover:opacity-90 cursor-pointer sm:w-fit sm:justify-start"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -161,10 +161,7 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                 }}
               >
                 <AppleLogo className="h-5 w-5" />
-                <span className="text-left leading-tight">
-                  <span className="block text-[9px] uppercase tracking-wide opacity-80">Available on the</span>
-                  <span className="block text-sm font-semibold">App Store</span>
-                </span>
+                <span className="whitespace-nowrap text-sm font-semibold">Available on the App Store</span>
               </button>
             )}
           </div>
