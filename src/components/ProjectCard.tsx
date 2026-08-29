@@ -155,7 +155,8 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.open(project.appStoreUrl, "_blank", "noopener,noreferrer");
+                  trackAppStoreClick("homepage_card");
+                  window.open(getAppStoreUrl(project.appStoreUrl!, "homepage_card"), "_blank", "noopener,noreferrer");
                 }}
               >
                 <AppleLogo className="h-5 w-5" />
