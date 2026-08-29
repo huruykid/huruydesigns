@@ -76,7 +76,7 @@ const resumeJsonLd = {
     { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
     { "@type": "Occupation", name: "Product Designer", occupationLocation: { "@type": "Place", name: "Oakland, CA" } },
   ],
-  alumniOf: { "@type": "CollegeOrUniversity", name: "CSU Eastbay" },
+  
 };
 
 const Resume = () => {
@@ -229,13 +229,6 @@ const Resume = () => {
                 </div>
               </div>
 
-              {/* Education */}
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Education
-                </h3>
-                <p className="text-sm text-foreground">CSU Eastbay</p>
-              </div>
 
               {/* Side Projects */}
               <div>

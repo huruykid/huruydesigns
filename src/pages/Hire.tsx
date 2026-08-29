@@ -96,10 +96,6 @@ const personJsonLd = {
     addressRegion: "CA",
     addressCountry: "US",
   },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "CSU Eastbay",
-  },
   worksFor: {
     "@type": "Organization",
     name: "Capital Group (via Luxoft)",

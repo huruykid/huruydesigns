@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Download, Briefcase, GraduationCap } from "lucide-react";
+import { Download, Briefcase, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import HeroPongGame from "@/components/HeroPongGame";
@@ -19,10 +19,6 @@ const profilePageJsonLd = {
     description:
       "Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech.",
     knowsAbout: ["UX Design", "Product Design", "Accessibility", "Design Systems", "User Research"],
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "Psychology (B.S.)",
-    },
     sameAs: [
       "https://www.linkedin.com/in/huruykidanemariam/",
     ],
@@ -168,14 +164,25 @@ const About = () => (
               ))}
             </div>
 
-            {/* Education */}
+            {/* In the Field */}
             <div className="mb-12">
               <h2 className="text-xl font-bold flex items-center gap-2 mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                <GraduationCap className="h-5 w-5 text-accent" /> Education
+                <Rocket className="h-5 w-5 text-accent" /> In the Field
               </h2>
-              
-              <p className="font-semibold">Bachelor of Science in Psychology, Ergonomics & Human Factors Concentration</p>
-              <p className="text-sm text-muted-foreground">CSU Eastbay</p>
+              <div className="space-y-3">
+                <div className="flex gap-4">
+                  <div className="w-3 h-3 rounded-full bg-accent mt-1.5 shrink-0" />
+                  <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">8+ years in the field,</span> designing and shipping real products across enterprise, SaaS, and consumer.</p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-3 h-3 rounded-full bg-accent mt-1.5 shrink-0" />
+                  <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Shipped EBT Finder solo in 4 weeks,</span> from research to a live app on the App Store.</p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-3 h-3 rounded-full bg-accent mt-1.5 shrink-0" />
+                  <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Top 1% designer on Lovable.</span> I design in code, not just mockups.</p>
+                </div>
+              </div>
             </div>
 
             {/* Expertise */}
