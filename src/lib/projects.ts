@@ -86,6 +86,7 @@ export interface Project {
   nextSteps?: string[];
   sectionImages?: SectionImages;
   seoDescription?: string;
+  keyResults?: { value: string; label: string }[];
 }
 
 export const projects: Project[] = [
@@ -103,6 +104,11 @@ export const projects: Project[] = [
     problem: "Nobody (not engineering, not the SME team, not product) had a complete map of how the entities related to each other. Everyone held a partial model. The dependency chain connecting a tax code to a formula to a filing frequency to a payee to an agency had never been drawn end-to-end.",
     solution: "I helped build the translation layer: from regulatory logic to human configuration. That meant mapping entity relationships, resolving ambiguity between engineering and compliance teams, and designing a state machine that both groups could trust.",
     process: "Spent multiple days onsite in Dallas collaborating with engineering, PM, and SMEs. Facilitated whiteboarding sessions, redefined configuration flows, designed revision lifecycle behavior, and created wireframes and interactive prototypes.",
+    keyResults: [
+      { value: "9,000+", label: "tax agencies supported" },
+      { value: "2", label: "countries unified (US + Canada)" },
+      { value: "5", label: "entity layers mapped end-to-end" },
+    ],
     outcomeMetrics: "Prevented silent state changes · Clarified entity relationships · Reduced configuration ambiguity · Improved audit transparency · Aligned UX with backend state model · Structured scalable architecture for 9,000+ agencies",
     image: "/placeholder.svg",
     learnings: [
@@ -123,6 +129,11 @@ export const projects: Project[] = [
     problem: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive.",
     solution: "The final OneAsure portal consolidated Time & Attendance, Benefits, Payroll, and related HR functions into a single, unified experience, with one login, consistent UI patterns, and workflows that reflected how people actually worked.",
     process: "Conducted software audits, gap analysis, competitive research across 12 HCM platforms, 16 remote user interviews, and 24 usability tests across 8 iterative design rounds over 6+ months.",
+    keyResults: [
+      { value: "~40%", label: "fewer admin errors reported" },
+      { value: "+25%", label: "enterprise prospect engagement" },
+      { value: "~50%", label: "faster user onboarding" },
+    ],
     outcomeMetrics: "12 competitive audits · 16 user interviews · 24 usability tests · 8 design iterations over 6+ months",
     learnings: [
       "Stakeholder alignment is a design skill, not something that happens after the design work. Translating UX decisions into business language, anticipating objections before they derailed progress, and building shared ownership of the design direction were as important as anything made in Figma.",
@@ -287,6 +298,11 @@ export const projects: Project[] = [
     competitiveResearch: "",
     solution: "A clean, map-based mobile interface with real-time store locator, user reviews and ratings, real business photos via Google Places API, and filters for store type, hot food eligibility, and open hours.",
     process: "Conducted user interviews with 7 EBT users, created journey maps and personas, ran competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and performed usability testing across 3 iterations.",
+    keyResults: [
+      { value: "45% → 89%", label: "task completion rate" },
+      { value: "62%", label: "faster time-to-find" },
+      { value: "92%", label: "positive tester feedback" },
+    ],
     outcomeMetrics: "Task completion rate improved from 45% to 89%. Average time-to-find reduced by 62%. Received positive feedback from 92% of usability test participants.",
     image: "/images/ebtfinder/hero-mockup.png",
   },
@@ -368,6 +384,11 @@ export const projects: Project[] = [
     // Legacy fields
     process: "Followed a user-centered design approach across six phases: empathize, research, personas, wireframing, usability testing, and visual design.",
     solution: "A dating and social media app blending traditional Tigrayan matchmaking (Shmagele) with modern dating app technology, featuring event discovery, Just Friends mode, and community features.",
+    keyResults: [
+      { value: "100%", label: "event location success" },
+      { value: "87.5%", label: "Shmagele feature understanding" },
+      { value: "75%+", label: "launch interest" },
+    ],
     outcomeMetrics: "100% event location success rate. 87.5% Shmagele feature understanding. 75%+ launch interest. Wide acceptance of design.",
     image: "/images/beles/hero-mockup.png",
   },
@@ -392,6 +413,11 @@ export const projects: Project[] = [
     problemImpact: "Delayed or confusing information increases overdose risk. Users abandon tools that feel judgmental, clinical, or overwhelming when seconds and clarity matter.",
     solution: "A calm, visual-first mobile experience that lets users scan, photograph, or search for a pill and receive a fast, clear result with harm reduction guidance and nearby resource connections.",
     process: "Conducted interviews with 12 participants including harm reduction advocates, young adults, and family members. Mapped the crisis-to-action journey, iterated wireframes across 3 rounds with 8 users, and built a high-fidelity prototype for moderated testing.",
+    keyResults: [
+      { value: "89%", label: "task success under 60s" },
+      { value: "92%", label: "result clarity, no explanation needed" },
+      { value: "+45%", label: "task completion across iterations" },
+    ],
     outcomeMetrics: "3 rounds of usability testing · 12 research participants · 15 moderated prototype sessions · 45% improvement in task completion across iterations",
     image: "/placeholder.svg",
     goals: [

@@ -126,6 +126,16 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             {featured && (
               <p className="text-sm text-muted-foreground mb-4">{project.role}</p>
             )}
+            {project.keyResults && (
+              <div className={`grid grid-cols-3 gap-2 rounded-lg border border-accent/20 bg-accent/5 p-3 ${featured ? 'mb-4' : 'mb-4'}`}>
+                {project.keyResults.map((r) => (
+                  <div key={r.label} className="text-center">
+                    <p className={`font-bold text-accent leading-tight ${featured ? 'text-lg' : 'text-base'}`}>{r.value}</p>
+                    <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">{r.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className={`flex flex-wrap gap-1.5 ${featured ? 'mt-2' : 'mt-auto'}`}>
               {project.tags.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
