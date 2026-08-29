@@ -19,6 +19,7 @@ import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
+import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
@@ -143,6 +144,7 @@ const ProjectPage = () => {
           <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Projects
           </Link>
+          <AppStorePromoBanner project={project} />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
