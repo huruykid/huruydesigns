@@ -64,11 +64,14 @@ const personJsonLd = {
     "Senior UX Designer at Capital Group with 8+ years specializing in accessible, human-centered design for enterprise SaaS, financial research tools, compliance, and social impact products.",
 };
 
+// Hidden from the homepage; case study route stays live by direct link.
+const visibleProjects = projects.filter((p) => p.id !== "fentfinder");
+
 const portfolioJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Senior UX Design Portfolio – Huruy Kidanemariam",
-  itemListElement: projects.map((p, i) => ({
+  itemListElement: visibleProjects.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
     item: {
@@ -197,7 +200,7 @@ const Index = () => (
           </h2>
         </motion.div>
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((p, i) => {
+          {visibleProjects.map((p, i) => {
             if (i === 0) return (
               <div key={p.id} className="md:col-span-2">
                 <ProjectCard project={p} index={0} featured />
