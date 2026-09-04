@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Linkedin, Mail, Palette, Search, Code, Users, FileText } from "lucide-react";
+import { ArrowDown, Linkedin, Mail, Palette, Search, Code, Users, FileText, ChevronDown } from "lucide-react";
+import { useId, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import Layout from "@/components/Layout";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
@@ -74,6 +76,45 @@ const websiteJsonLd = {
   name: "Huruy Kidanemariam – Senior UX Designer Portfolio",
   url: "https://huruy.tech",
   author: { "@type": "Person", name: "Huruy Kidanemariam" },
+};
+
+const SkillCard = ({ category: cat, index }: { category: typeof skillCategories[number]; index: number }) => {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const titleId = useId();
+  const detailsId = useId();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="h-full"
+    >
+      <Card role="region" aria-labelledby={titleId} className="h-full rounded-lg border-border transition-colors duration-300 hover:border-accent/30 focus-within:border-accent/40">
+        <CardContent className="flex h-full flex-col p-5 sm:p-6">
+          <cat.icon className="mb-3 h-5 w-5 text-accent" aria-hidden="true" />
+          <h3 id={titleId} className="min-h-7 text-xl font-bold leading-7">{cat.title}</h3>
+          <p className="mb-5 mt-2 min-h-10 text-sm leading-5 text-muted-foreground">Core methods and tools used in shipped product work.</p>
+          <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen} className="mt-auto">
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" className="min-h-11 w-full justify-between" aria-controls={detailsId}>
+                View details
+                <ChevronDown className={`transition-transform ${detailsOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent id={detailsId} className="pt-4">
+              <ul className="flex flex-wrap gap-2" aria-label={`${cat.title} skills`}>
+                {cat.skills.map((skill) => (
+                  <li key={skill} className="rounded-full bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground">{skill}</li>
+                ))}
+              </ul>
+            </CollapsibleContent>
+          </Collapsible>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
 };
 
 const Index = () => (
@@ -190,27 +231,7 @@ const Index = () => (
         </motion.div>
         <div className="mx-auto grid max-w-3xl auto-rows-fr gap-6 sm:grid-cols-2">
           {skillCategories.map((cat, i) => (
-            <motion.div
-              key={cat.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <Card className="h-full border-border transition-colors duration-300 hover:border-accent/30">
-                <CardContent className="flex h-full flex-col p-5">
-                  <cat.icon className="h-5 w-5 text-accent mb-3" />
-                  <h3 className="font-bold text-sm mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{cat.title}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {cat.skills.map((s) => (
-                      <span key={s} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <SkillCard key={cat.title} category={cat} index={i} />
           ))}
         </div>
       </div>

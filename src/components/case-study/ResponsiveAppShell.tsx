@@ -23,18 +23,23 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   const isMobile = useIsMobile();
   const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
 
   const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
 
-  // Scale desktop shell down on narrow viewports so it doesn't overflow
-  const [viewportWidth, setViewportWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
   useEffect(() => {
-    const onResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    const updateWidth = () => setContainerWidth(shell.clientWidth);
+    updateWidth();
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(shell);
+    return () => observer.disconnect();
   }, []);
+
   const desktopScale = activeLayout === "desktop"
-    ? Math.min(1, (viewportWidth - 48) / desktopWidth)
+    ? Math.min(1, containerWidth > 0 ? containerWidth / desktopWidth : 1)
     : 1;
 
 
@@ -58,27 +63,31 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.3 }}
-      className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1"
+       className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1"
+       role="group"
+       aria-label="Preview device"
     >
       <button
         onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("mobile"); }}
-        className={`rounded-full p-1.5 transition-colors ${
+        className={`min-h-11 min-w-11 rounded-full p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
           activeLayout === "mobile"
             ? "bg-accent text-accent-foreground"
             : "text-muted-foreground hover:text-foreground"
         }`}
         aria-label="Mobile view"
+        aria-pressed={activeLayout === "mobile"}
       >
         <Smartphone className="h-3.5 w-3.5" />
       </button>
       <button
         onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("desktop"); }}
-        className={`rounded-full p-1.5 transition-colors ${
+        className={`min-h-11 min-w-11 rounded-full p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
           activeLayout === "desktop"
             ? "bg-accent text-accent-foreground"
             : "text-muted-foreground hover:text-foreground"
         }`}
         aria-label="Desktop view"
+        aria-pressed={activeLayout === "desktop"}
       >
         <Monitor className="h-3.5 w-3.5" />
       </button>
@@ -86,7 +95,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   ) : null;
 
   return (
-    <div ref={shellRef}>
+    <div ref={shellRef} className="w-full min-w-0">
     <AnimatePresence mode="wait">
       {activeLayout === "mobile" ? (
         <motion.div
@@ -96,7 +105,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           animate="animate"
           exit="exit"
           transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="flex flex-col items-center"
+          className="flex w-full flex-col items-center"
         >
           <div className="relative">
             <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden" style={{ width: mobileWidth }}>
@@ -128,10 +137,13 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           animate="animate"
           exit="exit"
           transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="flex flex-col items-center"
-          style={desktopScale < 1 ? { width: desktopWidth * desktopScale, height: (desktopHeight + 40) * desktopScale + 40 } : undefined}
+          className="flex w-full flex-col items-center"
         >
-          <div className="relative" style={{ width: desktopWidth, transform: desktopScale < 1 ? `scale(${desktopScale})` : undefined, transformOrigin: 'top center' }}>
+          <div
+            className="relative shrink-0"
+            style={{ width: desktopWidth * desktopScale, height: (desktopHeight + 38) * desktopScale }}
+          >
+            <div style={{ width: desktopWidth, transform: `scale(${desktopScale})`, transformOrigin: "top left" }}>
             <div
               className="rounded-xl border border-foreground/15 bg-background shadow-2xl overflow-hidden"
               style={{ width: desktopWidth }}
@@ -162,6 +174,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
               </div>
             </div>
             <div className="absolute inset-0 rounded-xl bg-accent/5 blur-2xl -z-10 scale-105" />
+            </div>
           </div>
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
