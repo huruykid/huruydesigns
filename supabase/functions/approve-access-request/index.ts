@@ -16,31 +16,28 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const requestId = url.searchParams.get("id");
-    const providedSecret = url.searchParams.get("secret") || req.headers.get("x-admin-secret");
-
-    const ADMIN_SECRET = Deno.env.get("ADMIN_APPROVAL_SECRET");
-    if (!ADMIN_SECRET) {
-      console.error("ADMIN_APPROVAL_SECRET is not configured");
-      return new Response("Server misconfigured", { status: 500, headers: corsHeaders });
-    }
-
-    if (!providedSecret || providedSecret !== ADMIN_SECRET) {
-      return new Response("Unauthorized", { status: 401, headers: corsHeaders });
-    }
+    const approvalToken =
+      url.searchParams.get("approval_token") || req.headers.get("x-approval-token");
 
     if (!requestId || !UUID_RE.test(requestId)) {
       return new Response("Invalid request id", { status: 400, headers: corsHeaders });
+    }
+
+    if (!approvalToken || !UUID_RE.test(approvalToken)) {
+      return new Response("Unauthorized", { status: 401, headers: corsHeaders });
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Only approve rows that are still pending
+    // Only approve rows that are still pending and match the per-request,
+    // single-use approval token. Once approved the token no longer works.
     const { data, error } = await supabase
       .from("access_requests")
       .update({ status: "approved" })
       .eq("id", requestId)
+      .eq("approval_token", approvalToken)
       .eq("status", "pending")
       .select("token, name, email, project_id")
       .single();
@@ -52,6 +49,7 @@ Deno.serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "text/html" },
       });
     }
+
 
     const siteUrl = "https://huruydesigns.lovable.app";
     const accessLink = `${siteUrl}/project/${data.project_id}?token=${data.token}`;
