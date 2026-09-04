@@ -33,22 +33,6 @@ const skillCategories = [
   },
 ];
 
-const DotGrid = () => (
-  <svg className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.15]" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
-    {Array.from({ length: 20 }).map((_, row) =>
-      Array.from({ length: 20 }).map((_, col) => (
-        <circle
-          key={`${row}-${col}`}
-          cx={col * 25 + 12}
-          cy={row * 25 + 12}
-          r="2.5"
-          fill="hsl(var(--accent))"
-        />
-      ))
-    )}
-  </svg>
-);
-
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -108,12 +92,6 @@ const Index = () => (
     </Helmet>
     {/* Hero */}
     <section className="min-h-[50vh] flex items-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5" />
-      {/* Decorative blobs */}
-      <div className="absolute -top-10 right-[5%] w-[28rem] h-[28rem] rounded-full bg-accent/[0.12] blur-3xl" />
-      <div className="absolute top-32 right-[25%] w-80 h-80 rounded-full bg-accent/[0.08] blur-2xl" />
-      <div className="absolute bottom-0 left-[2%] w-96 h-96 rounded-full bg-accent/[0.06] blur-3xl" />
-      <DotGrid />
       <div className="container mx-auto px-4 py-10 relative z-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <motion.div
