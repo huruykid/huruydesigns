@@ -214,7 +214,7 @@ const Index = () => (
             Featured Projects
           </h2>
         </motion.div>
-        <div className="grid auto-rows-fr gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:auto-rows-fr md:grid-cols-2">
           {visibleProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
