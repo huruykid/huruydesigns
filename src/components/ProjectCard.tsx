@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesMatchDemo from "@/components/case-study/BelesMatchDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import type { Project } from "@/lib/projects";
-import type { ComponentType } from "react";
+import { useId, useState, type ComponentType } from "react";
 import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
 
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -31,6 +33,9 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
   const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
   const shellWidth = 220;
   const shellHeight = 340;
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const titleId = useId();
+  const detailsId = useId();
 
   return (
     <motion.div
@@ -42,12 +47,11 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
       className={`h-full ${index === 0 ? "scroll-mt-8" : ""}`}
       id={index === 0 ? "first-project" : undefined}
     >
-      <Link to={`/project/${project.id}`} className="group block h-full">
-        <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col">
+      <article aria-labelledby={titleId} className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-colors duration-300 hover:border-accent/30 focus-within:border-accent/40">
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${DemoComponent ? 'bg-muted/30' : ''} relative flex h-[440px] shrink-0 items-center justify-center overflow-hidden p-5 sm:p-6`}
+            className={`${DemoComponent ? 'bg-muted/30' : ''} relative flex h-[400px] shrink-0 items-center justify-center overflow-hidden p-4 sm:h-[420px] sm:p-5`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -55,11 +59,12 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
             }}
           >
             {DemoComponent ? (
-              <div className="relative pointer-events-auto flex h-full w-full items-center justify-center" onClick={(e) => e.preventDefault()}>
+              <div className="relative flex h-full min-w-0 w-full items-center justify-center" role="group" aria-label={`${project.title} interactive preview`}>
                 {useResponsiveShell ? (
-                  <div onClick={(e) => e.stopPropagation()}>
+                  <div className="w-full min-w-0">
                     <ResponsiveAppShell
                       allowToggle
+                      label={project.title}
                       desktopWidth={500}
                       desktopHeight={330}
                       mobileWidth={shellWidth}
@@ -84,7 +89,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
                         scrollbarWidth: "none",
                         msOverflowStyle: "none",
                       }}
-                      onClick={(e) => e.stopPropagation()}
                     >
                       <DemoComponent />
                     </div>
@@ -109,42 +113,51 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
                 }`}
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="bg-accent text-accent-foreground rounded-full p-2">
-                <ArrowUpRight className="h-4 w-4" />
-              </div>
-            </div>
           </div>
 
           {/* Text content */}
-          <div className="flex flex-1 flex-col p-6">
-            <span className="mb-2 inline-block text-xs font-semibold text-accent">{project.impact}</span>
-            <h3 className="mb-2 text-xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
-            <p className="mb-4 min-h-[3.75rem] line-clamp-3 text-sm text-muted-foreground">{project.description}</p>
-            {project.keyResults && (
-              <div className="mb-4 grid grid-cols-3 gap-2 rounded-lg border border-accent/20 bg-accent/5 p-3">
-                {project.keyResults.map((r) => (
-                  <div key={r.label} className="text-center">
-                    <p className="text-base font-bold leading-tight text-accent">{r.value}</p>
-                    <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">{r.label}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="mt-auto flex flex-wrap gap-1.5">
-              {project.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
-              ))}
-            </div>
+          <div className="flex flex-1 flex-col p-5 sm:p-6">
+            <span className="mb-2 line-clamp-1 text-xs font-semibold text-accent">{project.impact}</span>
+            <h3 id={titleId} className="mb-2 min-h-7 text-xl font-bold leading-7">{project.title}</h3>
+            <p className="mb-5 min-h-[3.75rem] line-clamp-3 text-sm leading-5 text-muted-foreground">{project.description}</p>
+
+            <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen} className="mt-auto">
+              <CollapsibleTrigger asChild>
+                <Button variant="outline" className="min-h-11 w-full justify-between" aria-controls={detailsId}>
+                  View details
+                  <ChevronDown className={`transition-transform ${detailsOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent id={detailsId} className="pt-4">
+                {project.keyResults && (
+                  <dl className="grid grid-cols-1 gap-3 border-l-2 border-accent/30 pl-4 sm:grid-cols-3">
+                    {project.keyResults.map((result) => (
+                      <div key={result.label}>
+                        <dt className="text-xs leading-4 text-muted-foreground">{result.label}</dt>
+                        <dd className="mt-1 text-base font-bold leading-5 text-accent">{result.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                <div className="mt-4 flex flex-wrap gap-2" aria-label="Project topics">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+
+            <Button asChild className="mt-3 min-h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link to={`/project/${project.id}`} aria-label={`View ${project.title} case study`}>
+                View case study <ArrowUpRight aria-hidden="true" />
+              </Link>
+            </Button>
             {project.appStoreUrl && (
-              <button
-                type="button"
+              <Button
+                variant="secondary"
                 aria-label="Download EBT Finder on the App Store"
-                className="mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-lg bg-foreground px-3.5 py-2 text-background transition-opacity hover:opacity-90 cursor-pointer sm:w-fit sm:justify-start"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                className="mt-3 min-h-11 w-full"
+                onClick={() => {
                   trackAppStoreClick("homepage_card");
                   if (project.appStoreUrl) {
                     window.open(getAppStoreUrl(project.appStoreUrl, "homepage_card"), "_blank", "noopener,noreferrer");
@@ -153,11 +166,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
               >
                 <AppleLogo className="h-5 w-5" />
                 <span className="whitespace-nowrap text-sm font-semibold">Available on the App Store</span>
-              </button>
+              </Button>
             )}
           </div>
-        </div>
-      </Link>
+      </article>
     </motion.div>
   );
 };
