@@ -26,12 +26,11 @@ const demoComponents: Record<string, ComponentType> = {
 
 const responsiveProjects = new Set(["oneasure-portal", "asure-compliance"]);
 
-const ProjectCard = ({ project, index, featured }: { project: Project; index: number; featured?: boolean }) => {
+const ProjectCard = ({ project, index }: { project: Project; index: number; featured?: boolean }) => {
   const DemoComponent = demoComponents[project.id];
   const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
-  const reverseLayout = featured && project.id === "asure-compliance";
-  const shellWidth = featured ? 240 : 220;
-  const shellHeight = featured ? 400 : 380;
+  const shellWidth = 220;
+  const shellHeight = 340;
 
   return (
     <motion.div
@@ -40,15 +39,15 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       
-      className={index === 0 ? "scroll-mt-8" : ""}
+      className={`h-full ${index === 0 ? "scroll-mt-8" : ""}`}
       id={index === 0 ? "first-project" : undefined}
     >
-      <Link to={`/project/${project.id}`} className="group block">
-        <div className={`rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col ${featured ? (reverseLayout ? 'md:flex-row-reverse md:items-stretch' : 'md:flex-row md:items-stretch') : ''}`}>
+      <Link to={`/project/${project.id}`} className="group block h-full">
+        <div className="rounded-xl border border-border bg-card overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 group-hover:border-accent/30 h-full flex flex-col">
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${featured ? 'md:w-3/5' : ''} ${DemoComponent ? 'flex items-center justify-center bg-muted/30 py-6' : 'aspect-[16/10]'} relative overflow-hidden flex items-center justify-center`}
+            className={`${DemoComponent ? 'bg-muted/30' : ''} relative flex h-[440px] shrink-0 items-center justify-center overflow-hidden p-5 sm:p-6`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -56,20 +55,13 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
             }}
           >
             {DemoComponent ? (
-              <div className="relative pointer-events-auto flex flex-col items-center gap-3" onClick={(e) => e.preventDefault()}>
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent tracking-wide uppercase">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-                  </span>
-                  Interactive Preview
-                </span>
+              <div className="relative pointer-events-auto flex h-full w-full items-center justify-center" onClick={(e) => e.preventDefault()}>
                 {useResponsiveShell ? (
                   <div onClick={(e) => e.stopPropagation()}>
                     <ResponsiveAppShell
                       allowToggle
-                      desktopWidth={featured ? 540 : 380}
-                      desktopHeight={featured ? 440 : 520}
+                      desktopWidth={500}
+                      desktopHeight={330}
                       mobileWidth={shellWidth}
                       mobileHeight={shellHeight}
                     >
@@ -126,24 +118,21 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
           </div>
 
           {/* Text content */}
-          <div className={`p-6 flex flex-col ${featured ? 'md:w-2/5 md:justify-center md:p-10' : 'flex-1'}`}>
-            <span className={`inline-block font-semibold text-accent mb-2 ${featured ? 'text-sm bg-accent/10 px-2 py-0.5 rounded-full' : 'text-xs'}`}>{project.impact}</span>
-            <h3 className={`font-bold mb-2 ${featured ? 'text-2xl' : 'text-lg'}`} style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
-            <p className={`text-muted-foreground ${featured ? 'text-lg mb-4' : 'text-sm line-clamp-2 mb-4'}`}>{project.description}</p>
-            {featured && (
-              <p className="text-sm text-muted-foreground mb-4">{project.role}</p>
-            )}
+          <div className="flex flex-1 flex-col p-6">
+            <span className="mb-2 inline-block text-xs font-semibold text-accent">{project.impact}</span>
+            <h3 className="mb-2 text-xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{project.title}</h3>
+            <p className="mb-4 min-h-[3.75rem] line-clamp-3 text-sm text-muted-foreground">{project.description}</p>
             {project.keyResults && (
-              <div className={`grid grid-cols-3 gap-2 rounded-lg border border-accent/20 bg-accent/5 p-3 ${featured ? 'mb-4' : 'mb-4'}`}>
+              <div className="mb-4 grid grid-cols-3 gap-2 rounded-lg border border-accent/20 bg-accent/5 p-3">
                 {project.keyResults.map((r) => (
                   <div key={r.label} className="text-center">
-                    <p className={`font-bold text-accent leading-tight ${featured ? 'text-lg' : 'text-base'}`}>{r.value}</p>
+                    <p className="text-base font-bold leading-tight text-accent">{r.value}</p>
                     <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">{r.label}</p>
                   </div>
                 ))}
               </div>
             )}
-            <div className={`flex flex-wrap gap-1.5 ${featured ? 'mt-2' : 'mt-auto'}`}>
+            <div className="mt-auto flex flex-wrap gap-1.5">
               {project.tags.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs font-normal">{tag}</Badge>
               ))}
@@ -157,7 +146,9 @@ const ProjectCard = ({ project, index, featured }: { project: Project; index: nu
                   e.preventDefault();
                   e.stopPropagation();
                   trackAppStoreClick("homepage_card");
-                  window.open(getAppStoreUrl(project.appStoreUrl!, "homepage_card"), "_blank", "noopener,noreferrer");
+                  if (project.appStoreUrl) {
+                    window.open(getAppStoreUrl(project.appStoreUrl, "homepage_card"), "_blank", "noopener,noreferrer");
+                  }
                 }}
               >
                 <AppleLogo className="h-5 w-5" />
