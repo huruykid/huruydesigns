@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Linkedin, Mail, Download, Palette, Search, Code, Users, FileText } from "lucide-react";
+import { ArrowDown, Linkedin, Mail, Palette, Search, Code, Users, FileText } from "lucide-react";
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -132,17 +132,17 @@ const Index = () => (
             <p className="text-sm text-foreground/80 max-w-xl mb-4">
               Currently designing research tools for investment analysts at <span className="font-semibold text-foreground">Capital Group</span>.
             </p>
-            <Link
-              to="/senior-ux-designer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent/20 transition-colors mb-5"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-              </span>
-              Open to senior UX opportunities
-            </Link>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mb-6">
+            <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+              <Link
+                to="/senior-ux-designer"
+                className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:bg-accent/20"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                </span>
+                Open to senior UX opportunities
+              </Link>
               <span className="font-medium text-foreground">8+ Years Experience</span>
               <span className="text-accent">•</span>
               <span className="font-medium text-foreground">12M+ Users Impacted</span>
@@ -151,7 +151,7 @@ const Index = () => (
               <span className="text-accent">•</span>
               <span className="font-medium text-foreground">Open to Remote / Hybrid</span>
             </div>
-            <div className="flex flex-col-reverse sm:flex-row gap-3 mb-8 w-full sm:w-auto">
+            <div className="mb-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
               <Button
                 size="lg"
                 className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center w-full sm:w-auto"
@@ -159,16 +159,16 @@ const Index = () => (
               >
                 View My Work <ArrowDown className="h-4 w-4 ml-1" />
               </Button>
-              <Link to="/contact?role=senior-ux-designer" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
-                  <Mail className="h-4 w-4 mr-1" /> Get in Touch
-                </Button>
-              </Link>
               <Link to="/resume" className="w-full sm:w-auto">
                 <Button size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
                   <FileText className="h-4 w-4 mr-1" /> Resume
                 </Button>
               </Link>
+              <Button asChild size="lg" variant="link" className="w-full text-muted-foreground hover:text-accent sm:w-auto">
+                <Link to="/contact?role=senior-ux-designer">
+                  <Mail className="h-4 w-4" /> Get in Touch
+                </Link>
+              </Button>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
               <a href="https://www.linkedin.com/in/huruykidanemariam/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
@@ -178,10 +178,6 @@ const Index = () => (
               <a href="mailto:huruydesigns@gmail.com" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
                 <Mail className="h-4 w-4" aria-hidden="true" />
                 huruydesigns@gmail.com
-              </a>
-              <span className="text-muted-foreground" aria-hidden="true">|</span>
-              <a href="/resume/huruy-kidanemariam-resume.pdf" download className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
-                <Download className="h-4 w-4" aria-hidden="true" /> Download Resume (PDF)
               </a>
             </div>
           </motion.div>
@@ -199,20 +195,10 @@ const Index = () => (
             Featured Projects
           </h2>
         </motion.div>
-        <div className="grid md:grid-cols-2 gap-6">
-          {visibleProjects.map((p, i) => {
-            if (i === 0) return (
-              <div key={p.id} className="md:col-span-2">
-                <ProjectCard project={p} index={0} featured />
-              </div>
-            );
-            if (i === 1) return (
-              <div key={p.id} className="md:col-span-2">
-                <ProjectCard project={p} index={1} featured />
-              </div>
-            );
-            return <ProjectCard key={p.id} project={p} index={i} />;
-          })}
+        <div className="grid auto-rows-fr gap-6 md:grid-cols-2">
+          {visibleProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
         </div>
       </div>
     </section>
@@ -224,7 +210,7 @@ const Index = () => (
           <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Skills & Tools</p>
           <h2 className="text-2xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>What I Work With</h2>
         </motion.div>
-        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div className="mx-auto grid max-w-3xl auto-rows-fr gap-6 sm:grid-cols-2">
           {skillCategories.map((cat, i) => (
             <motion.div
               key={cat.title}
@@ -233,8 +219,8 @@ const Index = () => (
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="h-full border-border hover:border-accent/30 transition-colors duration-300">
-                <CardContent className="p-5">
+              <Card className="h-full border-border transition-colors duration-300 hover:border-accent/30">
+                <CardContent className="flex h-full flex-col p-5">
                   <cat.icon className="h-5 w-5 text-accent mb-3" />
                   <h3 className="font-bold text-sm mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{cat.title}</h3>
                   <div className="flex flex-wrap gap-2">
