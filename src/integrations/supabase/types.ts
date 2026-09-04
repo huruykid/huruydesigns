@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       access_requests: {
         Row: {
+          approval_token: string
           created_at: string
           email: string
           id: string
@@ -25,6 +26,7 @@ export type Database = {
           token: string
         }
         Insert: {
+          approval_token?: string
           created_at?: string
           email: string
           id?: string
@@ -34,6 +36,7 @@ export type Database = {
           token?: string
         }
         Update: {
+          approval_token?: string
           created_at?: string
           email?: string
           id?: string

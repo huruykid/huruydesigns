@@ -1,0 +1,1 @@
+ALTER TABLE public.access_requests ADD COLUMN IF NOT EXISTS approval_token uuid NOT NULL DEFAULT gen_random_uuid();
