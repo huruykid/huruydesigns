@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
 
     const { data: row, error: rowErr } = await supabase
       .from("access_requests")
-      .select("id, name, email, project_id, status, created_at")
+      .select("id, name, email, project_id, status, created_at, approval_token")
       .eq("id", request_id)
       .eq("status", "pending")
       .single();
@@ -89,10 +89,10 @@ Deno.serve(async (req) => {
     const SLACK_API_KEY = Deno.env.get("SLACK_API_KEY");
     if (!SLACK_API_KEY) throw new Error("SLACK_API_KEY is not configured");
 
-    const ADMIN_SECRET = Deno.env.get("ADMIN_APPROVAL_SECRET");
-    if (!ADMIN_SECRET) throw new Error("ADMIN_APPROVAL_SECRET is not configured");
+    // Per-request, single-use approval token. The master admin secret is never
+    // transmitted over the network or written into Slack history.
+    const approveUrl = `${SUPABASE_URL}/functions/v1/approve-access-request?id=${row.id}&approval_token=${encodeURIComponent(row.approval_token)}`;
 
-    const approveUrl = `${SUPABASE_URL}/functions/v1/approve-access-request?id=${row.id}&secret=${encodeURIComponent(ADMIN_SECRET)}`;
 
     const hdrs = authHeaders(LOVABLE_API_KEY, SLACK_API_KEY);
     const channelId = await findChannel("portfolio", LOVABLE_API_KEY, SLACK_API_KEY);
