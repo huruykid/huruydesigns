@@ -32,7 +32,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
   const DemoComponent = demoComponents[project.id];
   const useResponsiveShell = DemoComponent && responsiveProjects.has(project.id);
   const shellWidth = 220;
-  const shellHeight = 340;
+  const shellHeight = 280;
   const [detailsOpen, setDetailsOpen] = useState(false);
   const titleId = useId();
   const detailsId = useId();
@@ -51,7 +51,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
           
           {/* Image / Interactive preview area */}
           <div
-            className={`${DemoComponent ? 'bg-muted/30' : ''} relative flex h-[400px] shrink-0 items-center justify-center overflow-hidden p-4 sm:h-[420px] sm:p-5`}
+            className={`${DemoComponent ? 'bg-muted/30' : ''} relative flex h-[440px] shrink-0 items-center justify-center overflow-hidden p-4 sm:h-[460px] sm:p-5`}
             style={{
               background: !DemoComponent && project.image.includes("hero-mockup") && !project.image.includes("ebtfinder")
                 ? "linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted) / 0.6) 100%)"
@@ -66,7 +66,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number; feat
                       allowToggle
                       label={project.title}
                       desktopWidth={500}
-                      desktopHeight={330}
+                      desktopHeight={265}
                       mobileWidth={shellWidth}
                       mobileHeight={shellHeight}
                     >
