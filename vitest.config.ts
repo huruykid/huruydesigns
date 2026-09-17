@@ -8,7 +8,9 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    // Unit tests only. Playwright specs live in e2e/ and run with `npm run test:e2e`.
+    include: ["src/**/*.test.{ts,tsx}", "scripts/**/*.test.{ts,tsx}"],
+    exclude: ["**/node_modules/**", "**/dist/**", "e2e/**", "**/*.spec.ts"],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },

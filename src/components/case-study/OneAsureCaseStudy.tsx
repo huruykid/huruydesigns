@@ -97,7 +97,7 @@ const outcomes = [
   "Users no longer needed to manage 3 separate logins or navigate inconsistent interfaces, reducing onboarding time by ~50%",
 ];
 
-const OneAsureCaseStudy = ({ project, getSlotImage }: Props) => {
+const OneAsureCaseStudy = ({ project }: Props) => {
   const isMobile = useIsMobile();
   const demoLayout = isMobile ? "mobile" : "desktop";
 

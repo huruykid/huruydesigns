@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, MessageCircle, X } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 
 const matches = [
   { name: "Berhane", color: "#c2185b" },

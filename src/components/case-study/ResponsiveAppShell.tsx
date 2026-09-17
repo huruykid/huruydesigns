@@ -46,7 +46,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   // Pass layout prop to children via cloneElement
   const enhancedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child as React.ReactElement<any>, { layout: activeLayout });
+      return React.cloneElement(child as React.ReactElement<{ layout?: string }>, { layout: activeLayout });
     }
     return child;
   });
