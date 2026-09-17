@@ -1,5 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { MotionConfig } from "framer-motion";
@@ -43,12 +41,7 @@ export const AppProviders = ({
   helmetContext?: Record<string, unknown>;
 }) => (
   <HelmetProvider context={helmetContext}>
-    <MotionConfig reducedMotion="user">
-      <TooltipProvider>
-        <Toaster />
-        {children}
-      </TooltipProvider>
-    </MotionConfig>
+    <MotionConfig reducedMotion="user">{children}</MotionConfig>
   </HelmetProvider>
 );
 
