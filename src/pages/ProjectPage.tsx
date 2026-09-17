@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { projects, Project } from "@/lib/projects";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
@@ -100,14 +99,14 @@ const ProjectPage = () => {
 
   if (isGated && !accessGranted) {
     return (
-      <Layout>
+      <>
         <SEO
           title={`${project.title} – Request Access`}
           description="This case study contains proprietary work and is available by request."
           path={`/project/${project.id}`}
         />
         <AccessGate project={project} onAccessGranted={() => setAccessGranted(true)} />
-      </Layout>
+      </>
     );
   }
 
@@ -115,7 +114,7 @@ const ProjectPage = () => {
   const slotProps: SlotProps = { getSlotImage };
 
   return (
-    <Layout>
+    <>
       <SEO
         title={`Huruy Kidanemariam | ${project.title} – UX Case Study`}
         description={project.seoDescription || project.description}
@@ -225,7 +224,7 @@ const ProjectPage = () => {
           </Link>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

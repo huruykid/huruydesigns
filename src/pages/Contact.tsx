@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 
 const ROLE_CONTEXT: Record<string, { subject: string; message: string }> = {
@@ -50,7 +49,7 @@ const Contact = () => {
 
 
   return (
-    <Layout>
+    <>
       <SEO
         title="Contact Huruy Kidanemariam | UX Designer"
         description="Get in touch with Huruy Kidanemariam for UX design collaborations, freelance projects, or full-time opportunities."
@@ -122,7 +121,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

@@ -2,7 +2,6 @@ import { Download, Printer, Mail, Linkedin, ExternalLink, Globe, FileText } from
 import { generateAndDownloadDocx } from "@/lib/generateResumeDocx";
 import headshot from "@/assets/huruy-headshot.jpg";
 import { Button } from "@/components/ui/button";
-import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 
 // ── Data ──
@@ -83,7 +82,7 @@ const Resume = () => {
   const handlePrint = () => window.print();
 
   return (
-    <Layout>
+    <>
       <SEO
         title="Huruy Kidanemariam | Resume – Senior UX Designer"
         description="Resume of Huruy Kidanemariam – Senior UX Designer with 8+ years in enterprise SaaS, compliance, conversational AI, and product design."
@@ -312,7 +311,7 @@ const Resume = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

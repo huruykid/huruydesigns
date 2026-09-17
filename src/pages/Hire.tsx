@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { ArrowRight, Mail, Download, CheckCircle2, Briefcase, Users, Zap, Shield } from "lucide-react";
-import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -197,7 +196,7 @@ const StickyHireCta = () => {
 
 const Hire = () => (
 
-  <Layout>
+  <>
     <SEO
       title={PAGE_TITLE}
       description={PAGE_DESC}
@@ -425,7 +424,7 @@ const Hire = () => (
     </section>
 
     <StickyHireCta />
-  </Layout>
+  </>
 );
 
 

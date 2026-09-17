@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import Layout from "@/components/Layout";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import SEO from "@/components/SEO";
@@ -118,7 +117,7 @@ const SkillCard = ({ category: cat, index }: { category: typeof skillCategories[
 };
 
 const Index = () => (
-  <Layout>
+  <>
     <SEO
       title="Huruy Kidanemariam | Senior UX Designer & Builder Portfolio"
       description="Senior UX Designer and Builder with 8+ years crafting accessible, human-centered products for enterprise SaaS and social impact."
@@ -236,7 +235,7 @@ const Index = () => (
         </div>
       </div>
     </section>
-  </Layout>
+  </>
 );
 
 export default Index;

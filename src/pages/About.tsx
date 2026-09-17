@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Download, Briefcase, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Layout from "@/components/Layout";
 import HeroPongGame from "@/components/HeroPongGame";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
@@ -73,7 +72,7 @@ const expertiseGroups = [
 ];
 
 const About = () => (
-  <Layout>
+  <>
     <SEO
       title="About Huruy Kidanemariam | Senior UX Designer"
       description="Huruy Kidanemariam is a Senior UX Designer with 8+ years of experience crafting accessible, data-informed products for enterprise, SaaS, and immersive tech."
@@ -219,7 +218,7 @@ const About = () => (
         <HeroPongGame />
       </div>
     </section>
-  </Layout>
+  </>
 );
 
 export default About;
