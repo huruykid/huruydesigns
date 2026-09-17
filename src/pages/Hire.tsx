@@ -7,17 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
-import { Helmet } from "react-helmet-async";
+import { resumePdfPath } from "@/lib/resume";
+import { PERSON, PERSON_REF, SITE_URL } from "@/lib/seo";
 
-const PAGE_TITLE = "Senior UX Designer Portfolio | Huruy Kidanemariam";
+const PAGE_TITLE = "Hire a Senior UX Designer in Los Angeles | Huruy Kidanemariam";
 const PAGE_DESC =
-  "Senior UX Designer with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and social impact. Portfolio and resume.";
+  "Senior UX Designer in Los Angeles with 8+ years shipping accessible, human-centered products for enterprise SaaS, compliance, and AI. Open to senior roles, remote or hybrid. Portfolio and resume.";
 
 const valueProps = [
   {
     icon: Briefcase,
     title: "8+ Years, Enterprise-Tested",
-    body: "Senior UX Designer at Capital Group designing research tools for investment analysts. Previously lead designer on HR, compliance, and AI surfaces at Asure Software, VR learning at IMMERSE, and fintech SaaS at Datable.",
+    body: "Senior UX Designer at Capital Group designing research tools for investment analysts. Previously UX Designer on HR, compliance, and AI surfaces at Asure Software, VR learning at IMMERSE, and fintech SaaS at Datable.",
   },
   {
     icon: Shield,
@@ -48,7 +49,7 @@ const whatHiringTeamsGet = [
 const faqs = [
   {
     q: "Are you available for senior UX designer roles?",
-    a: "Yes. I am open to senior UX designer, senior product designer, and staff UX roles, including full-time, contract, and consulting engagements. I am open to relocation and hybrid or remote arrangements.",
+    a: "Yes. I am open to senior UX designer, senior product designer, and staff UX roles, including full-time, contract, and consulting engagements. I am based in Los Angeles and open to remote, hybrid, or relocation.",
   },
   {
     q: "What industries have you worked in?",
@@ -64,55 +65,23 @@ const faqs = [
   },
   {
     q: "What is the fastest way to start a conversation?",
-    a: "Email huruydesigns at gmail dot com, or reach out via the contact page. Resume and portfolio links are at the top of this page so a hiring manager can scan in under two minutes.",
+    a: "Email huruydesigns at gmail dot com, or use the contact page. I reply within one business day. Resume and portfolio links are at the top of this page so a hiring manager can scan in under two minutes.",
   },
 ];
 
-const featuredProjects = projects.filter((p) =>
-  ["asure-compliance", "oneasure-portal", "ebtfinder"].includes(p.id)
-);
+// Public, ungated case studies a recruiter can read end to end without a passcode.
+const featuredProjects = projects.filter((p) => ["ebtfinder", "oneasure-portal", "beles"].includes(p.id));
 
-const PERSON_ID = "https://huruy.tech/#huruy";
-const HIRE_URL = "https://huruy.tech/senior-ux-designer";
+const HIRE_URL = `${SITE_URL}/senior-ux-designer`;
 const CONTACT_CTA = "/contact?role=senior-ux-designer";
 
 const personJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": PERSON_ID,
-  name: "Huruy Kidanemariam",
-  givenName: "Huruy",
-  familyName: "Kidanemariam",
-  jobTitle: "Senior UX Designer",
-  url: HIRE_URL,
+  ...PERSON,
   mainEntityOfPage: HIRE_URL,
-  image:
-    "https://storage.googleapis.com/gpt-engineer-file-uploads/kGTxCfCl6FWDdTknBfRBy7wDvqL2/social-images/social-1771881539918-Screenshot_2026-02-23_at_1.18.31_PM.webp",
-  email: "mailto:huruydesigns@gmail.com",
-  description: PAGE_DESC,
-  address: {
-    "@type": "PostalAddress",
-    addressRegion: "CA",
-    addressCountry: "US",
-  },
-  worksFor: {
-    "@type": "Organization",
-    name: "Capital Group (via Luxoft)",
-  },
-  knowsAbout: [
-    "Senior UX Design",
-    "Product Design",
-    "Design Systems",
-    "Accessibility (WCAG)",
-    "User Research",
-    "Enterprise SaaS",
-    "AI and Conversational UX",
-  ],
-  sameAs: ["https://www.linkedin.com/in/huruykidanemariam/"],
   seeks: {
     "@type": "Demand",
     name: "Senior UX Designer, Senior Product Designer, and Staff UX roles",
-    availabilityStarts: "2026-01-01",
     businessFunction: "https://purl.org/goodrelations/v1#ProvideService",
     itemOffered: {
       "@type": "Service",
@@ -130,7 +99,7 @@ const serviceJsonLd = {
   url: HIRE_URL,
   description:
     "Senior UX and product design for enterprise SaaS, compliance, and AI products: user research, design systems, accessibility, and coded prototypes.",
-  provider: { "@id": PERSON_ID },
+  provider: PERSON_REF,
   areaServed: { "@type": "Country", name: "United States" },
   availableLanguage: "English",
   serviceType: "UX design, product design, design systems, accessibility",
@@ -179,23 +148,22 @@ const StickyHireCta = () => {
   if (!visible) return null;
 
   return (
-    <div className="sm:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/95 backdrop-blur px-4 py-3 flex gap-2">
-      <Link to={CONTACT_CTA} className="flex-1">
-        <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-          <Mail className="h-4 w-4 mr-2" /> Available for Hire
-        </Button>
-      </Link>
-      <a href="/resume/huruy-kidanemariam-resume.pdf" download aria-label="Download resume">
-        <Button variant="outline" size="icon" className="h-10 w-10">
-          <Download className="h-4 w-4" />
-        </Button>
-      </a>
+    <div className="sm:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-background/95 backdrop-blur px-4 py-3 flex gap-2 print:hidden">
+      <Button asChild className="flex-1 min-h-11 bg-accent text-accent-foreground hover:bg-accent/90">
+        <Link to={CONTACT_CTA}>
+          <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
+        </Link>
+      </Button>
+      <Button asChild variant="outline" size="icon" className="h-11 w-11">
+        <a href={resumePdfPath} download aria-label="Download resume (PDF)">
+          <Download className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </Button>
     </div>
   );
 };
 
 const Hire = () => (
-
   <>
     <SEO
       title={PAGE_TITLE}
@@ -203,16 +171,12 @@ const Hire = () => (
       path="/senior-ux-designer"
       ogType="profile"
       imageAlt="Huruy Kidanemariam, Senior UX Designer portfolio for hire"
-      jsonLd={personJsonLd}
+      jsonLd={[personJsonLd, serviceJsonLd, faqJsonLd]}
       breadcrumbs={[
         { name: "Home", path: "/" },
         { name: "Senior UX Designer", path: "/senior-ux-designer" },
       ]}
     />
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(serviceJsonLd)}</script>
-      <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-    </Helmet>
 
     {/* Hero */}
     <section className="relative overflow-hidden py-20 lg:py-28">
@@ -224,7 +188,7 @@ const Hire = () => (
           <p className="flex flex-wrap items-center gap-3 mb-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
               </span>
               Available for Hire
@@ -234,37 +198,36 @@ const Hire = () => (
             </span>
           </p>
           <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 font-display"
           >
             Senior UX Designer with 8+ years shipping{" "}
             <span className="text-gradient">enterprise SaaS, compliance, and AI products</span>.
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mb-8 leading-relaxed">
-            I am Huruy Kidanemariam, a Senior UX Designer at Capital Group who bridges
-            research, design systems, and production code. If your team is hiring for a senior
-            UX role, this page is the fastest way to evaluate fit.
+            I am Huruy Kidanemariam, a Senior UX Designer in Los Angeles, currently at Capital Group,
+            who bridges research, design systems, and production code. If your team is hiring for a
+            senior UX role, this page is the fastest way to evaluate fit.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
-              <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                <Mail className="h-4 w-4 mr-2" /> Available for hire, get in touch
-              </Button>
-            </Link>
-            <a href="/resume/huruy-kidanemariam-resume.pdf" download className="sm:min-w-[200px]">
-              <Button size="lg" variant="outline" className="w-full">
-                <Download className="h-4 w-4 mr-2" /> Download resume
-              </Button>
-            </a>
+            <Button asChild size="lg" className="sm:min-w-[200px] bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link to={CONTACT_CTA}>
+                <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="sm:min-w-[200px]">
+              <a href={resumePdfPath} download>
+                <Download className="h-4 w-4 mr-2" aria-hidden="true" /> Download resume
+              </a>
+            </Button>
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground mt-8">
             <span className="font-medium text-foreground">8+ Years Experience</span>
             <span className="text-accent">•</span>
             <span className="font-medium text-foreground">Enterprise SaaS, Compliance, AI</span>
             <span className="text-accent">•</span>
-            <span className="font-medium text-foreground">12M+ Users Impacted</span>
+            <span className="font-medium text-foreground">Los Angeles, CA</span>
             <span className="text-accent">•</span>
-            <span className="font-medium text-foreground">Open to relocation</span>
+            <span className="font-medium text-foreground">Remote, hybrid, or relocation</span>
           </div>
         </div>
       </div>
@@ -275,12 +238,12 @@ const Hire = () => (
     <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display">
             Why hiring teams bring me in
           </h2>
           <p className="text-muted-foreground text-lg">
             I specialize in systems where getting the UX wrong is not an inconvenience, it is a
-            liability. Compliance, HR, healthcare-adjacent, and AI surfaces are where I do my
+            liability. Compliance, HR, financial research, and AI surfaces are where I do my
             best work.
           </p>
         </div>
@@ -291,7 +254,7 @@ const Hire = () => (
                 <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <v.icon className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="font-bold text-lg mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="font-bold text-lg mb-2 font-display">
                   {v.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{v.body}</p>
@@ -300,16 +263,16 @@ const Hire = () => (
           ))}
         </div>
         <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:items-center">
-          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
-            <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              <Mail className="h-4 w-4 mr-2" /> Available for hire, start a conversation
-            </Button>
-          </Link>
-          <a href="/resume/huruy-kidanemariam-resume.pdf" download className="sm:min-w-[200px]">
-            <Button size="lg" variant="outline" className="w-full">
-              <Download className="h-4 w-4 mr-2" /> Download resume
-            </Button>
-          </a>
+          <Button asChild size="lg" className="sm:min-w-[200px] bg-accent text-accent-foreground hover:bg-accent/90">
+            <Link to={CONTACT_CTA}>
+              <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="sm:min-w-[200px]">
+            <a href={resumePdfPath} download>
+              <Download className="h-4 w-4 mr-2" aria-hidden="true" /> Download resume
+            </a>
+          </Button>
         </div>
       </div>
     </section>
@@ -319,7 +282,7 @@ const Hire = () => (
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-8 font-display">
             What hiring teams get on day one
           </h2>
           <ul className="space-y-4">
@@ -339,16 +302,16 @@ const Hire = () => (
       <div className="container mx-auto px-4">
         <div className="flex items-end justify-between mb-10 gap-4 flex-wrap">
           <div className="max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3 font-display">
               Selected senior-level case studies
             </h2>
             <p className="text-muted-foreground">
               Each case study walks through the problem, the research, the design decisions, and
-              the shipped outcome. Built to read in under five minutes.
+              the outcome. No passcode needed; each reads in under five minutes.
             </p>
           </div>
-          <Link to="/" className="text-accent font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
-            View all work <ArrowRight className="h-4 w-4" />
+          <Link to="/#projects" className="text-accent font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
+            View all work <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -363,13 +326,13 @@ const Hire = () => (
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-10" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-10 font-display">
             Hiring questions, answered
           </h2>
           <div className="space-y-8">
             {faqs.map((f) => (
               <div key={f.q}>
-                <h3 className="font-bold text-lg mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="font-bold text-lg mb-2 font-display">
                   {f.q}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">{f.a}</p>
@@ -387,11 +350,11 @@ const Hire = () => (
           <p className="text-base font-medium flex-1">
             Still have a question about fit? I answer hiring emails within one business day.
           </p>
-          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
-            <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              <Mail className="h-4 w-4 mr-2" /> Available for hire
-            </Button>
-          </Link>
+          <Button asChild className="sm:min-w-[200px] bg-accent text-accent-foreground hover:bg-accent/90">
+            <Link to={CONTACT_CTA}>
+              <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Ask a question
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
@@ -401,24 +364,22 @@ const Hire = () => (
     {/* Final CTA */}
     <section className="py-20 bg-gradient-to-br from-accent/10 via-transparent to-accent/5">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Available for hire, ready to talk?
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display">
+          Ready to talk?
         </h2>
         <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
           The fastest signal is a quick call. Send a role description and I will respond within
           one business day.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to={CONTACT_CTA} className="sm:min-w-[200px]">
-            <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              <Mail className="h-4 w-4 mr-2" /> Available for hire, contact Huruy
-            </Button>
-          </Link>
-          <Link to="/about" className="sm:min-w-[200px]">
-            <Button size="lg" variant="outline" className="w-full">
-              Read full background
-            </Button>
-          </Link>
+          <Button asChild size="lg" className="sm:min-w-[200px] bg-accent text-accent-foreground hover:bg-accent/90">
+            <Link to={CONTACT_CTA}>
+              <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Send a role description
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="sm:min-w-[200px]">
+            <Link to="/about">Read full background</Link>
+          </Button>
         </div>
       </div>
     </section>
@@ -426,6 +387,5 @@ const Hire = () => (
     <StickyHireCta />
   </>
 );
-
 
 export default Hire;

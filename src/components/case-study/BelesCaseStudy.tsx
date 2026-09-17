@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Users, Map, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, MessageSquareQuote, Target } from "lucide-react";
+import { AlertTriangle, Users, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, Target } from "lucide-react";
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
@@ -130,7 +130,7 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* Wireframing & Iteration */}
     <CaseStudySection label="Wireframing" title="Wireframing & Iteration" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">To ensure the app would meet the needs of users like Kibrom and Semhal, I began by creating paper wireframes. I spent hours carefully crafting multiple versions, selecting the one that best balanced user needs with the app's overall aesthetic.</p>
+      <p className="mb-6">To ensure the app would meet the needs of users like Kibrom and Semhal, I began with paper wireframes, sketching several versions and keeping the one that best balanced user needs with the app's overall aesthetic.</p>
       <div className="grid sm:grid-cols-2 gap-4 mb-6">
         {[
           { title: "Home Screen", desc: "Balanced between Shmagele matching and modern swipe features" },
@@ -153,23 +153,8 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
     <CaseStudySection label="Usability Testing" title="Testing & Iteration" icon={<BarChart3 className="h-4 w-4" />}>
       <p className="mb-6">I tested the low-fidelity prototype with 8 participants to understand their thoughts and feelings about the design.</p>
 
-      <h3 className="font-bold text-foreground mb-3">Key Findings</h3>
-      <div className="grid sm:grid-cols-2 gap-4 mb-6">
-        {[
-          { label: "Lacked personal connection", value: "62.5%", desc: "did not feel personal connection with overall layout" },
-          { label: "Shmagele confusion", value: "37.5%", desc: "were confused about Shmagele feature" },
-          { label: "Women: Just Friends", value: "50%", desc: "of women would use app today with Just Friends option" },
-          { label: "Men: Just Friends", value: "12.5%", desc: "of men would use app today with Just Friends option" },
-        ].map((m, i) => (
-          <Card key={i} className="border-accent/30 bg-accent/5">
-            <CardContent className="p-5 text-center">
-              <p className="text-3xl font-bold text-accent mb-1">{m.value}</p>
-              <p className="font-semibold text-foreground text-sm mb-1">{m.label}</p>
-              <p className="text-xs text-muted-foreground">{m.desc}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <h3 className="font-bold text-foreground mb-3">Key findings from round one</h3>
+      <UsabilityStatBars />
 
       <h3 className="font-bold text-foreground mb-3">Critical Iterations Based on Findings</h3>
       <div className="space-y-3 mb-6">
@@ -188,7 +173,6 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
           </div>
         ))}
       </div>
-      <UsabilityStatBars />
     </CaseStudySection>
 
     {/* Navigation Redesign Deep Dive */}
@@ -221,7 +205,7 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
               </li>
             ))}
           </ul>
-          <p className="mt-3 font-medium text-accent text-sm">Result: Users swiftly located events, simplifying navigation. User satisfaction improved significantly.</p>
+          <p className="mt-3 font-medium text-accent text-sm">Result: none of the 5 follow-up testers flagged the navigation as cluttered, and every one of them reached Events without help.</p>
         </CardContent>
       </Card>
       <NavRedesignComparison />
@@ -274,7 +258,7 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* Visual Design */}
     <CaseStudySection label="Visual Design" title="Design Principles" icon={<Palette className="h-4 w-4" />}>
-      <p className="mb-6">Simplicity was key in my final design. I utilized Figma to create a visually stunning and user-friendly experience that honored Tigrayan culture while feeling modern and accessible.</p>
+      <p className="mb-6">Simplicity was key in the final design. In Figma I built a clean, user-friendly experience that honored Tigrayan culture while feeling modern and accessible.</p>
       {project.designPrinciples && (
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
           {project.designPrinciples.map((p, i) => (
@@ -293,7 +277,7 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
     {/* Impact & Outcomes */}
     {project.validationMetrics && (
       <CaseStudySection label="Impact" title="Impact & Outcomes" icon={<BarChart3 className="h-4 w-4" />}>
-        <p className="mb-6">Beles successfully combines traditional dating methods with modern technology to create a genuine and safe user experience.</p>
+        <p className="mb-6">Two rounds of usability testing with the same 8 participants, plus a 5-person follow-up on the navigation, showed what changed between the first prototype and the last.</p>
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
           {project.validationMetrics.map((m, i) => (
             <Card key={i} className="border-accent/30 bg-accent/5">
@@ -323,16 +307,16 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
     )}
 
     {/* Next Steps */}
-    <CaseStudySection label="Next Steps" title="Taking Beles to the Next Level" icon={<Rocket className="h-4 w-4" />}>
-      <p className="mb-6">Let's take this Shmagele app to the next level! The vision is to:</p>
+    <CaseStudySection label="Next Steps" title="What comes next" icon={<Rocket className="h-4 w-4" />}>
+      <p className="mb-6">To move Beles from prototype to product, the plan is to:</p>
       <ul className="space-y-3">
         {[
           "Gather continuous user feedback through beta testing with the Tigrayan community",
           "Make data-driven decisions by tracking key metrics like match rates, event attendance, and user engagement",
-          "Add more cultural spice, considering features like Tigrinya language support, cultural compatibility quizzes, and virtual event hosting",
+          "Deepen the cultural layer with Tigrinya language support, cultural compatibility quizzes, and virtual event hosting",
           "Involve the engineering team early to ensure technical feasibility and smooth implementation",
           "Develop a strategic launch plan that leverages community leaders and cultural organizations",
-          "Never stop iterating for a seamless user experience that truly serves the community",
+          "Keep iterating with the community after launch",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-3">
             <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
@@ -346,11 +330,6 @@ const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
     <CaseStudySection label="Conclusion" title="More Than Just a Dating App" icon={<Heart className="h-4 w-4" />}>
       <p className="mb-4">Beles represents more than just a dating app. It's a lifeline for a diaspora community seeking connection during one of the darkest periods in Tigrayan history. By honoring traditional matchmaking practices while embracing modern technology, Beles creates a space where culture is preserved, relationships are formed, and community is strengthened.</p>
       <p className="mb-6">This project challenged me to think beyond conventional design patterns and consider the unique needs of a specific cultural community. It taught me that great design requires empathy, cultural humility, and a willingness to learn from users at every step of the process.</p>
-      <Card className="border-accent/30 bg-accent/5">
-        <CardContent className="p-5 text-center">
-          <p className="text-foreground font-medium italic">Join the Beles revolution and see for yourself the power of connection, cultural preservation, and community growth through thoughtful design.</p>
-        </CardContent>
-      </Card>
 
       {/* Appendix Images - only onboarding & profile screens, not feature screens */}
       {project.appendixImages && project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").length > 0 && (

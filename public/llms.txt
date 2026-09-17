@@ -1,18 +1,18 @@
-# Huruy Kidanemariam — Senior UX Designer & Builder
+# Huruy Kidanemariam, Senior UX Designer & Builder
 
-> Portfolio of Huruy Kidanemariam, a Senior UX Designer and Builder crafting accessible, human-centered products for enterprise and social impact, with 8+ years of experience and 12M+ users impacted.
+> Portfolio of Huruy Kidanemariam, a Senior UX Designer and Builder in Los Angeles crafting accessible, human-centered products for enterprise SaaS, compliance, AI, and social impact, with 8+ years of experience.
 
 ## Pages
 
-- [Home](/): Featured UX case studies, skills, and overview.
-- [About](/about): Background, expertise, and a UX trivia game.
-- [Resume](/resume): Work history, education, and downloadable resume.
-- [Contact](/contact): Get in touch about UX design and product work.
+- [Home](https://huruy.tech/): Featured UX case studies, skills, and overview.
+- [Hire a Senior UX Designer](https://huruy.tech/senior-ux-designer): Availability, industries, what hiring teams get, and FAQ.
+- [About](https://huruy.tech/about): Background, experience, and expertise.
+- [Resume](https://huruy.tech/resume): Work history and downloadable resume.
+- [Contact](https://huruy.tech/contact): Get in touch about senior UX roles and product design work.
 
 ## Case Studies
 
-- [Asure Compliance Engine](/project/asure-compliance): Onsite redesign of an enterprise payroll compliance engine serving 9,000+ tax agencies.
-- [OneAsure Portal](/project/oneasure-portal): Unifying enterprise HR (time, benefits, payroll) into a single portal.
-- [EBT Finder](/project/ebtfinder): Review-first store locator for 12M+ SNAP/EBT users.
-- [Beles](/project/beles): Culturally rooted dating and community app for the Tigrayan diaspora.
-- [FentFinder](/project/fentfinder): Harm-reduction tool for locating fentanyl test resources.
+- [EBT Finder](https://huruy.tech/project/ebtfinder): Review-first store locator for SNAP/EBT households, researched, designed, built, and shipped solo to the App Store.
+- [OneAsure Portal](https://huruy.tech/project/oneasure-portal): Unifying enterprise HR (time, benefits, payroll) into a single portal.
+- [Beles](https://huruy.tech/project/beles): Culturally rooted dating and community app for the Tigrayan diaspora.
+- [Asure Compliance Engine](https://huruy.tech/project/asure-compliance): Onsite redesign of an enterprise payroll compliance engine serving 9,000+ tax agencies. Full narrative available by request.

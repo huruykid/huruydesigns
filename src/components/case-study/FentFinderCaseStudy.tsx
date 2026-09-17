@@ -374,7 +374,7 @@ const FentFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         <div className="grid sm:grid-cols-2 gap-4">
           {project.appendixImages.map((img, i) => (
             <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} />
+              <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} />
               <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
             </div>
           ))}

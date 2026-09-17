@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Search, Lightbulb, ChevronRight, Target, Users, MessageSquareQuote, Rocket, Palette, BarChart3, ImageIcon, Heart } from "lucide-react";
+import { AlertTriangle, Search, Lightbulb, ChevronRight, Target, Users, MessageSquareQuote, Rocket, Palette, BarChart3, ImageIcon, Heart, Smartphone } from "lucide-react";
+import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
@@ -15,6 +16,22 @@ interface Props {
 
 const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
   <>
+    {/* Section 1: Shipped */}
+    {project.shipped && (
+      <CaseStudySection label="Shipped" title="From prototype to the App Store" icon={<Smartphone className="h-4 w-4" />}>
+        <p className="mb-6">{project.shipped.summary}</p>
+        <dl className="grid sm:grid-cols-2 gap-4 mb-6">
+          {project.shipped.facts.map((f) => (
+            <div key={f.label} className="rounded-lg border border-border bg-card/50 p-4">
+              <dt className="text-xs font-semibold text-accent uppercase tracking-wide mb-1">{f.label}</dt>
+              <dd className="text-sm text-foreground">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <AppStorePromoBanner project={project} placement="case_study_shipped" />
+      </CaseStudySection>
+    )}
+
     {/* Section 2: Problem & Context */}
     <CaseStudySection label="The Problem" title="Problem & Context" icon={<AlertTriangle className="h-4 w-4" />}>
       <p className="mb-4">{project.problem}</p>
@@ -112,7 +129,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         )}
         <ImageSlot slot="ebt-sign" label="SNAP/EBT Accepted sign in store" imageSrc={getSlotImage("ebt-sign")} />
         <p className="text-xs text-muted-foreground mt-2 italic">
-          We started with real voices. User interviews helped us understand what builds trust, what causes friction, and why a simple sign doesn't always mean a store is accessible or welcoming.
+          I started with real voices. The interviews showed me what builds trust, what causes friction, and why a sign in the window doesn't always mean a store is accessible or welcoming.
         </p>
       </CaseStudySection>
     )}
@@ -167,7 +184,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* Section 5: The Solution */}
     {project.solutionFeatures && (
-      <CaseStudySection label="The Solution" title="What we built" icon={<Rocket className="h-4 w-4" />}>
+      <CaseStudySection label="The Solution" title="What I built" icon={<Rocket className="h-4 w-4" />}>
         {project.goals && (
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {project.goals.map((g, i) => (
@@ -275,11 +292,13 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* Section 7: Impact & Validation */}
     {project.validationMetrics && (
-      <CaseStudySection label="Impact & Validation" title="Prototype Testing Results" icon={<BarChart3 className="h-4 w-4" />}>
-        <p className="mb-6">Even without launch, usability testing validated the concept:</p>
+      <CaseStudySection label="Impact & Validation" title="Prototype testing results" icon={<BarChart3 className="h-4 w-4" />}>
+        <p className="mb-6">
+          Before writing any production code, I ran moderated usability tests with 10 participants, each asked to find a hot food location near them in EBT Finder and in the USDA locator. These are the only numbers behind EBT Finder, and they all come from that session.
+        </p>
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          {project.validationMetrics.map((m, i) => (
-            <Card key={i} className="border-accent/30 bg-accent/5">
+          {project.validationMetrics.map((m) => (
+            <Card key={m.label} className="border-accent/30 bg-accent/5">
               <CardContent className="p-5 text-center">
                 <p className="text-3xl font-bold text-accent mb-1">{m.value}</p>
                 <p className="font-semibold text-foreground text-sm mb-1">{m.label}</p>
@@ -288,47 +307,23 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
             </Card>
           ))}
         </div>
-        <div className="rounded-xl border border-border bg-card/50 p-6">
-          <h3 className="font-bold text-foreground mb-6 text-center">EBT Finder vs. USDA SNAP Locator</h3>
-          <div className="space-y-5">
+        <figure className="rounded-xl border border-border bg-card/50 p-6">
+          <figcaption className="font-bold text-foreground mb-6 text-center">Time to find a hot food location (median, n=10)</figcaption>
+          <div className="space-y-3" role="img" aria-label="EBT Finder: 15 seconds. USDA SNAP locator: 180 seconds.">
             {[
-              { label: "Find hot food location", ebt: 15, usda: 180, unit: "sec", maxVal: 180 },
-              { label: "Mobile usability", ebt: 95, usda: 30, unit: "%", maxVal: 100 },
-              { label: "User satisfaction", ebt: 95, usda: 20, unit: "%", maxVal: 100 },
-              { label: "Trust & confidence", ebt: 80, usda: 25, unit: "%", maxVal: 100 },
-            ].map((row, i) => {
-              const ebtWidth = Math.max((row.ebt / row.maxVal) * 100, 8);
-              const usdaWidth = Math.max((row.usda / row.maxVal) * 100, 8);
-              return (
-                <div key={i}>
-                  <p className="text-sm font-medium text-foreground mb-2">{row.label}</p>
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-24 shrink-0">EBT Finder</span>
-                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
-                        <div
-                          className="h-full bg-accent rounded-full"
-                          style={{ width: `${ebtWidth}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-bold text-foreground w-16 shrink-0 text-right">{row.ebt}{row.unit}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground w-24 shrink-0">USDA Tool</span>
-                      <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden relative">
-                        <div
-                          className="h-full bg-muted-foreground/30 rounded-full"
-                          style={{ width: `${usdaWidth}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-bold text-muted-foreground w-16 shrink-0 text-right">{row.usda}{row.unit}</span>
-                    </div>
-                  </div>
+              { label: "EBT Finder", seconds: 15, bar: "bg-accent", text: "text-foreground" },
+              { label: "USDA locator", seconds: 180, bar: "bg-muted-foreground/30", text: "text-muted-foreground" },
+            ].map((row) => (
+              <div key={row.label} className="flex items-center gap-3">
+                <span className="text-xs text-muted-foreground w-24 shrink-0">{row.label}</span>
+                <div className="flex-1 h-6 bg-muted rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full ${row.bar}`} style={{ width: `${Math.max((row.seconds / 180) * 100, 8)}%` }} />
                 </div>
-              );
-            })}
+                <span className={`text-xs font-bold w-16 shrink-0 text-right ${row.text}`}>{row.seconds}s</span>
+              </div>
+            ))}
           </div>
-        </div>
+        </figure>
       </CaseStudySection>
     )}
 
@@ -422,7 +417,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         <div className="grid sm:grid-cols-2 gap-4">
           {project.appendixImages.map((img, i) => (
             <div key={i}>
-              <ImageSlot slot={img.slot} label={img.caption} aspectRatio="aspect-[4/3]" imageSrc={getSlotImage(img.slot)} />
+              <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} />
               <p className="text-xs text-muted-foreground mt-2 text-center">{img.caption}</p>
             </div>
           ))}
