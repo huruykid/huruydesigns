@@ -1,30 +1,42 @@
-import { ImageIcon } from "lucide-react";
+import { imageDimensions } from "@/lib/imageDimensions";
 
 interface ImageSlotProps {
   slot: string;
   label: string;
-  aspectRatio?: string;
   imageSrc?: string;
+  /** Above-the-fold images load eagerly; everything else is lazy. */
+  priority?: boolean;
+  width?: number;
+  height?: number;
 }
 
-const ImageSlot = ({ slot, label, aspectRatio = "aspect-video", imageSrc }: ImageSlotProps) => {
-  const descriptiveAlt = label && label.trim().split(/\s+/).length >= 2
-    ? `${label} — case study visual by Huruy Kidanemariam`
-    : `${label || "Case study"} visual from Huruy Kidanemariam's UX portfolio`;
-  if (imageSrc) {
-    return (
-      <div className="relative rounded-xl overflow-hidden border border-border bg-muted">
-        <img src={imageSrc} alt={descriptiveAlt} className="w-full max-h-[600px] object-contain" />
-      </div>
-    );
-  }
+/**
+ * A case-study image. Renders nothing when no image exists for the slot, so an
+ * unfilled slot never shows an empty placeholder box to visitors.
+ */
+const ImageSlot = ({ slot, label, imageSrc, priority = false, width, height }: ImageSlotProps) => {
+  if (!imageSrc) return null;
+
+  const descriptiveAlt =
+    label && label.trim().split(/\s+/).length >= 2
+      ? `${label}, case study visual by Huruy Kidanemariam`
+      : `${label || "Case study"} visual from Huruy Kidanemariam's UX portfolio`;
+  const dims = imageDimensions[imageSrc];
+  const w = width ?? dims?.width;
+  const h = height ?? dims?.height;
 
   return (
-    <div
-      className={`rounded-xl border-2 border-dashed border-border ${aspectRatio} bg-muted/30 flex flex-col items-center justify-center gap-3 p-6`}
-    >
-      <ImageIcon className="h-10 w-10 text-muted-foreground/40" />
-      <p className="text-sm font-medium text-muted-foreground">{label}</p>
+    <div className="relative rounded-xl overflow-hidden border border-border bg-muted" data-slot={slot}>
+      <img
+        src={imageSrc}
+        alt={descriptiveAlt}
+        width={w}
+        height={h}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        className="w-full max-h-[600px] object-contain"
+        style={w && h ? { aspectRatio: `${w} / ${h}` } : undefined}
+      />
     </div>
   );
 };
