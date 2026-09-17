@@ -44,7 +44,7 @@ const QUESTIONS: Question[] = [
     question: "Jakob's Law states users prefer…",
     choices: ["Unique layouts", "Sites that work like others they know", "Bright colors"],
     correctIndex: 1,
-    explanation: "Users spend most time on other sites — match expectations.",
+    explanation: "Users spend most of their time on other sites, so match their expectations.",
   },
   {
     question: "What is cognitive load?",
@@ -103,11 +103,11 @@ const QUESTIONS: Question[] = [
 ];
 
 const TITLES: { min: number; title: string; emoji: string }[] = [
-  { min: 5, title: "Senior UX Architect", emoji: "🏆" },
-  { min: 4, title: "UX Lead Material", emoji: "🌟" },
-  { min: 3, title: "Solid Mid-Level", emoji: "💪" },
-  { min: 2, title: "Junior Potential", emoji: "🌱" },
-  { min: 0, title: "Intern Energy", emoji: "😅" },
+  { min: 5, title: "Perfect score", emoji: "🏆" },
+  { min: 4, title: "Sharp instincts", emoji: "🌟" },
+  { min: 3, title: "Solid fundamentals", emoji: "💪" },
+  { min: 2, title: "Warming up", emoji: "🌱" },
+  { min: 0, title: "Worth another round", emoji: "🔁" },
 ];
 
 const getTitle = (score: number) =>
@@ -120,6 +120,16 @@ const shuffle = <T,>(arr: T[]): T[] => {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+};
+
+/** Reorders the choices so the correct answer lands in a random slot. */
+const shuffleChoices = (q: Question): Question => {
+  const order = shuffle(q.choices.map((_, i) => i));
+  return {
+    ...q,
+    choices: order.map((i) => q.choices[i]),
+    correctIndex: order.indexOf(q.correctIndex),
+  };
 };
 
 const CONFETTI_COLORS = ["#f59e0b", "#ef4444", "#10b981", "#3b82f6", "#8b5cf6", "#ec4899"];
@@ -157,7 +167,7 @@ const ConfettiBurst: React.FC = () => {
 
 type Phase = "intro" | "question" | "answered" | "result";
 
-const HeroPongGame: React.FC = () => {
+const UXTriviaQuiz: React.FC = () => {
   const [phase, setPhase] = useState<Phase>("intro");
   const [questionSet, setQuestionSet] = useState<Question[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -165,7 +175,7 @@ const HeroPongGame: React.FC = () => {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
 
   const startGame = useCallback(() => {
-    setQuestionSet(shuffle(QUESTIONS).slice(0, 5));
+    setQuestionSet(shuffle(QUESTIONS).slice(0, 5).map(shuffleChoices));
     setCurrentIdx(0);
     setScore(0);
     setSelectedChoice(null);
@@ -203,7 +213,7 @@ const HeroPongGame: React.FC = () => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.7, delay: 0.3 }}
-      className="hidden md:flex flex-col items-center shrink-0"
+      className="flex flex-col items-center shrink-0"
     >
       <div
         className="relative rounded-2xl overflow-hidden ring-4 ring-accent/30 shadow-2xl bg-background/50 backdrop-blur-sm flex flex-col items-center px-5 py-5 gap-3"
@@ -221,7 +231,7 @@ const HeroPongGame: React.FC = () => {
               : {}
           }
           transition={{ duration: 0.5 }}
-          className="w-16 h-16 rounded-full overflow-hidden ring-3 ring-accent/40 shadow-lg relative shrink-0"
+          className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-accent/40 shadow-lg relative shrink-0"
         >
           <img
             src={headshot}
@@ -249,8 +259,8 @@ const HeroPongGame: React.FC = () => {
           UX Trivia Challenge
         </p>
 
-        {/* Content area */}
-        <div className="flex-1 w-full flex flex-col items-center justify-center gap-3">
+        {/* Content area; announced to screen readers as the quiz advances */}
+        <div className="flex-1 w-full flex flex-col items-center justify-center gap-3" aria-live="polite">
           <AnimatePresence mode="wait">
             {/* INTRO */}
             {phase === "intro" && (
@@ -319,7 +329,7 @@ const HeroPongGame: React.FC = () => {
 
                     if (phase === "answered") {
                       if (isRight) {
-                        btnClass += "border-green-500/50 bg-green-500/10 text-green-400";
+                        btnClass += "border-green-600/50 bg-green-500/10 text-green-700 dark:text-green-400";
                       } else if (isSelected && !isRight) {
                         btnClass += "border-destructive/50 bg-destructive/10 text-destructive";
                       } else {
@@ -405,10 +415,10 @@ const HeroPongGame: React.FC = () => {
       </div>
 
       <p className="text-xs text-muted-foreground mt-3 text-center">
-        Test your UX knowledge 🧠
+        Five questions, drawn at random from fifteen
       </p>
     </motion.div>
   );
 };
 
-export default HeroPongGame;
+export default UXTriviaQuiz;

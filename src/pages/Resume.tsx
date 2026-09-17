@@ -1,85 +1,36 @@
-import { Download, Printer, Mail, Linkedin, ExternalLink, Globe, FileText } from "lucide-react";
-import { generateAndDownloadDocx } from "@/lib/generateResumeDocx";
+import { useState } from "react";
+import { Download, Printer, Mail, Linkedin, Globe, FileText, Loader2 } from "lucide-react";
 import headshot from "@/assets/huruy-headshot.jpg";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
-
-// ── Data ──
-
-const experience = [
-  { period: "Mar 2026 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft)", location: "Los Angeles, CA", bullets: [
-    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
-    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
-    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
-  ]},
-  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent)", location: "Los Angeles, CA", bullets: [
-    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns",
-    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand",
-    "Build production React interfaces that connect design decisions directly to working code",
-  ]},
-  { period: "Apr 2023 – Mar 2026", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
-    "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
-    "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
-    "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
-    "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",
-  ]},
-  { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE", location: "Los Angeles, CA", bullets: [
-    "Designed onboarding flows for VR-based English language learning experiences, improving learner retention",
-    "Developed Immerse's first content and design framework, establishing reusable guidelines for instructional designers",
-    "Conducted usability testing to identify linguistic friction points. Rewrote prompt sequences reducing user errors",
-    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical best practices",
-  ]},
-  { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
-    "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
-    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
-  ]},
-];
-
-const sideProjects = [
-  { title: "EBT Finder", description: "Designed a review-first SNAP/EBT store locator for 12M+ users. UX Research, Figma, Prototyping" },
-  { title: "Beles", description: "Designed a culturally authentic dating app for the Tigrayan diaspora community" },
-];
-
-const leadership = [
-  { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray", location: "Portland, OR", description: "Led storytelling and advocacy campaigns that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
-];
-
-const skillGroups = [
-  { label: "Design", skills: ["Figma", "Prototyping", "Wireframing", "Visual Design", "Design Systems", "Information Architecture", "Journey Mapping"] },
-  { label: "Research", skills: ["Usability Testing", "Heuristic Evaluation", "Competitive Analysis", "User Interviews"] },
-  { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
-  { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
-  { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] },
-];
-
-const contact = [
-  { icon: Mail, label: "huruydesigns@gmail.com", href: "mailto:huruydesigns@gmail.com" },
-  { icon: Linkedin, label: "linkedin.com/in/huruykidanemariam", href: "https://www.linkedin.com/in/huruykidanemariam/" },
-  { icon: Globe, label: "huruy.tech", href: "https://huruy.tech" },
-];
+import { PERSON } from "@/lib/seo";
+import { person, experience, sideProjects, leadership, skillGroups, contactLinks, resumePdfPath } from "@/lib/resume";
 
 const resumeJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Huruy Kidanemariam",
-  jobTitle: "Senior UX Designer",
-  url: "https://huruy.tech",
-  sameAs: [
-    "https://www.linkedin.com/in/huruykidanemariam/",
-    "https://huruy.tech",
-  ],
-  hasOccupation: [
-    { "@type": "Occupation", name: "Senior UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
-    { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Austin, TX" } },
-    { "@type": "Occupation", name: "UX Designer", occupationLocation: { "@type": "Place", name: "Los Angeles, CA" } },
-    { "@type": "Occupation", name: "Product Designer", occupationLocation: { "@type": "Place", name: "Oakland, CA" } },
-  ],
-  
+  ...PERSON,
+  hasOccupation: experience.map((job) => ({
+    "@type": "Occupation",
+    name: job.title,
+    occupationLocation: { "@type": "Place", name: job.location },
+  })),
 };
 
+const contactIcons = { email: Mail, linkedin: Linkedin, website: Globe } as const;
+
 const Resume = () => {
+  const [exporting, setExporting] = useState(false);
   const handlePrint = () => window.print();
+  // docx + file-saver are ~110 KB gzipped; load them only when someone asks for Word.
+  const handleWord = async () => {
+    setExporting(true);
+    try {
+      const { generateAndDownloadDocx } = await import("@/lib/generateResumeDocx");
+      await generateAndDownloadDocx();
+    } finally {
+      setExporting(false);
+    }
+  };
 
   return (
     <>
@@ -131,7 +82,7 @@ const Resume = () => {
 
           /* Scale to fit one page */
           .resume-page > div {
-            zoom: 0.8;
+            zoom: 0.72;
           }
           
 
@@ -143,19 +94,19 @@ const Resume = () => {
       <div className="no-print container mx-auto px-4 pt-8 pb-4 max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight font-display">
               Resume
             </h1>
             <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="outline">
-              <a href="/resume/huruy-kidanemariam-resume.pdf" download>
+              <a href={resumePdfPath} download>
                 <Download className="h-4 w-4 mr-1" /> PDF
               </a>
             </Button>
-            <Button variant="outline" onClick={generateAndDownloadDocx}>
-              <FileText className="h-4 w-4 mr-1" /> Word
+            <Button variant="outline" onClick={handleWord} disabled={exporting}>
+              {exporting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <FileText className="h-4 w-4 mr-1" />} Word
             </Button>
             <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90 hidden sm:inline-flex">
               <Printer className="h-4 w-4 mr-1" /> Print
@@ -172,30 +123,33 @@ const Resume = () => {
           <div className="px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Huruy Kidanemariam
+                <h2 className="text-xl md:text-3xl font-bold tracking-tight font-display">
+                  {person.name}
                 </h2>
-                <p className="text-accent font-semibold mt-1 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  Senior UX Designer
+                <p className="text-accent font-semibold mt-1 print-accent font-display">
+                  {person.title}
                 </p>
                 <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
-                  {contact.map((c) => (
-                    <a
-                      key={c.label}
-                      href={c.href}
-                      target={c.href.startsWith("mailto") ? undefined : "_blank"}
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
-                    >
-                      <c.icon className="h-3.5 w-3.5 shrink-0" />
-                      {c.label}
-                    </a>
-                  ))}
+                  {contactLinks.map((c) => {
+                    const Icon = contactIcons[c.kind];
+                    return (
+                      <a
+                        key={c.label}
+                        href={c.href}
+                        target={c.href.startsWith("mailto") ? undefined : "_blank"}
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
+                      >
+                        <Icon className="h-3.5 w-3.5 shrink-0" />
+                        {c.label}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
               <img
                 src={headshot}
-                alt="Huruy Kidanemariam, UX Designer"
+                alt="Huruy Kidanemariam, Senior UX Designer"
                 className="h-20 w-20 rounded-full object-cover object-top border-2 border-accent/20 shrink-0"
               />
             </div>
@@ -209,7 +163,7 @@ const Resume = () => {
               
               {/* Skills */}
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent font-display">
                   Skills
                 </h3>
                 <div className="space-y-4">
@@ -231,7 +185,7 @@ const Resume = () => {
 
               {/* Side Projects */}
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent font-display">
                   Side Projects
                 </h3>
                 <div className="space-y-2.5">
@@ -250,19 +204,17 @@ const Resume = () => {
               
               {/* Summary */}
               <div className="resume-section mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-3 print-accent font-display">
                   Summary
                 </h3>
-                <p className="text-sm text-foreground leading-relaxed">
-                  Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.
-                </p>
+                <p className="text-sm text-foreground leading-relaxed">{person.summary}</p>
               </div>
 
               <hr className="border-border resume-divider mb-6" />
 
               {/* Experience */}
               <div className="resume-section mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-5 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-5 print-accent font-display">
                   Experience
                 </h3>
                 <div className="space-y-6">
@@ -291,7 +243,7 @@ const Resume = () => {
 
               {/* Design Leadership */}
               <div className="resume-section">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent font-display">
                   Design Leadership
                 </h3>
                 {leadership.map((item, i) => (
