@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
 
+type Theme = "light" | "dark";
+
+/**
+ * The inline script in index.html applies the saved or OS preference before first
+ * paint, so React only needs to read the resulting class, never guess.
+ */
+const readInitialTheme = (): Theme => {
+  if (typeof document === "undefined") return "light";
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+};
+
 export function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      return document.documentElement.classList.contains("dark") ? "dark" : "light";
-    }
-    return "light";
-  });
+  const [theme, setTheme] = useState<Theme>(readInitialTheme);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
+    root.classList.toggle("dark", theme === "dark");
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      /* private mode or storage disabled: theme still applies for this page view */
     }
-    localStorage.setItem("theme", theme);
   }, [theme]);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-    if (saved) setTheme(saved);
-    else if (window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
-  }, []);
 
   return { theme, toggle: () => setTheme((t) => (t === "dark" ? "light" : "dark")) };
 }

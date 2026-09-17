@@ -14,7 +14,7 @@ const CaseStudySection = ({ label, title, icon, children, className = "" }: Case
       {icon && <span className="text-accent">{icon}</span>}
       <p className="text-accent font-semibold text-sm tracking-wide uppercase">{label}</p>
     </div>
-    <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{title}</h2>
+    <h2 className="text-2xl sm:text-3xl font-bold mb-6 font-display">{title}</h2>
     <div className="text-muted-foreground leading-relaxed">{children}</div>
   </motion.div>
 );

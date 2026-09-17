@@ -144,6 +144,7 @@ const EBTSearchDemo = () => {
             <div style={{ height: 100, background: stores[selectedStore].gradient, position: "relative" }}>
               <button
                 onClick={() => setSelectedStore(null)}
+                aria-label="Back to results"
                 style={{ position: "absolute", top: 8, left: 8, background: "rgba(255,255,255,0.9)", border: "none", borderRadius: "50%", width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <ChevronLeft size={14} color="#2d8a4e" />
