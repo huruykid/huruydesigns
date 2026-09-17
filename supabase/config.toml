@@ -1,4 +1,9 @@
 project_id = "ruxlxlalvwchyngftttv"
 
+# Called from the browser with the publishable key; the function validates the Origin
+# header and rate-limits per IP itself.
 [functions.portfolio-chat]
+verify_jwt = false
+
+[functions.verify-passcode]
 verify_jwt = false

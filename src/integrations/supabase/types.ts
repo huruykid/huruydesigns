@@ -14,39 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      access_requests: {
-        Row: {
-          approval_token: string
-          created_at: string
-          email: string
-          id: string
-          name: string
-          project_id: string
-          status: string
-          token: string
-        }
-        Insert: {
-          approval_token?: string
-          created_at?: string
-          email: string
-          id?: string
-          name: string
-          project_id?: string
-          status?: string
-          token?: string
-        }
-        Update: {
-          approval_token?: string
-          created_at?: string
-          email?: string
-          id?: string
-          name?: string
-          project_id?: string
-          status?: string
-          token?: string
-        }
-        Relationships: []
-      }
       case_study_images: {
         Row: {
           created_at: string
@@ -68,12 +35,51 @@ export type Database = {
         }
         Relationships: []
       }
+      gated_content: {
+        Row: {
+          content: Json
+          project_id: string
+          updated_at: string
+        }
+        Insert: {
+          content: Json
+          project_id: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          project_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rate_limits: {
+        Row: {
+          count: number
+          key: string
+          window_start: string
+        }
+        Insert: {
+          count?: number
+          key: string
+          window_start?: string
+        }
+        Update: {
+          count?: number
+          key?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_rate_limit: {
+        Args: { p_key: string; p_limit: number; p_window_seconds: number }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
