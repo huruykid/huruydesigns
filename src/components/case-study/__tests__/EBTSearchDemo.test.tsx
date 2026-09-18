@@ -3,21 +3,26 @@ import { describe, it, expect } from "vitest";
 import EBTSearchDemo from "../EBTSearchDemo";
 
 describe("EBTSearchDemo", () => {
-  it("renders the store list initially", () => {
+  it("lists every store until a filter is chosen", () => {
     render(<EBTSearchDemo />);
     expect(screen.getByText("Dalle Kitchen")).toBeInTheDocument();
     expect(screen.getByText("Green Valley Market")).toBeInTheDocument();
+    expect(screen.getByText("4 places near you")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "All" })).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("navigates to a store's details and back", async () => {
+  it("filters the results when a category pill is pressed", async () => {
     render(<EBTSearchDemo />);
-    fireEvent.click(screen.getAllByText("VIEW DETAILS")[0]);
+    fireEvent.click(screen.getByRole("button", { name: "Hot Food" }));
 
-    // The detail view animates in; wait for it rather than asserting synchronously.
-    expect(await screen.findByText("Open Now")).toBeInTheDocument();
-    expect(screen.queryByText("VIEW DETAILS")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Hot Food" })).toHaveAttribute("aria-pressed", "true");
+    expect(await screen.findByText("1 place near you")).toBeInTheDocument();
+    expect(screen.getByText("Dalle Kitchen")).toBeInTheDocument();
+    // Exit animations run in AnimatePresence; wait for the grocery card to leave.
+    await new Promise((r) => setTimeout(r, 400));
+    expect(screen.queryByText("Green Valley Market")).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /back to results/i }));
-    expect((await screen.findAllByText("VIEW DETAILS")).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "All" }));
+    expect(await screen.findByText("4 places near you")).toBeInTheDocument();
   });
 });

@@ -21,11 +21,11 @@ test.describe("EBT Finder case study", () => {
     await expect(page.getByRole("heading", { name: "From prototype to the App Store" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Problem & Context" })).toBeVisible();
 
-    // Interactive demo inside the hero shell.
-    const viewDetails = page.getByRole("button", { name: /view details/i }).first();
-    await expect(viewDetails).toBeVisible();
-    await viewDetails.click();
-    await expect(page.getByText("Open Now").first()).toBeVisible();
+    // Interactive demo inside the hero shell: the category pills filter the results.
+    await expect(page.getByText("4 places near you")).toBeVisible();
+    await page.getByRole("button", { name: "Hot Food" }).click();
+    await expect(page.getByText("1 place near you")).toBeVisible();
+    await expect(page.getByText("Dalle Kitchen")).toBeVisible();
 
     // Every rendered image has intrinsic dimensions and actually loaded.
     const images = page.locator("main img");
