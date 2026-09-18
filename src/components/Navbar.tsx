@@ -1,14 +1,14 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, FileText } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 
 const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
-  { label: "Hire", path: "/senior-ux-designer" },
-  { label: "Contact", path: "/contact" },
+  { label: "Work", path: "/#work", match: "/" },
+  { label: "About", path: "/about", match: "/about" },
+  { label: "Resume", path: "/resume", match: "/resume" },
+  { label: "Contact", path: "/contact", match: "/contact" },
 ];
 
 const Navbar = () => {
@@ -51,7 +51,7 @@ const Navbar = () => {
     </Button>
   );
 
-  const isActive = (path: string) => location.pathname === path || (path === "/senior-ux-designer" && location.pathname === "/hire");
+  const isActive = (match: string) => location.pathname === match;
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border print:hidden">
@@ -66,21 +66,13 @@ const Navbar = () => {
             <Link
               key={l.path}
               to={l.path}
-              aria-current={isActive(l.path) ? "page" : undefined}
-              className={`text-sm font-medium transition-colors hover:text-accent ${isActive(l.path) ? "text-accent" : "text-muted-foreground"}`}
+              aria-current={isActive(l.match) ? "page" : undefined}
+              className={`text-sm font-medium transition-colors hover:text-accent ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
             >
               {l.label}
             </Link>
           ))}
           {themeButton}
-          <Button asChild size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent">
-            <Link to="/resume">
-              <FileText className="h-4 w-4 mr-1" aria-hidden="true" /> Resume
-            </Link>
-          </Button>
-          <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link to="/contact">Contact</Link>
-          </Button>
         </div>
 
         {/* Mobile toggle */}
@@ -104,25 +96,17 @@ const Navbar = () => {
       {/* Mobile menu */}
       {open && (
         <nav id={menuId} className="md:hidden bg-background border-b border-border animate-fade-in" aria-label="Mobile">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
+          <div className="container mx-auto px-4 py-2 flex flex-col">
             {navLinks.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
-                aria-current={isActive(l.path) ? "page" : undefined}
-                className={`text-sm font-medium py-2 min-h-11 flex items-center ${isActive(l.path) ? "text-accent" : "text-muted-foreground"}`}
+                aria-current={isActive(l.match) ? "page" : undefined}
+                className={`text-base font-medium min-h-12 flex items-center ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
               >
                 {l.label}
               </Link>
             ))}
-            <Button asChild size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 hover:text-accent w-fit min-h-11">
-              <Link to="/resume">
-                <FileText className="h-4 w-4 mr-1" aria-hidden="true" /> Resume
-              </Link>
-            </Button>
-            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit min-h-11">
-              <Link to="/contact">Contact</Link>
-            </Button>
           </div>
         </nav>
       )}

@@ -9,12 +9,10 @@ export interface PrerenderRoute {
 
 /**
  * Every public route the build prerenders to its own HTML file and, when it has a
- * priority, lists in sitemap.xml. Hidden projects, /hire (redirects), /resume/alt
- * and /og are deliberately absent.
+ * priority, lists in sitemap.xml. Hidden projects, the old hire URLs (redirect home) and /og are deliberately absent.
  */
 export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/", priority: 1.0, changefreq: "monthly" },
-  { path: "/senior-ux-designer", priority: 0.9, changefreq: "monthly" },
   { path: "/about", priority: 0.8, changefreq: "monthly" },
   { path: "/resume", priority: 0.8, changefreq: "monthly" },
   { path: "/contact", priority: 0.7, changefreq: "yearly" },

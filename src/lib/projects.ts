@@ -317,6 +317,7 @@ export const projects: Project[] = [
     ],
     outcomeMetrics: "Live on the App Store and at ebtfinder.org: 264,000+ EBT-accepting locations across 53 states and territories, about 318 real US users a week on the web app, and a release process rebuilt after a 13-build TestFlight cycle. Before code, moderated testing with 10 participants: 9 found a hot food location in under 15 seconds and all 10 preferred it to the USDA locator.",
     image: "/images/ebtfinder/hero-mockup.webp",
+    ogImage: "/images/ebtfinder/hero-mockup.webp",
   },
   {
     id: "asure-compliance",
@@ -340,7 +341,7 @@ export const projects: Project[] = [
       { value: "1:1", label: "UI state to backend state, no silent changes" },
     ],
     outcomeMetrics: "Eliminated silent state changes, made entity relationships visible, and gave the product an audit-ready revision lifecycle. Full narrative available by request.",
-    image: "/placeholder.svg",
+    image: "/images/asure/cover.svg",
   },
   {
     id: "capital-group-research",

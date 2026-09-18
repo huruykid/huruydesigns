@@ -4,9 +4,8 @@
 
 ## Pages
 
-- [Home](https://huruy.tech/): Featured UX case studies, skills, and overview.
-- [Hire a Senior UX Designer](https://huruy.tech/senior-ux-designer): Availability, industries, what hiring teams get, and FAQ.
-- [About](https://huruy.tech/about): Background, experience, and expertise.
+- [Home](https://huruy.tech/): Three featured case studies, availability for senior UX roles, and contact.
+- [About](https://huruy.tech/about): Background, experience, and how Huruy works (design reviews, disagreement with engineering, mentoring).
 - [Resume](https://huruy.tech/resume): Work history and downloadable resume.
 - [Contact](https://huruy.tech/contact): Get in touch about senior UX roles and product design work.
 

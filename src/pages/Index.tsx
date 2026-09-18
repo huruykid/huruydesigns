@@ -1,183 +1,146 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Linkedin, Mail, Palette, Search, Code, Users, FileText, Sparkles, type LucideIcon } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import ProjectCard from "@/components/ProjectCard";
 import { publicProjects } from "@/lib/projects";
-import { person, skillGroups } from "@/lib/resume";
+import { person, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 
-const skillIcons: Record<string, LucideIcon> = {
-  Design: Palette,
-  Research: Search,
-  Development: Code,
-  Collaboration: Users,
-  AI: Sparkles,
-};
-
+const FEATURED = ["ebtfinder", "asure-compliance", "capital-group-research"];
 const visibleProjects = publicProjects();
+const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
+const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
 
-const personJsonLd = { "@context": "https://schema.org", ...PERSON };
+const proofPoints = [
+  { value: "8+ years", label: "enterprise UX: payroll compliance, HR platforms, financial research" },
+  { value: "Shipped", label: "a consumer app I researched, designed, built and released myself" },
+  { value: "Now", label: `AI-assisted research tools for analysts at ${person.currentEmployer}` },
+];
 
-const portfolioJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Senior UX Design Portfolio, Huruy Kidanemariam",
-  itemListElement: visibleProjects.map((p, i) => ({
-    "@type": "ListItem",
-    position: i + 1,
-    item: {
-      "@type": "CreativeWork",
-      name: p.title,
-      description: p.description,
-      url: absoluteUrl(`/project/${p.id}`),
-      author: PERSON_REF,
-    },
-  })),
-};
+const hiringFacts = [
+  "Senior UX, senior product design and staff UX roles: full-time, contract or consulting.",
+  `Based in ${person.location}. Remote, hybrid or relocation.`,
+  "I reply to hiring emails within one business day.",
+];
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Huruy Kidanemariam, Senior UX Designer Portfolio",
-  url: SITE_URL,
-  author: PERSON_REF,
-};
+const jsonLd = [
+  { "@context": "https://schema.org", ...PERSON },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Senior UX Design Portfolio, Huruy Kidanemariam",
+    itemListElement: visibleProjects.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: { "@type": "CreativeWork", name: p.title, description: p.description, url: absoluteUrl(`/project/${p.id}`), author: PERSON_REF },
+    })),
+  },
+  { "@context": "https://schema.org", "@type": "WebSite", name: "Huruy Kidanemariam, Senior UX Designer Portfolio", url: SITE_URL, author: PERSON_REF },
+];
 
 const Index = () => (
   <>
     <SEO
-      title="Huruy Kidanemariam | Senior UX Designer & Builder, Los Angeles"
+      title="Huruy Kidanemariam | Senior UX Designer, Los Angeles"
       description={person.positioning}
       path="/"
       imageAlt="Huruy Kidanemariam, Senior UX Designer and Builder portfolio"
-      jsonLd={[personJsonLd, portfolioJsonLd, websiteJsonLd]}
+      jsonLd={jsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }]}
     />
-    {/* Hero */}
-    <section className="min-h-[50vh] flex items-center relative overflow-hidden">
-      <div className="container mx-auto px-4 py-10 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl"
-        >
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">{person.tagline}</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-4 font-display">
+
+    {/* Hero: the 60-second scan */}
+    <section className="py-16 sm:py-24">
+      <div className="container mx-auto px-4">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
+          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">{person.name}, {person.title}</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 font-display">
             I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
-            <span className="sr-only"> {person.name}, Senior UX Designer.</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mb-2 leading-relaxed">
-            {person.name}. {person.yearsExperience} years across payroll compliance, HR platforms and financial research tools, plus a consumer app I shipped myself. I do the research, make the calls, and can build the thing.
-          </p>
-          <p className="text-sm text-foreground/80 max-w-xl mb-4">
-            Now: AI-assisted research tools for investment analysts at <span className="font-semibold text-foreground">{person.currentEmployer}</span>.
-          </p>
-          <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
-            <Link
-              to="/senior-ux-designer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:bg-accent/20"
-            >
-              <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-              </span>
-              Open to senior UX opportunities
-            </Link>
-            <span className="font-medium text-foreground">{person.yearsExperience} years experience</span>
-            <span className="text-accent" aria-hidden="true">•</span>
-            <span className="font-medium text-foreground">Shipped to the App Store</span>
-            <span className="text-accent" aria-hidden="true">•</span>
-            <span className="font-medium text-foreground">{person.location}</span>
-            <span className="text-accent" aria-hidden="true">•</span>
-            <span className="font-medium text-foreground">Open to remote or hybrid</span>
-          </div>
-          <div className="mb-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
-            <Button
-              asChild
-              size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px] justify-center w-full sm:w-auto"
-            >
-              <a href="#projects">
-                View my work <ArrowDown className="h-4 w-4 ml-1" aria-hidden="true" />
+          <dl className="mb-8 grid gap-3 sm:grid-cols-3">
+            {proofPoints.map((p) => (
+              <div key={p.value} className="rounded-lg border border-border bg-card p-4">
+                <dt className="text-lg font-bold text-foreground font-display">{p.value}</dt>
+                <dd className="mt-1 text-sm text-muted-foreground">{p.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px]">
+              <a href="#work">
+                See the work <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
               </a>
             </Button>
-            <Button asChild size="lg" variant="outline" className="min-w-[200px] justify-center w-full sm:w-auto">
-              <Link to="/resume">
-                <FileText className="h-4 w-4 mr-1" aria-hidden="true" /> Resume
-              </Link>
+            <Button asChild size="lg" variant="outline" className="min-w-[200px]">
+              <a href={resumePdfPath} download>Download resume</a>
             </Button>
-            <Button asChild size="lg" variant="link" className="w-full text-muted-foreground hover:text-accent sm:w-auto">
-              <Link to="/contact?role=senior-ux-designer">
-                <Mail className="h-4 w-4" aria-hidden="true" /> Email Huruy
-              </Link>
-            </Button>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <a href={person.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
-              <Linkedin className="h-4 w-4" aria-hidden="true" />
-              {person.linkedinLabel}
-            </a>
-            <a href={`mailto:${person.email}`} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors">
-              <Mail className="h-4 w-4" aria-hidden="true" />
-              {person.email}
-            </a>
           </div>
         </motion.div>
       </div>
     </section>
 
-    {/* Projects */}
-    <section id="projects" className="py-12 bg-muted/30 scroll-mt-16">
+    {/* Work */}
+    <section id="work" className="py-16 bg-muted/30 scroll-mt-16" aria-labelledby="work-heading">
       <div className="container mx-auto px-4">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mb-12">
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Selected Work</p>
-          <h2 className="text-3xl sm:text-4xl font-bold font-display">Featured Projects</h2>
-        </motion.div>
-        <div className="grid gap-6 md:auto-rows-fr md:grid-cols-2">
-          {visibleProjects.map((project, index) => (
+        <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Selected work</p>
+            <h2 id="work-heading" className="text-3xl sm:text-4xl font-bold font-display">Three case studies</h2>
+          </div>
+          <p className="max-w-md text-sm text-muted-foreground">
+            Each one opens with a summary you can read in a minute, then the decisions and what I turned down.
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {featured.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
+        {moreWork.length > 0 && (
+          <div className="mt-10">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-3">More work</h3>
+            <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-8">
+              {moreWork.map((p) => (
+                <li key={p.id}>
+                  <Link to={`/project/${p.id}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-foreground hover:text-accent">
+                    {p.title}
+                    <span className="text-muted-foreground font-normal">{p.impact}</span>
+                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
 
-    {/* Skills & Tools */}
-    <section className="py-20">
+    {/* Hiring */}
+    <section id="hire" className="py-16 scroll-mt-16" aria-labelledby="hire-heading">
       <div className="container mx-auto px-4">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-10">
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Skills & Tools</p>
-          <h2 className="text-2xl font-bold font-display">What I Work With</h2>
-        </motion.div>
-        <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {skillGroups.map((group, i) => {
-            const Icon = skillIcons[group.label] ?? Sparkles;
-            return (
-              <motion.div
-                key={group.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="h-full"
-              >
-                <Card className="h-full rounded-lg border-border transition-colors duration-300 hover:border-accent/30">
-                  <CardContent className="flex h-full flex-col p-5 sm:p-6">
-                    <Icon className="mb-3 h-5 w-5 text-accent" aria-hidden="true" />
-                    <h3 className="mb-3 text-lg font-bold leading-7">{group.label}</h3>
-                    <ul className="flex flex-wrap gap-2" aria-label={`${group.label} skills`}>
-                      {group.skills.map((skill) => (
-                        <li key={skill} className="rounded-full bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground">{skill}</li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            );
-          })}
+        <div className="max-w-3xl rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-10">
+          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Hiring?</p>
+          <h2 id="hire-heading" className="text-2xl sm:text-3xl font-bold mb-4 font-display">Open to senior UX roles</h2>
+          <ul className="mb-6 space-y-2 text-muted-foreground">
+            {hiringFacts.map((f) => (
+              <li key={f} className="flex items-start gap-2">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link to="/contact?role=senior-ux-designer">
+                <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/about">How I work</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

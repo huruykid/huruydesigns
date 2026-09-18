@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { Download, Briefcase, Rocket, Sparkles, Compass, MessageSquare, GitBranch, Users } from "lucide-react";
+import { Download, Briefcase, Compass, MessageSquare, GitBranch, Users, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
 import { PERSON } from "@/lib/seo";
-import { person, experience, leadership, skillGroups, resumePdfPath } from "@/lib/resume";
+import { person, experience, leadership, resumePdfPath } from "@/lib/resume";
+import { testimonials } from "@/lib/testimonials";
 
 const PAGE_DESC = `${person.positioning} Currently designing research tools for investment analysts at ${person.currentEmployer}.`;
 
@@ -76,12 +77,10 @@ const About = () => (
             <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">About Me</p>
             <h1 className="text-4xl font-bold mb-6 font-display">About Huruy Kidanemariam</h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              {person.positioning} Currently designing research and analysis tools for investment analysts at {person.currentEmployer}.
-              Previously led UX and content strategy at Asure Software, where I simplified complex compliance and technical
-              workflows into coherent, human-centered interfaces. I partner with product, engineering, and legal teams on
-              clear messaging, conversational design, and scalable design systems. I'm drawn to projects where good design
-              removes barriers, whether that means making enterprise software less frustrating or helping underserved
-              communities access the tools they deserve. Design, for me, is about dignity.
+              {person.positioning} Currently designing research and analysis tools for investment analysts at {person.currentEmployer};
+              before that, payroll compliance and HR platforms at Asure Software. I'm drawn to products where good design removes
+              a barrier, whether that's enterprise software that stops punishing its users or a tool that helps people find food
+              with dignity. I design in code when a working prototype settles an argument a deck can't.
             </p>
 
             {/* Experience */}
@@ -136,47 +135,6 @@ const About = () => (
               ))}
             </div>
 
-            {/* In the Field */}
-            <div className="mb-12">
-              <h2 className="text-xl font-bold flex items-center gap-2 mb-4 font-display">
-                <Rocket className="h-5 w-5 text-accent" aria-hidden="true" /> In the Field
-              </h2>
-              <div className="space-y-3">
-                {[
-                  { lead: "8+ years in the field,", rest: "designing and shipping real products across enterprise, SaaS, and consumer." },
-                  { lead: "Shipped EBT Finder solo,", rest: "from a 4-week research sprint to a live app on the App Store." },
-                  { lead: "I design in code, not just mockups.", rest: "Working React prototypes settle arguments that decks can't." },
-                ].map((item) => (
-                  <div key={item.lead} className="flex gap-4">
-                    <div className="w-3 h-3 rounded-full bg-accent mt-1.5 shrink-0" />
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-semibold text-foreground">{item.lead}</span> {item.rest}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Expertise */}
-            <div>
-              <h2 className="text-xl font-bold flex items-center gap-2 mb-6 font-display">
-                <Sparkles className="h-5 w-5 text-accent" aria-hidden="true" /> Expertise
-              </h2>
-              <div className="space-y-5">
-                {skillGroups.map((g) => (
-                  <div key={g.label}>
-                    <p className="font-semibold text-sm mb-2">{g.label}</p>
-                    <ul className="flex flex-wrap gap-2" aria-label={`${g.label} skills`}>
-                      {g.skills.map((s) => (
-                        <li key={s} className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
-                          {s}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>
@@ -203,6 +161,28 @@ const About = () => (
         </div>
       </div>
     </section>
+    {/* Renders only once real quotes exist in src/lib/testimonials.ts */}
+    {testimonials.length > 0 && (
+      <section className="py-20 border-t border-border/50" aria-labelledby="testimonials-heading">
+        <div className="container mx-auto px-4">
+          <h2 id="testimonials-heading" className="text-3xl font-bold mb-8 font-display">From people I've worked with</h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.name + t.context} className="flex h-full flex-col rounded-lg border border-border bg-card p-6">
+                <Quote className="h-5 w-5 text-accent mb-4" aria-hidden="true" />
+                <blockquote className="flex-1 text-base leading-relaxed text-foreground">{t.quote}</blockquote>
+                <figcaption className="mt-5 text-sm">
+                  <span className="font-semibold text-foreground">
+                    {t.url ? <a href={t.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent">{t.name}</a> : t.name}
+                  </span>
+                  <span className="block text-muted-foreground">{t.role}, {t.context}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
   </>
 );
 

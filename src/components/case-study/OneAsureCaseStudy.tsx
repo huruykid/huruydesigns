@@ -5,7 +5,6 @@ import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
 import PayModuleDemo from "./PayModuleDemo";
-import BenefitsModuleDemo from "./BenefitsModuleDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Project } from "@/lib/projects";
@@ -97,32 +96,21 @@ const OneAsureCaseStudy = ({ project }: Props) => {
         </div>
       </CaseStudySection>
 
-      <CaseStudySection label="The Product" title="Two of the modules, as shipped" icon={<ClipboardList className="h-4 w-4" />}>
+      <CaseStudySection label="The Product" title="The Pay module, as shipped" icon={<ClipboardList className="h-4 w-4" />}>
+        <p className="mb-6 text-sm text-muted-foreground">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product.</p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-6 mb-10"
+          className="flex flex-col items-center mb-10"
         >
-          <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
-            <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Benefits Module</p>
-            <ResponsiveAppShell label="Benefits Module" desktopWidth={480} allowToggle>
-              <BenefitsModuleDemo layout={demoLayout} />
-            </ResponsiveAppShell>
-            <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
-              Open enrollment, life events and the full benefit list with plan details in one scrollable view.
-            </p>
-          </div>
-          <div className="flex flex-col items-center w-full sm:w-auto shrink-0">
-            <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Pay Module</p>
-            <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
-              <PayModuleDemo layout={demoLayout} />
-            </ResponsiveAppShell>
-            <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[280px] text-center">
-              Take-home pay, tax breakdowns, disbursements and pay history, replacing three separate logins.
-            </p>
-          </div>
+          <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
+            <PayModuleDemo layout={demoLayout} />
+          </ResponsiveAppShell>
+          <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[320px] text-center">
+            Take-home pay, tax breakdowns, disbursements and pay history, replacing three separate logins.
+          </p>
         </motion.div>
         <IterationTimeline />
       </CaseStudySection>

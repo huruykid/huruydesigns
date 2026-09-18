@@ -169,11 +169,15 @@ const ProjectPage = () => {
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
               </div>
-              {project.challenge && (
-                <div className="border-l-2 border-accent/40 pl-4 max-w-2xl">
-                  <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-1">The Challenge</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{project.challenge}</p>
-                </div>
+              {project.keyResults && (
+                <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl border-t border-border pt-4 mt-2">
+                  {project.keyResults.map((r) => (
+                    <div key={r.label}>
+                      <dd className="text-lg font-bold text-accent leading-6">{r.value}</dd>
+                      <dt className="text-xs text-muted-foreground leading-4 mt-0.5">{r.label}</dt>
+                    </div>
+                  ))}
+                </dl>
               )}
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">

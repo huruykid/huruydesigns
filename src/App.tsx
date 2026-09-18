@@ -22,7 +22,6 @@ const ProjectPage = lazy(() => import("./pages/ProjectPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const OGImage = lazy(() => import("./pages/OGImage"));
 const Resume = lazy(() => import("./pages/Resume"));
-const Hire = lazy(() => import("./pages/Hire"));
 
 const RouteFallback = () => (
   <div className="container mx-auto px-4 py-24" aria-busy="true" aria-live="polite">
@@ -57,8 +56,8 @@ export const AppRoutes = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/project/:id" element={<ProjectPage />} />
           <Route path="/resume" element={<Resume />} />
-          <Route path="/senior-ux-designer" element={<Hire />} />
-          <Route path="/hire" element={<Navigate to="/senior-ux-designer" replace />} />
+          <Route path="/senior-ux-designer" element={<Navigate to="/#hire" replace />} />
+          <Route path="/hire" element={<Navigate to="/#hire" replace />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/og" element={<OGImage />} />

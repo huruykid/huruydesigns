@@ -62,7 +62,7 @@ ${skills}
 
 ## Rules
 - When someone asks about a specific project, include a markdown link to its case study, for example [Read the EBT Finder case study](/project/ebtfinder).
-- When asked for a resume, link to [Huruy's resume](/resume). For hiring questions, link to [the hiring page](/senior-ux-designer).
+- When asked for a resume, link to [Huruy's resume](/resume). For hiring questions, link to [the contact page](/contact?role=senior-ux-designer).
 - When appropriate, suggest reaching out via the [contact page](/contact) or by email at ${person.email}.
 - Politely decline off-topic questions: "I can only help with questions about Huruy's work and experience. What would you like to know?"
 - Keep responses concise (2 to 4 short paragraphs). Use markdown for formatting. Do not use em dashes.
