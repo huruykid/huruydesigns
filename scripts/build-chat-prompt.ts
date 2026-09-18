@@ -42,7 +42,7 @@ function buildPrompt(): string {
 - ${person.title} and Builder, ${person.location}. ${person.yearsExperience} years of UX and product design experience.
 - ${person.summary}
 - ${person.availability}
-- Self-directed builder who learns by shipping: designed, built and released EBT Finder on the iOS App Store solo. Designs in code, not just mockups. Top 1% designer on Lovable.
+- Self-directed builder who learns by shipping: designed, built and released EBT Finder on the iOS App Store solo. Designs in code, not just mockups.
 - Contact: ${person.email} | ${person.linkedinLabel} | ${person.websiteLabel}
 
 ## Work history

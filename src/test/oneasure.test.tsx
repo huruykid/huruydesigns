@@ -39,7 +39,7 @@ describe("OneAsure project page", () => {
     renderPage();
     const h1 = await screen.findAllByRole("heading", { level: 1 });
     expect(h1.some((h) => h.textContent?.startsWith("OneAsure Portal"))).toBe(true);
-    expect(screen.getByText(/Fragmented systems, fractured workflows/i)).toBeInTheDocument();
+    expect(screen.getByText(/Three portals, three logins, one HR team/i)).toBeInTheDocument();
     expect(consoleErrorMock).not.toHaveBeenCalled();
   });
 

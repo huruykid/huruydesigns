@@ -1,16 +1,13 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Users, Lightbulb, Palette, BarChart3, Rocket, Heart, ChevronRight, Search, Target } from "lucide-react";
+import { AlertTriangle, Lightbulb, BarChart3, Search, Users, Rocket } from "lucide-react";
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
 import InterviewInsightCards from "./InterviewInsightCards";
 import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
-import EventCarousel from "./EventCarousel";
-import NotificationStack from "./NotificationStack";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
-import ImageSlot from "./ImageSlot";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -18,333 +15,101 @@ interface Props {
   getSlotImage: (slot: string) => string | undefined;
 }
 
-const BelesCaseStudy = ({ project, getSlotImage }: Props) => (
+/**
+ * Concept project, kept short and built around the decisions. Research scope: 8
+ * interviews, 8-person usability test in two rounds, 5-person navigation follow-up.
+ */
+
+const decisions = [
+  {
+    title: "Explain Shmagele inside the product, not around it",
+    body: "Traditional Tigrayan matchmaking works through trusted community members. The first prototype dropped that into the app as a feature name, and 3 of 8 testers didn't understand what it did or why they'd want it. I rejected the easy fix (rename it to something generic) because the tradition was the point. Instead I added an onboarding explainer, contextual tooltips, and a visible Shmagele score so the mechanism explained itself in use. Understanding went from 37.5% to 87.5% in the second round.",
+    rejected: "Renaming it \"Trusted Introductions\". Clearer to a Western reader, and it would have erased the thing that made the app worth building.",
+  },
+  {
+    title: "Serve people who want community more than dates",
+    body: "Interviews kept surfacing people like Semhal, a student who wanted to meet other Tigrayans and track community events but had no interest in dating right now. Half the women in testing said they'd use the app today if a non-dating mode existed. I added a Just Friends mode as a first-class toggle rather than a hidden setting, and put event discovery in the primary navigation.",
+    rejected: "Keeping it a dating app and treating events as a growth feature. Simpler positioning, and it would have excluded the users most eager to sign up.",
+  },
+  {
+    title: "Cut the navigation to what people actually used",
+    body: "All 8 testers called the first nav bar cluttered, even though they could find Events. I removed the icons nobody touched, tested three configurations with 5 people, and shipped the one where no participant flagged clutter.",
+    rejected: "Keeping every section reachable from the bar for discoverability. Testing showed it cost more than it gave.",
+  },
+];
+
+const BelesCaseStudy = ({ project }: Props) => (
   <>
-    {/* Problem & Context */}
-    <CaseStudySection label="The Problem" title="How can we empower Tigrayans to connect safely during a crisis?" icon={<AlertTriangle className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="A displaced community with nowhere to connect" icon={<Search className="h-4 w-4" />}>
       <p className="mb-6">{project.problem}</p>
-      {project.problemBullets && (
-        <ul className="space-y-2 mb-6">
-          {project.problemBullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <h3 className="font-bold text-foreground mb-3">Existing Solutions Fall Short</h3>
-      <p className="mb-4">Mainstream dating apps don't offer specific filters for Tigrayan ethnicity or cultural preferences. Here's how each one falls short:</p>
+      <p className="mb-4">Mainstream dating apps had no way to find other Tigrayans, and no concept of the matchmaking tradition the community already trusted.</p>
       <ExistingSolutionsComparison />
-      
     </CaseStudySection>
 
-    {/* Design Process */}
-    <CaseStudySection label="Design Process" title="User-Centered Design Across Six Phases" icon={<Users className="h-4 w-4" />}>
-      <p className="mb-6">I followed a user-centered design approach across six key phases:</p>
-
-      {/* Phase 1 */}
-      <div className="mb-10">
-        <h3 className="text-lg font-bold text-foreground mb-3">Phase 1: Empathize & Define</h3>
-        <p className="mb-3">I began by deeply understanding the unique challenges facing the Tigrayan diaspora. Through secondary research, I learned about:</p>
-        <ul className="space-y-2">
-          {[
-            "The humanitarian crisis in Tigray and its impact on the global community",
-            "Traditional Tigrayan courtship and matchmaking practices (Shmagele)",
-            "The importance of cultural preservation in diaspora communities",
-            "Existing gaps in dating apps for ethnicity-specific matching",
-          ].map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Phase 2 */}
-      <div className="mb-10">
-        <h3 className="text-lg font-bold text-foreground mb-3">Phase 2: User Research & Interviews</h3>
-        <p className="mb-3">During the ideation phase, I conducted in-depth user interviews to build personas and inform the design. Working with the team, I prepared an interview script with 18 open-ended questions focused on:</p>
-        <ul className="space-y-2 mb-4">
-          {[
-            "User values, motivations, and daily routines",
-            "Experiences with existing dating platforms",
-            "Attitudes toward traditional vs. modern matchmaking",
-            "Desires for community connection and event discovery",
-          ].map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <Target className="h-4 w-4 mt-1 text-accent shrink-0" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-        <Card className="border-accent/30 bg-accent/5">
-          <CardContent className="p-5">
-            <p className="text-sm font-semibold text-accent uppercase tracking-wide mb-2">Research Scope</p>
-            <ul className="space-y-1 text-sm">
-              <li>• 8 participants recruited and interviewed remotely over 4 days</li>
-              <li>• Ages 19-55 representing diverse life stages and experiences</li>
-              <li>• Mix of genders, occupations, and geographic locations across the Tigrayan diaspora</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <InterviewInsightCards />
-      </div>
+    <CaseStudySection label="The Hard Problem" title="Tradition inside a modern app, without flattening it" icon={<AlertTriangle className="h-4 w-4" />}>
+      <p className="mb-6">
+        The obvious product was a swipe app with an ethnicity filter. The interviews (8 people, ages 19 to 55, across the diaspora) pointed somewhere harder: people wanted the trust of traditional matchmaking, a way to stay close to community events, and in many cases connection without dating at all. The design problem was making those three things coexist in one product a 26-year-old and a 55-year-old would both understand.
+      </p>
+      <InterviewInsightCards />
     </CaseStudySection>
 
-    {/* Personas */}
-    <CaseStudySection label="Personas" title="Understanding Our Users" icon={<Users className="h-4 w-4" />}>
-      <p className="mb-6">To better understand user goals, needs, experiences, and behaviors, I created four detailed personas. These were continuously updated throughout the project.</p>
-      <div className="space-y-4 mb-6">
-        {[
-          {
-            name: "Kibrom, 32",
-            subtitle: "The Career-Focused Engineer",
-            bg: "Systems engineer who has recently begun working in his new field. Now that he's established in his career, he's ready to date.",
-            painPoint: "Mainstream dating apps don't allow him to specifically filter for other Tigrayans. He's committed to his heritage and wants a partner who understands his cultural values.",
-            quote: "I want to date a Tigrayan. It's an act of resistance. Dating apps in the marketplace don't allow me to do that since the Genocide began.",
-          },
-          {
-            name: "Semhal, 26",
-            subtitle: "The Community-Seeking Student",
-            bg: "Student at Texas Southern University who has been longing for ways to meet more Tigrayans in her area.",
-            painPoint: "While she doesn't necessarily want to date right now, she loves the idea of Tigrayans making new connections during such a turbulent time.",
-            quote: "I want to keep up-to-date on Tigrayan events in my area. It's difficult to find a dating app that caters to Tigrayans.",
-          },
-        ].map((persona, i) => (
-          <Card key={i} className="border-border bg-muted/30 overflow-hidden">
-            <CardContent className="p-6">
-              <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-1">{persona.subtitle}</p>
-              <h3 className="text-lg font-bold mb-3 text-foreground">{persona.name}</h3>
-              <p className="mb-2"><strong className="text-foreground">Background:</strong> {persona.bg}</p>
-              <p className="mb-3"><strong className="text-foreground">Pain Point:</strong> {persona.painPoint}</p>
-              <blockquote className="border-l-2 border-accent pl-4 italic text-foreground">"{persona.quote}"</blockquote>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      
-    </CaseStudySection>
-
-    {/* Wireframing & Iteration */}
-    <CaseStudySection label="Wireframing" title="Wireframing & Iteration" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">To ensure the app would meet the needs of users like Kibrom and Semhal, I began with paper wireframes, sketching several versions and keeping the one that best balanced user needs with the app's overall aesthetic.</p>
-      <div className="grid sm:grid-cols-2 gap-4 mb-6">
-        {[
-          { title: "Home Screen", desc: "Balanced between Shmagele matching and modern swipe features" },
-          { title: "Navigation", desc: "Bottom nav bar with Home, Matches, Events, and Profile sections" },
-          { title: "Event Discovery", desc: "Card-based layout showcasing Tigrayan festivals and community gatherings" },
-          { title: "Profile Customization", desc: "Sections for preferences, photos, and cultural information" },
-        ].map((item, i) => (
-          <Card key={i} className="border-border bg-card/50">
-            <CardContent className="p-5">
-              <h4 className="font-bold text-foreground mb-1">{item.title}</h4>
-              <p className="text-sm">{item.desc}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      
-    </CaseStudySection>
-
-    {/* Usability Testing */}
-    <CaseStudySection label="Usability Testing" title="Testing & Iteration" icon={<BarChart3 className="h-4 w-4" />}>
-      <p className="mb-6">I tested the low-fidelity prototype with 8 participants to understand their thoughts and feelings about the design.</p>
-
-      <h3 className="font-bold text-foreground mb-3">Key findings from round one</h3>
-      <UsabilityStatBars />
-
-      <h3 className="font-bold text-foreground mb-3">Critical Iterations Based on Findings</h3>
-      <div className="space-y-3 mb-6">
-        {[
-          { title: "Tigrayan-centric design", desc: "Used colors from the Tigray flag and cultural illustrations to create a stronger emotional connection" },
-          { title: "Shmagele explanation", desc: "Added onboarding screens and tooltips explaining traditional matchmaking" },
-          { title: "Just Friends mode", desc: "Created a toggle allowing users to switch between dating and friendship-seeking modes" },
-          { title: "Streamlined navigation", desc: "Decluttered the navigation bar based on user feedback" },
-        ].map((item, i) => (
-          <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-            <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-            <div>
-              <p className="font-bold text-foreground">{item.title}</p>
-              <p className="text-sm">{item.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </CaseStudySection>
-
-    {/* Navigation Redesign Deep Dive */}
-    <CaseStudySection label="Case Study" title="Navigation Redesign Deep Dive" icon={<Search className="h-4 w-4" />}>
-      <Card className="border-border bg-muted/30 mb-6">
-        <CardContent className="p-6">
-          <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-2">Issue: Navigation Bar Layout</p>
-          <p className="mb-3">While users could quickly find the Events location, the navigation bar was cluttered and overwhelming. This issue appeared in all 8 usability tests.</p>
-          <ul className="space-y-1 text-sm">
-            <li>• The navigation bar felt cramped with too many icons</li>
-            <li>• Users wanted a decluttered navigation experience</li>
-            <li>• Removing unnecessary icons would increase whitespace and improve usability</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card className="border-accent/30 bg-accent/5 mb-6">
-        <CardContent className="p-6">
-          <p className="text-accent font-semibold text-sm uppercase tracking-wide mb-2">Solution: Streamlined Navigation</p>
-          <ul className="space-y-2 text-sm">
-            {[
-              "Observations from usability testing: Identified which icons were actually being used vs. ignored",
-              "A/B testing: Tested different configurations with 5 users to determine optimal layout",
-              "Multiple design iterations: Created 3 variations and gathered user feedback on each",
-              "Additional validation testing: Confirmed the streamlined navigation improved user satisfaction",
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 font-medium text-accent text-sm">Result: none of the 5 follow-up testers flagged the navigation as cluttered, and every one of them reached Events without help.</p>
-        </CardContent>
-      </Card>
-      <NavRedesignComparison />
-    </CaseStudySection>
-
-    {/* The Solution */}
-    <CaseStudySection label="The Solution" title="Blending Tradition with Technology" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">Beles seamlessly blends traditional Tigrayan matchmaking customs with cutting-edge technology to provide a safe and genuine space for connection during a crisis.</p>
-
-      {project.solutionFeatures && (
-        <div>
-          <h3 className="text-xl font-bold text-foreground mb-10">Core Features</h3>
-          <div className="space-y-16">
-          {project.solutionFeatures.map((feat, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <h3 className="text-xl font-bold text-foreground mb-2">{feat.title}</h3>
-              <p className="mb-4">{feat.description}</p>
-              {feat.imageSlot === "feature-shmagele-overview" ? (
-                <ShmageleFlowDiagram />
-              ) : feat.imageSlot === "feature-friends" ? (
-                <JustFriendsToggle />
-              ) : feat.imageSlot === "feature-events-overview" ? (
-                <EventCarousel />
-              ) : feat.imageSlot === "feature-notifications" ? (
-                <NotificationStack />
-              ) : (
-                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
-              )}
-              {feat.details.length > 0 && (
-                <ul className="mt-4 space-y-1">
-                  {feat.details.map((d, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-                      <span>{d}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Card className="border-accent/30 bg-accent/5 mt-4">
-                <CardContent className="p-4">
-                  <p className="text-sm"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-          </div>
-        </div>
-      )}
-    </CaseStudySection>
-
-    {/* Visual Design */}
-    <CaseStudySection label="Visual Design" title="Design Principles" icon={<Palette className="h-4 w-4" />}>
-      <p className="mb-6">Simplicity was key in the final design. In Figma I built a clean, user-friendly experience that honored Tigrayan culture while feeling modern and accessible.</p>
-      {project.designPrinciples && (
-        <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          {project.designPrinciples.map((p, i) => (
-            <Card key={i} className="border-border bg-card/50">
+    <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down" icon={<Lightbulb className="h-4 w-4" />}>
+      <div className="space-y-6">
+        {decisions.map((d, i) => (
+          <motion.div key={d.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
+            <Card className="border-border bg-card/50">
               <CardContent className="p-5">
-                <h3 className="font-bold text-foreground mb-1">{p.title}</h3>
-                <p className="text-sm">{p.description}</p>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="text-accent font-bold">0{i + 1}</span>
+                  <h3 className="font-bold text-foreground">{d.title}</h3>
+                </div>
+                <p className="text-sm mb-3">{d.body}</p>
+                <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Rejected:</span> {d.rejected}</p>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      )}
-      
+            {i === 0 && <div className="mt-6"><ShmageleFlowDiagram /></div>}
+            {i === 1 && <div className="mt-6"><JustFriendsToggle /></div>}
+            {i === 2 && <div className="mt-6"><NavRedesignComparison /></div>}
+          </motion.div>
+        ))}
+      </div>
     </CaseStudySection>
 
-    {/* Impact & Outcomes */}
-    {project.validationMetrics && (
-      <CaseStudySection label="Impact" title="Impact & Outcomes" icon={<BarChart3 className="h-4 w-4" />}>
-        <p className="mb-6">Two rounds of usability testing with the same 8 participants, plus a 5-person follow-up on the navigation, showed what changed between the first prototype and the last.</p>
-        <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          {project.validationMetrics.map((m, i) => (
-            <Card key={i} className="border-accent/30 bg-accent/5">
+    <CaseStudySection label="Evidence" title="Round one findings, and what changed by round two" icon={<BarChart3 className="h-4 w-4" />}>
+      <p className="mb-4">Eight participants tested the low-fidelity prototype. These were the round-one findings that drove the decisions above.</p>
+      <UsabilityStatBars />
+      {project.validationMetrics && (
+        <div className="grid sm:grid-cols-2 gap-4 mt-6">
+          {project.validationMetrics.map((m) => (
+            <Card key={m.label} className="border-accent/30 bg-accent/5">
               <CardContent className="p-5 text-center">
-                <p className="text-3xl font-bold text-accent mb-1">{m.value}</p>
+                <p className="text-2xl font-bold text-accent mb-1">{m.value}</p>
                 <p className="font-semibold text-foreground text-sm mb-1">{m.label}</p>
                 <p className="text-xs text-muted-foreground">{m.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
-      </CaseStudySection>
-    )}
+      )}
+    </CaseStudySection>
 
-    {/* Key Learnings */}
     {project.learnings && (
-      <CaseStudySection label="Learnings" title="What I Learned" icon={<Lightbulb className="h-4 w-4" />}>
+      <CaseStudySection label="What I Learned" title="You can't design for a community from outside it" icon={<Users className="h-4 w-4" />}>
         <div className="space-y-4">
           {project.learnings.map((l, i) => (
             <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
               <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-              <p>{l}</p>
+              <p className="text-sm">{l}</p>
             </div>
           ))}
         </div>
       </CaseStudySection>
     )}
 
-    {/* Next Steps */}
-    <CaseStudySection label="Next Steps" title="What comes next" icon={<Rocket className="h-4 w-4" />}>
-      <p className="mb-6">To move Beles from prototype to product, the plan is to:</p>
-      <ul className="space-y-3">
-        {[
-          "Gather continuous user feedback through beta testing with the Tigrayan community",
-          "Make data-driven decisions by tracking key metrics like match rates, event attendance, and user engagement",
-          "Deepen the cultural layer with Tigrinya language support, cultural compatibility quizzes, and virtual event hosting",
-          "Involve the engineering team early to ensure technical feasibility and smooth implementation",
-          "Develop a strategic launch plan that leverages community leaders and cultural organizations",
-          "Keep iterating with the community after launch",
-        ].map((item, i) => (
-          <li key={i} className="flex items-start gap-3">
-            <ChevronRight className="h-4 w-4 mt-1 text-accent shrink-0" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </CaseStudySection>
-
-    {/* Conclusion */}
-    <CaseStudySection label="Conclusion" title="More Than Just a Dating App" icon={<Heart className="h-4 w-4" />}>
-      <p className="mb-4">Beles represents more than just a dating app. It's a lifeline for a diaspora community seeking connection during one of the darkest periods in Tigrayan history. By honoring traditional matchmaking practices while embracing modern technology, Beles creates a space where culture is preserved, relationships are formed, and community is strengthened.</p>
-      <p className="mb-6">This project challenged me to think beyond conventional design patterns and consider the unique needs of a specific cultural community. It taught me that great design requires empathy, cultural humility, and a willingness to learn from users at every step of the process.</p>
-
-      {/* Appendix Images - only onboarding & profile screens, not feature screens */}
-      {project.appendixImages && project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").length > 0 && (
-        <div className="mt-10">
-          <h3 className="font-bold text-foreground mb-4">Additional Screens</h3>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {project.appendixImages.filter(img => img.slot === "appendix-1" || img.slot === "appendix-2").map((img, i) => (
-              <div key={i}>
-                <ImageSlot slot={img.slot} label={img.caption} imageSrc={getSlotImage(img.slot)} />
-                <p className="text-xs text-muted-foreground mt-1 text-center">{img.caption}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+    <CaseStudySection label="Status" title="Where it stands" icon={<Rocket className="h-4 w-4" />}>
+      <p>
+        Beles is a tested prototype, not a shipped product. To take it further I would run a beta with community organizations, add Tigrinya language support, and instrument match and event-attendance rates before building anything else. It remains the project that taught me the most about designing for a culture with real depth, and it's why I now start every project by finding the people the obvious solution would leave out.
+      </p>
     </CaseStudySection>
   </>
 );

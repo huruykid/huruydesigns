@@ -69,8 +69,8 @@ const faqs = [
   },
 ];
 
-// Public, ungated case studies a recruiter can read end to end without a passcode.
-const featuredProjects = projects.filter((p) => ["ebtfinder", "oneasure-portal", "beles"].includes(p.id));
+// The three most senior-level studies. The Asure narrative is by request; its architecture-level story is public.
+const featuredProjects = projects.filter((p) => ["ebtfinder", "asure-compliance", "capital-group-research"].includes(p.id));
 
 const HIRE_URL = `${SITE_URL}/senior-ux-designer`;
 const CONTACT_CTA = "/contact?role=senior-ux-designer";
@@ -307,7 +307,7 @@ const Hire = () => (
             </h2>
             <p className="text-muted-foreground">
               Each case study walks through the problem, the research, the design decisions, and
-              the outcome. No passcode needed; each reads in under five minutes.
+              the outcome. Each reads in under five minutes.
             </p>
           </div>
           <Link to="/#projects" className="text-accent font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">

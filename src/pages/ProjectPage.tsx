@@ -12,6 +12,8 @@ import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
+import AsurePublicCaseStudy from "@/components/case-study/AsurePublicCaseStudy";
+import CapitalGroupCaseStudy from "@/components/case-study/CapitalGroupCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
@@ -54,15 +56,16 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
   }
   if (project.image && project.image !== "/placeholder.svg") {
     const dims = imageDimensions[project.image];
+    const isMockup = project.image.includes("hero-mockup");
     return (
-      <div className="flex items-center justify-center w-full">
+      <div className={isMockup ? "flex items-center justify-center w-full" : "w-full overflow-hidden rounded-xl border border-border"}>
         <img
           src={project.image}
           alt={`${project.title} case study cover by Huruy Kidanemariam`}
-          width={dims?.width}
-          height={dims?.height}
+          width={dims?.width ?? 1200}
+          height={dims?.height ?? 750}
           decoding="async"
-          className="w-full max-w-[420px] h-auto object-contain drop-shadow-2xl"
+          className={isMockup ? "w-full max-w-[420px] h-auto object-contain drop-shadow-2xl" : "w-full h-auto"}
         />
       </div>
     );
@@ -112,23 +115,6 @@ const ProjectPage = () => {
   const visible = publicProjects();
   const currentIdx = visible.findIndex((p) => p.id === project.id);
   const next = visible[(currentIdx + 1) % visible.length] ?? projects[0];
-
-  if (project.gated && !gatedContent) {
-    return (
-      <>
-        <SEO
-          title={`${project.title} | UX Case Study by Request | Huruy Kidanemariam`}
-          description="This enterprise payroll compliance case study contains proprietary work and is available by request. Explore the interactive prototype, entity model and revision lifecycle."
-          path={`/project/${project.id}`}
-          breadcrumbs={[
-            { name: "Home", path: "/" },
-            { name: project.title, path: `/project/${project.id}` },
-          ]}
-        />
-        <AccessGate project={project} onAccessGranted={setGatedContent} />
-      </>
-    );
-  }
 
   const slotProps = { getSlotImage };
   const ogImage = project.ogImage ?? project.image;
@@ -203,8 +189,17 @@ const ProjectPage = () => {
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
           <OneAsureCaseStudy project={project} {...slotProps} />
-        ) : project.id === "asure-compliance" && gatedContent ? (
-          <AsureComplianceCaseStudy project={project} content={gatedContent} />
+        ) : project.id === "asure-compliance" ? (
+          gatedContent ? (
+            <AsureComplianceCaseStudy project={project} content={gatedContent} />
+          ) : (
+            <>
+              <AsurePublicCaseStudy project={project} />
+              <AccessGate project={project} onAccessGranted={setGatedContent} />
+            </>
+          )
+        ) : project.id === "capital-group-research" ? (
+          <CapitalGroupCaseStudy project={project} {...slotProps} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
         ) : project.id === "fentfinder" ? (

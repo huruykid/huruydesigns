@@ -66,14 +66,15 @@ const Index = () => (
           className="max-w-3xl"
         >
           <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">{person.tagline}</p>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-2 font-display">
-            Hi, I'm <span className="text-gradient">{person.name}</span>.<span className="sr-only"> Senior UX Designer Portfolio.</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-4 font-display">
+            I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
+            <span className="sr-only"> {person.name}, Senior UX Designer.</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-xl mb-2 leading-relaxed">
-            I bridge design and code to build products people actually use, grounded in psychology, shaped by empathy, and shipped with precision.
+          <p className="text-lg text-muted-foreground max-w-2xl mb-2 leading-relaxed">
+            {person.name}. {person.yearsExperience} years across payroll compliance, HR platforms and financial research tools, plus a consumer app I shipped myself. I do the research, make the calls, and can build the thing.
           </p>
           <p className="text-sm text-foreground/80 max-w-xl mb-4">
-            Currently designing research tools for investment analysts at <span className="font-semibold text-foreground">{person.currentEmployer}</span>.
+            Now: AI-assisted research tools for investment analysts at <span className="font-semibold text-foreground">{person.currentEmployer}</span>.
           </p>
           <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
             <Link

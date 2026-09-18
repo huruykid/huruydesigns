@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Download, Briefcase, Rocket, Sparkles } from "lucide-react";
+import { Download, Briefcase, Rocket, Sparkles, Compass, MessageSquare, GitBranch, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import UXTriviaQuiz from "@/components/UXTriviaQuiz";
 import huruyHeadshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
 import { PERSON } from "@/lib/seo";
@@ -14,6 +13,29 @@ const profilePageJsonLd = {
   "@type": "ProfilePage",
   mainEntity: PERSON,
 };
+
+const howIWork = [
+  {
+    icon: Compass,
+    title: "I find the real problem before the brief's problem",
+    body: "Twice now the brief was \"redesign the screens\" and the real problem was structural: a missing entity map at Asure, three products pretending to be one at OneAsure. I spend the first weeks with users and engineers, and I'll push back on a brief when the evidence says to, with the evidence in hand.",
+  },
+  {
+    icon: MessageSquare,
+    title: "How I run design reviews",
+    body: "One decision per review, the options I rejected shown next to the one I'm proposing, and the user evidence for each. Engineers and compliance are in the room from the first prototype, not at sign-off. Silence is not agreement; I ask each discipline what would make them say no.",
+  },
+  {
+    icon: GitBranch,
+    title: "When I disagree with engineering",
+    body: "I start by assuming the constraint is real and asking to see it. If it is, I redesign. If it's a preference, I make the case with a working prototype and the user cost of the alternative. At Asure that meant arguing for more UI states than engineering wanted; the compliance team made the case with me, and we shipped it.",
+  },
+  {
+    icon: Users,
+    title: "How I mentor and hand off",
+    body: "I pair on real work rather than reviewing finished files: the junior designer runs the session or the review, I take notes and debrief after. I write specs engineers can build from without a meeting, and I'd rather leave behind a pattern in the design system than a screen only I understand.",
+  },
+];
 
 const About = () => (
   <>
@@ -60,13 +82,6 @@ const About = () => (
               clear messaging, conversational design, and scalable design systems. I'm drawn to projects where good design
               removes barriers, whether that means making enterprise software less frustrating or helping underserved
               communities access the tools they deserve. Design, for me, is about dignity.
-              <span className="hidden md:inline">
-                {" "}When I'm not simplifying complex workflows, I'm probably building small things like{" "}
-                <a href="#ux-trivia" className="text-accent underline underline-offset-4 hover:text-accent/80 transition-colors">
-                  this UX trivia quiz
-                </a>
-                .
-              </span>
             </p>
 
             {/* Experience */}
@@ -130,7 +145,7 @@ const About = () => (
                 {[
                   { lead: "8+ years in the field,", rest: "designing and shipping real products across enterprise, SaaS, and consumer." },
                   { lead: "Shipped EBT Finder solo,", rest: "from a 4-week research sprint to a live app on the App Store." },
-                  { lead: "Top 1% designer on Lovable.", rest: "I design in code, not just mockups." },
+                  { lead: "I design in code, not just mockups.", rest: "Working React prototypes settle arguments that decks can't." },
                 ].map((item) => (
                   <div key={item.lead} className="flex gap-4">
                     <div className="w-3 h-3 rounded-full bg-accent mt-1.5 shrink-0" />
@@ -167,11 +182,25 @@ const About = () => (
       </div>
     </section>
 
-    {/* UX Trivia: desktop only, the whole section, so phones never get an empty heading. */}
-    <section id="ux-trivia" className="hidden md:block py-20 border-t border-border/50">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="text-2xl font-bold mb-8 font-display">Test Your UX Knowledge</h2>
-        <UXTriviaQuiz />
+    {/* How I work */}
+    <section id="how-i-work" className="py-20 border-t border-border/50 bg-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mb-10">
+          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">How I Work</p>
+          <h2 className="text-3xl font-bold mb-3 font-display">The questions a senior interview asks, answered up front</h2>
+          <p className="text-muted-foreground">
+            These are the habits behind every case study on this site. They're also what I'd want to know before hiring a senior designer.
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {howIWork.map((item) => (
+            <div key={item.title} className="rounded-lg border border-border bg-card p-6">
+              <item.icon className="h-5 w-5 text-accent mb-3" aria-hidden="true" />
+              <h3 className="text-lg font-bold mb-2 font-display">{item.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   </>

@@ -26,9 +26,9 @@ async function walk(dir) {
 const dims = {};
 for (const file of await walk(IMAGES)) {
   const ext = path.extname(file).toLowerCase();
-  if (![".png", ".jpg", ".jpeg", ".webp"].includes(ext)) continue;
+  if (![".png", ".jpg", ".jpeg", ".webp", ".svg"].includes(ext)) continue;
   const target = file.replace(/\.(png|jpe?g)$/i, ".webp");
-  if (ext !== ".webp") {
+  if (ext !== ".webp" && ext !== ".svg") {
     const before = (await stat(file)).size;
     const img = sharp(file);
     const meta = await img.metadata();
