@@ -92,7 +92,16 @@ export interface Project {
   /** Reachable by direct link only: never listed, linked, prerendered or in the sitemap. */
   hidden?: boolean;
   /** Set once a concept has been built and released. */
-  shipped?: { summary: string; facts: { label: string; value: string }[] };
+  shipped?: {
+    summary: string;
+    facts: { label: string; value: string }[];
+    /** Real production numbers with their source and the date they were read. */
+    stats?: { value: string; label: string; source: string }[];
+    /** Screens of the live product. */
+    screens?: { src: string; caption: string }[];
+    /** Operational problems solved after launch: the senior evidence. */
+    postLaunch?: { title: string; problem: string; fix: string; lesson: string }[];
+  };
 }
 
 export const projects: Project[] = [
@@ -108,12 +117,58 @@ export const projects: Project[] = [
     tools: ["Figma", "User Interviews", "Prototyping", "React", "Supabase", "Capacitor"],
     shipped: {
       summary:
-        "EBT Finder didn't stop at the prototype. I built the product myself in React with a Supabase backend, wrapped it with Capacitor, and released it on the iOS App Store. The research below shaped the first version; the live app is where it gets tested every day.",
+        "EBT Finder didn't stop at the prototype. I built the product in React with a Supabase backend, wrapped it with Capacitor, and released it on the iOS App Store. The research below shaped the first version. Everything since has been shaped by running it: real data pipelines, a real App Store review, real crashes, and users on weak connections.",
       facts: [
-        { label: "Status", value: "Live on the App Store" },
-        { label: "Built with", value: "React, TypeScript, Supabase, Google Places API, Capacitor" },
-        { label: "Data", value: "USDA SNAP retailer dataset plus community reviews and photos" },
-        { label: "Team", value: "Solo: research, design, code and release" },
+        { label: "Status", value: "Live on the App Store (1.0.2) and at ebtfinder.org" },
+        { label: "Built with", value: "React, TypeScript, Supabase (Postgres, RLS, 20 edge functions), Google Places API, Capacitor" },
+        { label: "Data", value: "USDA SNAP retailer dataset synced on a schedule, enriched with Google Places, plus community verifications" },
+        { label: "Team", value: "Solo: research, design, code, backend, release and support" },
+      ],
+      // Read from production on 2026-09-18 (Supabase) and Google Analytics (docs/vercel-deploy-guide.md).
+      stats: [
+        { value: "264,000+", label: "EBT-accepting locations mapped", source: "production database" },
+        { value: "53", label: "states and territories covered", source: "production database" },
+        { value: "~318", label: "real US users a week on the web app", source: "Google Analytics" },
+        { value: "13", label: "TestFlight builds to reach a clean release", source: "release log" },
+      ],
+      screens: [
+        { src: "/images/ebtfinder/app/map.webp", caption: "Opens straight to EBT stores near you: nearby list, map, and the Open Now and Hot Meals filters." },
+        { src: "/images/ebtfinder/app/store.webp", caption: "Store pages answer fast: distance, USDA listing, hours, directions, and whether EBT worked for recent shoppers." },
+        { src: "/images/ebtfinder/app/community.webp", caption: "Community signals: verifications and reports from shoppers who were actually there." },
+        { src: "/images/ebtfinder/app/guides.webp", caption: "Guides and SNAP news, the content layer that brings search traffic to the web app." },
+        { src: "/images/ebtfinder/app/trust.webp", caption: "Trust, stated plainly: independent, free, no judgment, browse without an account." },
+      ],
+      postLaunch: [
+        {
+          title: "Google changed the shape of its data and took down every store page",
+          problem: "Google Places moved reviews from one JSON shape to another. Rows written before and after the change coexisted in the same column. Rendering the new shape crashed every enriched store page; a SQL filter reading the old key silently dropped new-shape stores from Open Now results.",
+          fix: "Normalized both shapes at one boundary, guarded every render of external data, made the SQL read both keys, and locked it with a regression test built from the actual crashing row.",
+          lesson: "The database stores whatever shape the API had on the day each row was written. Every consumer, client and SQL, has to handle both, forever.",
+        },
+        {
+          title: "Users open the app where the signal is worst",
+          problem: "The core use is standing in a store with one bar. Queries returned empty on network failure and the app showed nothing.",
+          fix: "A last-good-result cache keyed on the full query identity (bucketed location plus every filter), so an area with zero results shows zero and never another area's cache. Fresh data always wins; the cache only speaks when the network can't.",
+          lesson: "Offline support is a product decision about which screens must work, not a technical checkbox.",
+        },
+        {
+          title: "Apple rejected the build for a bug that wasn't in the build",
+          problem: "App Review reported that account creation failed. The cause was a database trigger referencing a column I had removed: every new sign-up returned a 500, which the app surfaced as the error the reviewer saw.",
+          fix: "Fixed the trigger server-side, reproduced the sign-up on a physical device against the same build, and replied to the Resolution Center with the root cause and evidence. No new binary was needed.",
+          lesson: "The backend is a shared artery. A schema change hits the website and every installed build at once, so server changes must be additive and tested against shipped versions.",
+        },
+        {
+          title: "Thirteen TestFlight builds to a clean release",
+          problem: "The 1.0.2 redesign found its native-UX bugs on the phone, after upload: a sticky header that never stuck, dead-tap card images, a login screen with a manufactured scroll region, GPS refresh that navigated away instead of updating inline.",
+          fix: "Turned every bug class into a written rule and a pre-archive audit at phone dimensions (safe areas owned by one component each, 44pt targets, one tap target per card, inline refresh with skeletons). Later releases audit before they archive.",
+          lesson: "Every rule in that checklist is a build that cost a day. The discipline is auditing before the archive exists.",
+        },
+        {
+          title: "Notifications that respect people who are stretched thin",
+          problem: "Push is the easiest way to look engaged and the fastest way to lose trust with users who are checking their benefits, not browsing.",
+          fix: "A standing policy: a notification sends only if it saves a wasted trip or wasted money. Two are allowed (a saved store may have stopped taking EBT; an opt-in proximity alert), permission is asked right after the first favorite, never at launch, and there are no marketing or re-engagement pushes at all.",
+          lesson: "Attention is not an engagement metric. For this audience, restraint is the feature.",
+        },
       ],
     },
     challenge: "12 million Americans use SNAP/EBT benefits, but the government's official store locator is outdated, overwhelming, and fails to build trust. People deserve to shop with confidence, not confusion.",
@@ -238,7 +293,7 @@ export const projects: Project[] = [
     closingStats: [
       { label: "The opportunity", value: "12 million SNAP households deserve better tools" },
       { label: "The solution", value: "A review-first store locator, live on the App Store" },
-      { label: "The evidence", value: "10 of 10 testers preferred it; hot food found 12x faster" },
+      { label: "The evidence", value: "264k+ locations mapped, real users every week, and a release process that survived App Review" },
     ],
     appendixImages: [
       { slot: "appendix-1", caption: "Homepage with category filters" },
@@ -256,11 +311,11 @@ export const projects: Project[] = [
     solution: "A clean, map-based mobile app with a real-time store locator, user reviews and ratings, real business photos via the Google Places API, and filters for store type, hot food eligibility, and open hours.",
     process: "I interviewed 7 EBT users, created journey maps and personas, ran a competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and usability-tested the prototype with 10 people before building the app.",
     keyResults: [
-      { value: "10 of 10", label: "testers preferred it to the USDA tool" },
-      { value: "12x", label: "faster to find hot food (15s vs 180s)" },
-      { value: "Shipped", label: "live on the iOS App Store" },
+      { value: "264k+", label: "EBT-accepting locations mapped, 53 states and territories" },
+      { value: "~318", label: "real users a week on the web app" },
+      { value: "Shipped", label: "live on the iOS App Store, run solo" },
     ],
-    outcomeMetrics: "In moderated testing with 10 participants, 9 found a hot food location in under 15 seconds, all 10 preferred EBT Finder to the USDA locator, and 8 reported more confidence visiting a store. Now live on the App Store.",
+    outcomeMetrics: "Live on the App Store and at ebtfinder.org: 264,000+ EBT-accepting locations across 53 states and territories, about 318 real US users a week on the web app, and a release process rebuilt after a 13-build TestFlight cycle. Before code, moderated testing with 10 participants: 9 found a hot food location in under 15 seconds and all 10 preferred it to the USDA locator.",
     image: "/images/ebtfinder/hero-mockup.webp",
   },
   {

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ArrowRight, Mail, Download, CheckCircle2, Briefcase, Users, Zap, Shield } from "lucide-react";
+import { ArrowRight, Mail, Download, CheckCircle2, Briefcase, Users, Zap, Shield, Quote } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { resumePdfPath } from "@/lib/resume";
+import { testimonials } from "@/lib/testimonials";
 import { PERSON, PERSON_REF, SITE_URL } from "@/lib/seo";
 
 const PAGE_TITLE = "Hire a Senior UX Designer in Los Angeles | Huruy Kidanemariam";
@@ -321,6 +322,38 @@ const Hire = () => (
         </div>
       </div>
     </section>
+
+    {/* What people I've worked with say (renders only once quotes exist in src/lib/testimonials.ts) */}
+    {testimonials.length > 0 && (
+      <section className="py-20 bg-muted/30" aria-labelledby="testimonials-heading">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mb-10">
+            <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-bold mb-3 font-display">
+              From people I've worked with
+            </h2>
+            <p className="text-muted-foreground">Product managers and engineers on the projects above, in their words.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.name + t.context} className="flex h-full flex-col rounded-lg border border-border bg-card p-6">
+                <Quote className="h-5 w-5 text-accent mb-4" aria-hidden="true" />
+                <blockquote className="flex-1 text-base leading-relaxed text-foreground">{t.quote}</blockquote>
+                <figcaption className="mt-5 text-sm">
+                  <span className="font-semibold text-foreground">
+                    {t.url ? (
+                      <a href={t.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent">{t.name}</a>
+                    ) : (
+                      t.name
+                    )}
+                  </span>
+                  <span className="block text-muted-foreground">{t.role}, {t.context}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* FAQ */}
     <section className="py-20">

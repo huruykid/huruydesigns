@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Search, Lightbulb, ChevronRight, Target, Users, MessageSquareQuote, Rocket, Palette, BarChart3, ImageIcon, Heart, Smartphone } from "lucide-react";
+import { AlertTriangle, Search, Lightbulb, ChevronRight, Target, Users, MessageSquareQuote, Rocket, Palette, BarChart3, ImageIcon, Heart, Smartphone, Wrench } from "lucide-react";
+import { imageDimensions } from "@/lib/imageDimensions";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
@@ -16,11 +17,26 @@ interface Props {
 
 const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
   <>
-    {/* Section 1: Shipped */}
+    {/* Section 1: Shipped, with production numbers */}
     {project.shipped && (
       <CaseStudySection label="Shipped" title="From prototype to the App Store" icon={<Smartphone className="h-4 w-4" />}>
         <p className="mb-6">{project.shipped.summary}</p>
-        <dl className="grid sm:grid-cols-2 gap-4 mb-6">
+        {project.shipped.stats && (
+          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-2">
+            {project.shipped.stats.map((s) => (
+              <div key={s.label} className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-center">
+                <dd className="text-2xl sm:text-3xl font-bold text-accent mb-1">{s.value}</dd>
+                <dt className="text-xs font-semibold text-foreground">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        )}
+        {project.shipped.stats && (
+          <p className="text-xs text-muted-foreground mb-8">
+            Sources: {Array.from(new Set(project.shipped.stats.map((s) => s.source))).join(", ")}. Read on 2026-09-18.
+          </p>
+        )}
+        <dl className="grid sm:grid-cols-2 gap-4 mb-8">
           {project.shipped.facts.map((f) => (
             <div key={f.label} className="rounded-lg border border-border bg-card/50 p-4">
               <dt className="text-xs font-semibold text-accent uppercase tracking-wide mb-1">{f.label}</dt>
@@ -28,7 +44,59 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
             </div>
           ))}
         </dl>
+        {project.shipped.screens && (
+          <div className="mb-8">
+            <h3 className="font-bold text-foreground mb-3">The live app</h3>
+            <ul className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4" aria-label="Screens from the shipped EBT Finder app">
+              {project.shipped.screens.map((shot) => {
+                const dims = imageDimensions[shot.src];
+                return (
+                  <li key={shot.src} className="w-[240px] shrink-0 snap-start">
+                    <img
+                      src={shot.src}
+                      alt={shot.caption}
+                      width={dims?.width}
+                      height={dims?.height}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto rounded-xl border border-border"
+                    />
+                    <p className="mt-2 text-xs text-muted-foreground leading-relaxed">{shot.caption}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
         <AppStorePromoBanner project={project} placement="case_study_shipped" />
+      </CaseStudySection>
+    )}
+
+    {/* Section 1b: what running it taught me */}
+    {project.shipped?.postLaunch && (
+      <CaseStudySection label="Running It" title="What broke after launch, and what I did about it" icon={<Wrench className="h-4 w-4" />}>
+        <p className="mb-6">
+          A prototype never meets a changed API, an App Review rejection or a user with one bar of signal. The product did. These are the problems that mattered, each with the decision behind the fix.
+        </p>
+        <div className="space-y-4">
+          {project.shipped.postLaunch.map((item, i) => (
+            <motion.div key={item.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+              <Card className="border-border bg-card/50">
+                <CardContent className="p-5">
+                  <div className="flex items-baseline gap-3 mb-3">
+                    <span className="text-accent font-bold">0{i + 1}</span>
+                    <h3 className="font-bold text-foreground">{item.title}</h3>
+                  </div>
+                  <dl className="space-y-2 text-sm">
+                    <div><dt className="inline font-semibold text-foreground">What happened: </dt><dd className="inline">{item.problem}</dd></div>
+                    <div><dt className="inline font-semibold text-foreground">What I did: </dt><dd className="inline">{item.fix}</dd></div>
+                    <div><dt className="inline font-semibold text-accent">What it taught me: </dt><dd className="inline text-muted-foreground">{item.lesson}</dd></div>
+                  </dl>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
       </CaseStudySection>
     )}
 

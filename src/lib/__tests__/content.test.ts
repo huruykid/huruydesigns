@@ -51,7 +51,10 @@ describe("projects", () => {
     const ebt = findProject("ebtfinder")!;
     const text = JSON.stringify(ebt);
     expect(text).not.toMatch(/65%|62%|92%|45% → 89%|100%/);
-    expect(ebt.keyResults?.map((r) => r.value)).toContain("10 of 10");
+    expect(ebt.keyResults?.map((r) => r.value)).toContain("264k+");
+    expect(ebt.validationMetrics?.map((m) => m.value)).toContain("10 of 10");
+    // Production numbers must always say where they came from.
+    for (const stat of ebt.shipped?.stats ?? []) expect(stat.source).toBeTruthy();
   });
 
   it("references only images that exist with known dimensions", () => {
