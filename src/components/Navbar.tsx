@@ -1,24 +1,62 @@
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, FileText } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 
 const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
-  { label: "Contact", path: "/contact" },
+  { label: "Work", path: "/#work", match: "/" },
+  { label: "About", path: "/about", match: "/about" },
+  { label: "Resume", path: "/resume", match: "/resume" },
+  { label: "Contact", path: "/contact", match: "/contact" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { theme, toggle } = useTheme();
+  const menuId = useId();
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // Close the mobile menu on navigation.
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  // Escape closes the menu and returns focus; clicking outside closes it.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointer);
+    };
+  }, [open]);
+
+  const themeLabel = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+  const themeButton = (
+    <Button variant="ghost" size="icon" onClick={toggle} aria-label={themeLabel} aria-pressed={theme === "dark"} className="h-11 w-11">
+      {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+    </Button>
+  );
+
+  const isActive = (match: string) => location.pathname === match;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <nav className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="text-xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border print:hidden">
+      <nav className="container mx-auto flex items-center justify-between h-16 px-4" aria-label="Primary">
+        <Link to="/" className="text-xl font-bold tracking-tight font-display" aria-label="Huruy Kidanemariam, home">
           <span className="text-gradient">Huruy</span>
         </Link>
 
@@ -28,67 +66,49 @@ const Navbar = () => {
             <Link
               key={l.path}
               to={l.path}
-              className={`text-sm font-medium transition-colors hover:text-accent ${
-                location.pathname === l.path ? "text-accent" : "text-muted-foreground"
-              }`}
+              aria-current={isActive(l.match) ? "page" : undefined}
+              className={`text-sm font-medium transition-colors hover:text-accent ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
             >
               {l.label}
             </Link>
           ))}
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <Link to="/resume">
-            <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10">
-              <FileText className="h-4 w-4 mr-1" /> Resume
-            </Button>
-          </Link>
-          <Link to="/contact">
-            <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              Contact
-            </Button>
-          </Link>
+          {themeButton}
         </div>
 
         {/* Mobile toggle */}
         <div className="flex md:hidden items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <Button variant="ghost" size="icon" onClick={() => setOpen(!open)} aria-label="Toggle navigation menu">
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {themeButton}
+          <Button
+            ref={toggleRef}
+            variant="ghost"
+            size="icon"
+            className="h-11 w-11"
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+            aria-controls={menuId}
+          >
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </Button>
         </div>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-background border-b border-border animate-fade-in">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
+        <nav id={menuId} className="md:hidden bg-background border-b border-border animate-fade-in" aria-label="Mobile">
+          <div className="container mx-auto px-4 py-2 flex flex-col">
             {navLinks.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
-                onClick={() => setOpen(false)}
-                className={`text-sm font-medium py-2 ${
-                  location.pathname === l.path ? "text-accent" : "text-muted-foreground"
-                }`}
+                aria-current={isActive(l.match) ? "page" : undefined}
+                className={`text-base font-medium min-h-12 flex items-center ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
               >
                 {l.label}
               </Link>
             ))}
-            <Link to="/resume" onClick={() => setOpen(false)}>
-              <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 w-fit">
-                <FileText className="h-4 w-4 mr-1" /> Resume
-              </Button>
-            </Link>
-            <Link to="/contact" onClick={() => setOpen(false)}>
-              <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 w-fit">
-                Contact
-              </Button>
-            </Link>
           </div>
-        </div>
+        </nav>
       )}
     </header>
   );

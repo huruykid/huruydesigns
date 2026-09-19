@@ -2,12 +2,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Building2, FileText, DollarSign, Scale, ClipboardList, Clock,
-  Upload, Download, ChevronRight, Calendar, X,
+  Upload, Download, Calendar, X,
 } from "lucide-react";
 
 // ── Brand ──
 const NAVY = "#1a2332";
-const NAVY_LIGHT = "#243044";
 const ACCENT = "#e07b39";
 const GREEN = "#2d9b5a";
 const GREEN_LIGHT = "#e8f5ed";

@@ -1,44 +1,47 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import ProjectPage from '../ProjectPage';
-import React from 'react';
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import ProjectPage from "../ProjectPage";
 
-// Mock supabase
-vi.mock('@/integrations/supabase/client', () => ({
+vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
-    from: vi.fn().mockReturnThis(),
-    select: vi.fn().mockReturnThis(),
-    eq: vi.fn().mockResolvedValue({ data: [] }),
+    from: vi.fn(() => ({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => Promise.resolve({ data: [], error: null })),
+      })),
+    })),
   },
 }));
 
-// Mock SEO to avoid errors
-vi.mock('@/components/SEO', () => ({
-  default: () => null,
-}));
-
-// Mock Layout to avoid errors
-vi.mock('@/components/Layout', () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}));
-
-describe('ProjectPage Routing', () => {
-  it('handles hyphenated project IDs', () => {
-    render(
-      <MemoryRouter initialEntries={['/project/ebt-finder']}>
+const renderAt = (path: string) =>
+  render(
+    <HelmetProvider>
+      <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route path="/project/:id" element={<ProjectPage />} />
-          <Route path="/" element={<div>Home</div>} />
+          <Route path="/" element={<div>Homepage fallback</div>} />
         </Routes>
       </MemoryRouter>
-    );
-    
-    // Check if EBT Finder is rendered instead of redirecting to Home
-    expect(screen.queryByText('Home')).toBeNull();
-    // Use findByText because of useEffects
-    // expect(await screen.findByText('EBT Finder')).toBeDefined();
-    // Actually render should be enough if it's synchronous for the first pass
-    expect(screen.getByText('EBT Finder')).toBeDefined();
+    </HelmetProvider>,
+  );
+
+describe("ProjectPage routing", () => {
+  it("resolves hyphenated project ids", () => {
+    renderAt("/project/ebt-finder");
+    expect(screen.queryByText("Homepage fallback")).toBeNull();
+    expect(screen.getAllByRole("heading", { level: 1 })[0]).toHaveTextContent("EBT Finder");
+  });
+
+  it("renders the not-found page for unknown ids instead of redirecting", () => {
+    renderAt("/project/does-not-exist");
+    expect(screen.queryByText("Homepage fallback")).toBeNull();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Page not found");
+  });
+
+  it("shows the passcode teaser, not the narrative, for the gated study", () => {
+    renderAt("/project/asure-compliance");
+    expect(screen.getByLabelText("Passcode")).toBeInTheDocument();
+    expect(screen.queryByText(/forcing a conversation/i)).toBeNull();
   });
 });

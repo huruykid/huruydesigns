@@ -7,64 +7,15 @@ import {
   TableCell,
   WidthType,
   BorderStyle,
-  AlignmentType,
-  HeadingLevel,
   ExternalHyperlink,
   Packer,
 } from "docx";
 import { saveAs } from "file-saver";
 
-// ── Resume Data (mirrored from Resume.tsx) ──
-
-const experience = [
-  { period: "Mar 2026 – Present", title: "Senior UX Designer", org: "Capital Group (via Luxoft)", location: "Los Angeles, CA", bullets: [
-    "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
-    "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
-    "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
-  ]},
-  { period: "2024 – Present", title: "AI Product Designer & Builder", org: "Appfinity Labs (Independent)", location: "Los Angeles, CA", bullets: [
-    "Prototype and ship AI-powered products using LLM integrations, prompt engineering, and conversational UX patterns",
-    "Design guardrails, feedback loops, and human-in-the-loop flows that keep generative AI outputs accurate and on-brand",
-    "Build production React interfaces that connect design decisions directly to working code",
-  ]},
-  { period: "Apr 2023 – Mar 2026", title: "UX Designer", org: "Asure Software", location: "Austin, TX", bullets: [
-    "Led end-to-end UX for a compliance engine used by 9,000+ payroll agencies, re-architecting tax compliance workflows that reduced filing errors",
-    "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
-    "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
-    "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",
-  ]},
-  { period: "Jan 2020 – Feb 2023", title: "UX Designer", org: "IMMERSE", location: "Los Angeles, CA", bullets: [
-    "Designed onboarding flows for VR-based English language learning experiences, improving learner retention",
-    "Developed Immerse's first content and design framework, establishing reusable guidelines for instructional designers",
-    "Conducted usability testing to identify linguistic friction points. Rewrote prompt sequences reducing user errors",
-    "Partnered with instructional designers and engineers to ensure UI copy aligned with pedagogical best practices",
-  ]},
-  { period: "Jan 2016 – Jan 2020", title: "Product Designer", org: "Datable", location: "Oakland, CA", bullets: [
-    "Managed UX writing and design for multiple concurrent SaaS client projects across diverse industries",
-    "Established a modular design system in Figma with standardized copy patterns for error states, empty states, and CTAs",
-    "Collaborated with stakeholders to refine CTA copy based on business KPIs and conversion data",
-  ]},
-];
-
-const sideProjects = [
-  { title: "EBT Finder", description: "Designed a review-first SNAP/EBT store locator for 12M+ users. UX Research, Figma, Prototyping" },
-  { title: "Beles", description: "Designed a culturally authentic dating app for the Tigrayan diaspora community" },
-];
-
-const leadership = [
-  { period: "2020 – Present", title: "Communications Team Lead", org: "HPN4Tigray", location: "Portland, OR", description: "Led storytelling and advocacy campaigns that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%." },
-];
-
-const skillGroups = [
-  { label: "Design", skills: ["Figma", "Prototyping", "Wireframing", "Visual Design", "Design Systems", "Information Architecture", "Journey Mapping"] },
-  { label: "Research", skills: ["Usability Testing", "Heuristic Evaluation", "Competitive Analysis", "User Interviews"] },
-  { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
-  { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
-  { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] },
-];
+import { person, experience, sideProjects, leadership, skillGroups } from "./resume";
 
 const FONT = "Calibri";
-const ACCENT_COLOR = "F97316";
+const ACCENT_COLOR = "B34A05";
 const BORDER_NONE = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
 const NO_BORDERS = { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, right: BORDER_NONE };
 
@@ -123,7 +74,7 @@ function buildMainColumn(): TableCell {
   children.push(new Paragraph({
     spacing: { after: 160 },
     children: [new TextRun({
-      text: "Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.",
+      text: person.summary,
       font: FONT, size: 22,
     })],
   }));
@@ -193,30 +144,30 @@ export async function generateAndDownloadDocx() {
           // Name
           new Paragraph({
             spacing: { after: 40 },
-            children: [new TextRun({ text: "Huruy Kidanemariam", font: FONT, size: 40, bold: true })],
+            children: [new TextRun({ text: person.name, font: FONT, size: 40, bold: true })],
           }),
           // Title
           new Paragraph({
             spacing: { after: 60 },
-            children: [new TextRun({ text: "Senior UX Designer", font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
+            children: [new TextRun({ text: person.title, font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
           }),
           // Contact
           new Paragraph({
             spacing: { after: 120 },
             children: [
               new ExternalHyperlink({
-                link: "mailto:huruydesigns@gmail.com",
-                children: [new TextRun({ text: "huruydesigns@gmail.com", font: FONT, size: 20, color: "555555" })],
+                link: `mailto:${person.email}`,
+                children: [new TextRun({ text: person.email, font: FONT, size: 20, color: "555555" })],
               }),
               new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
-                link: "https://www.linkedin.com/in/huruykidanemariam/",
-                children: [new TextRun({ text: "linkedin.com/in/huruykidanemariam", font: FONT, size: 20, color: "555555" })],
+                link: person.linkedin,
+                children: [new TextRun({ text: person.linkedinLabel, font: FONT, size: 20, color: "555555" })],
               }),
               new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
               new ExternalHyperlink({
-                link: "https://huruy.tech",
-                children: [new TextRun({ text: "huruy.tech", font: FONT, size: 20, color: "555555" })],
+                link: person.website,
+                children: [new TextRun({ text: person.websiteLabel, font: FONT, size: 20, color: "555555" })],
               }),
             ],
           }),

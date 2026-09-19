@@ -60,7 +60,7 @@ const NavRedesignComparison = () => {
             transition={{ duration: 0.25 }}
             className="flex items-center justify-around py-3 px-2"
           >
-            {(showAfter ? afterIcons : beforeIcons).map((item, i) => (
+            {(showAfter ? afterIcons : beforeIcons).map((item) => (
               <div key={item.label} className="flex flex-col items-center gap-1">
                 <item.icon className="h-5 w-5 text-foreground" />
                 <span className="text-[10px] text-muted-foreground">{item.label}</span>

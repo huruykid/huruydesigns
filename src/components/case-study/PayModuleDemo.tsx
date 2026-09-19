@@ -41,7 +41,7 @@ function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i:
       {/* Chart */}
       <div className="relative" style={{ width: SIZE, height: SIZE }}>
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
-          {ARCS.map(({ dash, gap, offset, circ }, i) => (
+          {ARCS.map(({ dash, gap, offset }, i) => (
             <motion.circle
               key={i}
               cx={center} cy={center} r={R}

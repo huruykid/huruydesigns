@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronRight, ChevronDown, ChevronUp, X, Check,
+  ChevronRight, ChevronUp, X, Check,
   Home, Clock, Heart, MoreHorizontal, DollarSign,
-  AlertCircle, Calendar, Shield, Activity,
-} from "lucide-react";
+  } from "lucide-react";
 
 // ── Brand ──────────────────────────────────────────────────────────────────
 const TEAL = "#0d7a9c";

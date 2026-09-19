@@ -7,11 +7,9 @@ export const AppleLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const PLACEMENT = "case_study_banner";
-
-const AppStorePromoBanner = ({ project }: { project: Project }) => {
+const AppStorePromoBanner = ({ project, placement = "case_study_banner" }: { project: Project; placement?: string }) => {
   if (!project.appStoreUrl) return null;
-  const url = getAppStoreUrl(project.appStoreUrl, PLACEMENT);
+  const url = getAppStoreUrl(project.appStoreUrl, placement);
 
   return (
     <a
@@ -19,7 +17,7 @@ const AppStorePromoBanner = ({ project }: { project: Project }) => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Download ${project.title} on the App Store`}
-      onClick={() => trackAppStoreClick(PLACEMENT)}
+      onClick={() => trackAppStoreClick(placement)}
       className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#0d0d12] px-5 py-2.5 text-white shadow-md transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:w-auto sm:justify-start"
     >
       <AppleLogo className="h-7 w-7" />
