@@ -1,22 +1,32 @@
+import { useId } from "react";
 import { motion } from "framer-motion";
 
 interface CaseStudySectionProps {
   label: string;
   title: string;
+  /** Accepted for compatibility; section labels no longer carry icons. */
   icon?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }
 
-const CaseStudySection = ({ label, title, icon, children, className = "" }: CaseStudySectionProps) => (
-  <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`mb-20 ${className}`}>
-    <div className="flex items-center gap-2 mb-2">
-      {icon && <span className="text-accent">{icon}</span>}
-      <p className="text-accent font-semibold text-sm tracking-wide uppercase">{label}</p>
-    </div>
-    <h2 className="text-2xl sm:text-3xl font-bold mb-6 font-display">{title}</h2>
-    <div className="text-muted-foreground leading-relaxed">{children}</div>
-  </motion.div>
-);
+const CaseStudySection = ({ label, title, children, className = "" }: CaseStudySectionProps) => {
+  const headingId = useId();
+  return (
+    <motion.section
+      aria-labelledby={headingId}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className={`mb-24 ${className}`}
+    >
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{label}</p>
+      <h2 id={headingId} className="mb-8 max-w-[28ch] text-2xl font-bold leading-tight tracking-tight font-display sm:text-[2rem]">
+        {title}
+      </h2>
+      <div className="text-[17px] leading-7 text-muted-foreground [&>p]:max-w-[64ch]">{children}</div>
+    </motion.section>
+  );
+};
 
 export default CaseStudySection;

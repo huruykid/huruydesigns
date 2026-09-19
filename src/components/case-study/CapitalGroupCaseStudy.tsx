@@ -1,9 +1,8 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { AlertTriangle, Lightbulb, Search, ShieldCheck, Users, Layers, ArrowRight, Lock } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Search, ShieldCheck, Users, Layers, ArrowRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
+import { DecisionList, NumberedList } from "./primitives";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -44,14 +43,14 @@ const howIWorkHere = [
 
 const CapitalGroupCaseStudy = ({ project }: Props) => (
   <>
-    <div className="mb-12 flex items-start gap-3 rounded-lg border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-      <Lock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-      <p>
+    <p className="mb-16 flex max-w-[64ch] items-start gap-3 border-l-2 border-accent pl-5 text-sm leading-6 text-muted-foreground">
+      <Lock className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+      <span>
         This is current, confidential work for a regulated financial institution. This page describes the problem class and how I approach it. Specifics (features, data, results) are available in conversation where I'm cleared to share them.
-      </p>
-    </div>
+      </span>
+    </p>
 
-    <CaseStudySection label="Context" title="Analysts already have a workflow that works" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="Analysts already have a workflow that works">
       <p className="mb-4">
         Investment analysts at Capital Group read, compare and synthesize enormous volumes of material, and their output is subject to governance that most software never meets. Any new tool competes with a process they trust. An AI-assisted one starts with a deficit: the model can be fluent and wrong, and in this environment a confident error costs more than a slow answer.
       </p>
@@ -60,68 +59,44 @@ const CapitalGroupCaseStudy = ({ project }: Props) => (
       </p>
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="Where the model's work ends and the analyst's judgment begins" icon={<AlertTriangle className="h-4 w-4" />}>
+    <CaseStudySection label="The Hard Problem" title="Where the model's work ends and the analyst's judgment begins">
       <p className="mb-4">{project.problem}</p>
       <p>
         Every interaction decision comes back to one question: can the analyst see exactly what the system did, check it in one step, and remain the author of the conclusion? If the answer is no, the feature is unusable here no matter how good it looks.
       </p>
     </CaseStudySection>
 
-    <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down" icon={<Lightbulb className="h-4 w-4" />}>
-      <div className="space-y-6">
-        {decisions.map((d, i) => (
-          <motion.div key={d.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-border bg-card/50">
-              <CardContent className="p-5">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-accent font-bold">0{i + 1}</span>
-                  <h3 className="font-bold text-foreground">{d.title}</h3>
-                </div>
-                <p className="text-sm mb-3">{d.body}</p>
-                <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Rejected:</span> {d.rejected}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+    <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down">
+      <DecisionList items={decisions} />
     </CaseStudySection>
 
-    <CaseStudySection label="How I Work Here" title="From shadowing to shared components" icon={<Users className="h-4 w-4" />}>
-      <div className="grid sm:grid-cols-2 gap-4">
+    <CaseStudySection label="How I Work Here" title="From shadowing to shared components">
+      <div className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
         {howIWorkHere.map((h) => (
-          <Card key={h.title} className="border-border bg-card/50">
-            <CardContent className="p-5">
-              <h.icon className="h-5 w-5 text-accent mb-3" aria-hidden="true" />
-              <h3 className="font-bold text-foreground text-sm mb-1">{h.title}</h3>
-              <p className="text-sm">{h.body}</p>
-            </CardContent>
-          </Card>
+          <div key={h.title} className="border-t border-border pt-5">
+            <h.icon className="mb-3 h-5 w-5 text-accent" aria-hidden="true" />
+            <h3 className="mb-1 font-bold tracking-tight text-foreground font-display">{h.title}</h3>
+            <p className="text-[15px] leading-6">{h.body}</p>
+          </div>
         ))}
       </div>
     </CaseStudySection>
 
     {project.learnings && (
-      <CaseStudySection label="What I've Learned So Far" title="Trust is a workflow property" icon={<ShieldCheck className="h-4 w-4" />}>
-        <div className="space-y-4">
-          {project.learnings.map((l, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-              <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-              <p className="text-sm">{l}</p>
-            </div>
-          ))}
-        </div>
+      <CaseStudySection label="What I've Learned So Far" title="Trust is a workflow property">
+        <NumberedList items={project.learnings} />
       </CaseStudySection>
     )}
 
-    <div className="rounded-2xl border border-accent/20 bg-accent/5 p-8 text-center">
-      <h2 className="text-2xl font-bold mb-3 font-display">Want the specifics?</h2>
-      <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+    <div className="border-t border-border pt-12">
+      <h2 className="mb-3 text-2xl font-bold tracking-tight font-display">Want the specifics?</h2>
+      <p className="mb-6 max-w-[56ch] text-muted-foreground">
         I can walk through the work in a conversation, within what I'm cleared to share. The Asure Compliance study covers a comparable problem in full.
       </p>
-      <div className="flex flex-wrap justify-center gap-3">
+      <div className="flex flex-wrap gap-3">
         <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
           <Link to="/contact?role=senior-ux-designer">
-            Email Huruy <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
+            Email Huruy <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
           </Link>
         </Button>
         <Button asChild variant="outline">

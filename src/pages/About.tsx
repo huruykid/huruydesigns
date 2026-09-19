@@ -74,8 +74,8 @@ const About = () => (
 
           {/* Right: Content */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">About Me</p>
-            <h1 className="text-4xl font-bold mb-6 font-display">About Huruy Kidanemariam</h1>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About</p>
+            <h1 className="mb-6 text-4xl font-bold tracking-tight font-display sm:text-5xl">Huruy Kidanemariam</h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
               {person.positioning} Currently designing research and analysis tools for investment analysts at {person.currentEmployer};
               before that, payroll compliance and HR platforms at Asure Software. I'm drawn to products where good design removes
@@ -144,18 +144,18 @@ const About = () => (
     <section id="how-i-work" className="py-20 border-t border-border/50 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mb-10">
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">How I Work</p>
-          <h2 className="text-3xl font-bold mb-3 font-display">The questions a senior interview asks, answered up front</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">How I Work</p>
+          <h2 className="mb-3 text-3xl font-bold tracking-tight font-display">The questions a senior interview asks, answered up front</h2>
           <p className="text-muted-foreground">
             These are the habits behind every case study on this site. They're also what I'd want to know before hiring a senior designer.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-x-12 gap-y-10 md:grid-cols-2">
           {howIWork.map((item) => (
-            <div key={item.title} className="rounded-lg border border-border bg-card p-6">
-              <item.icon className="h-5 w-5 text-accent mb-3" aria-hidden="true" />
-              <h3 className="text-lg font-bold mb-2 font-display">{item.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item.body}</p>
+            <div key={item.title} className="border-t border-border pt-6">
+              <item.icon className="mb-4 h-5 w-5 text-accent" aria-hidden="true" />
+              <h3 className="mb-2 text-lg font-bold tracking-tight font-display">{item.title}</h3>
+              <p className="max-w-[60ch] text-[15px] leading-7 text-muted-foreground">{item.body}</p>
             </div>
           ))}
         </div>
@@ -168,7 +168,7 @@ const About = () => (
           <h2 id="testimonials-heading" className="text-3xl font-bold mb-8 font-display">From people I've worked with</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t) => (
-              <figure key={t.name + t.context} className="flex h-full flex-col rounded-lg border border-border bg-card p-6">
+              <figure key={t.name + t.context} className="flex h-full flex-col border-t border-border pt-6">
                 <Quote className="h-5 w-5 text-accent mb-4" aria-hidden="true" />
                 <blockquote className="flex-1 text-base leading-relaxed text-foreground">{t.quote}</blockquote>
                 <figcaption className="mt-5 text-sm">

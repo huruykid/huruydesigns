@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { AlertTriangle, Lightbulb, Search, Users, ArrowRight, Star } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
 import CaseStudySection from "./CaseStudySection";
+import { DecisionList } from "./primitives";
 import { EntityDiagram, StateMachineDiagram, teaserTransformations, asureEntities } from "./AsureDiagrams";
 import type { Project } from "@/lib/projects";
 
@@ -41,56 +40,40 @@ const decisions = [
 
 const AsurePublicCaseStudy = ({ project }: Props) => (
   <>
-    <CaseStudySection label="Context" title="A compliance engine under every payroll" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="A compliance engine under every payroll">
       <p className="mb-8">
         Asure's compliance engine sits underneath payroll processing for thousands of employers across the US and Canada, covering more than 9,000 tax agencies. Every jurisdiction has its own rules, and a misconfiguration doesn't produce a bug. It produces a failed filing or a penalty. I was embedded onsite in Dallas as the sole designer, working directly with engineering, product and the compliance subject-matter experts.
       </p>
       <EntityDiagram />
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="The brief was screens. The problem was a missing shared model." icon={<AlertTriangle className="h-4 w-4" />}>
+    <CaseStudySection label="The Hard Problem" title="The brief was screens. The problem was a missing shared model.">
       <p className="mb-4">{project.problem}</p>
       <p>
         Engineers understood the data layer. Compliance experts understood the regulatory logic. Product understood the roadmap. The connections between those layers had never been drawn, and the product had been built on that gap for years. The most consequential design work on this project was forcing that conversation and capturing its result.
       </p>
     </CaseStudySection>
 
-    <CaseStudySection label="Decisions" title="Four calls I made, and what I turned down" icon={<Lightbulb className="h-4 w-4" />}>
-      <div className="space-y-6">
-        {decisions.map((d, i) => (
-          <motion.div key={d.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-border bg-card/50">
-              <CardContent className="p-5">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-accent font-bold">0{i + 1}</span>
-                  <h3 className="font-bold text-foreground">{d.title}</h3>
-                </div>
-                <p className="text-sm mb-3">{d.body}</p>
-                <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Rejected:</span> {d.rejected}</p>
-              </CardContent>
-            </Card>
-            {i === 1 && <div className="mt-6"><StateMachineDiagram /></div>}
-          </motion.div>
-        ))}
-      </div>
+    <CaseStudySection label="Decisions" title="Four calls I made, and what I turned down">
+      <DecisionList items={decisions} after={(i) => (i === 1 ? <div className="mt-6"><StateMachineDiagram /></div> : null)} />
     </CaseStudySection>
 
-    <CaseStudySection label="What Changed" title="Legacy to redesign" icon={<Star className="h-4 w-4" />}>
-      <div className="grid gap-2 mb-6">
+    <CaseStudySection label="What Changed" title="Legacy to redesign">
+      <ul className="mb-8 border-t border-border divide-y divide-border">
         {teaserTransformations.map((t) => (
-          <div key={t.from} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card">
-            <span className="text-sm text-muted-foreground line-through flex-1">{t.from}</span>
-            <ArrowRight className="h-4 w-4 text-accent shrink-0" aria-hidden="true" />
-            <span className="text-sm font-medium text-foreground flex-1">{t.to}</span>
-          </div>
+          <li key={t.from} className="grid gap-1 py-3 text-sm sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4">
+            <span className="text-muted-foreground line-through">{t.from}</span>
+            <ArrowRight className="hidden h-4 w-4 text-accent sm:block" aria-hidden="true" />
+            <span className="font-medium text-foreground">{t.to}</span>
+          </li>
         ))}
-      </div>
+      </ul>
       <p>
         The outcomes here are structural rather than vanity metrics: a class of silent state changes eliminated, entity relationships visible in navigation and forms, an audit-ready revision history, and a configuration model that scales to new jurisdictions without a redesign.
       </p>
     </CaseStudySection>
 
-    <CaseStudySection label="Working Across Disciplines" title="Three definitions of released, one contract" icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection label="Working Across Disciplines" title="Three definitions of released, one contract">
       <p>
         The sharpest moment was discovering that engineering, compliance and product each meant something different by "released". Reconciling those into one state machine was a negotiation, not a wireframe, and it could only happen with all three in the room. The full narrative below covers that discovery, the validation rules, the stakeholder work and the impact in detail.
       </p>
