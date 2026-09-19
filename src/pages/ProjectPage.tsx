@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import SEO from "@/components/SEO";
 import { projects, findProject, publicProjects, Project } from "@/lib/projects";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
@@ -147,34 +146,33 @@ const ProjectPage = () => {
         }}
       />
       {/* Hero */}
-      <section className="py-20 bg-muted/30">
+      <section className="bg-muted/30 py-20 lg:py-28">
         <div className="container mx-auto px-4">
-          <Link to="/#projects" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4 mr-1" aria-hidden="true" /> Back to projects
+          <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
+            <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">{project.impact}</p>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-3 font-display">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{project.impact}</p>
+              <h1 className="mb-6 text-4xl font-bold tracking-tight font-display sm:text-5xl lg:text-[3.5rem] lg:leading-[1.05]">
                 {project.title}<span className="sr-only">: UX Case Study</span>
               </h1>
-              <div className="mb-6">
-                <AppStorePromoBanner project={project} />
-              </div>
-              <p className="text-lg text-muted-foreground max-w-2xl mb-6">{project.description}</p>
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-                <span><strong className="text-foreground">Role:</strong> {project.role}</span>
-                <span><strong className="text-foreground">Timeline:</strong> {project.timeline}</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {project.tools.map((t) => <Badge key={t} variant="secondary">{t}</Badge>)}
-              </div>
+              <p className="mb-8 max-w-[52ch] text-lg leading-relaxed text-muted-foreground sm:text-xl">{project.description}</p>
+              <AppStorePromoBanner project={project} />
+              <dl className="mb-8 mt-8 grid max-w-xl gap-x-8 gap-y-2 text-sm sm:grid-cols-[auto_1fr]">
+                <dt className="font-medium text-foreground">Role</dt>
+                <dd className="text-muted-foreground">{project.role}</dd>
+                <dt className="font-medium text-foreground">Timeline</dt>
+                <dd className="text-muted-foreground">{project.timeline}</dd>
+                <dt className="font-medium text-foreground">Tools</dt>
+                <dd className="text-muted-foreground">{project.tools.join(", ")}</dd>
+              </dl>
               {project.keyResults && (
-                <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl border-t border-border pt-4 mt-2">
+                <dl className="grid max-w-2xl grid-cols-1 gap-6 border-t border-border pt-6 sm:grid-cols-3">
                   {project.keyResults.map((r) => (
-                    <div key={r.label}>
-                      <dd className="text-lg font-bold text-accent leading-6">{r.value}</dd>
-                      <dt className="text-xs text-muted-foreground leading-4 mt-0.5">{r.label}</dt>
+                    <div key={r.label} className="flex flex-col">
+                      <dt className="order-2 text-sm leading-5 text-muted-foreground">{r.label}</dt>
+                      <dd className="order-1 mb-1 text-2xl font-bold leading-none tracking-tight text-foreground font-display">{r.value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -188,7 +186,7 @@ const ProjectPage = () => {
       </section>
 
       {/* Content */}
-      <div className="container mx-auto px-4 pb-24 max-w-4xl">
+      <div className="container mx-auto max-w-4xl px-4 pb-24 pt-20">
         {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (

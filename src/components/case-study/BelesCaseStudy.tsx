@@ -1,13 +1,11 @@
-import { motion } from "framer-motion";
-import { AlertTriangle, Lightbulb, BarChart3, Search, Users, Rocket } from "lucide-react";
 import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
 import InterviewInsightCards from "./InterviewInsightCards";
 import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
-import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
+import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -38,75 +36,40 @@ const decisions = [
   },
 ];
 
+const decisionVisuals = [<ShmageleFlowDiagram />, <JustFriendsToggle />, <NavRedesignComparison />];
+
 const BelesCaseStudy = ({ project }: Props) => (
   <>
-    <CaseStudySection label="Context" title="A displaced community with nowhere to connect" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="A displaced community with nowhere to connect">
       <p className="mb-6">{project.problem}</p>
-      <p className="mb-4">Mainstream dating apps had no way to find other Tigrayans, and no concept of the matchmaking tradition the community already trusted.</p>
+      <p className="mb-8">Mainstream dating apps had no way to find other Tigrayans, and no concept of the matchmaking tradition the community already trusted.</p>
       <ExistingSolutionsComparison />
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="Tradition inside a modern app, without flattening it" icon={<AlertTriangle className="h-4 w-4" />}>
-      <p className="mb-6">
+    <CaseStudySection label="The Hard Problem" title="Tradition inside a modern app, without flattening it">
+      <p className="mb-8">
         The obvious product was a swipe app with an ethnicity filter. The interviews (8 people, ages 19 to 55, across the diaspora) pointed somewhere harder: people wanted the trust of traditional matchmaking, a way to stay close to community events, and in many cases connection without dating at all. The design problem was making those three things coexist in one product a 26-year-old and a 55-year-old would both understand.
       </p>
       <InterviewInsightCards />
     </CaseStudySection>
 
-    <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down" icon={<Lightbulb className="h-4 w-4" />}>
-      <div className="space-y-6">
-        {decisions.map((d, i) => (
-          <motion.div key={d.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-border bg-card/50">
-              <CardContent className="p-5">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-accent font-bold">0{i + 1}</span>
-                  <h3 className="font-bold text-foreground">{d.title}</h3>
-                </div>
-                <p className="text-sm mb-3">{d.body}</p>
-                <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Rejected:</span> {d.rejected}</p>
-              </CardContent>
-            </Card>
-            {i === 0 && <div className="mt-6"><ShmageleFlowDiagram /></div>}
-            {i === 1 && <div className="mt-6"><JustFriendsToggle /></div>}
-            {i === 2 && <div className="mt-6"><NavRedesignComparison /></div>}
-          </motion.div>
-        ))}
-      </div>
+    <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down">
+      <DecisionList items={decisions} after={(i) => <div className="mt-6">{decisionVisuals[i]}</div>} />
     </CaseStudySection>
 
-    <CaseStudySection label="Evidence" title="Round one findings, and what changed by round two" icon={<BarChart3 className="h-4 w-4" />}>
-      <p className="mb-4">Eight participants tested the low-fidelity prototype. These were the round-one findings that drove the decisions above.</p>
+    <CaseStudySection label="Evidence" title="Round one findings, and what changed by round two">
+      <p className="mb-6">Eight participants tested the low-fidelity prototype. These were the round-one findings that drove the decisions above.</p>
       <UsabilityStatBars />
-      {project.validationMetrics && (
-        <div className="grid sm:grid-cols-2 gap-4 mt-6">
-          {project.validationMetrics.map((m) => (
-            <Card key={m.label} className="border-accent/30 bg-accent/5">
-              <CardContent className="p-5 text-center">
-                <p className="text-2xl font-bold text-accent mb-1">{m.value}</p>
-                <p className="font-semibold text-foreground text-sm mb-1">{m.label}</p>
-                <p className="text-xs text-muted-foreground">{m.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+      {project.validationMetrics && <StatRow stats={project.validationMetrics} columns={2} className="mt-10" />}
     </CaseStudySection>
 
     {project.learnings && (
-      <CaseStudySection label="What I Learned" title="You can't design for a community from outside it" icon={<Users className="h-4 w-4" />}>
-        <div className="space-y-4">
-          {project.learnings.map((l, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-              <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-              <p className="text-sm">{l}</p>
-            </div>
-          ))}
-        </div>
+      <CaseStudySection label="What I Learned" title="You can't design for a community from outside it">
+        <NumberedList items={project.learnings} />
       </CaseStudySection>
     )}
 
-    <CaseStudySection label="Status" title="Where it stands" icon={<Rocket className="h-4 w-4" />}>
+    <CaseStudySection label="Status" title="Where it stands">
       <p>
         Beles is a tested prototype, not a shipped product. To take it further I would run a beta with community organizations, add Tigrinya language support, and instrument match and event-attendance rates before building anything else. It remains the project that taught me the most about designing for a culture with real depth, and it's why I now start every project by finding the people the obvious solution would leave out.
       </p>
