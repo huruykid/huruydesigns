@@ -10,10 +10,18 @@ const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     if (hash) {
-      // Wait a frame so the target section has rendered before scrolling.
-      requestAnimationFrame(() => {
-        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
-      });
+      // Retry briefly: the target section may shift as content/fonts settle.
+      let attempts = 0;
+      const scrollToTarget = () => {
+        const el = document.getElementById(hash.slice(1));
+        if (!el) return;
+        el.scrollIntoView({ behavior: "smooth" });
+        attempts += 1;
+        if (attempts < 8 && Math.abs(el.getBoundingClientRect().top - 64) > 4) {
+          setTimeout(scrollToTarget, 150);
+        }
+      };
+      requestAnimationFrame(scrollToTarget);
     } else {
       window.scrollTo(0, 0);
     }
