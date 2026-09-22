@@ -322,7 +322,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
           </Link>
         </Button>
         <Button asChild variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
-          <Link to="/#projects">View all projects</Link>
+          <Link to="/#work">View all projects</Link>
         </Button>
       </div>
     </div>

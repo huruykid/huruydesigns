@@ -7,11 +7,18 @@ import Layout from "@/components/Layout";
 import Index from "./pages/Index";
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (hash) {
+      // Wait a frame so the target section has rendered before scrolling.
+      requestAnimationFrame(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
     trackPageView(pathname);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 };
 

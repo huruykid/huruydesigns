@@ -149,7 +149,7 @@ const ProjectPage = () => {
       {/* Hero */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <Link to="/#projects" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
+          <Link to="/#work" className="inline-flex items-center text-sm text-muted-foreground hover:text-accent transition-colors mb-8">
             <ArrowLeft className="h-4 w-4 mr-1" aria-hidden="true" /> Back to projects
           </Link>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
