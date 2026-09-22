@@ -11,8 +11,7 @@
 
 ## Case Studies
 
-- [EBT Finder](https://huruy.tech/project/ebtfinder): Review-first store locator for SNAP/EBT households, researched, designed, built, and shipped solo to the App Store.
 - [Asure Compliance Engine](https://huruy.tech/project/asure-compliance): Onsite redesign of an enterprise payroll compliance engine serving 9,000+ tax agencies: the entity model, revision state machine and configuration patterns, with the detailed narrative available by request.
-- [Capital Group: AI-Assisted Research Tools](https://huruy.tech/project/capital-group-research): Current work designing research and analysis tools for investment analysts, described at the level of approach (provenance, review states, governance).
 - [OneAsure Portal](https://huruy.tech/project/oneasure-portal): Consolidating three enterprise HR portals (time, benefits, payroll) into one product.
+- [EBT Finder](https://huruy.tech/project/ebtfinder): Review-first store locator for SNAP/EBT households, researched, designed, built, and shipped solo to the App Store.
 - [Beles](https://huruy.tech/project/beles): Dating and community app concept for the Tigrayan diaspora, built around traditional matchmaking.

@@ -8,15 +8,15 @@ import { person, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 
-const FEATURED = ["ebtfinder", "asure-compliance", "capital-group-research"];
+const FEATURED = ["asure-compliance", "oneasure-portal", "ebtfinder"];
 const visibleProjects = publicProjects();
 const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
 const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
 
 const proofPoints = [
-  { value: "8+ years", label: "enterprise UX: payroll compliance, HR platforms, financial research" },
+  { value: "8+ years", label: "enterprise UX in payroll compliance, HR platforms and financial services" },
+  { value: "9,000+", label: "tax agencies configured through the compliance model I designed at Asure" },
   { value: "Shipped", label: "a consumer app I researched, designed, built and released myself" },
-  { value: "Now", label: `AI-assisted research tools for analysts at ${person.currentEmployer}` },
 ];
 
 const hiringFacts = [

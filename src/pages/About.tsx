@@ -7,7 +7,7 @@ import { PERSON } from "@/lib/seo";
 import { person, experience, leadership, resumePdfPath } from "@/lib/resume";
 import { testimonials } from "@/lib/testimonials";
 
-const PAGE_DESC = `${person.positioning} Currently designing research tools for investment analysts at ${person.currentEmployer}.`;
+const PAGE_DESC = `${person.positioning} Currently a ${person.title} at ${person.currentEmployer}.`;
 
 const profilePageJsonLd = {
   "@context": "https://schema.org",
@@ -77,7 +77,7 @@ const About = () => (
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About</p>
             <h1 className="mb-6 text-4xl font-bold tracking-tight font-display sm:text-5xl">Huruy Kidanemariam</h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-12">
-              {person.positioning} Currently designing research and analysis tools for investment analysts at {person.currentEmployer};
+              {person.positioning} Currently a {person.title} at {person.currentEmployer};
               before that, payroll compliance and HR platforms at Asure Software. I'm drawn to products where good design removes
               a barrier, whether that's enterprise software that stops punishing its users or a tool that helps people find food
               with dignity. I design in code when a working prototype settles an argument a deck can't.

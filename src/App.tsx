@@ -73,6 +73,7 @@ export const AppRoutes = () => (
           <Route path="/resume" element={<Resume />} />
           <Route path="/senior-ux-designer" element={<Navigate to="/#hire" replace />} />
           <Route path="/hire" element={<Navigate to="/#hire" replace />} />
+          <Route path="/project/capital-group-research" element={<Navigate to="/#work" replace />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/og" element={<OGImage />} />

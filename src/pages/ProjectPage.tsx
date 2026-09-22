@@ -12,7 +12,6 @@ import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import AsurePublicCaseStudy from "@/components/case-study/AsurePublicCaseStudy";
-import CapitalGroupCaseStudy from "@/components/case-study/CapitalGroupCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
@@ -200,8 +199,6 @@ const ProjectPage = () => {
               <AccessGate project={project} onAccessGranted={setGatedContent} />
             </>
           )
-        ) : project.id === "capital-group-research" ? (
-          <CapitalGroupCaseStudy project={project} {...slotProps} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
         ) : project.id === "fentfinder" ? (

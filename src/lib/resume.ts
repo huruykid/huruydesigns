@@ -23,7 +23,7 @@ export const person = {
   currentEmployerFull: "Capital Group (via Luxoft)",
   availability: "Open to senior UX, senior product design, and staff UX roles: full-time, contract, or consulting. Open to relocation, hybrid, or remote.",
   summary:
-    "Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently designing research tools for analysts at Capital Group.",
+    "Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently a Senior UX Designer at Capital Group.",
   /** One positioning line used across the homepage, About and Hire pages. */
   positioning:
     "Senior UX Designer and Builder with 8+ years crafting accessible, human-centered products for enterprise SaaS, compliance, AI, and social impact.",
@@ -47,9 +47,8 @@ export const experience: ExperienceItem[] = [
     org: "Capital Group (via Luxoft)",
     location: "Los Angeles, CA",
     bullets: [
-      "Design research and analysis tools for investment analysts at a $2.7T asset manager, translating complex regulated enterprise workflows into intuitive, trusted interfaces",
-      "Partner with product, engineering, and compliance stakeholders to shape AI-assisted research experiences that meet strict governance and accuracy standards",
-      "Contribute to design systems and interaction patterns that scale across Capital Group's internal analyst platform",
+      "Design internal enterprise products in a regulated industry, partnering with product, engineering, and compliance stakeholders",
+      "Contribute to shared design systems and interaction patterns used across product teams",
     ],
   },
   {
@@ -126,7 +125,7 @@ export const leadership = [
     org: "HPN4Tigray",
     location: "Portland, OR",
     description:
-      "Led storytelling and advocacy campaigns that increased donor contributions by 25% and expanded reach by 44%. Built reusable design templates that accelerated campaign launches by 37%.",
+      "Lead storytelling and advocacy campaigns for a diaspora humanitarian network, and built the reusable design templates the team uses to launch campaigns.",
   },
 ];
 
@@ -147,7 +146,7 @@ export const skillGroups: SkillGroup[] = [
   },
   { label: "Development", skills: ["React", "HTML/CSS", "JavaScript"] },
   { label: "Collaboration", skills: ["Agile", "Scrum", "Cross-functional Teams", "Lean UX"] },
-  { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "AI-Assisted Research"] },
+  { label: "AI", skills: ["Prompt Engineering", "AI Prototyping", "LLM Integration", "Human-in-the-Loop Design"] },
 ];
 
 export const contactLinks = [
