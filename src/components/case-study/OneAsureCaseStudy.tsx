@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
-import { AlertTriangle, Lightbulb, Search, ClipboardList, Users, FlaskConical, Star, Rocket } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
 import PayModuleDemo from "./PayModuleDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
+import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Project } from "@/lib/projects";
 
@@ -50,7 +49,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
 
   return (
     <>
-      <CaseStudySection label="Context" title="Three portals, three logins, one HR team" icon={<Search className="h-4 w-4" />}>
+      <CaseStudySection label="Context" title="Three portals, three logins, one HR team">
         <p className="mb-4">
           HR professionals at mid-to-large enterprises ran their day across separate Asure portals for time and attendance, benefits and payroll, each with its own login, logic and quirks. Administrators made errors. Employees gave up on self-service. The sales team struggled to demo a product that looked a decade old.
         </p>
@@ -59,99 +58,59 @@ const OneAsureCaseStudy = ({ project }: Props) => {
         </p>
       </CaseStudySection>
 
-      <CaseStudySection label="The Hard Problem" title="The ask was a refresh. The problem was trust." icon={<AlertTriangle className="h-4 w-4" />}>
-        <p className="mb-6">
+      <CaseStudySection label="The Hard Problem" title="The ask was a refresh. The problem was trust.">
+        <p className="mb-8">
           The brief came from sales: make it look modern. The interviews said something else. Users had stopped trusting the system, and several described avoiding tasks entirely because the process felt too risky. Consolidating three products into one without losing the complexity enterprise clients actually needed was the real work, and it had to happen before any visual change could land.
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {evidence.map((s, i) => (
-            <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-              <Card className="border-accent/30 bg-accent/5">
-                <CardContent className="p-5 text-center">
-                  <p className="text-3xl font-bold text-accent mb-1">{s.value}</p>
-                  <p className="text-xs font-semibold text-foreground uppercase tracking-wide">{s.label}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        <StatRow stats={evidence} columns={4} />
       </CaseStudySection>
 
-      <CaseStudySection label="Decisions" title="Four calls I made, and what I turned down" icon={<Lightbulb className="h-4 w-4" />}>
-        <div className="space-y-6">
-          {decisions.map((d, i) => (
-            <motion.div key={d.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-              <Card className="border-border bg-card/50">
-                <CardContent className="p-5">
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-accent font-bold">0{i + 1}</span>
-                    <h3 className="font-bold text-foreground">{d.title}</h3>
-                  </div>
-                  <p className="text-sm mb-3">{d.body}</p>
-                  <p className="text-sm text-muted-foreground"><span className="font-semibold text-foreground">Rejected:</span> {d.rejected}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+      <CaseStudySection label="Decisions" title="Four calls I made, and what I turned down">
+        <DecisionList items={decisions} />
       </CaseStudySection>
 
-      <CaseStudySection label="The Product" title="The Pay module, as shipped" icon={<ClipboardList className="h-4 w-4" />}>
-        <p className="mb-6 text-sm text-muted-foreground">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product.</p>
+      <CaseStudySection label="The Product" title="The Pay module, as shipped">
+        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product.</p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col items-center mb-10"
+          className="mb-12 flex flex-col items-center"
         >
           <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
             <PayModuleDemo layout={demoLayout} />
           </ResponsiveAppShell>
-          <p className="text-xs text-muted-foreground leading-relaxed mt-2 max-w-[320px] text-center">
+          <p className="mt-3 max-w-[40ch] text-center text-sm leading-relaxed text-muted-foreground">
             Take-home pay, tax breakdowns, disbursements and pay history, replacing three separate logins.
           </p>
         </motion.div>
         <IterationTimeline />
       </CaseStudySection>
 
-      <CaseStudySection label="Testing" title="24 tests, 8 iterations, and what they caught" icon={<FlaskConical className="h-4 w-4" />}>
-        <p className="mb-4">
+      <CaseStudySection label="Testing" title="24 tests, 8 iterations, and what they caught">
+        <p className="mb-8">
           Each round surfaced friction I hadn't anticipated: edge cases in the notification flow, labels that made sense to designers and confused admins, navigation that worked on desktop and broke on small screens. The notification system below went through three of those rounds before it stopped burying the changes that mattered.
         </p>
         <AdminNotificationDemo />
       </CaseStudySection>
 
-      <CaseStudySection label="Outcome" title="One product, and a sales team that could demo it" icon={<Star className="h-4 w-4" />}>
+      <CaseStudySection label="Outcome" title="One product, and a sales team that could demo it">
         <p className="mb-4">{project.outcomeMetrics}</p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base">
           Post-launch, administrators reported fewer errors and faster onboarding, and enterprise prospects engaged with demos again. I have those as qualitative signals from support and sales, not as baselined metrics, which is the first thing I'd change (below).
         </p>
       </CaseStudySection>
 
       {project.learnings && project.learnings.length > 0 && (
-        <CaseStudySection label="What I Learned" title="Stakeholder alignment is a design skill" icon={<Users className="h-4 w-4" />}>
-          <div className="space-y-4">
-            {project.learnings.map((l, i) => (
-              <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-                <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-                <p className="text-sm">{l}</p>
-              </div>
-            ))}
-          </div>
+        <CaseStudySection label="What I Learned" title="Stakeholder alignment is a design skill">
+          <NumberedList items={project.learnings} />
         </CaseStudySection>
       )}
 
       {project.whatIdDoDifferently && (
-        <CaseStudySection label="Hindsight" title="What I'd do differently" icon={<Rocket className="h-4 w-4" />}>
-          <div className="space-y-4">
-            {project.whatIdDoDifferently.map((w, i) => (
-              <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/10 border border-border/50">
-                <span className="text-muted-foreground font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-                <p className="text-sm">{w}</p>
-              </div>
-            ))}
-          </div>
+        <CaseStudySection label="Hindsight" title="What I'd do differently">
+          <NumberedList items={project.whatIdDoDifferently} tone="muted" />
         </CaseStudySection>
       )}
     </>

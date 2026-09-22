@@ -6,7 +6,7 @@ Recruiters spend roughly 30 seconds on a first pass and look for: current role, 
 
 The hero never says where you work or where you live. Recruiters filter on both.
 
-- Add a current-role line under the intro paragraph: "Currently designing research tools for investment analysts at Capital Group."
+- Add a current-role line under the intro paragraph: "Currently a Senior UX Designer at Capital Group."
 - Add location and work preference to the credibility bar: "Los Angeles, CA" and "Open to Remote / Hybrid".
 - Keep "8+ Years Experience" and "12M+ Users Impacted".
 

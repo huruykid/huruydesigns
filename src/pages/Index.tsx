@@ -8,15 +8,15 @@ import { person, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 
-const FEATURED = ["ebtfinder", "asure-compliance", "capital-group-research"];
+const FEATURED = ["asure-compliance", "oneasure-portal", "ebtfinder"];
 const visibleProjects = publicProjects();
 const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
 const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
 
 const proofPoints = [
-  { value: "8+ years", label: "enterprise UX: payroll compliance, HR platforms, financial research" },
+  { value: "8+ years", label: "enterprise UX in payroll compliance, HR platforms and financial services" },
+  { value: "9,000+", label: "tax agencies configured through the compliance model I designed at Asure" },
   { value: "Shipped", label: "a consumer app I researched, designed, built and released myself" },
-  { value: "Now", label: `AI-assisted research tools for analysts at ${person.currentEmployer}` },
 ];
 
 const hiringFacts = [
@@ -52,18 +52,18 @@ const Index = () => (
     />
 
     {/* Hero: the 60-second scan */}
-    <section className="py-16 sm:py-24">
+    <section className="py-20 sm:py-28 lg:py-32">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-4">{person.name}, {person.title}</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 font-display">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{person.name}, {person.title}</p>
+          <h1 className="mb-10 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:text-5xl lg:text-6xl">
             I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
           </h1>
-          <dl className="mb-8 grid gap-3 sm:grid-cols-3">
+          <dl className="mb-10 grid gap-x-8 gap-y-6 sm:grid-cols-3">
             {proofPoints.map((p) => (
-              <div key={p.value} className="rounded-lg border border-border bg-card p-4">
-                <dt className="text-lg font-bold text-foreground font-display">{p.value}</dt>
-                <dd className="mt-1 text-sm text-muted-foreground">{p.label}</dd>
+              <div key={p.value} className="border-t border-border pt-4">
+                <dt className="text-2xl font-bold tracking-tight text-foreground font-display">{p.value}</dt>
+                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.label}</dd>
               </div>
             ))}
           </dl>
@@ -82,12 +82,12 @@ const Index = () => (
     </section>
 
     {/* Work */}
-    <section id="work" className="py-16 bg-muted/30 scroll-mt-16" aria-labelledby="work-heading">
+    <section id="work" className="scroll-mt-16 bg-muted/30 py-20 sm:py-24" aria-labelledby="work-heading">
       <div className="container mx-auto px-4">
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Selected work</p>
-            <h2 id="work-heading" className="text-3xl sm:text-4xl font-bold font-display">Three case studies</h2>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Selected work</p>
+            <h2 id="work-heading" className="text-3xl font-bold tracking-tight font-display sm:text-4xl">Three case studies</h2>
           </div>
           <p className="max-w-md text-sm text-muted-foreground">
             Each one opens with a summary you can read in a minute, then the decisions and what I turned down.
@@ -118,11 +118,11 @@ const Index = () => (
     </section>
 
     {/* Hiring */}
-    <section id="hire" className="py-16 scroll-mt-16" aria-labelledby="hire-heading">
+    <section id="hire" className="scroll-mt-16 py-20 sm:py-24" aria-labelledby="hire-heading">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-10">
-          <p className="text-accent font-semibold text-sm tracking-wide uppercase mb-2">Hiring?</p>
-          <h2 id="hire-heading" className="text-2xl sm:text-3xl font-bold mb-4 font-display">Open to senior UX roles</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Hiring?</p>
+          <h2 id="hire-heading" className="mb-5 text-2xl font-bold tracking-tight font-display sm:text-3xl">Open to senior UX roles</h2>
           <ul className="mb-6 space-y-2 text-muted-foreground">
             {hiringFacts.map((f) => (
               <li key={f} className="flex items-start gap-2">

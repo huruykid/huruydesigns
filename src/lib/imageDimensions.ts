@@ -3,7 +3,6 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
   "/images/asure/dallas-onsite.webp": { width: 1368, height: 1824 },
   "/images/asure/cover.svg": { width: 1200, height: 750 },
   "/images/beles/hero-mockup.webp": { width: 864, height: 1184 },
-  "/images/capital-group/cover.svg": { width: 1200, height: 750 },
   "/images/ebtfinder/app/community.webp": { width: 720, height: 1564 },
   "/images/ebtfinder/app/guides.webp": { width: 720, height: 1564 },
   "/images/ebtfinder/app/map.webp": { width: 720, height: 1564 },
@@ -13,5 +12,6 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
   "/images/ebtfinder/hero-mockup.webp": { width: 1344, height: 768 },
   "/images/ebtfinder/usda-screenshot.webp": { width: 1600, height: 755 },
   "/images/ebtfinder/wireframes.webp": { width: 1408, height: 768 },
+  "/images/oneasure/cover.svg": { width: 1200, height: 750 },
   "/og-image.png": { width: 1200, height: 630 },
 };

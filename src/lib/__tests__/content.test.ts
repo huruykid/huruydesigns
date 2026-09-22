@@ -37,8 +37,13 @@ describe("projects", () => {
     expect(projects.some((p) => p.hidden)).toBe(true);
   });
 
-  it("does not put the gated study in the first slot", () => {
-    expect(publicProjects()[0].gated).toBeFalsy();
+  it("says nothing about the current employer's projects", () => {
+    // The current role is confidential: employer and title only, no project detail anywhere.
+    const leak = /analyst|investment|research tool|asset manager|luxoft|capital group/i;
+    expect(JSON.stringify(projects)).not.toMatch(leak);
+    const current = experience.find((e) => e.end === undefined && e.org.startsWith(person.currentEmployer))!;
+    expect(current.bullets.join(" ")).not.toMatch(/analyst|investment|research tool|asset manager|AI-assisted/i);
+    expect(person.summary).not.toMatch(/analyst|research tool/i);
   });
 
   it("resolves ids with and without hyphens", () => {
