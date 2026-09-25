@@ -5,6 +5,7 @@ import InterviewInsightCards from "./InterviewInsightCards";
 import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
 import CaseStudySection from "./CaseStudySection";
+import { ArrowUpRight } from "lucide-react";
 import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { Project } from "@/lib/projects";
 
