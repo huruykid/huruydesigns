@@ -85,7 +85,7 @@ const BelesCaseStudy = ({ project }: Props) => (
         Visit the live app <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
       </a>
       <div className="mx-auto mt-10 max-w-sm">
-        <ResponsiveAppShell label="Beles match moment" shellWidth={220} shellHeight={340}>
+        <ResponsiveAppShell label="Beles match moment" mobileWidth={220} mobileHeight={380}>
           <BelesMatchDemo />
         </ResponsiveAppShell>
       </div>
