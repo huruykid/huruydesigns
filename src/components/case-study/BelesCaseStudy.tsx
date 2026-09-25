@@ -5,6 +5,8 @@ import InterviewInsightCards from "./InterviewInsightCards";
 import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
 import CaseStudySection from "./CaseStudySection";
+import BelesMatchDemo from "./BelesMatchDemo";
+import ResponsiveAppShell from "./ResponsiveAppShell";
 import { ArrowUpRight } from "lucide-react";
 import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { Project } from "@/lib/projects";
@@ -82,6 +84,11 @@ const BelesCaseStudy = ({ project }: Props) => (
       >
         Visit the live app <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
       </a>
+      <div className="mx-auto mt-10 max-w-sm">
+        <ResponsiveAppShell label="Beles match moment" shellWidth={220} shellHeight={340}>
+          <BelesMatchDemo />
+        </ResponsiveAppShell>
+      </div>
     </CaseStudySection>
   </>
 );
