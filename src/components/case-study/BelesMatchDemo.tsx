@@ -144,7 +144,7 @@ const BelesMatchDemo = () => {
                   background: "linear-gradient(135deg, #facc15, #eab308)",
                   border: "3px solid #0a0a0a",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20, fontWeight: 700, color: "#fff",
+                  fontSize: 20, fontWeight: 700, color: "#0a0a0a",
                 }}
               >
                 Y
@@ -159,7 +159,7 @@ const BelesMatchDemo = () => {
                   background: `linear-gradient(135deg, ${match.color}, ${match.color}dd)`,
                   border: "3px solid #0a0a0a",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20, fontWeight: 700, color: "#fff",
+                  fontSize: 20, fontWeight: 700, color: "#0a0a0a",
                 }}
               >
                 {match.name[0]}
