@@ -380,7 +380,7 @@ export const projects: Project[] = [
     impact: "Tradition inside a modern app",
     tags: ["UX Design", "User Research", "Dating App", "Cultural Design"],
     role: "UX Designer",
-    timeline: "8 weeks, concept through tested prototype",
+    timeline: "8 weeks of research and testing, now a live web app",
     tools: ["Figma", "Miro", "Axure"],
     challenge: "A displaced community needed a place to find partners, friends, and events that understood its culture. Mainstream dating apps had no way to filter for Tigrayan heritage or to honor traditional matchmaking.",
     problem: "Amidst the devastating humanitarian crisis faced by Tigray beginning in November 2020, Tigrayans globally found themselves without a dedicated haven to connect and support each other. The diaspora community, scattered across continents, needed a way to maintain cultural identity, find romantic partners who understand their cultural values, discover community events, and build support networks during an incredibly turbulent and traumatic time.",

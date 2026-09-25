@@ -1,12 +1,49 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Sparkles } from "lucide-react";
 
+/**
+ * Cast and flow pulled from the live Beles app (belesconnect.app) staging
+ * fixtures: real profile names, cities, roots, and the Shmagele
+ * "suggested them" card shown at the moment a match lands.
+ */
 const matches = [
-  { name: "Berhane", color: "#c2185b" },
-  { name: "Selam", color: "#7b1fa2" },
-  { name: "Dawit", color: "#1565c0" },
-  { name: "Tigist", color: "#2e7d32" },
+  {
+    name: "Hiwet",
+    age: 29,
+    city: "Los Angeles, CA",
+    roots: "Adwa, Tigray",
+    color: "#c2185b",
+    suggestedBy: "Shmagele Aster",
+    suggestedNote: "She keeps the family jebena. You two will talk for hours.",
+  },
+  {
+    name: "Yonas",
+    age: 34,
+    city: "Oakland, CA",
+    roots: "Mekelle, Tigray",
+    color: "#1565c0",
+    suggestedBy: "Shmagele Aster",
+    suggestedNote: "Civil engineer, cooks shiro better than his mother. Do not tell her.",
+  },
+  {
+    name: "Feven",
+    age: 27,
+    city: "Minneapolis, MN",
+    roots: "Shire, Tigray",
+    color: "#7b1fa2",
+    suggestedBy: null,
+    suggestedNote: null,
+  },
+  {
+    name: "Haile",
+    age: 36,
+    city: "Atlanta, GA",
+    roots: "Axum, Tigray",
+    color: "#2e7d32",
+    suggestedBy: null,
+    suggestedNote: null,
+  },
 ];
 
 const BelesMatchDemo = () => {
@@ -74,26 +111,29 @@ const BelesMatchDemo = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "30px 20px 20px", flex: 1, justifyContent: "center" }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "22px 20px 16px", flex: 1, justifyContent: "center", width: "100%" }}
           >
             {/* Match text */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              style={{ textAlign: "center", marginBottom: 24 }}
+              style={{ textAlign: "center", marginBottom: 16 }}
             >
               <div style={{ fontSize: 8, letterSpacing: 3, textTransform: "uppercase", color: "#d4a055", marginBottom: 4 }}>✦ BELES ✦</div>
               <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, background: "linear-gradient(135deg, #d4a055, #f0d08c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 It's a match!
               </h2>
               <p style={{ fontSize: 9, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>
-                You and {match.name} liked each other
+                The feeling is mutual with {match.name}, {match.age}
+              </p>
+              <p style={{ fontSize: 8, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>
+                {match.city} · Roots: {match.roots}
               </p>
             </motion.div>
 
             {/* Overlapping avatars */}
-            <div style={{ position: "relative", width: 120, height: 70, marginBottom: 28 }}>
+            <div style={{ position: "relative", width: 120, height: 70, marginBottom: 16 }}>
               <motion.div
                 initial={{ x: 20 }}
                 animate={{ x: 0 }}
@@ -138,6 +178,29 @@ const BelesMatchDemo = () => {
                 <Heart size={10} fill="#fff" color="#fff" />
               </motion.div>
             </div>
+
+            {/* Shmagele suggestion card: the whole point of a Shmagele
+                introduction is knowing why this person is in front of you. */}
+            {match.suggestedBy && match.suggestedNote && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                style={{
+                  width: "85%", borderRadius: 12, marginBottom: 14,
+                  border: "1px solid rgba(212,160,85,0.35)",
+                  background: "rgba(212,160,85,0.1)",
+                  padding: "8px 10px", textAlign: "left",
+                }}
+              >
+                <p style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 7, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", color: "#d4a055", margin: 0 }}>
+                  <Sparkles size={9} /> {match.suggestedBy} suggested them
+                </p>
+                <p style={{ fontSize: 9, lineHeight: 1.4, color: "rgba(255,255,255,0.75)", margin: "4px 0 0" }}>
+                  "{match.suggestedNote}"
+                </p>
+              </motion.div>
+            )}
 
             {/* Buttons */}
             <motion.button
