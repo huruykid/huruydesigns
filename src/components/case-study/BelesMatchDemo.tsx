@@ -62,7 +62,7 @@ const BelesMatchDemo = () => {
   return (
     <div style={{
       fontFamily: "'Inter', sans-serif",
-      background: "linear-gradient(180deg, #1a0a0e 0%, #2d1520 40%, #1a0a0e 100%)",
+      background: "linear-gradient(180deg, #0a0a0a 0%, #141414 40%, #0a0a0a 100%)",
       minHeight: "100%",
       display: "flex",
       flexDirection: "column",
@@ -96,7 +96,7 @@ const BelesMatchDemo = () => {
             position: "absolute",
             left: `${15 + i * 14}%`,
             top: "30%",
-            color: "#d4a055",
+            color: "#facc15",
             pointerEvents: "none",
           }}
         >
@@ -120,8 +120,8 @@ const BelesMatchDemo = () => {
               transition={{ delay: 0.2 }}
               style={{ textAlign: "center", marginBottom: 16 }}
             >
-              <div style={{ fontSize: 8, letterSpacing: 3, textTransform: "uppercase", color: "#d4a055", marginBottom: 4 }}>✦ BELES ✦</div>
-              <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, background: "linear-gradient(135deg, #d4a055, #f0d08c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <div style={{ fontSize: 8, letterSpacing: 3, textTransform: "uppercase", color: "#facc15", marginBottom: 4 }}>✦ BELES ✦</div>
+              <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, background: "linear-gradient(135deg, #facc15, #fde047)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 It's a match!
               </h2>
               <p style={{ fontSize: 9, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>
@@ -141,8 +141,8 @@ const BelesMatchDemo = () => {
                 style={{
                   position: "absolute", left: 8, top: 0,
                   width: 56, height: 56, borderRadius: "50%",
-                  background: "linear-gradient(135deg, #d4a055, #c08a3a)",
-                  border: "3px solid #1a0a0e",
+                  background: "linear-gradient(135deg, #facc15, #eab308)",
+                  border: "3px solid #0a0a0a",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 20, fontWeight: 700, color: "#fff",
                 }}
@@ -157,7 +157,7 @@ const BelesMatchDemo = () => {
                   position: "absolute", right: 8, top: 0,
                   width: 56, height: 56, borderRadius: "50%",
                   background: `linear-gradient(135deg, ${match.color}, ${match.color}dd)`,
-                  border: "3px solid #1a0a0e",
+                  border: "3px solid #0a0a0a",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 20, fontWeight: 700, color: "#fff",
                 }}
@@ -170,9 +170,9 @@ const BelesMatchDemo = () => {
                 transition={{ delay: 0.5, type: "spring" }}
                 style={{
                   position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)",
-                  background: "#d4a055", borderRadius: "50%", width: 22, height: 22,
+                  background: "#facc15", borderRadius: "50%", width: 22, height: 22,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  border: "2px solid #1a0a0e", zIndex: 2,
+                  border: "2px solid #0a0a0a", zIndex: 2,
                 }}
               >
                 <Heart size={10} fill="#fff" color="#fff" />
@@ -188,12 +188,12 @@ const BelesMatchDemo = () => {
                 transition={{ delay: 0.6 }}
                 style={{
                   width: "85%", borderRadius: 12, marginBottom: 14,
-                  border: "1px solid rgba(212,160,85,0.35)",
-                  background: "rgba(212,160,85,0.1)",
+                  border: "1px solid rgba(250,204,21,0.35)",
+                  background: "rgba(250,204,21,0.1)",
                   padding: "8px 10px", textAlign: "left",
                 }}
               >
-                <p style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 7, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", color: "#d4a055", margin: 0 }}>
+                <p style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 7, fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase", color: "#facc15", margin: 0 }}>
                   <Sparkles size={9} /> {match.suggestedBy} suggested them
                 </p>
                 <p style={{ fontSize: 9, lineHeight: 1.4, color: "rgba(255,255,255,0.75)", margin: "4px 0 0" }}>
@@ -208,9 +208,9 @@ const BelesMatchDemo = () => {
               onClick={handleSayKemey}
               style={{
                 width: "80%", padding: "10px 0", borderRadius: 24, border: "none",
-                background: "linear-gradient(135deg, #d4a055, #c08a3a)",
-                color: "#1a0a0e", fontSize: 12, fontWeight: 800, cursor: "pointer",
-                boxShadow: "0 4px 16px rgba(212,160,85,0.3)",
+                background: "linear-gradient(135deg, #facc15, #eab308)",
+                color: "#0a0a0a", fontSize: 12, fontWeight: 800, cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(250,204,21,0.3)",
                 marginBottom: 10,
               }}
             >
@@ -245,14 +245,14 @@ const BelesMatchDemo = () => {
               transition={{ type: "spring", damping: 10 }}
               style={{
                 width: 48, height: 48, borderRadius: "50%",
-                background: "linear-gradient(135deg, #d4a055, #c08a3a)",
+                background: "linear-gradient(135deg, #facc15, #eab308)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                marginBottom: 16, boxShadow: "0 4px 20px rgba(212,160,85,0.4)",
+                marginBottom: 16, boxShadow: "0 4px 20px rgba(250,204,21,0.4)",
               }}
             >
-              <MessageCircle size={22} color="#1a0a0e" />
+              <MessageCircle size={22} color="#0a0a0a" />
             </motion.div>
-            <h3 style={{ fontSize: 16, fontWeight: 800, color: "#d4a055", margin: 0 }}>Kemey sent!</h3>
+            <h3 style={{ fontSize: 16, fontWeight: 800, color: "#facc15", margin: 0 }}>Kemey sent!</h3>
             <p style={{ fontSize: 9, color: "rgba(255,255,255,0.5)", marginTop: 6, lineHeight: 1.4 }}>
               {match.name} will see your greeting.<br />Good things take time ✨
             </p>
