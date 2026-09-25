@@ -121,7 +121,7 @@ const BelesMatchDemo = () => {
               style={{ textAlign: "center", marginBottom: 16 }}
             >
               <div style={{ fontSize: 8, letterSpacing: 3, textTransform: "uppercase", color: "#facc15", marginBottom: 4 }}>✦ BELES ✦</div>
-              <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, background: "linear-gradient(135deg, #facc15, #fde047)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+<h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: "#facc15" }}>
                 It's a match!
               </h2>
               <p style={{ fontSize: 9, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>
@@ -175,7 +175,7 @@ const BelesMatchDemo = () => {
                   border: "2px solid #0a0a0a", zIndex: 2,
                 }}
               >
-                <Heart size={10} fill="#fff" color="#fff" />
+                <Heart size={10} fill="#0a0a0a" color="#0a0a0a" />
               </motion.div>
             </div>
 
