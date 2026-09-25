@@ -70,9 +70,17 @@ const BelesCaseStudy = ({ project }: Props) => (
     )}
 
     <CaseStudySection label="Status" title="Where it stands">
-      <p>
-        Beles is a tested prototype, not a shipped product. To take it further I would run a beta with community organizations, add Tigrinya language support, and instrument match and event-attendance rates before building anything else. It remains the project that taught me the most about designing for a culture with real depth, and it's why I now start every project by finding the people the obvious solution would leave out.
+      <p className="mb-6">
+        Beles is now a live web app, built and shipped after the research and testing rounds above. The profiles and match flow in the demos on this page come straight from the live product, including the Shmagele suggestion card shown at the moment a match lands. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
       </p>
+      <a
+        href="https://belesconnect.app?utm_source=portfolio&utm_medium=case_study&utm_campaign=beles"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex min-h-11 items-center gap-1 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
+        Visit the live app <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+      </a>
     </CaseStudySection>
   </>
 );
