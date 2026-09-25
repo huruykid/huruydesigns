@@ -4,6 +4,10 @@ import { Heart, Users } from "lucide-react";
 
 type Mode = "dating" | "friends";
 
+/**
+ * Profiles mirror the live Beles app's cast: Hiwet (dating intent, suggested
+ * by a Shmagele) and Winta (friends-only intent, Stockholm).
+ */
 const JustFriendsToggle = () => {
   const [mode, setMode] = useState<Mode>("dating");
 
@@ -52,18 +56,19 @@ const JustFriendsToggle = () => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-foreground">Makda, 28</p>
-                <p className="text-xs text-muted-foreground">Suggested by your Shmagele</p>
+                <p className="font-semibold text-foreground">Hiwet, 29</p>
+                <p className="text-xs text-muted-foreground">Los Angeles, CA · Roots: Adwa, Tigray</p>
               </div>
               <Heart className="h-5 w-5 text-accent fill-accent/20" />
             </div>
+            <p className="text-xs text-muted-foreground">Nurse, weekend hiker, keeper of the family jebena. Looking for something serious.</p>
             <div className="flex items-center gap-2">
               <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
                 <div className="h-full w-[87%] rounded-full bg-accent" />
               </div>
               <span className="text-xs font-bold text-accent">87%</span>
             </div>
-            <p className="text-xs text-muted-foreground">Compatibility based on shared values & culture</p>
+            <p className="text-xs text-muted-foreground">Suggested by Shmagele Aster, based on shared values & culture</p>
           </motion.div>
         ) : (
           <motion.div
@@ -76,13 +81,14 @@ const JustFriendsToggle = () => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-foreground">Yohannes, 24</p>
-                <p className="text-xs text-muted-foreground">Community member near you</p>
+                <p className="font-semibold text-foreground">Winta, 31</p>
+                <p className="text-xs text-muted-foreground">Stockholm, Sweden · Roots: Adigrat, Tigray</p>
               </div>
               <Users className="h-5 w-5 text-muted-foreground" />
             </div>
+            <p className="text-xs text-muted-foreground">Here for friendship first: the diaspora is small up here.</p>
             <div className="flex flex-wrap gap-1.5">
-              {["Tigrayan cooking", "Cultural events", "Music"].map((tag) => (
+              {["Design", "Cycling", "Language exchange"].map((tag) => (
                 <span key={tag} className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-foreground">
                   {tag}
                 </span>
