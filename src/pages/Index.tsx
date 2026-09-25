@@ -8,7 +8,7 @@ import { person, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 
-const FEATURED = ["asure-compliance", "oneasure-portal", "ebtfinder"];
+const FEATURED = ["asure-compliance", "beles", "ebtfinder"];
 const visibleProjects = publicProjects();
 const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
 const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
