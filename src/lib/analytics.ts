@@ -1,6 +1,7 @@
 // Google Analytics 4 via gtag.js, initialized once at app startup.
-const measurementId = import.meta.env
-  .VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY as string | undefined;
+// GA4 measurement IDs are public, so hardcoding avoids the connector
+// overriding the ID we want to report to.
+const measurementId = "G-YD4149ZH3V";
 
 declare global {
   interface Window {
