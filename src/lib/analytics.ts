@@ -9,34 +9,39 @@ declare global {
   }
 }
 
-let initialized = false;
+// Queue must exist before any event fires, so route-change page views and
+// the landing-page view sent from App.tsx on mount land in the queue and
+// get replayed when gtag.js loads. "js" and "config" are pushed here too so
+// they sit ahead of everything queued later.
+window.dataLayer = window.dataLayer || [];
 
-function gtag(...args: unknown[]) {
-  window.dataLayer?.push(args);
+function gtag(..._args: unknown[]) {
+  // eslint-disable-next-line prefer-rest-params
+  window.dataLayer!.push(arguments);
 }
 
-export function initAnalytics() {
-  if (!measurementId || initialized) return;
-  initialized = true;
+gtag("js", new Date());
+// SPA: disable automatic page views; we send them on route changes.
+gtag("config", measurementId, { send_page_view: false });
 
+let scriptInjected = false;
+
+export function initAnalytics() {
+  if (scriptInjected) return;
+  scriptInjected = true;
+
+  // Inject the script lazily; the queue above is already live.
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
   document.head.appendChild(script);
-
-  window.dataLayer = window.dataLayer || [];
-  gtag("js", new Date());
-  // SPA: disable automatic page views; we send them on route changes.
-  gtag("config", measurementId, { send_page_view: false });
 }
 
 export function trackPageView(path: string) {
-  if (!measurementId) return;
   gtag("event", "page_view", { page_path: path });
 }
 
 export function trackEvent(name: string, params?: Record<string, unknown>) {
-  if (!measurementId) return;
   gtag("event", name, params);
 }
 
