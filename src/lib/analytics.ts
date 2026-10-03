@@ -24,7 +24,12 @@ gtag("js", new Date());
 // SPA: disable automatic page views; we send them on route changes.
 gtag("config", measurementId, { send_page_view: false });
 
+let scriptInjected = false;
+
 export function initAnalytics() {
+  if (scriptInjected) return;
+  scriptInjected = true;
+
   // Inject the script lazily; the queue above is already live.
   const script = document.createElement("script");
   script.async = true;
