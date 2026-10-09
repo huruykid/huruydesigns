@@ -113,11 +113,10 @@ export const projects: Project[] = [
     impact: "Re-Architecting Enterprise Payroll Compliance",
     tags: ["Enterprise SaaS", "Payroll Compliance", "Multi-Jurisdiction", "State-Driven System", "9,000+ Agencies"],
     role: "UX Designer, sole designer embedded onsite from discovery through delivery",
-    gated: true,
     timeline: "Onsite engagement, Dallas TX",
     tools: ["Figma", "Whiteboarding", "Miro", "Jira"],
     challenge: "Asure's compliance engine supported 9,000+ tax agencies across the US and Canada. When I joined the project onsite in Dallas, the codebase had a complete entity model. The product did not.",
-    // Teaser-level summaries only. The narrative lives in the gated_content table.
+    // Full narrative is public and rendered with the case study.
     problem: "Legacy configuration screens exposed the database model directly, and no one had mapped how the compliance entities depended on each other end to end.",
     solution: "A shared entity map, an explicit revision state machine, surfaced validation rules, and scalable configuration patterns for 9,000+ tax agencies.",
     process: "Embedded onsite in Dallas with engineering, product, and compliance SMEs: whiteboarding, entity mapping, wireframes, and interactive prototypes.",
@@ -126,7 +125,7 @@ export const projects: Project[] = [
       { value: "6", label: "entity types mapped end-to-end" },
       { value: "1:1", label: "UI state to backend state, no silent changes" },
     ],
-    outcomeMetrics: "Eliminated silent state changes, made entity relationships visible, and gave the product an audit-ready revision lifecycle. Full narrative available by request.",
+    outcomeMetrics: "Eliminated silent state changes, made entity relationships visible, and gave the product an audit-ready revision lifecycle.",
     image: "/images/asure/cover.svg",
   },
   {

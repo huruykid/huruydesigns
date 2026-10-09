@@ -29,7 +29,7 @@ import type { AsureGatedContent, GatedIconName } from "@/lib/gatedContent";
 
 interface Props {
   project: Project;
-  /** Narrative returned by verify-passcode; never bundled with the site. */
+  /** Public case study narrative. */
   content: AsureGatedContent;
 }
 
