@@ -11,7 +11,6 @@ import ResponsiveAppShell from "@/components/case-study/ResponsiveAppShell";
 import BelesCaseStudy from "@/components/case-study/BelesCaseStudy";
 import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
-import AsurePublicCaseStudy from "@/components/case-study/AsurePublicCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
@@ -20,9 +19,8 @@ import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
-import AccessGate from "@/components/AccessGate";
 import NotFound from "./NotFound";
-import type { AsureGatedContent } from "@/lib/gatedContent";
+import { asureContent } from "@/lib/asureContent";
 
 const HeroPhoneMockup = () => {
   const isMobile = useIsMobile();
@@ -75,11 +73,9 @@ const ProjectPage = () => {
   const { id } = useParams();
   const project = findProject(id);
   const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
-  const [gatedContent, setGatedContent] = useState<AsureGatedContent | null>(null);
 
-  // Reset unlocked content when navigating between projects.
+  // Reset image overrides when navigating between projects.
   useEffect(() => {
-    setGatedContent(null);
     setUploadedImages({});
   }, [project?.id]);
 
@@ -191,14 +187,7 @@ const ProjectPage = () => {
         ) : project.id === "oneasure-portal" ? (
           <OneAsureCaseStudy project={project} {...slotProps} />
         ) : project.id === "asure-compliance" ? (
-          gatedContent ? (
-            <AsureComplianceCaseStudy project={project} content={gatedContent} />
-          ) : (
-            <>
-              <AsurePublicCaseStudy project={project} />
-              <AccessGate project={project} onAccessGranted={setGatedContent} />
-            </>
-          )
+          <AsureComplianceCaseStudy project={project} content={asureContent} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
         ) : project.id === "fentfinder" ? (

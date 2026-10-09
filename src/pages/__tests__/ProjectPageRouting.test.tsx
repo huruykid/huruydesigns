@@ -39,9 +39,10 @@ describe("ProjectPage routing", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Page not found");
   });
 
-  it("shows the passcode teaser, not the narrative, for the gated study", () => {
+  it("opens the full Asure narrative without a passcode", () => {
     renderAt("/project/asure-compliance");
-    expect(screen.getByLabelText("Passcode")).toBeInTheDocument();
-    expect(screen.queryByText(/forcing a conversation/i)).toBeNull();
+    expect(screen.queryByLabelText("Passcode")).toBeNull();
+    expect(screen.getByRole("heading", { name: "Four architectural design systems" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Structural outcomes over vanity metrics" })).toBeInTheDocument();
   });
 });
