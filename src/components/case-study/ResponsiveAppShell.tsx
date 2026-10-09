@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { Smartphone, Monitor } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ResponsiveAppShellProps {
   children: React.ReactNode;
@@ -52,9 +53,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
   });
 
   const scrollHint = (
-    <div className="flex items-center gap-1.5">
-      <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-muted-foreground text-xs">↓</motion.span>
-      <span className="text-muted-foreground text-xs">Scroll to explore</span>
+    <div className="flex min-h-6 items-center gap-1.5">
+      <motion.span animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }} className="text-xs text-muted-foreground" aria-hidden="true">↓</motion.span>
+      <span className="text-xs text-muted-foreground">Scroll to explore</span>
     </div>
   );
 
@@ -63,13 +64,16 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.3 }}
-       className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1"
+       className="flex items-center gap-1 rounded-md border border-border bg-background p-1"
        role="group"
        aria-label="Preview device"
     >
-      <button
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
         onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("mobile"); }}
-        className={`min-h-11 min-w-11 rounded-full p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+        className={`h-11 w-11 rounded-sm ${
           activeLayout === "mobile"
             ? "bg-accent text-accent-foreground"
             : "text-muted-foreground hover:text-foreground"
@@ -77,11 +81,14 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
         aria-label="Mobile view"
         aria-pressed={activeLayout === "mobile"}
       >
-        <Smartphone className="h-3.5 w-3.5" />
-      </button>
-      <button
+        <Smartphone className="h-4 w-4" aria-hidden="true" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
         onClick={(e) => { e.stopPropagation(); e.preventDefault(); setForcedLayout("desktop"); }}
-        className={`min-h-11 min-w-11 rounded-full p-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+        className={`h-11 w-11 rounded-sm ${
           activeLayout === "desktop"
             ? "bg-accent text-accent-foreground"
             : "text-muted-foreground hover:text-foreground"
@@ -89,8 +96,8 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
         aria-label="Desktop view"
         aria-pressed={activeLayout === "desktop"}
       >
-        <Monitor className="h-3.5 w-3.5" />
-      </button>
+        <Monitor className="h-4 w-4" aria-hidden="true" />
+      </Button>
     </motion.div>
   ) : null;
 
@@ -109,8 +116,8 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
         >
           <div className="relative">
             <div className="rounded-[2.5rem] border-[3px] border-foreground/20 bg-background shadow-2xl overflow-hidden" style={{ width: mobileWidth }}>
-              <div className="bg-foreground/10 h-6 flex items-center justify-center shrink-0">
-                <div className="w-16 h-1 rounded-full bg-foreground/20" />
+              <div className="flex h-7 shrink-0 items-center justify-center bg-foreground/10 px-8">
+                <span className="truncate text-[10px] font-medium text-muted-foreground">{label}</span>
               </div>
               <div
                 className="relative overflow-y-auto"
@@ -124,7 +131,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
             </div>
             <div className="absolute inset-0 rounded-[2.5rem] bg-accent/5 blur-2xl -z-10 scale-110" />
           </div>
-          <div className="mt-3 flex flex-col items-center gap-2">
+          <div className="mt-4 flex flex-col items-center gap-2">
             {scrollHint}
             {togglePill}
           </div>
@@ -150,9 +157,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
             >
               <div className="flex items-center px-4 py-2.5 bg-foreground/[0.04] border-b border-foreground/10 shrink-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                  <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                  <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+                  <span className="h-3 w-3 rounded-full bg-destructive" />
+                  <span className="h-3 w-3 rounded-full bg-accent" />
+                  <span className="h-3 w-3 rounded-full bg-primary/40" />
                 </div>
                 {label && (
                   <span className="flex-1 text-center text-xs font-medium text-muted-foreground -ml-12">
@@ -179,7 +186,7 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.4 }}
-            className="mt-3 flex flex-col items-center gap-2"
+            className="mt-4 flex flex-col items-center gap-2"
           >
             {scrollHint}
             {togglePill}

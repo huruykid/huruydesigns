@@ -99,17 +99,17 @@ const Resume = () => {
             </h1>
             <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild variant="outline">
+          <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-wrap">
+            <Button asChild variant="outline" className="min-h-11 w-full sm:w-auto">
               <a href={resumePdfPath} download>
-                <Download className="h-4 w-4 mr-1" /> PDF
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" /> PDF
               </a>
             </Button>
-            <Button variant="outline" onClick={handleWord} disabled={exporting}>
-              {exporting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <FileText className="h-4 w-4 mr-1" />} Word
+            <Button variant="outline" onClick={handleWord} disabled={exporting} className="min-h-11 w-full sm:w-auto">
+              {exporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> : <FileText className="mr-2 h-4 w-4" aria-hidden="true" />} Word
             </Button>
-            <Button onClick={handlePrint} className="bg-accent text-accent-foreground hover:bg-accent/90 hidden sm:inline-flex">
-              <Printer className="h-4 w-4 mr-1" /> Print
+            <Button onClick={handlePrint} className="col-span-2 hidden min-h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:inline-flex sm:w-auto">
+              <Printer className="mr-2 h-4 w-4" aria-hidden="true" /> Print
             </Button>
           </div>
         </div>

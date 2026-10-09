@@ -54,8 +54,8 @@ const About = () => (
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: Photo + intro */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <div className="aspect-[3/4] max-w-sm rounded-2xl bg-muted border border-border overflow-hidden mb-8">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="mx-auto w-full max-w-sm lg:mx-0">
+            <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-border bg-muted">
               <img
                 src={huruyHeadshot}
                 alt="Huruy Kidanemariam, Senior UX Designer"
@@ -65,23 +65,23 @@ const About = () => (
                 decoding="async"
               />
             </div>
-            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <a href={resumePdfPath} download>
-                <Download className="h-4 w-4 mr-2" /> Download resume
-              </a>
-            </Button>
           </motion.div>
 
           {/* Right: Content */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About</p>
             <h1 className="mb-6 text-4xl font-bold tracking-tight font-display sm:text-5xl">Huruy Kidanemariam</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-12">
+            <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
               {person.positioning} Currently a {person.title} at {person.currentEmployer};
               before that, payroll compliance and HR platforms at Asure Software. I'm drawn to products where good design removes
               a barrier, whether that's enterprise software that stops punishing its users or a tool that helps people find food
               with dignity. I design in code when a working prototype settles an argument a deck can't.
             </p>
+            <Button asChild size="lg" className="mb-12 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+              <a href={resumePdfPath} download>
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" /> Download resume
+              </a>
+            </Button>
 
             {/* Experience */}
             <div className="mb-12">

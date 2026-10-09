@@ -7,6 +7,7 @@ import { publicProjects } from "@/lib/projects";
 import { person, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
+import { imageDimensions } from "@/lib/imageDimensions";
 
 const FEATURED = ["asure-compliance", "beles", "ebtfinder"];
 const visibleProjects = publicProjects();
@@ -52,14 +53,14 @@ const Index = () => (
     />
 
     {/* Hero: the 60-second scan */}
-    <section className="py-20 sm:py-28 lg:py-32">
+    <section className="py-14 sm:py-24 lg:py-28">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{person.name}, {person.title}</p>
-          <h1 className="mb-10 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:text-5xl lg:text-6xl">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:mb-5">{person.name}, {person.title}</p>
+          <h1 className="mb-8 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:mb-10 sm:text-5xl lg:text-6xl">
             I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
           </h1>
-          <dl className="mb-10 grid gap-x-8 gap-y-6 sm:grid-cols-3">
+          <dl className="mb-8 grid gap-x-8 gap-y-4 sm:mb-10 sm:grid-cols-3 sm:gap-y-6">
             {proofPoints.map((p) => (
               <div key={p.value} className="border-t border-border pt-4">
                 <dt className="text-2xl font-bold tracking-tight text-foreground font-display">{p.value}</dt>
@@ -99,19 +100,33 @@ const Index = () => (
           ))}
         </div>
         {moreWork.length > 0 && (
-          <div className="mt-10">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-3">More work</h3>
-            <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-8">
-              {moreWork.map((p) => (
-                <li key={p.id}>
-                  <Link to={`/project/${p.id}`} className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-foreground hover:text-accent">
-                    {p.title}
-                    <span className="text-muted-foreground font-normal">{p.impact}</span>
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-12">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">More work</h3>
+            <div className="grid gap-4">
+              {moreWork.map((p) => {
+                const result = p.keyResults?.[0];
+                const dims = imageDimensions[p.image];
+                return (
+                  <article key={p.id} className="grid overflow-hidden rounded-lg border border-border bg-card sm:grid-cols-[180px_1fr]">
+                    <div className="aspect-[16/9] overflow-hidden bg-muted sm:aspect-auto">
+                      <img src={p.image} alt="" width={dims?.width ?? 1200} height={dims?.height ?? 750} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-accent">{p.impact}</p>
+                        <h4 className="text-xl font-bold font-display">{p.title}</h4>
+                        {result && <p className="mt-1 text-sm text-muted-foreground"><span className="font-semibold text-foreground">{result.value}</span> {result.label}</p>}
+                      </div>
+                      <Button asChild variant="outline" className="min-h-11 shrink-0 sm:self-center">
+                        <Link to={`/project/${p.id}`} aria-label={`Read the ${p.title} case study`}>
+                          Read case study <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

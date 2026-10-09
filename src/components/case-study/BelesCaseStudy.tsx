@@ -10,6 +10,7 @@ import ResponsiveAppShell from "./ResponsiveAppShell";
 import { ArrowUpRight } from "lucide-react";
 import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { Project } from "@/lib/projects";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   project: Project;
@@ -73,21 +74,22 @@ const BelesCaseStudy = ({ project }: Props) => (
     )}
 
     <CaseStudySection label="Status" title="Where it stands">
-      <p className="mb-6">
-        Beles is now a live web app, built and shipped after the research and testing rounds above. The profiles and match flow in the demos on this page come straight from the live product, including the Shmagele suggestion card shown at the moment a match lands. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
-      </p>
-      <a
-        href="https://belesconnect.app?utm_source=portfolio&utm_medium=case_study&utm_campaign=beles"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex min-h-11 items-center gap-1 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      >
-        Visit the live app <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-      </a>
-      <div className="mx-auto mt-10 max-w-sm">
-        <ResponsiveAppShell label="Beles match moment" mobileWidth={220} mobileHeight={380}>
-          <BelesMatchDemo />
-        </ResponsiveAppShell>
+      <div className="grid items-center gap-10 lg:grid-cols-[1fr_360px] lg:gap-14">
+        <div>
+          <p className="mb-6">
+            Beles is now a live web app, built and shipped after the research and testing rounds above. The profiles and match flow in the demos on this page come straight from the live product, including the Shmagele suggestion card shown at the moment a match lands. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
+          </p>
+          <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+            <a href="https://belesconnect.app?utm_source=portfolio&utm_medium=case_study&utm_campaign=beles" target="_blank" rel="noopener noreferrer">
+              Visit the live app <ArrowUpRight className="ml-1 h-4 w-4" aria-hidden="true" />
+            </a>
+          </Button>
+        </div>
+        <div className="mx-auto w-full max-w-sm">
+          <ResponsiveAppShell label="Beles match moment" mobileWidth={220} mobileHeight={380}>
+            <BelesMatchDemo />
+          </ResponsiveAppShell>
+        </div>
       </div>
     </CaseStudySection>
   </>
