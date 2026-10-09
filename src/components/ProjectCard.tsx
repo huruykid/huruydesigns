@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Lock } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/projects";
 import { imageDimensions } from "@/lib/imageDimensions";
 
@@ -31,11 +31,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-1 flex items-center justify-between gap-2">
           <span className="text-xs font-semibold uppercase tracking-wide text-accent">{project.impact}</span>
-          {project.gated && (
-            <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-muted-foreground">
-              <Lock className="h-3 w-3" aria-hidden="true" /> Full study by request
-            </span>
-          )}
         </div>
         <h3 className="text-xl font-bold leading-7 font-display">{project.title}</h3>
         {outcome && (
