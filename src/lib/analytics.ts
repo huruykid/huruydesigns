@@ -12,6 +12,7 @@ declare global {
 function gtag(..._args: unknown[]) {
   // Browser-only: the SSR prerender bundle imports this module too.
   if (typeof window === "undefined") return;
+  // eslint-disable-next-line prefer-rest-params
   window.dataLayer!.push(arguments);
 }
 
