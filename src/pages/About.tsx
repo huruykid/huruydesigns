@@ -51,7 +51,7 @@ const About = () => (
       ]}
     />
     <section className="py-24">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: Photo + intro */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="mx-auto w-full max-w-sm lg:mx-0">
@@ -142,7 +142,7 @@ const About = () => (
 
     {/* How I work */}
     <section id="how-i-work" className="py-20 border-t border-border/50 bg-muted/30">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl mb-10">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">How I Work</p>
           <h2 className="mb-3 text-3xl font-bold tracking-tight font-display">The questions a senior interview asks, answered up front</h2>
@@ -164,7 +164,7 @@ const About = () => (
     {/* Renders only once real quotes exist in src/lib/testimonials.ts */}
     {testimonials.length > 0 && (
       <section className="py-20 border-t border-border/50" aria-labelledby="testimonials-heading">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
           <h2 id="testimonials-heading" className="text-3xl font-bold mb-8 font-display">From people I've worked with</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t) => (

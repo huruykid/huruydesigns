@@ -96,7 +96,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {open && (
         <nav id={menuId} className="md:hidden bg-background border-b border-border animate-fade-in" aria-label="Mobile">
-          <div className="container mx-auto px-4 py-2 flex flex-col">
+          <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-2 flex flex-col">
             {navLinks.map((l) => (
               <Link
                 key={l.path}

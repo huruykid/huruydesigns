@@ -142,7 +142,7 @@ const ProjectPage = () => {
       />
       {/* Hero */}
       <section className="bg-muted/30 py-20 lg:py-28">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
           <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
@@ -181,7 +181,7 @@ const ProjectPage = () => {
       </section>
 
       {/* Content */}
-      <div className="container mx-auto max-w-4xl px-4 pb-24 pt-20">
+      <div className="container mx-auto max-w-4xl px-6 sm:px-8 lg:px-12 pb-24 pt-20">
         {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
