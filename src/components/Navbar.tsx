@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border print:hidden">
-      <nav className="container mx-auto flex items-center justify-between h-16 px-4" aria-label="Primary">
+      <nav className="container mx-auto flex items-center justify-between h-16 px-6 sm:px-8 lg:px-12" aria-label="Primary">
         <Link to="/" className="text-xl font-bold tracking-tight font-display" aria-label="Huruy Kidanemariam, home">
           <span className="text-gradient">Huruy</span>
         </Link>
