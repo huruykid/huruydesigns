@@ -12,17 +12,22 @@ declare global {
 // Queue must exist before any event fires, so route-change page views and
 // the landing-page view sent from App.tsx on mount land in the queue and
 // get replayed when gtag.js loads. "js" and "config" are pushed here too so
-// they sit ahead of everything queued later.
-window.dataLayer = window.dataLayer || [];
+// they sit ahead of everything queued later. All of this is browser-only;
+// the SSR prerender bundle imports this module too, so guard it.
+if (typeof window !== "undefined") {
+  window.dataLayer = window.dataLayer || [];
 
-function gtag(..._args: unknown[]) {
-  // eslint-disable-next-line prefer-rest-params
-  window.dataLayer!.push(arguments);
+  function gtag(..._args: unknown[]) {
+    // eslint-disable-next-line prefer-rest-params
+    window.dataLayer!.push(arguments);
+  }
+
+  gtag("js", new Date());
+  // SPA: disable automatic page views; we send them on route changes.
+  gtag("config", measurementId, { send_page_view: false });
 }
 
-gtag("js", new Date());
-// SPA: disable automatic page views; we send them on route changes.
-gtag("config", measurementId, { send_page_view: false });
+function gtag(..._args: unknown[]) {}
 
 let scriptInjected = false;
 
