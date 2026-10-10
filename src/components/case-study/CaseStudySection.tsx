@@ -18,7 +18,7 @@ const CaseStudySection = ({ label, title, children, className = "" }: CaseStudyS
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`mb-24 ${className}`}
+      className={`mb-28 sm:mb-32 ${className}`}
     >
       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{label}</p>
       <h2 id={headingId} className="mb-8 max-w-[28ch] text-2xl font-bold leading-tight tracking-tight font-display sm:text-[2rem]">

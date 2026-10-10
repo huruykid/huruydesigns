@@ -4,7 +4,7 @@ import { person } from "@/lib/resume";
 
 const Footer = () => (
   <footer className="border-t border-border bg-card print:hidden">
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-10">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <p className="text-sm text-muted-foreground">
           <span className="font-semibold text-foreground">{person.name}</span>, {person.title}, {person.location}

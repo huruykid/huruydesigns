@@ -142,7 +142,7 @@ const ProjectPage = () => {
       />
       {/* Hero */}
       <section className="bg-muted/30 py-20 lg:py-28">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
           <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
@@ -180,8 +180,27 @@ const ProjectPage = () => {
         </div>
       </section>
 
+      {/* At a glance: the 30-second read for scanners */}
+      <section aria-labelledby="tldr-heading" className="border-y border-border">
+        <div className="container mx-auto max-w-5xl px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
+          <h2 id="tldr-heading" className="mb-8 text-xs font-semibold uppercase tracking-[0.14em] text-accent">At a glance</h2>
+          <dl className="grid gap-10 md:grid-cols-3 md:gap-12">
+            {[
+              { k: "Problem", v: project.problem },
+              { k: "Solution", v: project.solution },
+              { k: "Outcome", v: project.outcomeMetrics },
+            ].map(({ k, v }) => (
+              <div key={k} className="min-w-0">
+                <dt className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{k}</dt>
+                <dd className="text-[15px] leading-7 text-muted-foreground line-clamp-6">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
       {/* Content */}
-      <div className="container mx-auto max-w-4xl px-4 pb-24 pt-20">
+      <div className="container mx-auto max-w-4xl px-6 sm:px-8 lg:px-12 pb-28 pt-24">
         {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
@@ -195,7 +214,7 @@ const ProjectPage = () => {
         ) : null}
 
         {/* Next project */}
-        <div className="border-t border-border pt-12">
+        <div className="border-t border-border pt-16">
           <p className="text-sm text-muted-foreground mb-2">Next project</p>
           <Link to={`/project/${next.id}`} className="group inline-flex items-center gap-2 text-2xl font-bold hover:text-accent transition-colors font-display">
             {next.title} <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />

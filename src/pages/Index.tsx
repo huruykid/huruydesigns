@@ -54,7 +54,7 @@ const Index = () => (
 
     {/* Hero: the 60-second scan */}
     <section className="py-14 sm:py-24 lg:py-28">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:mb-5">{person.name}, {person.title}</p>
           <h1 className="mb-8 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:mb-10 sm:text-5xl lg:text-6xl">
@@ -84,7 +84,7 @@ const Index = () => (
 
     {/* Work */}
     <section id="work" className="scroll-mt-16 bg-muted/30 py-20 sm:py-24" aria-labelledby="work-heading">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Selected work</p>
@@ -134,7 +134,7 @@ const Index = () => (
 
     {/* Hiring */}
     <section id="hire" className="scroll-mt-16 py-20 sm:py-24" aria-labelledby="hire-heading">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="max-w-3xl rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-10">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Hiring?</p>
           <h2 id="hire-heading" className="mb-5 text-2xl font-bold tracking-tight font-display sm:text-3xl">Open to senior UX roles</h2>
