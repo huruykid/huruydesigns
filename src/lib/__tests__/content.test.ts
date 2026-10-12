@@ -64,7 +64,7 @@ describe("projects", () => {
 
   it("references only images that exist with known dimensions", () => {
     for (const p of projects) {
-      const refs = [p.image, ...Object.values(p.sectionImages ?? {})].filter((s): s is string => !!s && s !== "/placeholder.svg");
+      const refs = [p.image, p.cardImage, ...Object.values(p.sectionImages ?? {})].filter((s): s is string => !!s && s !== "/placeholder.svg");
       for (const ref of refs) {
         expect(ref, `${p.id} references ${ref}`).toMatch(/\.(webp|svg)$/);
         expect(imageDimensions[ref], `${p.id}: ${ref} has no dimensions`).toBeDefined();

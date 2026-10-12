@@ -88,6 +88,8 @@ export interface Project {
   client?: string;
   /** Two or three short labels a recruiter can scan on the homepage card. */
   cardTags?: string[];
+  /** 4:3 homepage card cover (brand-color canvas with the real UI). Falls back to `image`. */
+  cardImage?: string;
   appStoreUrl?: string;
   /** Social card image when it differs from the hero image. */
   ogImage?: string;
@@ -111,6 +113,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "asure-compliance",
+    cardImage: "/images/asure/card.webp",
     client: "Asure Software",
     cardTags: ["Enterprise SaaS", "Systems design", "Compliance"],
     title: "Asure Compliance Engine",
@@ -136,6 +139,7 @@ export const projects: Project[] = [
   },
   {
     id: "oneasure-portal",
+    cardImage: "/images/oneasure/card.webp",
     client: "Asure Software",
     cardTags: ["Enterprise HR", "Research & IA", "B2B"],
     title: "OneAsure Portal",
@@ -167,6 +171,7 @@ export const projects: Project[] = [
   },
   {
     id: "ebtfinder",
+    cardImage: "/images/ebtfinder/card.webp",
     client: "Independent",
     cardTags: ["Shipped iOS app", "Research", "Design + build"],
     title: "EBT Finder",
@@ -383,6 +388,7 @@ export const projects: Project[] = [
   },
   {
     id: "beles",
+    cardImage: "/images/beles/card.webp",
     client: "Independent",
     cardTags: ["Live web app", "User research", "Mobile"],
     title: "Beles",

@@ -8,7 +8,8 @@ import { imageDimensions } from "@/lib/imageDimensions";
  * few scannable tags. The whole card is the link.
  */
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
-  const dims = imageDimensions[project.image];
+  const cover = project.cardImage ?? project.image;
+  const dims = imageDimensions[cover];
   const outcome = project.keyResults?.[0];
   const tags = project.cardTags ?? project.tags.slice(0, 3);
 
@@ -20,10 +21,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     >
       <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted">
         <img
-          src={project.image}
+          src={cover}
           alt=""
-          width={dims?.width ?? 1200}
-          height={dims?.height ?? 750}
+          width={dims?.width ?? 1600}
+          height={dims?.height ?? 1200}
           loading={index < 2 ? "eager" : "lazy"}
           decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
