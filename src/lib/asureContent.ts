@@ -8,7 +8,7 @@ export const asureContent: AsureGatedContent = {
       "role": "Payroll Admins"
     },
     {
-      "need": "Compliance rigor: no way to accidentally violate regulatory rules",
+      "need": "Compliance rigor: review controls and validation before release",
       "role": "SMEs"
     },
     {
@@ -85,7 +85,7 @@ export const asureContent: AsureGatedContent = {
         "Historical version access",
         "Audit visibility throughout"
       ],
-      "subtitle": "Explicit state. No silent changes. No compliance drift.",
+      "subtitle": "Separate draft edits from the decision to release.",
       "title": "State-Driven Revision Lifecycle"
     },
     {
@@ -123,35 +123,35 @@ export const asureContent: AsureGatedContent = {
       "title": "Scalable CRUD for 9,000+ Tax Agencies"
     }
   ],
-  "impactIntro": "The results of this work aren't measured in clicks. They're measured in eliminated risk, increased clarity, and an architecture that scales to regulatory complexity.",
+  "impactIntro": "The work produced explicit configuration states, visible dependencies and a revision history. The changes below describe the design, not measured reductions in filing errors or engineering time.",
   "impactItems": [
     {
-      "body": "Explicit state machine eliminated a class of errors where configuration edits cascaded invisibly into live payroll filings, protecting compliance for thousands of active employers.",
+      "body": "The revision lifecycle separates draft changes from released configurations and makes the release action explicit.",
       "icon": "Shield",
-      "title": "Prevented Silent State Changes"
+      "title": "Explicit Release Controls"
     },
     {
-      "body": "Parent-child hierarchy made visible in navigation and forms, reducing misconfiguration from disconnected entity editing.",
+      "body": "Navigation and forms expose parent-child relationships so an admin can inspect related configurations before making a change.",
       "icon": "Layers",
       "title": "Clarified Entity Relationships"
     },
     {
-      "body": "Structured step-based workflows gave payroll admins a clear path through every configuration. No more guessing, no more silent errors.",
+      "body": "Step-based workflows organize configuration into ordered tasks, with conditional fields and guidance at the point of entry.",
       "icon": "BarChart3",
-      "title": "Reduced Configuration Ambiguity"
+      "title": "Structured Configuration Steps"
     },
     {
-      "body": "Every state change is now traceable with a full revision history, a non-negotiable requirement for regulatory compliance audits.",
+      "body": "The design includes revision history and an audit trail so reviewers can inspect changes and state transitions.",
       "icon": "ClipboardList",
-      "title": "Improved Audit Transparency"
+      "title": "Visible Revision History"
     },
     {
-      "body": "UI state transitions map 1:1 to actual data model states, reducing implementation ambiguity, cutting engineering overhead, and preventing the product from diverging from the system again.",
+      "body": "The interface distinguishes draft, review, locked and released states in terms agreed with engineering and compliance.",
       "icon": "Search",
       "title": "Aligned UX with Backend State Model"
     },
     {
-      "body": "Consistent interaction patterns across all 9,000+ tax agencies mean new jurisdictions can be onboarded without a redesign.",
+      "body": "Shared create, edit, link and review patterns were designed to support configurations across 9,000+ tax agencies.",
       "icon": "Building2",
       "title": "Structured Scalable Architecture"
     }
@@ -185,7 +185,7 @@ export const asureContent: AsureGatedContent = {
   "intuitionIntro": "The differentiator wasn't the UI patterns. It was the translation layer. Turning compliance logic into something a payroll admin can confidently configure without a tax law degree.",
   "learnings": [
     "The most impactful design work often isn't a deliverable. It's forcing a conversation that hasn't happened yet. Mapping the entity dependency chain on a whiteboard created more alignment than any prototype.",
-    "For compliance products, UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hides what's actually happening. That's not a UX preference. It's a correctness requirement."
+    "Users need to know whether a consequential change is a draft, under review or live. The interface can simplify technical details while preserving that distinction and accurately showing pending or failed transitions."
   ],
   "onsitePhoto": {
     "alt": "Onsite collaboration session in Dallas with the Asure engineering and compliance teams",
@@ -231,7 +231,7 @@ export const asureContent: AsureGatedContent = {
   "role": [
     "My most significant contribution wasn't a deliverable. It was forcing a conversation that hadn't happened yet.",
     "When I mapped the entity dependency chain on a whiteboard (tax code to formula to filing frequency to payee to holiday calendar) the room got quiet. Engineers recognized the data relationships. SMEs recognized the compliance logic. Neither group had seen both layers mapped together before. That diagram became the foundation for everything that followed.",
-    "I also pushed hard for one specific architectural decision that engineering initially resisted: UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hid what was actually happening in the system. For a compliance product, that's not a UX preference. It's a correctness requirement."
+    "I pushed for explicit revision states even when that added interface complexity. Engineering and compliance needed a shared definition of draft, review, locked and released, so an admin could tell whether a change was live. The interface had to reflect the confirmed transition rather than imply that a pending change had already taken effect."
   ],
   "roleItems": [
     "Spent multiple days onsite in Dallas collaborating with engineering, PM, and SMEs",

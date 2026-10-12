@@ -123,9 +123,9 @@ export const projects: Project[] = [
     keyResults: [
       { value: "9,000+", label: "tax agencies configured through one model" },
       { value: "6", label: "entity types mapped end-to-end" },
-      { value: "1:1", label: "UI state to backend state, no silent changes" },
+      { value: "Explicit", label: "draft, review, lock and release states" },
     ],
-    outcomeMetrics: "Eliminated silent state changes, made entity relationships visible, and gave the product an audit-ready revision lifecycle.",
+    outcomeMetrics: "Designed explicit revision states, visible entity relationships and traceable configuration history. These are design changes; this case study does not quantify reductions in filing errors.",
     image: "/images/asure/cover.svg",
   },
   {
@@ -427,9 +427,9 @@ export const projects: Project[] = [
       { title: "Photography Style", description: "Authentic photos of Tigrayan people and cultural events to create emotional resonance" },
       { title: "Accessibility", description: "Design optimized for all platforms and devices with WCAG AA compliance" },
     ],
-    // 8 usability-test participants; before/after numbers compare round one to the final prototype.
+    // The conflicting Shmagele baseline is omitted pending verification against research notes.
     validationMetrics: [
-      { label: "Shmagele understanding", value: "37.5% to 87.5%", description: "of the 8 participants understood the matchmaking feature before vs. after onboarding screens and tooltips were added" },
+      { label: "Shmagele understanding", value: "7 of 8", description: "understood the matchmaking feature in the second round, after onboarding screens and tooltips were added" },
       { label: "Personal connection", value: "62.5% to 0%", description: "reported the layout lacked a personal connection before vs. after the Tigray-inspired palette and illustrations" },
       { label: "Navigation clutter", value: "8 of 8 to 0 of 5", description: "flagged the nav bar as cluttered in round one; none did in the follow-up test of the streamlined nav" },
       { label: "Launch interest", value: "6 of 8", description: "said they would use the app at launch" },
@@ -450,11 +450,11 @@ export const projects: Project[] = [
     process: "Followed a user-centered design approach across six phases: empathize, research, personas, wireframing, usability testing, and visual design.",
     solution: "A dating and social media app blending traditional Tigrayan matchmaking (Shmagele) with modern dating app technology, featuring event discovery, Just Friends mode, and community features.",
     keyResults: [
-      { value: "37.5% to 87.5%", label: "Shmagele feature understanding" },
-      { value: "8 of 8 to 0", label: "participants flagging nav clutter" },
+      { value: "7 of 8", label: "understood Shmagele in round two" },
+      { value: "0 of 5", label: "flagged nav clutter in follow-up testing" },
       { value: "6 of 8", label: "would use the app at launch" },
     ],
-    outcomeMetrics: "Across 8 usability-test participants, understanding of the Shmagele feature rose from 37.5% to 87.5%, navigation clutter complaints dropped from 8 of 8 to none, and 6 of 8 said they would use the app at launch.",
+    outcomeMetrics: "In round two, 7 of 8 participants understood Shmagele. Navigation clutter was flagged by 8 of 8 in round one and 0 of 5 in a separate follow-up. Six of 8 said they would use the app at launch. These are small-sample prototype findings, not live adoption metrics.",
     image: "/images/beles/hero-mockup.webp",
   },
   {

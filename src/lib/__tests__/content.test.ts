@@ -13,7 +13,7 @@ describe("resume data", () => {
   it("has one current employer and consistent date order", () => {
     const current = experience.filter((e) => e.period.endsWith("Present") && e.org.startsWith(person.currentEmployer));
     expect(current).toHaveLength(1);
-    expect(current[0].start).toBe("2025-03");
+    expect(current[0].start).toBe("2026-03");
 
     const asure = experience.find((e) => e.org === "Asure Software")!;
     expect(asure.end).toBe("2025-03");

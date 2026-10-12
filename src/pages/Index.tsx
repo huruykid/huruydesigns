@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import ComplianceWorkflow from "@/components/case-study/ComplianceWorkflow";
 import ProjectCard from "@/components/ProjectCard";
 import { publicProjects } from "@/lib/projects";
 import { person, resumePdfPath } from "@/lib/resume";
@@ -9,13 +10,13 @@ import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 import { imageDimensions } from "@/lib/imageDimensions";
 
-const FEATURED = ["asure-compliance", "beles", "ebtfinder"];
+const FEATURED = ["asure-compliance", "ebtfinder", "beles"];
 const visibleProjects = publicProjects();
 const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
 const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
 
 const proofPoints = [
-  { value: "8+ years", label: "enterprise UX in payroll compliance, HR platforms and financial services" },
+  { value: "8+ years", label: "UX and product design, including payroll, HR and financial services" },
   { value: "9,000+", label: "tax agencies configured through the compliance model I designed at Asure" },
   { value: "Shipped", label: "a consumer app I researched, designed, built and released myself" },
 ];
@@ -53,14 +54,14 @@ const Index = () => (
     />
 
     {/* Hero: the 60-second scan */}
-    <section className="py-14 sm:py-24 lg:py-28">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+    <section className="py-10 sm:py-14 lg:py-16">
+      <div className="container mx-auto grid items-center gap-10 px-6 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:mb-5">{person.name}, {person.title}</p>
-          <h1 className="mb-8 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:mb-10 sm:text-5xl lg:text-6xl">
+          <h1 className="mb-8 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:mb-8 sm:text-5xl lg:text-[3.25rem]">
             I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
           </h1>
-          <dl className="mb-8 grid gap-x-8 gap-y-4 sm:mb-10 sm:grid-cols-3 sm:gap-y-6">
+          <dl className="mb-8 grid gap-x-8 gap-y-4 sm:mb-8 sm:grid-cols-3 sm:gap-y-6">
             {proofPoints.map((p) => (
               <div key={p.value} className="border-t border-border pt-4">
                 <dt className="text-2xl font-bold tracking-tight text-foreground font-display">{p.value}</dt>
@@ -79,11 +80,17 @@ const Index = () => (
             </Button>
           </div>
         </motion.div>
+        <div className="min-w-0">
+          <ComplianceWorkflow />
+          <Link to="/project/asure-compliance" className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-accent underline-offset-4 hover:underline">
+            Explore the Asure case study <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
 
     {/* Work */}
-    <section id="work" className="scroll-mt-16 bg-muted/30 py-20 sm:py-24" aria-labelledby="work-heading">
+    <section id="work" className="scroll-mt-16 bg-muted/30 py-12 sm:py-16" aria-labelledby="work-heading">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
           <div>
@@ -148,9 +155,9 @@ const Index = () => (
           </ul>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link to="/contact?role=senior-ux-designer">
+              <a href={`mailto:${person.email}?subject=Senior%20UX%20opportunity`}>
                 <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
-              </Link>
+              </a>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/about">How I work</Link>

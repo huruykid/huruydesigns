@@ -21,8 +21,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
-import TaxComplianceDashboardDemo from "./TaxComplianceDashboardDemo";
-import ResponsiveAppShell from "./ResponsiveAppShell";
+import ComplianceWorkflow from "./ComplianceWorkflow";
+import { person } from "@/lib/resume";
 import { EntityDiagram, StateMachineDiagram } from "./AsureDiagrams";
 import { Project } from "@/lib/projects";
 import type { AsureGatedContent, GatedIconName } from "@/lib/gatedContent";
@@ -61,8 +61,13 @@ const typeClass = (type: string) =>
 
 const AsureComplianceCaseStudy = ({ project, content }: Props) => (
   <>
+    <nav aria-label="Asure case study sections" className="mb-12 flex flex-wrap gap-2 border-b border-border pb-6">
+      {[["asure-context", "Context"], ["asure-decisions", "Design decisions"], ["asure-workflow", "Workflow"], ["asure-collaboration", "Collaboration"], ["asure-outcomes", "Outcomes"]].map(([id, label]) => (
+        <a key={id} href={`#${id}`} className="inline-flex min-h-11 items-center rounded-lg border border-border px-4 text-sm font-medium hover:border-accent hover:text-accent">{label}</a>
+      ))}
+    </nav>
     {/* 01 - CONTEXT & SCALE */}
-    <CaseStudySection label="01 | Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection id="asure-context" label="01 | Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
       {content.context.map((p) => (
         <p key={p} className="mb-8">{p}</p>
       ))}
@@ -136,7 +141,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 04 - CORE DESIGN CONTRIBUTIONS */}
-    <CaseStudySection label="04 | Core Design Contributions" title="Four architectural design systems" icon={<ClipboardList className="h-4 w-4" />}>
+    <CaseStudySection id="asure-decisions" label="04 | Core Design Contributions" title="Four decisions that shaped configuration" icon={<ClipboardList className="h-4 w-4" />}>
       <p className="mb-8">{content.contributionsIntro}</p>
 
       <div className="space-y-12">
@@ -208,7 +213,9 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </div>
     </CaseStudySection>
 
-    {/* 05 - DESIGNING FOR INTUITION */}
+    <details className="mb-16 rounded-xl border border-border p-5 sm:p-6">
+      <summary className="min-h-11 cursor-pointer font-semibold text-foreground">More detail: configuration patterns and before / after</summary>
+      <div className="pt-6">
     <CaseStudySection label="05 | Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
       <p className="mb-6">{content.intuitionIntro}</p>
       <div className="grid sm:grid-cols-2 gap-4 mb-10">
@@ -238,20 +245,16 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </div>
     </CaseStudySection>
 
-    {/* Interactive Prototype */}
-    <div className="mb-4">
-      <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
-      <h2 className="text-2xl sm:text-3xl font-bold mb-4 font-display">Tax Compliance Dashboard</h2>
-      <p className="text-muted-foreground leading-relaxed mb-6">
-        Click on chart bars, table rows, and deadlines to explore the interactive prototype.
-      </p>
-      <ResponsiveAppShell label="Asure | Tax Compliance Dashboard" desktopWidth={680} allowToggle mobileWidth={280} mobileHeight={520}>
-        <TaxComplianceDashboardDemo />
-      </ResponsiveAppShell>
-    </div>
+      </div>
+    </details>
+
+    <CaseStudySection id="asure-workflow" label="Workflow illustration" title="From a draft change to a traceable release">
+      <p className="mb-6">Explore how dependencies, review and version history support the configuration lifecycle. This reconstruction illustrates the patterns described above; it is not a production screenshot.</p>
+      <ComplianceWorkflow interactive />
+    </CaseStudySection>
 
     {/* 06 - COLLABORATION */}
-    <CaseStudySection label="06 | Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection id="asure-collaboration" label="06 | Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
       {content.collaboration.map((p, i) => (
         <p key={i} className={i === content.collaboration.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -275,7 +278,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 07 - IMPACT */}
-    <CaseStudySection label="07 | Impact" title="Structural outcomes over vanity metrics" icon={<Star className="h-4 w-4" />}>
+    <CaseStudySection id="asure-outcomes" label="07 | Impact" title="What the design changed" icon={<Star className="h-4 w-4" />}>
       <p className="mb-6">{content.impactIntro}</p>
       <div className="grid sm:grid-cols-2 gap-4">
         {content.impactItems.map((item, i) => (
@@ -317,9 +320,9 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-          <Link to="/contact">
+          <a href={`mailto:${person.email}`}>
             Email Huruy <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
-          </Link>
+          </a>
         </Button>
         <Button asChild variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
           <Link to="/#work">View all projects</Link>
