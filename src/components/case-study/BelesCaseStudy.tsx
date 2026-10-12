@@ -2,7 +2,6 @@ import ExistingSolutionsComparison from "./ExistingSolutionsComparison";
 import ShmageleFlowDiagram from "./ShmageleFlowDiagram";
 import JustFriendsToggle from "./JustFriendsToggle";
 import InterviewInsightCards from "./InterviewInsightCards";
-import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
 import CaseStudySection from "./CaseStudySection";
 import BelesMatchDemo from "./BelesMatchDemo";
@@ -25,7 +24,7 @@ interface Props {
 const decisions = [
   {
     title: "Explain Shmagele inside the product, not around it",
-    body: "Traditional Tigrayan matchmaking works through trusted community members. The first prototype dropped that into the app as a feature name, and 3 of 8 testers didn't understand what it did or why they'd want it. I rejected the easy fix (rename it to something generic) because the tradition was the point. Instead I added an onboarding explainer, contextual tooltips, and a visible Shmagele score so the mechanism explained itself in use. Understanding went from 37.5% to 87.5% in the second round.",
+    body: "Traditional Tigrayan matchmaking works through trusted community members. The first prototype dropped that into the app as a feature name, and testing surfaced confusion about what it did and why someone would want it. I rejected the easy fix (rename it to something generic) because the tradition was the point. Instead I added an onboarding explainer, contextual tooltips, and a visible Shmagele score so the mechanism explained itself in use. In the second round, 7 of 8 participants understood the feature.",
     rejected: "Renaming it \"Trusted Introductions\". Clearer to a Western reader, and it would have erased the thing that made the app worth building.",
   },
   {
@@ -62,8 +61,7 @@ const BelesCaseStudy = ({ project }: Props) => (
     </CaseStudySection>
 
     <CaseStudySection label="Evidence" title="Round one findings, and what changed by round two">
-      <p className="mb-6">Eight participants tested the low-fidelity prototype. These were the round-one findings that drove the decisions above.</p>
-      <UsabilityStatBars />
+      <p className="mb-6">Eight participants tested the low-fidelity prototype. The navigation follow-up involved five participants. These findings describe prototype sessions, not population estimates or live adoption.</p>
       {project.validationMetrics && <StatRow stats={project.validationMetrics} columns={2} className="mt-10" />}
     </CaseStudySection>
 

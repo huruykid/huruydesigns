@@ -41,8 +41,8 @@ export interface ExperienceItem {
 
 export const experience: ExperienceItem[] = [
   {
-    period: "Mar 2025 – Present",
-    start: "2025-03",
+    period: "Mar 2026 – Present",
+    start: "2026-03",
     title: "Senior UX Designer",
     org: "Capital Group (via Luxoft)",
     location: "Los Angeles, CA",
@@ -71,7 +71,7 @@ export const experience: ExperienceItem[] = [
     org: "Asure Software",
     location: "Austin, TX",
     bullets: [
-      "Led end-to-end UX for a compliance engine used by 9,000+ tax agencies, re-architecting tax compliance workflows that reduced filing errors",
+      "Led end-to-end UX for a compliance engine covering 9,000+ tax agencies, designing explicit configuration, review and release workflows",
       "Designed persona and conversational scripts for 'Luna,' an enterprise AI chatbot integrated across HR, payroll, and benefits",
       "Built and authored WCAG-compliant design system guidelines, establishing accessibility standards across web and mobile products",
       "Facilitated cross-functional workshops with product, engineering, and SME stakeholders to align on content strategy and information architecture",

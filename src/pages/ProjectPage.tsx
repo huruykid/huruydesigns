@@ -16,7 +16,7 @@ import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
-import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
+import ComplianceWorkflow from "@/components/case-study/ComplianceWorkflow";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import NotFound from "./NotFound";
@@ -34,11 +34,7 @@ const HeroPhoneMockup = () => {
 const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: string }) => {
   if (project.id === "oneasure-portal") return <HeroPhoneMockup />;
   if (project.id === "asure-compliance") {
-    return (
-      <ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
-        <TaxComplianceDashboardDemo />
-      </ResponsiveAppShell>
-    );
+    return <ComplianceWorkflow />;
   }
   if (project.id === "ebtfinder") {
     return (
@@ -141,9 +137,9 @@ const ProjectPage = () => {
         }}
       />
       {/* Hero */}
-      <section className="bg-muted/30 py-20 lg:py-28">
+      <section className="bg-muted/30 py-10 lg:py-16">
         <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-          <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
+          <Link to="/#work" className="mb-6 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
@@ -157,7 +153,7 @@ const ProjectPage = () => {
               <dl className="mb-8 mt-8 grid max-w-xl gap-x-8 gap-y-2 text-sm sm:grid-cols-[auto_1fr]">
                 <dt className="font-medium text-foreground">Role</dt>
                 <dd className="text-muted-foreground">{project.role}</dd>
-                <dt className="font-medium text-foreground">Timeline</dt>
+                <dt className="font-medium text-foreground">{project.id === "asure-compliance" ? "Engagement" : "Timeline"}</dt>
                 <dd className="text-muted-foreground">{project.timeline}</dd>
                 <dt className="font-medium text-foreground">Tools</dt>
                 <dd className="text-muted-foreground">{project.tools.join(", ")}</dd>
@@ -192,7 +188,7 @@ const ProjectPage = () => {
             ].map(({ k, v }) => (
               <div key={k} className="min-w-0">
                 <dt className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{k}</dt>
-                <dd className="text-[15px] leading-7 text-muted-foreground line-clamp-6">{v}</dd>
+                <dd className="text-[15px] leading-7 text-muted-foreground">{v}</dd>
               </div>
             ))}
           </dl>
