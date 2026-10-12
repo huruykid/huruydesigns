@@ -390,7 +390,7 @@ export const projects: Project[] = [
     id: "beles",
     cardImage: "/images/beles/card.webp",
     client: "Independent",
-    cardTags: ["Live web app", "User research", "Mobile"],
+    cardTags: ["Live on the App Store", "User research", "Mobile"],
     title: "Beles",
     seoDescription: "Culturally rooted dating and community app for the Tigrayan diaspora, blending traditional matchmaking with modern UX.",
     description: "A dating and community app for the Tigrayan diaspora. The hard problem was making traditional matchmaking (Shmagele) legible inside a modern app without flattening it, and serving people who wanted community more than dates.",
