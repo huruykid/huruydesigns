@@ -5,7 +5,7 @@ import InterviewInsightCards from "./InterviewInsightCards";
 import UsabilityStatBars from "./UsabilityStatBars";
 import NavRedesignComparison from "./NavRedesignComparison";
 import CaseStudySection from "./CaseStudySection";
-import BelesMatchDemo from "./BelesMatchDemo";
+import { BelesMatchPreview } from "./BelesAppDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { ArrowUpRight } from "lucide-react";
 import { DecisionList, NumberedList, StatRow } from "./primitives";
@@ -77,7 +77,7 @@ const BelesCaseStudy = ({ project }: Props) => (
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_360px] lg:gap-14">
         <div>
           <p className="mb-6">
-            Beles is now a live web app, built and shipped after the research and testing rounds above. The profiles and match flow in the demos on this page come straight from the live product, including the Shmagele suggestion card shown at the moment a match lands. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
+            Beles is live on the App Store and at belesconnect.app, built and shipped after the research and testing rounds above. The Discover screen and match moment in the demos on this page are ported from the shipped app's own components, including the Shmagele suggestion card shown at the moment a match lands; only the profile is a demo member. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
           </p>
           <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
             <a href="https://belesconnect.app?utm_source=portfolio&utm_medium=case_study&utm_campaign=beles" target="_blank" rel="noopener noreferrer">
@@ -86,8 +86,8 @@ const BelesCaseStudy = ({ project }: Props) => (
           </Button>
         </div>
         <div className="mx-auto w-full max-w-sm">
-          <ResponsiveAppShell label="Beles match moment" mobileWidth={220} mobileHeight={380}>
-            <BelesMatchDemo />
+          <ResponsiveAppShell label="Beles match moment" fixedLayout="mobile" mobileWidth={260} mobileHeight={520}>
+            <BelesMatchPreview width={254} height={520} />
           </ResponsiveAppShell>
         </div>
       </div>

@@ -16,6 +16,7 @@ import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
+import BelesAppDemo from "@/components/case-study/BelesAppDemo";
 import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
 import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -38,6 +39,13 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
     return (
       <ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
         <TaxComplianceDashboardDemo />
+      </ResponsiveAppShell>
+    );
+  }
+  if (project.id === "beles") {
+    return (
+      <ResponsiveAppShell label="Beles" fixedLayout="mobile" mobileWidth={300} mobileHeight={600}>
+        <BelesAppDemo width={294} height={600} />
       </ResponsiveAppShell>
     );
   }

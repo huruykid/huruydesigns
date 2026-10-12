@@ -12,6 +12,8 @@ interface ResponsiveAppShellProps {
   mobileWidth?: number;
   mobileHeight?: number;
   allowToggle?: boolean;
+  /** Always render this frame, whatever the viewport (e.g. a phone-only app). */
+  fixedLayout?: "mobile" | "desktop";
 }
 
 const fadeVariants = {
@@ -20,13 +22,13 @@ const fadeVariants = {
   exit: { opacity: 0, scale: 0.97 },
 };
 
-export default function ResponsiveAppShell({ children, label, desktopWidth = 520, desktopHeight = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false }: ResponsiveAppShellProps) {
+export default function ResponsiveAppShell({ children, label, desktopWidth = 520, desktopHeight = 520, mobileWidth = 260, mobileHeight = 480, allowToggle = false, fixedLayout }: ResponsiveAppShellProps) {
   const isMobile = useIsMobile();
   const [forcedLayout, setForcedLayout] = useState<"mobile" | "desktop" | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
-  const activeLayout: "mobile" | "desktop" = forcedLayout ?? (isMobile ? "mobile" : "desktop");
+  const activeLayout: "mobile" | "desktop" = fixedLayout ?? forcedLayout ?? (isMobile ? "mobile" : "desktop");
 
   useEffect(() => {
     const shell = shellRef.current;
