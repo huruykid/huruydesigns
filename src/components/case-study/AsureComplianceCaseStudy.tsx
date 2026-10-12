@@ -21,7 +21,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
-import TaxComplianceDashboardDemo from "./TaxComplianceDashboardDemo";
+import AsureConfigDemo from "./AsureConfigDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { EntityDiagram, StateMachineDiagram } from "./AsureDiagrams";
 import { Project } from "@/lib/projects";
@@ -239,15 +239,21 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* Interactive Prototype */}
-    <div className="mb-4">
+    <div className="mb-16">
       <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
-      <h2 className="text-2xl sm:text-3xl font-bold mb-4 font-display">Tax Compliance Dashboard</h2>
-      <p className="text-muted-foreground leading-relaxed mb-6">
-        Click on chart bars, table rows, and deadlines to explore the interactive prototype.
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4 font-display">Change a rate, the way an admin would</h2>
+      <p className="text-muted-foreground leading-relaxed mb-3">
+        A recreation of the configuration workflow, built to show the four decisions above working together. Try it in this order:
       </p>
-      <ResponsiveAppShell label="Asure | Tax Compliance Dashboard" desktopWidth={680} allowToggle mobileWidth={280} mobileHeight={520}>
-        <TaxComplianceDashboardDemo />
+      <ol className="mb-6 list-decimal space-y-1 pl-5 text-muted-foreground leading-relaxed">
+        <li>The tree is the entity model: agency, tax code, then its formula, filing frequencies, payee and holiday calendar.</li>
+        <li>On CA-SDI, change the rate. Past 25% from the released value you get a warning to confirm; past the jurisdiction maximum, a hard stop with the rule.</li>
+        <li>Save the draft and read the impact before it saves, then take it through review, lock and release. Every step lands in History.</li>
+      </ol>
+      <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={520} allowToggle mobileWidth={290} mobileHeight={560}>
+        <AsureConfigDemo />
       </ResponsiveAppShell>
+      <p className="mt-3 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Agencies are real jurisdictions; rates, counts and people are not. Not Asure's production UI.</p>
     </div>
 
     {/* 06 - COLLABORATION */}

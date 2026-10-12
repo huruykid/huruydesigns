@@ -240,9 +240,11 @@ function LifeEventOverlay({ onClose }: { onClose: () => void }) {
 // ── Main ───────────────────────────────────────────────────────────────────
 interface BenefitsModuleDemoProps {
   layout?: "mobile" | "desktop";
+  /** Called with a nav label ("Home", "Time", "Pay", "Benefits", "More") when the portal nav is used. */
+  onNavigate?: (label: string) => void;
 }
 
-export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModuleDemoProps) {
+export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: BenefitsModuleDemoProps) {
   const [expandedPlan, setExpandedPlan] = useState<number | null>(null);
   const [showEnrollment, setShowEnrollment] = useState(false);
   const [showLifeEvent, setShowLifeEvent] = useState(false);
@@ -263,6 +265,9 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
       {navItems.map((item, i) => (
         <button
           key={i}
+          type="button"
+          onClick={() => onNavigate?.(item.label)}
+          aria-current={item.active ? "page" : undefined}
           className="flex flex-col items-center justify-center gap-0.5 w-full py-2.5 transition-colors"
           style={{
             color: item.active ? TEAL : "#9ca3af",
@@ -471,6 +476,9 @@ export default function BenefitsModuleDemo({ layout = "mobile" }: BenefitsModule
           {navItems.map((item, i) => (
             <button
               key={i}
+              type="button"
+              onClick={() => onNavigate?.(item.label)}
+              aria-current={item.active ? "page" : undefined}
               className="flex-1 flex flex-col items-center justify-center gap-0.5"
               style={{ color: item.active ? TEAL : "#9ca3af" }}
             >

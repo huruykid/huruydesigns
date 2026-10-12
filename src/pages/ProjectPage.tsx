@@ -17,8 +17,8 @@ import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesAppDemo from "@/components/case-study/BelesAppDemo";
-import BenefitsModuleDemo from "@/components/case-study/BenefitsModuleDemo";
-import TaxComplianceDashboardDemo from "@/components/case-study/TaxComplianceDashboardDemo";
+import OneAsurePortalDemo from "@/components/case-study/OneAsurePortalDemo";
+import AsureConfigDemo from "@/components/case-study/AsureConfigDemo";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import NotFound from "./NotFound";
@@ -28,7 +28,7 @@ const HeroPhoneMockup = () => {
   const isMobile = useIsMobile();
   return (
     <ResponsiveAppShell label="OneAsure Portal">
-      <BenefitsModuleDemo layout={isMobile ? "mobile" : "desktop"} />
+      <OneAsurePortalDemo layout={isMobile ? "mobile" : "desktop"} initial="Benefits" />
     </ResponsiveAppShell>
   );
 };
@@ -37,9 +37,12 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
   if (project.id === "oneasure-portal") return <HeroPhoneMockup />;
   if (project.id === "asure-compliance") {
     return (
-      <ResponsiveAppShell label="Asure Compliance Engine" desktopWidth={480} desktopHeight={400} allowToggle>
-        <TaxComplianceDashboardDemo />
-      </ResponsiveAppShell>
+      <div className="w-full">
+        <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={520} allowToggle mobileWidth={290} mobileHeight={560}>
+          <AsureConfigDemo />
+        </ResponsiveAppShell>
+        <p className="mt-2 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Not Asure's production UI.</p>
+      </div>
     );
   }
   if (project.id === "beles") {

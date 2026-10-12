@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import CaseStudySection from "./CaseStudySection";
 import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
-import PayModuleDemo from "./PayModuleDemo";
+import OneAsurePortalDemo from "./OneAsurePortalDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { DecisionList, NumberedList, StatRow } from "./primitives";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -70,7 +70,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
       </CaseStudySection>
 
       <CaseStudySection label="The Product" title="The Pay module, as shipped">
-        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product.</p>
+        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product. Both prototypes are the whole portal: the navigation moves between Home, Time, Pay, Benefits and More, the way one login replaced three.</p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
           className="mb-12 flex flex-col items-center"
         >
           <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
-            <PayModuleDemo layout={demoLayout} />
+            <OneAsurePortalDemo layout={demoLayout} initial="Pay" />
           </ResponsiveAppShell>
           <p className="mt-3 max-w-[40ch] text-center text-sm leading-relaxed text-muted-foreground">
             Take-home pay, tax breakdowns, disbursements and pay history, replacing three separate logins.
