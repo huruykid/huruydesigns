@@ -14,6 +14,7 @@ const Footer = () => (
           <Link to="/about" className="py-2 hover:text-accent transition-colors">About</Link>
           <Link to="/resume" className="py-2 hover:text-accent transition-colors">Resume</Link>
           <Link to="/contact" className="py-2 hover:text-accent transition-colors">Contact</Link>
+          <Link to="/book" className="py-2 hover:text-accent transition-colors">Book</Link>
           <a href={person.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 py-2 hover:text-accent transition-colors" aria-label="Huruy on LinkedIn (opens in a new tab)">
             <Linkedin className="h-4 w-4" aria-hidden="true" /> LinkedIn
           </a>

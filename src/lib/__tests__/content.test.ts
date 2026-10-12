@@ -79,5 +79,6 @@ describe("prerender routes", () => {
     for (const p of publicProjects()) expect(paths).toContain(`/project/${p.id}`);
     expect(paths).not.toContain("/project/fentfinder");
     expect(paths).not.toContain("/hire");
+    expect(paths).toContain("/book");
   });
 });
