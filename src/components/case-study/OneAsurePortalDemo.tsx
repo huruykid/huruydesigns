@@ -39,8 +39,6 @@ function Card({ children, onClick, label }: { children: ReactNode; onClick?: () 
 function HomeScreen({ go }: { go: (m: Module) => void }) {
   return (
     <>
-      <p className="px-4 pt-3 font-semibold text-gray-900" style={{ fontSize: 13 }}>Good morning, Jordan</p>
-      <p className="px-4 text-gray-500" style={{ fontSize: 10 }}>Here's what needs you this week.</p>
       <Card onClick={() => go("Benefits")} label="Open enrollment, go to Benefits">
         <div className="flex items-center gap-2.5">
           <span className="flex size-8 items-center justify-center rounded-lg" style={{ background: TEAL_BG, color: TEAL }}><Heart size={15} /></span>
@@ -152,7 +150,7 @@ function MoreScreen() {
 }
 
 const SUBTITLES: Record<Exclude<Module, "Pay" | "Benefits">, string> = {
-  Home: "Everything in one place",
+  Home: "Here's what needs you this week.",
   Time: "Clock in, timesheets and time off",
   More: "Documents, directory and settings",
 };
@@ -193,7 +191,7 @@ function PortalScreen({ module, layout, go, children }: { module: Module; layout
         <div className={layout === "desktop" ? "flex min-w-0 flex-1 flex-col" : "contents"}>
           <div className="flex shrink-0 items-center justify-between px-4 py-3 text-white" style={{ background: TEAL }}>
             <div>
-              <p className="font-bold" style={{ fontSize: 15 }}>{module}</p>
+              <p className="font-bold" style={{ fontSize: 15 }}>{module === "Home" ? "Good morning, Jordan" : module}</p>
               <p className="mt-0.5 opacity-70" style={{ fontSize: 9.5 }}>{SUBTITLES[module as keyof typeof SUBTITLES]}</p>
             </div>
             <div className="flex size-8 items-center justify-center rounded-full bg-white/20 font-bold text-white" style={{ fontSize: 12 }}>JD</div>
