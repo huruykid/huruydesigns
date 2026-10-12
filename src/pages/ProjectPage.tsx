@@ -43,7 +43,7 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
   }
   if (project.id === "ebtfinder") {
     return (
-      <ResponsiveAppShell label="EBT Finder Prototype" allowToggle>
+      <ResponsiveAppShell label="ebtfinder.org" allowToggle>
         <EBTSearchDemo />
       </ResponsiveAppShell>
     );

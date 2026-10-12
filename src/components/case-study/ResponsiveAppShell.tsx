@@ -157,9 +157,9 @@ export default function ResponsiveAppShell({ children, label, desktopWidth = 520
             >
               <div className="flex items-center px-4 py-2.5 bg-foreground/[0.04] border-b border-foreground/10 shrink-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-destructive" />
-                  <span className="h-3 w-3 rounded-full bg-accent" />
-                  <span className="h-3 w-3 rounded-full bg-primary/40" />
+                  <span className="h-3 w-3 rounded-full bg-foreground/15" />
+                  <span className="h-3 w-3 rounded-full bg-foreground/15" />
+                  <span className="h-3 w-3 rounded-full bg-foreground/15" />
                 </div>
                 {label && (
                   <span className="flex-1 text-center text-xs font-medium text-muted-foreground -ml-12">
