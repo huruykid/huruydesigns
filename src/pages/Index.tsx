@@ -1,28 +1,35 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/ProjectCard";
 import { publicProjects } from "@/lib/projects";
-import { person, resumePdfPath } from "@/lib/resume";
+import { person, experience, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
-import { imageDimensions } from "@/lib/imageDimensions";
 
-const FEATURED = ["asure-compliance", "beles", "ebtfinder"];
+/** Enterprise work first: it's what the roles Huruy is applying for ask about. */
+const ORDER = ["asure-compliance", "oneasure-portal", "ebtfinder", "beles"];
 const visibleProjects = publicProjects();
-const featured = FEATURED.map((id) => visibleProjects.find((p) => p.id === id)!).filter(Boolean);
-const moreWork = visibleProjects.filter((p) => !FEATURED.includes(p.id));
+const work = [
+  ...ORDER.map((id) => visibleProjects.find((p) => p.id === id)).filter((p): p is NonNullable<typeof p> => !!p),
+  ...visibleProjects.filter((p) => !ORDER.includes(p.id)),
+];
 
-const proofPoints = [
-  { value: "8+ years", label: "enterprise UX in payroll compliance, HR platforms and financial services" },
-  { value: "9,000+", label: "tax agencies configured through the compliance model I designed at Asure" },
-  { value: "Shipped", label: "a consumer app I researched, designed, built and released myself" },
+const current = experience[0];
+const previous = experience.find((e) => e.org.startsWith("Asure"));
+
+/** The "who, where, available?" answers a recruiter looks for first. */
+const facts = [
+  { label: "Currently", value: `${current.title} at ${person.currentEmployer}`, detail: "Enterprise products in a regulated industry" },
+  ...(previous ? [{ label: "Previously", value: `${previous.title} at Asure Software`, detail: "Payroll compliance and HR platforms" }] : []),
+  { label: "Experience", value: `${person.yearsExperience} years in UX and product design`, detail: "Enterprise SaaS, compliance, AI" },
+  { label: "Open to", value: "Senior and staff UX roles", detail: `${person.location} · remote or hybrid` },
 ];
 
 const hiringFacts = [
   "Senior UX, senior product design and staff UX roles: full-time, contract or consulting.",
-  `Based in ${person.location}. Remote, hybrid or relocation.`,
+  `Based in ${person.location}. Remote, hybrid, or onsite in LA.`,
   "I reply to hiring emails within one business day.",
 ];
 
@@ -32,7 +39,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Senior UX Design Portfolio, Huruy Kidanemariam",
-    itemListElement: visibleProjects.map((p, i) => ({
+    itemListElement: work.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: { "@type": "CreativeWork", name: p.title, description: p.description, url: absoluteUrl(`/project/${p.id}`), author: PERSON_REF },
@@ -40,6 +47,8 @@ const jsonLd = [
   },
   { "@context": "https://schema.org", "@type": "WebSite", name: "Huruy Kidanemariam, Senior UX Designer Portfolio", url: SITE_URL, author: PERSON_REF },
 ];
+
+const mailto = `mailto:${person.email}?subject=${encodeURIComponent("Senior UX role")}`;
 
 const Index = () => (
   <>
@@ -52,109 +61,93 @@ const Index = () => (
       breadcrumbs={[{ name: "Home", path: "/" }]}
     />
 
-    {/* Hero: the 60-second scan */}
-    <section className="py-14 sm:py-24 lg:py-28">
+    {/* Intro: who he is, what he does, where he is, how to reach him */}
+    <section className="pb-14 pt-16 sm:pb-20 sm:pt-28 lg:pt-32">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent sm:mb-5">{person.name}, {person.title}</p>
-          <h1 className="mb-8 text-4xl font-bold leading-[1.08] tracking-tight font-display sm:mb-10 sm:text-5xl lg:text-6xl">
-            I design enterprise products where <span className="text-gradient">getting it wrong is a liability</span>.
-          </h1>
-          <dl className="mb-8 grid gap-x-8 gap-y-4 sm:mb-10 sm:grid-cols-3 sm:gap-y-6">
-            {proofPoints.map((p) => (
-              <div key={p.value} className="border-t border-border pt-4">
-                <dt className="text-2xl font-bold tracking-tight text-foreground font-display">{p.value}</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.label}</dd>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end lg:gap-16"
+        >
+          <div>
+            <h1 className="mb-6 text-[2.75rem] font-light leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+              Hi, I'm Huruy.
+            </h1>
+            <p className="mb-8 max-w-[38ch] text-lg leading-relaxed text-foreground sm:text-xl">
+              A senior UX designer in Los Angeles. I design enterprise products where getting it wrong is a liability,
+              and I build what I design.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="rounded-full px-6">
+                <a href={mailto}>Say hello</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full px-6">
+                <Link to="/resume">View resume</Link>
+              </Button>
+            </div>
+          </div>
+
+          <dl className="grid gap-5 text-[15px] sm:grid-cols-2 lg:grid-cols-1 lg:gap-4">
+            {facts.map((f) => (
+              <div key={f.label} className="grid gap-0.5 lg:grid-cols-[6.5rem_1fr] lg:gap-3">
+                <dt className="text-muted-foreground">{f.label}</dt>
+                <dd>
+                  <span className="text-foreground">{f.value}</span>
+                  <span className="block text-muted-foreground">{f.detail}</span>
+                </dd>
               </div>
             ))}
           </dl>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 min-w-[200px]">
-              <a href="#work">
-                See the work <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="min-w-[200px]">
-              <a href={resumePdfPath} download>Download resume</a>
-            </Button>
-          </div>
         </motion.div>
       </div>
     </section>
 
     {/* Work */}
-    <section id="work" className="scroll-mt-16 bg-muted/30 py-20 sm:py-24" aria-labelledby="work-heading">
+    <section id="work" className="scroll-mt-16 pb-20 sm:pb-28" aria-labelledby="work-heading">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Selected work</p>
-            <h2 id="work-heading" className="text-3xl font-bold tracking-tight font-display sm:text-4xl">Three case studies</h2>
-          </div>
-          <p className="max-w-md text-sm text-muted-foreground">
-            Each one opens with a summary you can read in a minute, then the decisions and what I turned down.
-          </p>
+        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-border pt-6">
+          <h2 id="work-heading" className="text-[15px] font-medium tracking-normal">Selected work</h2>
+          <p className="text-[15px] text-muted-foreground">Each case study opens with a one-minute summary.</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {featured.map((project, index) => (
+        <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-x-10 lg:gap-y-16">
+          {work.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
-        {moreWork.length > 0 && (
-          <div className="mt-12">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">More work</h3>
-            <div className="grid gap-4">
-              {moreWork.map((p) => {
-                const result = p.keyResults?.[0];
-                const dims = imageDimensions[p.image];
-                return (
-                  <article key={p.id} className="grid overflow-hidden rounded-lg border border-border bg-card sm:grid-cols-[180px_1fr]">
-                    <div className="aspect-[16/9] overflow-hidden bg-muted sm:aspect-auto">
-                      <img src={p.image} alt="" width={dims?.width ?? 1200} height={dims?.height ?? 750} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                    </div>
-                    <div className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-                      <div>
-                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-accent">{p.impact}</p>
-                        <h4 className="text-xl font-bold font-display">{p.title}</h4>
-                        {result && <p className="mt-1 text-sm text-muted-foreground"><span className="font-semibold text-foreground">{result.value}</span> {result.label}</p>}
-                      </div>
-                      <Button asChild variant="outline" className="min-h-11 shrink-0 sm:self-center">
-                        <Link to={`/project/${p.id}`} aria-label={`Read the ${p.title} case study`}>
-                          Read case study <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
     </section>
 
     {/* Hiring */}
-    <section id="hire" className="scroll-mt-16 py-20 sm:py-24" aria-labelledby="hire-heading">
+    <section id="hire" className="scroll-mt-16 pb-24" aria-labelledby="hire-heading">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="max-w-3xl rounded-2xl border border-accent/20 bg-accent/5 p-6 sm:p-10">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Hiring?</p>
-          <h2 id="hire-heading" className="mb-5 text-2xl font-bold tracking-tight font-display sm:text-3xl">Open to senior UX roles</h2>
-          <ul className="mb-6 space-y-2 text-muted-foreground">
-            {hiringFacts.map((f) => (
-              <li key={f} className="flex items-start gap-2">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                <span>{f}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link to="/contact?role=senior-ux-designer">
-                <Mail className="h-4 w-4 mr-2" aria-hidden="true" /> Email Huruy
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/about">How I work</Link>
-            </Button>
+        <div className="grid gap-8 rounded-2xl bg-muted p-6 sm:p-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+          <div>
+            <h2 id="hire-heading" className="mb-3 text-3xl font-light tracking-tight sm:text-4xl">Hiring a senior UX designer?</h2>
+            <p className="text-muted-foreground">I'm open to new roles now.</p>
+          </div>
+          <div>
+            <ul className="mb-8 space-y-3">
+              {hiringFacts.map((f) => (
+                <li key={f} className="flex gap-3 text-foreground">
+                  <span className="mt-[0.6rem] h-1 w-1 shrink-0 rounded-full bg-foreground" aria-hidden="true" />
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="rounded-full px-6">
+                <a href={mailto}>Email {person.givenName}</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full bg-transparent px-6">
+                <a href={resumePdfPath} download>Download resume (PDF)</a>
+              </Button>
+              <Button asChild size="lg" variant="ghost" className="rounded-full px-4">
+                <Link to="/about#how-i-work">
+                  How I work <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

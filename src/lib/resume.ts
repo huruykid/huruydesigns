@@ -21,7 +21,7 @@ export const person = {
   yearsExperience: "8+",
   currentEmployer: "Capital Group",
   currentEmployerFull: "Capital Group (via Luxoft)",
-  availability: "Open to senior UX, senior product design, and staff UX roles: full-time, contract, or consulting. Open to relocation, hybrid, or remote.",
+  availability: "Open to senior UX, senior product design, and staff UX roles: full-time, contract, or consulting. Based in Los Angeles: remote, hybrid, or onsite in LA.",
   summary:
     "Senior UX Designer with 8+ years in UX, interaction, and product design, including enterprise conversational AI, payroll, and benefits. Hands-on with generative AI patterns, prompt engineering, and LLM response guardrails in production applications. Currently a Senior UX Designer at Capital Group.",
   /** One positioning line used across the homepage, About and Hire pages. */

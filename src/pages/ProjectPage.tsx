@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { person } from "@/lib/resume";
 import SEO from "@/components/SEO";
 import { projects, findProject, publicProjects, Project } from "@/lib/projects";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
@@ -192,7 +193,7 @@ const ProjectPage = () => {
             ].map(({ k, v }) => (
               <div key={k} className="min-w-0">
                 <dt className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{k}</dt>
-                <dd className="text-[15px] leading-7 text-muted-foreground line-clamp-6">{v}</dd>
+                <dd className="text-[15px] leading-7 text-muted-foreground">{v}</dd>
               </div>
             ))}
           </dl>
@@ -213,12 +214,23 @@ const ProjectPage = () => {
           <FentFinderCaseStudy project={project} {...slotProps} />
         ) : null}
 
-        {/* Next project */}
-        <div className="border-t border-border pt-16">
-          <p className="text-sm text-muted-foreground mb-2">Next project</p>
-          <Link to={`/project/${next.id}`} className="group inline-flex items-center gap-2 text-2xl font-bold hover:text-accent transition-colors font-display">
-            {next.title} <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-          </Link>
+        {/* Next project, and a way to reach Huruy without going back to the homepage */}
+        <div className="grid gap-10 border-t border-border pt-16 sm:grid-cols-2">
+          <div>
+            <p className="mb-2 text-sm text-muted-foreground">Next project</p>
+            <Link to={`/project/${next.id}`} className="group inline-flex items-center gap-2 text-2xl font-medium tracking-tight hover:underline underline-offset-4">
+              {next.title} <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          </div>
+          <div>
+            <p className="mb-2 text-sm text-muted-foreground">Hiring for a senior UX role?</p>
+            <p className="flex flex-wrap gap-x-6 gap-y-2 text-lg">
+              <a href={`mailto:${person.email}?subject=${encodeURIComponent(`Senior UX role (re: ${project.title})`)}`} className="underline underline-offset-4 hover:text-muted-foreground">
+                Email {person.givenName}
+              </a>
+              <Link to="/resume" className="underline underline-offset-4 hover:text-muted-foreground">View resume</Link>
+            </p>
+          </div>
         </div>
       </div>
     </>

@@ -4,7 +4,7 @@
 
 ## Pages
 
-- [Home](https://huruy.tech/): Three featured case studies, availability for senior UX roles, and contact.
+- [Home](https://huruy.tech/): Current role, four case studies, availability for senior UX roles, and contact.
 - [About](https://huruy.tech/about): Background, experience, and how Huruy works (design reviews, disagreement with engineering, mentoring).
 - [Resume](https://huruy.tech/resume): Work history and downloadable resume.
 - [Contact](https://huruy.tech/contact): Get in touch about senior UX roles and product design work.

@@ -84,6 +84,10 @@ export interface Project {
   sectionImages?: SectionImages;
   seoDescription?: string;
   keyResults?: { value: string; label: string }[];
+  /** Who the work was for, shown after the title on homepage cards ("Title, Client"). */
+  client?: string;
+  /** Two or three short labels a recruiter can scan on the homepage card. */
+  cardTags?: string[];
   appStoreUrl?: string;
   /** Social card image when it differs from the hero image. */
   ogImage?: string;
@@ -107,6 +111,8 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "asure-compliance",
+    client: "Asure Software",
+    cardTags: ["Enterprise SaaS", "Systems design", "Compliance"],
     title: "Asure Compliance Engine",
     seoDescription: "Onsite redesign of Asure's enterprise payroll compliance engine for 9,000+ tax agencies across the US and Canada.",
     description: "Brought onsite to redesign screens, I found that no one had ever mapped how the compliance engine's entities depended on each other. I built that map first, then designed the state machine and configuration patterns on top of it.",
@@ -130,6 +136,8 @@ export const projects: Project[] = [
   },
   {
     id: "oneasure-portal",
+    client: "Asure Software",
+    cardTags: ["Enterprise HR", "Research & IA", "B2B"],
     title: "OneAsure Portal",
     description: "Three enterprise HR portals with three logins became one. I led the research that reframed the brief from a visual refresh to a structural consolidation, then designed the portal across eight iterations.",
     impact: "Three portals, one product",
@@ -159,6 +167,8 @@ export const projects: Project[] = [
   },
   {
     id: "ebtfinder",
+    client: "Independent",
+    cardTags: ["Shipped iOS app", "Research", "Design + build"],
     title: "EBT Finder",
     description: "A review-first store locator that helps SNAP/EBT users find nearby businesses with confidence and dignity. Researched, designed, built, and shipped solo to the App Store.",
     impact: "Shipped: a store locator for 12M+ SNAP households",
@@ -373,6 +383,8 @@ export const projects: Project[] = [
   },
   {
     id: "beles",
+    client: "Independent",
+    cardTags: ["Live web app", "User research", "Mobile"],
     title: "Beles",
     seoDescription: "Culturally rooted dating and community app for the Tigrayan diaspora, blending traditional matchmaking with modern UX.",
     description: "A dating and community app for the Tigrayan diaspora. The hard problem was making traditional matchmaking (Shmagele) legible inside a modern app without flattening it, and serving people who wanted community more than dates.",

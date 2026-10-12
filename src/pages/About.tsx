@@ -54,7 +54,7 @@ const About = () => (
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: Photo + intro */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="mx-auto w-full max-w-sm lg:mx-0">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="mx-auto w-full max-w-sm lg:sticky lg:top-28 lg:mx-0">
             <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-border bg-muted">
               <img
                 src={huruyHeadshot}

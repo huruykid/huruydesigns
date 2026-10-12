@@ -6,37 +6,38 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 220 20% 97%;
-    --foreground: 222 47% 11%;
+    :root {
+    /* Neutral, type-led palette: white page, near-black ink, one gray scale. */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 222 47% 11%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 92%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 220 14% 92%;
-    --muted-foreground: 220 9% 46%;
+    /* #f4f4f4 surfaces; #5c5c5c secondary text is 6.6:1 on white (WCAG AA). */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 36%;
 
-    /* Brand orange darkened for light mode: 5.3:1 on white, 4.9:1 on the page background (WCAG AA). */
-    --accent: 25 95% 36%;
+    /* "Accent" is ink: buttons, eyebrows and links read as black, not orange. */
+    --accent: 0 0% 9%;
     --accent-foreground: 0 0% 100%;
-    /* Lighter stop for the logo/hero gradient; only used on large bold text (3:1 minimum). */
-    --accent-gradient-end: 25 95% 46%;
+    --accent-gradient-end: 0 0% 30%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 87%;
-    --input: 220 13% 87%;
-    --ring: 25 95% 36%;
+    --border: 0 0% 90%;
+    --input: 0 0% 86%;
+    --ring: 0 0% 9%;
 
     --radius: 0.75rem;
 
@@ -51,37 +52,36 @@
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 96%;
 
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 96%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 210 40% 96%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 9%;
 
-    --secondary: 222 30% 16%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 222 30% 16%;
-    --muted-foreground: 220 15% 60%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 66%;
 
-    /* Full-strength orange passes at 7:1 against the dark background. */
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 100%;
-    --accent-gradient-end: 27 96% 61%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+    --accent-gradient-end: 0 0% 75%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 222 30% 18%;
-    --input: 222 30% 18%;
-    --ring: 25 95% 53%;
+    --border: 0 0% 18%;
+    --input: 0 0% 22%;
+    --ring: 0 0% 96%;
 
-    --sidebar-background: 222 47% 8%;
+    --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -107,8 +107,8 @@ html {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -117,12 +117,12 @@ html {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-[hsl(var(--accent-gradient-end))];
   }
   .font-display {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 }
 
 @media print {
   .print-accent {
-    color: hsl(25 95% 36%) !important;
+    color: hsl(0 0% 9%) !important;
   }
 }

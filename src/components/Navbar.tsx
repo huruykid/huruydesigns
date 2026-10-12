@@ -54,10 +54,10 @@ const Navbar = () => {
   const isActive = (match: string) => location.pathname === match;
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border print:hidden">
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-lg border-b border-transparent print:hidden">
       <nav className="container mx-auto flex items-center justify-between h-16 px-6 sm:px-8 lg:px-12" aria-label="Primary">
-        <Link to="/" className="text-xl font-bold tracking-tight font-display" aria-label="Huruy Kidanemariam, home">
-          <span className="text-gradient">Huruy</span>
+        <Link to="/" className="text-[15px] font-semibold tracking-tight" aria-label="Huruy Kidanemariam, home">
+          Huruy Kidanemariam
         </Link>
 
         {/* Desktop */}
@@ -67,7 +67,7 @@ const Navbar = () => {
               key={l.path}
               to={l.path}
               aria-current={isActive(l.match) ? "page" : undefined}
-              className={`text-sm font-medium transition-colors hover:text-accent ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
+              className={`text-sm transition-colors hover:text-foreground ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
             >
               {l.label}
             </Link>
@@ -102,7 +102,7 @@ const Navbar = () => {
                 key={l.path}
                 to={l.path}
                 aria-current={isActive(l.match) ? "page" : undefined}
-                className={`text-base font-medium min-h-12 flex items-center ${isActive(l.match) ? "text-accent" : "text-muted-foreground"}`}
+                className={`text-base min-h-12 flex items-center ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
               >
                 {l.label}
               </Link>
