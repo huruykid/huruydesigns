@@ -38,7 +38,7 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
   if (project.id === "asure-compliance") {
     return (
       <div className="w-full">
-        <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={520} allowToggle mobileWidth={290} mobileHeight={560}>
+        <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={580} allowToggle mobileWidth={290} mobileHeight={580}>
           <AsureConfigDemo />
         </ResponsiveAppShell>
         <p className="mt-2 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Not Asure's production UI.</p>

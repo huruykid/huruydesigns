@@ -250,7 +250,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
         <li>On CA-SDI, change the rate. Past 25% from the released value you get a warning to confirm; past the jurisdiction maximum, a hard stop with the rule.</li>
         <li>Save the draft and read the impact before it saves, then take it through review, lock and release. Every step lands in History.</li>
       </ol>
-      <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={520} allowToggle mobileWidth={290} mobileHeight={560}>
+      <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={780} desktopHeight={620} allowToggle mobileWidth={290} mobileHeight={600}>
         <AsureConfigDemo />
       </ResponsiveAppShell>
       <p className="mt-3 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Agencies are real jurisdictions; rates, counts and people are not. Not Asure's production UI.</p>
