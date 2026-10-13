@@ -14,7 +14,7 @@
  */
 
 export interface BookFormat {
-  id: "signed" | "printed" | "hardcover" | "paperback" | "kindle";
+  id: "signed" | "signed-hardcover" | "printed" | "hardcover" | "paperback" | "kindle";
   /** "direct" formats are sold from this site; "retail" ones send people to a store. */
   channel: "direct" | "retail";
   label: string;
@@ -66,6 +66,17 @@ export const book = {
       url: "https://buy.stripe.com/dRm7sLaCq26q4lzcPFgfu02",
       price: "$39.99",
       cta: "Buy a signed copy",
+      note: "Secure checkout by Stripe. Ships within a week of launch.",
+    },
+    {
+      id: "signed-hardcover",
+      channel: "direct",
+      label: "Signed hardcover",
+      detail: "Case-wrap hardcover, signed by the author and mailed from Los Angeles. US shipping included.",
+      retailer: "the author",
+      url: "https://buy.stripe.com/bJe6oH5i6cL405jg1Rgfu03",
+      price: "$59.99",
+      cta: "Buy a signed hardcover",
       note: "Secure checkout by Stripe. Ships within a week of launch.",
     },
     {

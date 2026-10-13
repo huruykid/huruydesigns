@@ -15,7 +15,7 @@ const notifyHref = `mailto:${book.notifyEmail}?subject=${encodeURIComponent(
   `Tell me when ${book.title} is out`,
 )}&body=${encodeURIComponent("Please email me when the book is available.")}`;
 
-const formatIcon = { signed: PenLine, printed: Package, hardcover: BookMarked, paperback: BookOpen, kindle: Smartphone } as const;
+const formatIcon = { signed: PenLine, "signed-hardcover": PenLine, printed: Package, hardcover: BookMarked, paperback: BookOpen, kindle: Smartphone } as const;
 
 const directFormats = book.formats.filter((f) => f.channel === "direct");
 const retailFormats = book.formats.filter((f) => f.channel === "retail");
