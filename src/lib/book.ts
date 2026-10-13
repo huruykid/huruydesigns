@@ -63,6 +63,7 @@ export const book = {
       label: "Signed paperback",
       detail: "Signed by the author and mailed from Los Angeles. US shipping included.",
       retailer: "the author",
+      url: "https://buy.stripe.com/eVqaEX11Q3au05jcPFgfu00",
       price: "$24.99",
       cta: "Buy a signed copy",
       note: "Secure checkout by Stripe. Ships within a week of launch.",
@@ -98,3 +99,5 @@ export const book = {
 
 export const liveFormats = () => book.formats.filter((f) => !!f.url);
 export const isBookOnSale = () => liveFormats().length > 0;
+/** True once the book itself is out (an Amazon listing is live), not just open for signed pre-orders. */
+export const isBookReleased = () => book.formats.some((f) => f.channel === "retail" && !!f.url);

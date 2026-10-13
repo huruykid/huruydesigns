@@ -4,7 +4,7 @@ import { ArrowRight, BookOpen, ExternalLink, Mail, Package, PenLine, ShoppingBag
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import BookCover from "@/components/BookCover";
-import { book, isBookOnSale, type BookFormat } from "@/lib/book";
+import { book, isBookOnSale, isBookReleased, type BookFormat } from "@/lib/book";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import { trackEvent } from "@/lib/analytics";
 
@@ -110,6 +110,7 @@ const FormatGroup = ({
 
 const Book = () => {
   const onSale = isBookOnSale();
+  const released = isBookReleased();
 
   return (
     <>
@@ -144,7 +145,7 @@ const Book = () => {
 
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                {onSale ? "New book" : "Book · Coming soon"}
+                {released ? "New book" : onSale ? "Book · Signed pre-orders open" : "Book · Coming soon"}
               </p>
               <h1 className="mb-4 text-4xl font-bold tracking-tight font-display sm:text-5xl lg:text-6xl">{book.title}</h1>
               <p className="mb-6 max-w-[56ch] text-base leading-relaxed text-muted-foreground sm:text-lg">{book.subtitle}</p>
@@ -161,10 +162,10 @@ const Book = () => {
                 <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
                   <a href="#buy">
                     <ShoppingBag className="mr-2 h-4 w-4" aria-hidden="true" />
-                    {onSale ? "Buy the book" : "Formats & availability"}
+                    {released ? "Buy the book" : onSale ? "Pre-order a signed copy" : "Formats & availability"}
                   </a>
                 </Button>
-                {!onSale && (
+                {!released && (
                   <Button asChild size="lg" variant="outline">
                     <a href={notifyHref}>
                       <Mail className="mr-2 h-4 w-4" aria-hidden="true" /> Email me when it's out
@@ -184,8 +185,10 @@ const Book = () => {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Store</p>
             <h2 id="buy-heading" className="mb-3 text-3xl font-bold tracking-tight font-display">Get a copy</h2>
             <p className="text-muted-foreground">
-              {onSale
+              {released
                 ? "Buy a signed copy straight from the author, or pick up the book on Amazon."
+                : onSale
+                ? "Signed copies are open for pre-order now and ship the week the book launches. The other formats switch on here at launch."
                 : "The book is in final production. Buttons switch on here the day each format goes live."}
             </p>
           </div>
@@ -197,7 +200,7 @@ const Book = () => {
           />
           <FormatGroup heading="On Amazon" formats={retailFormats} className="mt-12" />
 
-          {!onSale && (
+          {!released && (
             <p className="mt-8 text-sm text-muted-foreground">
               Want to know the day it's out?{" "}
               <a href={notifyHref} className="font-medium text-accent underline underline-offset-4">
