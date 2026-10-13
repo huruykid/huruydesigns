@@ -45,48 +45,45 @@ const Resume = () => {
         ]}
       />
 
-      {/* Print styles */}
+      {/* Print styles: real point sizes on US Letter, no zoom. Two pages is fine. */}
       <style>{`
         @media print {
+          @page { size: letter; margin: 0.5in 0.55in; }
           header, footer, .no-print, nav { display: none !important; }
           main { padding-top: 0 !important; }
-          body { 
-            -webkit-print-color-adjust: exact; 
+          body {
+            background: #fff !important;
+            -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
-          .resume-page { 
-            max-width: 100% !important; 
-            padding: 0 !important; 
-            margin: 0 !important; 
-          }
-          .resume-page .rounded-xl { 
-            border-radius: 0 !important; 
-            box-shadow: none !important; 
-            border: none !important;
-          }
+          .resume-page { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+          .resume-card { border: none !important; border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; }
 
-          /* Force two-column layout in print */
-          .resume-two-col {
-            display: flex !important;
-            flex-direction: row !important;
-          }
+          .resume-header { padding: 0 0 12pt !important; }
+          .resume-header h2 { font-size: 22pt !important; line-height: 1.15 !important; }
+          .resume-header .resume-title { font-size: 12pt !important; }
+          .resume-header img { width: 0.9in !important; height: 0.9in !important; }
+
+          /* Print width is under the md breakpoint, so restore the two columns by hand. */
+          .resume-two-col { display: flex !important; flex-direction: row !important; gap: 0 !important; }
           .resume-sidebar {
-            width: 200px !important;
-            min-width: 200px !important;
-            flex-shrink: 0 !important;
+            order: 1 !important;
+            flex: 0 0 1.75in !important;
+            width: 1.75in !important;
+            padding: 14pt 14pt 0 0 !important;
             border-bottom: none !important;
+            border-right: 1px solid hsl(var(--border)) !important;
           }
-          .resume-main {
-            flex: 1 !important;
-          }
+          .resume-main { order: 2 !important; padding: 14pt 0 0 16pt !important; }
 
-          /* Scale to fit one page */
-          .resume-page > div {
-            zoom: 0.72;
-          }
-          
-
-          @page { margin: 0.2in; size: letter; }
+          /* Type scale in points: 10pt body, 9pt meta, 8.5pt sidebar detail. */
+          .resume-page h3 { font-size: 9pt !important; break-after: avoid; }
+          .resume-page .text-sm { font-size: 10pt !important; line-height: 1.45 !important; }
+          .resume-page .text-xs { font-size: 9pt !important; line-height: 1.4 !important; }
+          .resume-sidebar .text-xs, .resume-page .resume-pill { font-size: 8.5pt !important; }
+          /* Entries may split between bullets, but a role header never strands alone. */
+          .resume-entry-head { break-after: avoid; }
+          .resume-entry li { break-inside: avoid; }
         }
       `}</style>
 
@@ -117,16 +114,16 @@ const Resume = () => {
 
       {/* Resume document */}
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 pb-16 max-w-5xl resume-page">
-        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <div className="resume-card rounded-xl border border-border bg-card shadow-sm overflow-hidden">
           
           {/* Name header */}
-          <div className="px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
+          <div className="resume-header px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <h2 className="text-xl md:text-3xl font-bold tracking-tight font-display">
                   {person.name}
                 </h2>
-                <p className="text-accent font-semibold mt-1 print-accent font-display">
+                <p className="resume-title text-accent font-semibold mt-1 print-accent font-display">
                   {person.title}
                 </p>
               </div>
@@ -219,8 +216,8 @@ const Resume = () => {
                 </h3>
                 <div className="space-y-6">
                   {experience.map((job, i) => (
-                    <div key={i} className="resume-section">
-                      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
+                    <div key={i} className="resume-section resume-entry">
+                      <div className="resume-entry-head flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
                         <div>
                           <h4 className="text-sm font-bold text-foreground">{job.title}</h4>
                           <p className="text-xs font-medium text-accent print-accent">{job.org} · {job.location}</p>
@@ -247,8 +244,8 @@ const Resume = () => {
                   Leadership & Community
                 </h3>
                 {leadership.map((item, i) => (
-                  <div key={i}>
-                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
+                  <div key={i} className="resume-entry">
+                    <div className="resume-entry-head flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 mb-1.5">
                       <div>
                         <h4 className="text-sm font-bold text-foreground">{item.title}</h4>
                         <p className="text-xs font-medium text-accent print-accent">{item.org} · {item.location}</p>

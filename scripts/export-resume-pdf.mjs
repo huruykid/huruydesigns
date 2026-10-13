@@ -19,22 +19,18 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 1650 } });
 await page.emulateMedia({ media: "print", colorScheme: "light" });
 await page.goto(`${base}/resume`, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
-// If the resume overflows one page by a few lines, shrink up to ~5% so a lone
-// section doesn't strand on page 2. Past that, let it run to two pages rather
-// than shrinking text (two pages is fine for 8+ years).
+// Margins and sizes come from the page's @page print CSS. If the resume spills
+// onto page 2 by only a few lines, shrink up to ~5% to avoid a near-empty
+// second page; otherwise keep 100% and let it run to two pages.
 const countPages = (buf) => (buf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+const render = (scale) => page.pdf({ format: "Letter", printBackground: true, preferCSSPageSize: true, scale });
 let scale = 1;
-let pdf;
-for (;;) {
-  pdf = await page.pdf({
-    format: "Letter",
-    printBackground: true,
-    preferCSSPageSize: true,
-    scale,
-    margin: { top: "0.2in", right: "0.2in", bottom: "0.2in", left: "0.2in" },
-  });
-  if (countPages(pdf) <= 1 || scale <= 0.94) break;
-  scale = Math.round((scale - 0.02) * 100) / 100;
+let pdf = await render(1);
+if (countPages(pdf) > 1) {
+  for (const s of [0.98, 0.96, 0.94]) {
+    const tryPdf = await render(s);
+    if (countPages(tryPdf) === 1) { pdf = tryPdf; scale = s; break; }
+  }
 }
 const { writeFile } = await import("node:fs/promises");
 await writeFile(out, pdf);
