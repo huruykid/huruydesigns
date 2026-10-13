@@ -159,8 +159,8 @@ export const projects: Project[] = [
     role: "UX Designer, led research and IA on a team of four designers",
     timeline: "6+ months",
     tools: ["Figma", "Ionic", "Jira"],
-    challenge: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks.",
-    problem: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: separate portals for time & attendance, benefits, and payroll, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive.",
+    challenge: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: four separate portals, for time & attendance, benefits, payroll and HR, each with its own login, its own logic, and its own quirks.",
+    problem: "HR professionals at mid-to-large enterprises were navigating a fractured ecosystem: four separate portals, for time & attendance, benefits, payroll and HR, each with its own login, its own logic, and its own quirks. The result wasn't just frustrating. It was expensive.",
     solution: "The final OneAsure portal consolidated Time & Attendance, Benefits, Payroll, and related HR functions into a single, unified experience, with one login, consistent UI patterns, and workflows that reflected how people actually worked.",
     process: "Conducted software audits, gap analysis, competitive research across 12 HCM platforms, 16 remote user interviews, and 24 usability tests across 8 iterative design rounds over 6+ months.",
     keyResults: [

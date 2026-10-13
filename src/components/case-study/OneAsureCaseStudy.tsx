@@ -51,7 +51,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
     <>
       <CaseStudySection label="Context" title="Four portals, four logins, one HR team">
         <p className="mb-4">
-          HR professionals at mid-to-large enterprises ran their day across separate Asure portals for time and attendance, benefits and payroll, each with its own login, logic and quirks. Administrators made errors. Employees gave up on self-service. The sales team struggled to demo a product that looked a decade old.
+          HR professionals at mid-to-large enterprises ran their day across four separate Asure portals, for time and attendance, benefits, payroll and HR, each with its own login, logic and quirks. Administrators made errors. Employees gave up on self-service. The sales team struggled to demo a product that looked a decade old.
         </p>
         <p>
           I was one of four designers on the project, working with eight developers and a project manager over six months. I owned the research, the information architecture and the presentation of design rationale to stakeholders.
