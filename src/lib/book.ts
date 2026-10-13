@@ -85,6 +85,7 @@ export const book = {
       label: "Hardcover",
       detail: "6 × 9 in. Case-wrap hardcover, printed on demand and shipped to you by Lulu.",
       retailer: "Lulu",
+      url: "https://svc.lulu.com/?items=c8dfb175-50b3-4d69-abff-d34211ce87eb",
       price: "$34.99",
       note: "Secure checkout by Lulu. Shipping is added at checkout.",
       cta: "Order the hardcover",
