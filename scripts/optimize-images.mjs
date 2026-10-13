@@ -1,6 +1,6 @@
 /**
  * One-off image optimizer: converts public/images/**.png to WebP (max 1600px wide),
- * builds the 1200x630 Open Graph PNG, and writes src/lib/imageDimensions.ts so
+ * records the social preview cards in public/og/, and writes src/lib/imageDimensions.ts so
  * <img> tags can carry width/height and avoid layout shift.
  *
  * sharp is not a project dependency; run with:  npm i --no-save sharp && node scripts/optimize-images.mjs
@@ -44,11 +44,10 @@ for (const file of await walk(IMAGES)) {
   dims["/" + path.relative(path.join(ROOT, "public"), target)] = { width: meta.width, height: meta.height };
 }
 
-// Open Graph image: exactly 1200x630 PNG.
-const og = path.join(ROOT, "public/og-image.png");
-await sharp(og).resize(1200, 630, { fit: "cover", position: "centre" }).png({ compressionLevel: 9 }).toFile(og + ".tmp");
-await sharp(og + ".tmp").toFile(og);
-await unlink(og + ".tmp");
+// Social preview cards (1200x630 PNG), captured by scripts/build-og-images.mjs.
+for (const name of await readdir(path.join(ROOT, "public/og"))) {
+  if (name.endsWith(".png")) dims[`/og/${name}`] = { width: 1200, height: 630 };
+}
 dims["/og-image.png"] = { width: 1200, height: 630 };
 
 const entries = Object.keys(dims)

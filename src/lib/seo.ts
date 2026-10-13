@@ -2,7 +2,7 @@ import { person } from "./resume";
 
 export const SITE_URL = "https://huruy.tech";
 export const PERSON_ID = `${SITE_URL}/#person`;
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og/default.png`;
 export const DEFAULT_OG_IMAGE_ALT = "Huruy Kidanemariam, Senior UX Designer and Builder";
 export const TWITTER_HANDLE = "@huruydesigns";
 export const SITE_NAME = "Huruy Kidanemariam, UX Portfolio";

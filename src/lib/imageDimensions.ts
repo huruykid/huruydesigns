@@ -17,5 +17,11 @@ export const imageDimensions: Record<string, { width: number; height: number }> 
   "/images/ebtfinder/wireframes.webp": { width: 1408, height: 768 },
   "/images/oneasure/card.webp": { width: 1600, height: 1200 },
   "/images/oneasure/cover.svg": { width: 1200, height: 750 },
+  "/og/asure-compliance.png": { width: 1200, height: 630 },
+  "/og/beles.png": { width: 1200, height: 630 },
+  "/og/book.png": { width: 1200, height: 630 },
+  "/og/default.png": { width: 1200, height: 630 },
+  "/og/ebtfinder.png": { width: 1200, height: 630 },
+  "/og/oneasure-portal.png": { width: 1200, height: 630 },
   "/og-image.png": { width: 1200, height: 630 },
 };

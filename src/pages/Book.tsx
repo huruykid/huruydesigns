@@ -68,8 +68,8 @@ const Book = () => {
         description={PAGE_DESC}
         path={book.path}
         ogType="website"
-        image={book.coverImage || undefined}
-        imageAlt={book.coverImage ? book.coverAlt : undefined}
+        image="/og/book.png"
+        imageAlt={`${book.title}, a book by ${book.author}`}
         jsonLd={[bookJsonLd, { "@context": "https://schema.org", ...PERSON }]}
         breadcrumbs={[
           { name: "Home", path: "/" },

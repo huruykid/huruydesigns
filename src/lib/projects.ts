@@ -113,6 +113,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "asure-compliance",
+    ogImage: "/og/asure-compliance.png",
     cardImage: "/images/asure/card.webp",
     client: "Asure Software",
     cardTags: ["Enterprise SaaS", "Systems design", "Compliance"],
@@ -139,6 +140,7 @@ export const projects: Project[] = [
   },
   {
     id: "oneasure-portal",
+    ogImage: "/og/oneasure-portal.png",
     cardImage: "/images/oneasure/card.webp",
     client: "Asure Software",
     cardTags: ["Enterprise HR", "Research & IA", "B2B"],
@@ -171,6 +173,7 @@ export const projects: Project[] = [
   },
   {
     id: "ebtfinder",
+    ogImage: "/og/ebtfinder.png",
     cardImage: "/images/ebtfinder/card.webp",
     client: "Independent",
     cardTags: ["Shipped iOS app", "Research", "Design + build"],
@@ -384,10 +387,10 @@ export const projects: Project[] = [
     ],
     outcomeMetrics: "Live on the App Store and at ebtfinder.org: 264,000+ EBT-accepting locations across 53 states and territories, about 318 real US users a week on the web app, and a release process rebuilt after a 13-build TestFlight cycle. Before code, moderated testing with 10 participants: 9 found a hot food location in under 15 seconds and all 10 preferred it to the USDA locator.",
     image: "/images/ebtfinder/hero-mockup.webp",
-    ogImage: "/images/ebtfinder/hero-mockup.webp",
   },
   {
     id: "beles",
+    ogImage: "/og/beles.png",
     cardImage: "/images/beles/card.webp",
     client: "Independent",
     cardTags: ["Live on the App Store", "User research", "Design + build, solo"],

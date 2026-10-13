@@ -1,132 +1,130 @@
+import { useSearchParams } from "react-router-dom";
 import headshot from "@/assets/huruy-headshot.jpg";
 import SEO from "@/components/SEO";
+import BookCover from "@/components/BookCover";
+import { book } from "@/lib/book";
+import { person } from "@/lib/resume";
+import { publicProjects } from "@/lib/projects";
+
+/**
+ * 1200x630 social preview cards, rendered here and captured to public/og/ by
+ * scripts/build-og-images.mjs. /og is noindex and never linked.
+ *
+ *   /og                  default card (home, about, resume, contact)
+ *   /og?card=book        the book page
+ *   /og?card=<project>   one card per public project
+ */
+
+const INK = "#0A0A0A";
+const BODY = "#404040";
+const MUTED = "#737373";
+const PAPER = "#FAFAFA";
+
+/** The favicon's HK tile, drawn small in the corner of every card. */
+const Mark = ({ dark = false }: { dark?: boolean }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+    <img src="/favicon.svg" alt="" width={40} height={40} style={{ borderRadius: 9, filter: dark ? "invert(1)" : undefined }} />
+    <span style={{ fontSize: 22, color: dark ? "#A3A3A3" : MUTED, letterSpacing: "-0.01em" }}>huruy.tech</span>
+  </div>
+);
+
+const Frame = ({ children, bg = PAPER }: { children: React.ReactNode; bg?: string }) => (
+  <div
+    data-og-card
+    style={{
+      width: 1200,
+      height: 630,
+      background: bg,
+      fontFamily: "Inter, system-ui, sans-serif",
+      position: "relative",
+      overflow: "hidden",
+      display: "flex",
+    }}
+  >
+    {children}
+  </div>
+);
+
+const DefaultCard = () => (
+  <Frame>
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "72px 0 64px 80px" }}>
+      <Mark />
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <h1 style={{ fontSize: 76, fontWeight: 600, letterSpacing: "-0.035em", lineHeight: 1, color: INK, margin: 0 }}>
+          {person.name}
+        </h1>
+        <p style={{ fontSize: 34, color: BODY, margin: 0, letterSpacing: "-0.01em" }}>{person.title} &amp; Builder</p>
+        <p style={{ fontSize: 26, lineHeight: 1.4, color: MUTED, margin: "8px 0 0", maxWidth: 620 }}>
+          Enterprise products where mistakes are costly, plus two apps I designed, built and shipped solo.
+        </p>
+      </div>
+      <p style={{ fontSize: 22, color: MUTED, margin: 0 }}>Payroll compliance · HR platforms · Conversational AI</p>
+    </div>
+    <div style={{ width: 420, display: "flex", alignItems: "center", justifyContent: "center", paddingRight: 72 }}>
+      <img
+        src={headshot}
+        alt=""
+        style={{ width: 340, height: 340, borderRadius: "50%", objectFit: "cover", objectPosition: "center 18%", boxShadow: "0 0 0 1px rgba(0,0,0,0.06)" }}
+      />
+    </div>
+  </Frame>
+);
+
+const BookCard = () => (
+  <Frame bg="#0E0E0E">
+    <div style={{ width: 440, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ width: 340, boxShadow: "0 30px 60px rgba(0,0,0,0.55)" }}>
+        <BookCover priority />
+      </div>
+    </div>
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "72px 80px 64px 24px" }}>
+      <p style={{ fontSize: 20, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#E26A4F", margin: 0 }}>A new book</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+        <h1 style={{ fontSize: 68, fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.02, color: "#F5F5F5", margin: 0 }}>{book.title}</h1>
+        <p style={{ fontSize: 26, lineHeight: 1.4, color: "#BDBDBD", margin: 0 }}>
+          How Curtis “Wall Street” Carroll taught himself to read, found the stock market by mistake, and counted down 27 years to the gate.
+        </p>
+        <p style={{ fontSize: 24, color: "#F5F5F5", margin: 0 }}>by {book.author}</p>
+      </div>
+      <p style={{ fontSize: 22, color: "#A3A3A3", margin: 0 }}>Paperback and Kindle  ·  huruy.tech/book</p>
+    </div>
+  </Frame>
+);
+
+const ProjectCard = ({ id }: { id: string }) => {
+  const project = publicProjects().find((p) => p.id === id);
+  if (!project) return <DefaultCard />;
+  return (
+    <Frame>
+      <div style={{ width: 560, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "72px 48px 64px 80px" }}>
+        <p style={{ fontSize: 20, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, margin: 0 }}>
+          Case study{project.client && project.client !== "Independent" ? ` · ${project.client}` : ""}
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <h1 style={{ fontSize: 60, fontWeight: 600, letterSpacing: "-0.035em", lineHeight: 1.02, color: INK, margin: 0 }}>{project.title}</h1>
+          <p style={{ fontSize: 28, lineHeight: 1.35, color: BODY, margin: 0 }}>{project.impact}</p>
+        </div>
+        <Mark />
+      </div>
+      <div style={{ flex: 1, overflow: "hidden" }}>
+        <img src={project.cardImage ?? project.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+      </div>
+    </Frame>
+  );
+};
 
 const OGImage = () => {
-  const dots = [];
-  for (let row = 0; row < 12; row++) {
-    for (let col = 0; col < 12; col++) {
-      dots.push(
-        <circle
-          key={`${row}-${col}`}
-          cx={col * 20 + 10}
-          cy={row * 20 + 10}
-          r="2"
-          fill="hsla(25, 95%, 53%, 0.25)"
-        />
-      );
-    }
-  }
-
+  const [params] = useSearchParams();
+  const card = params.get("card");
   return (
     <>
       <SEO
         title="Open Graph Preview – Huruy Kidanemariam"
-        description="Internal Open Graph card preview used to render the 1200x630 social image for Huruy Kidanemariam's portfolio."
+        description="Internal page that renders the 1200x630 social preview cards for Huruy Kidanemariam's portfolio."
         path="/og"
         noindex
       />
-    <div
-      style={{
-        width: 1200,
-        height: 630,
-        background: "hsl(222, 47%, 6%)",
-        fontFamily: "'Space Grotesk', sans-serif",
-        position: "relative",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 80px",
-      }}
-    >
-      {/* Top accent bar */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 6,
-          background: "linear-gradient(90deg, hsl(25, 95%, 53%), hsl(30, 100%, 60%))",
-        }}
-      />
-
-      {/* Dot grid */}
-      <svg
-        style={{ position: "absolute", top: 40, right: 40, opacity: 0.6 }}
-        width={240}
-        height={240}
-      >
-        {dots}
-      </svg>
-
-      {/* Bottom-right glow */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: -100,
-          right: -100,
-          width: 400,
-          height: 400,
-          borderRadius: "50%",
-          background: "hsla(25, 95%, 53%, 0.08)",
-          filter: "blur(80px)",
-        }}
-      />
-
-      {/* Headshot */}
-      <div
-        style={{
-          width: 180,
-          height: 180,
-          borderRadius: "50%",
-          overflow: "hidden",
-          flexShrink: 0,
-          border: "4px solid hsl(25, 95%, 53%)",
-          boxShadow: "0 0 40px hsla(25, 95%, 53%, 0.3)",
-        }}
-      >
-        <img
-          src={headshot}
-          alt="Huruy Kidanemariam, UX Designer and Product Designer headshot"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
-        />
-      </div>
-
-      {/* Text */}
-      <div style={{ marginLeft: 60, position: "relative", zIndex: 1 }}>
-        <h1
-          style={{
-            fontSize: 56,
-            fontWeight: 700,
-            color: "hsl(210, 40%, 96%)",
-            margin: 0,
-            lineHeight: 1.1,
-          }}
-        >
-          Huruy Kidanemariam
-        </h1>
-        <p
-          style={{
-            fontSize: 24,
-            color: "hsl(25, 95%, 53%)",
-            margin: "12px 0 0",
-            fontWeight: 500,
-          }}
-        >
-          Senior UX Designer
-        </p>
-        <p
-          style={{
-            fontSize: 18,
-            color: "hsl(220, 15%, 60%)",
-            margin: "16px 0 0",
-            fontFamily: "'Inter', sans-serif",
-          }}
-        >
-          huruy.tech
-        </p>
-      </div>
-    </div>
+      {card === "book" ? <BookCard /> : card ? <ProjectCard id={card} /> : <DefaultCard />}
     </>
   );
 };
