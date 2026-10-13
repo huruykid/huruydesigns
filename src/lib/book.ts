@@ -3,15 +3,20 @@
  *
  * Buying: each format goes live the moment it has a `url`. Until then its button
  * shows "Coming soon" and the page offers an email for launch-day news, so the store
- * never links to a listing that doesn't exist yet. Paste the Amazon product URL
- * (e.g. https://www.amazon.com/dp/XXXXXXXXXX) into `url` once KDP says the format is live.
+ * never links to a checkout or listing that doesn't exist yet.
  *
- * Cover: `coverImage` is empty until the final cover file is added to /public/images/book/.
- * While it's empty the page draws a stand-in of "The Wall" design (BookCover.tsx).
+ * Direct formats (sold here, money goes to Appfinity Labs):
+ *   - signed: paste the Stripe Payment Link (https://buy.stripe.com/...) into `url`.
+ *   - printed: paste the Lulu or Shopify product URL into `url`.
+ * Amazon formats: paste the product URL (https://www.amazon.com/dp/XXXXXXXXXX) once KDP says it's live.
+ *
+ * Cover: `coverImage` is the front of the final print cover. Empty draws the stand-in (BookCover.tsx).
  */
 
 export interface BookFormat {
-  id: "paperback" | "kindle";
+  id: "signed" | "printed" | "paperback" | "kindle";
+  /** "direct" formats are sold from this site; "retail" ones send people to a store. */
+  channel: "direct" | "retail";
   label: string;
   detail: string;
   /** Retailer the button sends people to. */
@@ -21,6 +26,10 @@ export interface BookFormat {
   /** Display price, e.g. "$17.99". Optional. */
   price?: string;
   isbn?: string;
+  /** Button text once live. Defaults to "Buy on {retailer}". */
+  cta?: string;
+  /** Short line under the detail, e.g. shipping timing. */
+  note?: string;
 }
 
 export const book = {
@@ -30,7 +39,7 @@ export const book = {
   author: "Huruy Kidanemariam",
   path: "/book",
   /** Final cover art, e.g. "/images/book/oracle-cover.webp" (2:3). Empty draws the stand-in. */
-  coverImage: "",
+  coverImage: "/images/book/oracle-cover.webp",
   coverAlt:
     "Cover of The Oracle of San Quentin: rows of cream tally marks on a black wall, crossed by a red band carrying the title",
 
@@ -49,14 +58,34 @@ export const book = {
 
   formats: [
     {
+      id: "signed",
+      channel: "direct",
+      label: "Signed paperback",
+      detail: "Signed by the author and mailed from Los Angeles. US shipping included.",
+      retailer: "the author",
+      price: "$24.99",
+      cta: "Buy a signed copy",
+      note: "Secure checkout by Stripe. Ships within a week of launch.",
+    },
+    {
+      id: "printed",
+      channel: "direct",
+      label: "Paperback, printed to order",
+      detail: "6 × 9 in. Printed on demand and shipped to you by Lulu.",
+      retailer: "Lulu",
+      cta: "Order the paperback",
+    },
+    {
       id: "paperback",
-      label: "Paperback",
+      channel: "retail",
+      label: "Paperback on Amazon",
       detail: "6 × 9 in. Printed and shipped by Amazon.",
       retailer: "Amazon",
       isbn: "979-8-16-092454-0",
     },
     {
       id: "kindle",
+      channel: "retail",
       label: "Kindle eBook",
       detail: "Read on Kindle devices and the free Kindle app.",
       retailer: "Amazon",

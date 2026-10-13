@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ExternalLink, Mail, ShoppingBag, Smartphone } from "lucide-react";
+import { ArrowRight, BookOpen, ExternalLink, Mail, Package, PenLine, ShoppingBag, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import BookCover from "@/components/BookCover";
@@ -15,7 +15,10 @@ const notifyHref = `mailto:${book.notifyEmail}?subject=${encodeURIComponent(
   `Tell me when ${book.title} is out`,
 )}&body=${encodeURIComponent("Please email me when the book is available.")}`;
 
-const formatIcon = { paperback: BookOpen, kindle: Smartphone } as const;
+const formatIcon = { signed: PenLine, printed: Package, paperback: BookOpen, kindle: Smartphone } as const;
+
+const directFormats = book.formats.filter((f) => f.channel === "direct");
+const retailFormats = book.formats.filter((f) => f.channel === "retail");
 
 const bookJsonLd = {
   "@context": "https://schema.org",
@@ -30,7 +33,7 @@ const bookJsonLd = {
   about: { "@type": "Person", name: "Curtis Carroll", alternateName: "Wall Street" },
   description: book.description[0],
   ...(book.coverImage ? { image: absoluteUrl(book.coverImage) } : {}),
-  workExample: book.formats.map((f) => ({
+  workExample: retailFormats.map((f) => ({
     "@type": "Book",
     bookFormat: f.id === "kindle" ? "https://schema.org/EBook" : "https://schema.org/Paperback",
     ...(f.isbn ? { isbn: f.isbn.replace(/-/g, "") } : {}),
@@ -45,18 +48,65 @@ const BuyButton = ({ format, placement }: { format: BookFormat; placement: strin
         href={format.url}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => trackEvent("book_buy_click", { format: format.id, retailer: format.retailer, placement })}
+        onClick={() =>
+          trackEvent("book_buy_click", { format: format.id, channel: format.channel, retailer: format.retailer, placement })
+        }
       >
-        Buy on {format.retailer}
+        {format.cta ?? `Buy on ${format.retailer}`}
         <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
         <span className="sr-only"> (opens in a new tab)</span>
       </a>
     </Button>
   ) : (
     <p className="flex min-h-11 w-full items-center justify-center rounded-md border border-dashed border-border px-4 text-sm font-medium text-muted-foreground">
-      Coming soon to {format.retailer}
+      {format.channel === "direct" ? "Available here soon" : `Coming soon to ${format.retailer}`}
     </p>
   );
+
+const FormatCard = ({ format: f }: { format: BookFormat }) => {
+  const Icon = formatIcon[f.id];
+  return (
+    <li className="flex flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
+            <Icon className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <h4 className="text-xl font-bold tracking-tight font-display">{f.label}</h4>
+        </div>
+        {f.price && <p className="text-xl font-semibold">{f.price}</p>}
+      </div>
+      <p className="mb-2 text-sm text-muted-foreground">{f.detail}</p>
+      {f.note && <p className="mb-2 text-xs text-muted-foreground">{f.note}</p>}
+      {f.isbn && <p className="mb-6 text-xs text-muted-foreground">ISBN {f.isbn}</p>}
+      <div className="mt-auto pt-4">
+        <BuyButton format={f} placement="store" />
+      </div>
+    </li>
+  );
+};
+
+const FormatGroup = ({
+  heading,
+  blurb,
+  formats,
+  className = "",
+}: {
+  heading: string;
+  blurb?: string;
+  formats: BookFormat[];
+  className?: string;
+}) => (
+  <div className={className}>
+    <h3 className="mb-1 text-sm font-semibold uppercase tracking-[0.14em] text-foreground">{heading}</h3>
+    {blurb && <p className="mb-5 text-sm text-muted-foreground">{blurb}</p>}
+    <ul className={`grid gap-6 md:grid-cols-2 ${blurb ? "" : "mt-5"}`}>
+      {formats.map((f) => (
+        <FormatCard key={f.id} format={f} />
+      ))}
+    </ul>
+  </div>
+);
 
 const Book = () => {
   const onSale = isBookOnSale();
@@ -135,34 +185,17 @@ const Book = () => {
             <h2 id="buy-heading" className="mb-3 text-3xl font-bold tracking-tight font-display">Get a copy</h2>
             <p className="text-muted-foreground">
               {onSale
-                ? "Pick a format. Checkout and shipping are handled by the retailer."
-                : "The book is in final production on Amazon. Buttons switch on here the day each format goes live."}
+                ? "Buy a signed copy straight from the author, or pick up the book on Amazon."
+                : "The book is in final production. Buttons switch on here the day each format goes live."}
             </p>
           </div>
 
-          <ul className="grid gap-6 md:grid-cols-2">
-            {book.formats.map((f) => {
-              const Icon = formatIcon[f.id];
-              return (
-                <li key={f.id} className="flex flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
-                  <div className="mb-6 flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                      <h3 className="text-xl font-bold tracking-tight font-display">{f.label}</h3>
-                    </div>
-                    {f.price && <p className="text-xl font-semibold">{f.price}</p>}
-                  </div>
-                  <p className="mb-2 text-sm text-muted-foreground">{f.detail}</p>
-                  {f.isbn && <p className="mb-6 text-xs text-muted-foreground">ISBN {f.isbn}</p>}
-                  <div className="mt-auto pt-4">
-                    <BuyButton format={f} placement="store" />
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <FormatGroup
+            heading="Buy direct"
+            blurb="Sold from this site, so more of every copy goes to the author."
+            formats={directFormats}
+          />
+          <FormatGroup heading="On Amazon" formats={retailFormats} className="mt-12" />
 
           {!onSale && (
             <p className="mt-8 text-sm text-muted-foreground">

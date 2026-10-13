@@ -29,15 +29,26 @@ describe("Book page", () => {
   it("never links to a retailer before a format has a live URL", () => {
     book.formats.forEach((f) => (f.url = undefined));
     renderBook();
-    expect(screen.queryByRole("link", { name: /buy on/i })).toBeNull();
-    expect(screen.getAllByText(/coming soon to amazon/i)).toHaveLength(book.formats.length);
+    expect(screen.queryByRole("link", { name: /buy|order/i })).toBeNull();
+    const retail = book.formats.filter((f) => f.channel === "retail").length;
+    const direct = book.formats.filter((f) => f.channel === "direct").length;
+    expect(screen.getAllByText(/coming soon to amazon/i)).toHaveLength(retail);
+    expect(screen.getAllByText(/available here soon/i)).toHaveLength(direct);
   });
 
   it("switches a format's button on once its URL is set", () => {
-    book.formats[0].url = "https://www.amazon.com/dp/TEST000000";
+    book.formats.find((f) => f.id === "paperback")!.url = "https://www.amazon.com/dp/TEST000000";
     renderBook();
     const link = screen.getByRole("link", { name: /buy on amazon/i });
     expect(link).toHaveAttribute("href", "https://www.amazon.com/dp/TEST000000");
     expect(link).toHaveAttribute("target", "_blank");
+  });
+
+  it("sells signed copies direct through the Stripe link with its own button text", () => {
+    book.formats.find((f) => f.id === "signed")!.url = "https://buy.stripe.com/test_123";
+    renderBook();
+    const link = screen.getByRole("link", { name: /buy a signed copy/i });
+    expect(link).toHaveAttribute("href", "https://buy.stripe.com/test_123");
+    expect(screen.getByText("$24.99")).toBeInTheDocument();
   });
 });
