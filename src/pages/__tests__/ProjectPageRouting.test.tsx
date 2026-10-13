@@ -42,7 +42,7 @@ describe("ProjectPage routing", () => {
   it("opens the full Asure narrative without a passcode", () => {
     renderAt("/project/asure-compliance");
     expect(screen.queryByLabelText("Passcode")).toBeNull();
-    expect(screen.getByRole("heading", { name: "Four architectural design systems" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Structural outcomes over vanity metrics" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Four changes that made configuration predictable" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "No silent changes, and an audit-ready lifecycle" })).toBeInTheDocument();
   });
 });

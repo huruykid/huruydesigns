@@ -101,7 +101,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
     )}
 
     {/* The problem */}
-    <CaseStudySection label="The Problem" title="Problem & Context">
+    <CaseStudySection label="The Problem" title="The official locator is a CSV on a map">
       <p className="mb-5">{project.problem}</p>
       {project.problemBullets && (
         <ul className="mb-8 max-w-[64ch] space-y-2">
@@ -166,7 +166,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* The product */}
     {project.solutionFeatures && (
-      <CaseStudySection label="The Solution" title="What I built">
+      <CaseStudySection label="The Solution" title="Reviews, real photos and a hot-food filter">
         <p className="mb-10 text-base">The search and filter flow is the interactive prototype at the top of this page. The features below are what turn a search result into a store a person will actually walk into.</p>
         <div className="space-y-12">
           {project.solutionFeatures.map((feat, i) => (
@@ -193,7 +193,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
 
     {/* Prototype validation */}
     {project.validationMetrics && (
-      <CaseStudySection label="Validation" title="Prototype testing results">
+      <CaseStudySection label="Validation" title="9 of 10 found hot food in under 15 seconds">
         <p className="mb-8">
           Before writing production code, I ran moderated usability tests with 10 participants, each asked to find a hot food location near them in EBT Finder and in the USDA locator. These are the only numbers behind EBT Finder, and they all come from that session.
         </p>

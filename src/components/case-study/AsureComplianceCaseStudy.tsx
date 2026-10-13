@@ -136,7 +136,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 04 - CORE DESIGN CONTRIBUTIONS */}
-    <CaseStudySection label="04 | Core Design Contributions" title="Four architectural design systems" icon={<ClipboardList className="h-4 w-4" />}>
+    <CaseStudySection label="04 | Core Design Contributions" title="Four changes that made configuration predictable" icon={<ClipboardList className="h-4 w-4" />}>
       <p className="mb-8">{content.contributionsIntro}</p>
 
       <div className="space-y-12">
@@ -281,7 +281,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 07 - IMPACT */}
-    <CaseStudySection label="07 | Impact" title="Structural outcomes over vanity metrics" icon={<Star className="h-4 w-4" />}>
+    <CaseStudySection label="07 | Impact" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>
       <p className="mb-6">{content.impactIntro}</p>
       <div className="grid sm:grid-cols-2 gap-4">
         {content.impactItems.map((item, i) => (
@@ -302,7 +302,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
 
     {/* Learnings */}
     {content.learnings.length > 0 && (
-      <CaseStudySection label="What I Learned" title="Reflections" icon={<Lightbulb className="h-4 w-4" />}>
+      <CaseStudySection label="What I Learned" title="The biggest deliverable was a conversation" icon={<Lightbulb className="h-4 w-4" />}>
         <div className="space-y-4">
           {content.learnings.map((l, i) => (
             <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">

@@ -119,7 +119,7 @@ export const projects: Project[] = [
     title: "Asure Compliance Engine",
     seoDescription: "Onsite redesign of Asure's enterprise payroll compliance engine for 9,000+ tax agencies across the US and Canada.",
     description: "Brought onsite to redesign screens, I found that no one had ever mapped how the compliance engine's entities depended on each other. I built that map first, then designed the state machine and configuration patterns on top of it.",
-    impact: "Re-Architecting Enterprise Payroll Compliance",
+    impact: "One configuration model for 9,000+ tax agencies",
     tags: ["Enterprise SaaS", "Payroll Compliance", "Multi-Jurisdiction", "State-Driven System", "9,000+ Agencies"],
     role: "UX Designer, sole designer embedded onsite from discovery through delivery",
     timeline: "Onsite engagement, Dallas TX",
