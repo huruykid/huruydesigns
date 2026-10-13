@@ -1,7 +1,21 @@
-import { Document, Paragraph, TextRun, BorderStyle, ExternalHyperlink, Packer } from "docx";
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  BorderStyle,
+  ExternalHyperlink,
+  Packer,
+  ImageRun,
+  HorizontalPositionRelativeFrom,
+  HorizontalPositionAlign,
+  VerticalPositionRelativeFrom,
+  VerticalPositionAlign,
+  TextWrappingType,
+} from "docx";
 import { saveAs } from "file-saver";
 
 import { person, experience, leadership, skillGroups } from "./resume";
+import headshotCircleUrl from "@/assets/huruy-headshot-circle.png";
 
 /**
  * ATS-friendly Word resume.
@@ -10,6 +24,11 @@ import { person, experience, leadership, skillGroups } from "./resume";
  * tables, text boxes, icons or columns: applicant tracking systems read those
  * out of order or drop them. Side projects are not repeated here because they
  * already appear as the Appfinity Labs role under Experience.
+ *
+ * The photo floats at the top right, outside the text flow, so parsers that
+ * ignore images still read the name, contact line and sections in order. The
+ * PNG is pre-cropped to a circle with transparent corners (Word has no
+ * portable circular mask).
  */
 
 const FONT = "Calibri";
@@ -56,14 +75,34 @@ function link(text: string, href: string): ExternalHyperlink {
   return new ExternalHyperlink({ link: href, children: [new TextRun({ text, font: FONT, size: META, color: TEXT })] });
 }
 
+const PHOTO_PX = 84; // ~0.9in at 96dpi
+
+function photoRun(data: ArrayBuffer | Uint8Array): ImageRun {
+  return new ImageRun({
+    type: "png",
+    data,
+    transformation: { width: PHOTO_PX, height: PHOTO_PX },
+    altText: { name: "Photo", title: person.name, description: `Photo of ${person.name}` },
+    floating: {
+      horizontalPosition: { relative: HorizontalPositionRelativeFrom.MARGIN, align: HorizontalPositionAlign.RIGHT },
+      verticalPosition: { relative: VerticalPositionRelativeFrom.MARGIN, align: VerticalPositionAlign.TOP },
+      wrap: { type: TextWrappingType.SQUARE },
+      margins: { left: 114300 },
+    },
+  });
+}
+
 /** Builds the document. Exported separately from the download so it can be tested. */
-export function buildResumeDocument(): Document {
+export function buildResumeDocument(photo?: ArrayBuffer | Uint8Array): Document {
   const sep = () => new TextRun({ text: "  |  ", font: FONT, size: META, color: MUTED });
 
   const children: Paragraph[] = [
     new Paragraph({
       spacing: { after: 20 },
-      children: [new TextRun({ text: person.name, font: FONT, size: 40, bold: true, color: TEXT })],
+      children: [
+        ...(photo ? [photoRun(photo)] : []),
+        new TextRun({ text: person.name, font: FONT, size: 40, bold: true, color: TEXT }),
+      ],
     }),
     new Paragraph({
       spacing: { after: 80 },
@@ -128,6 +167,10 @@ export function buildResumeDocument(): Document {
 }
 
 export async function generateAndDownloadDocx() {
-  const blob = await Packer.toBlob(buildResumeDocument());
+  // A missing photo should never block the download.
+  const photo = await fetch(headshotCircleUrl)
+    .then((r) => (r.ok ? r.arrayBuffer() : undefined))
+    .catch(() => undefined);
+  const blob = await Packer.toBlob(buildResumeDocument(photo));
   saveAs(blob, "huruy-kidanemariam-resume-ats.docx");
 }
