@@ -103,8 +103,10 @@ export interface Project {
     facts: { label: string; value: string }[];
     /** Real production numbers with their source and the date they were read. */
     stats?: { value: string; label: string; source: string }[];
-    /** Screens of the live product. */
+    /** Screens of the live product, uncropped captures from the shipped app. */
     screens?: { src: string; caption: string }[];
+    /** The App Store screenshots designed for the listing (marketing frames). */
+    storeFrames?: { src: string; alt: string }[];
     /** Operational problems solved after launch: the senior evidence. */
     postLaunch?: { title: string; problem: string; fix: string; lesson: string }[];
     /** How the product reaches people: listing, search, content, partners. */
@@ -203,12 +205,19 @@ export const projects: Project[] = [
         { value: "~318", label: "real US users a week on the web app", source: "Google Analytics" },
         { value: "13", label: "TestFlight builds to reach a clean release", source: "release log" },
       ],
+      // Simulator captures from the 1.0.2 release (EBT Finder repo, store-submission/ios/screenshots).
       screens: [
-        { src: "/images/ebtfinder/app/map.webp", caption: "Opens straight to EBT stores near you: nearby list, map, and the Open Now and Hot Meals filters." },
-        { src: "/images/ebtfinder/app/store.webp", caption: "Store pages answer fast: distance, USDA listing, hours, directions, and whether EBT worked for recent shoppers." },
-        { src: "/images/ebtfinder/app/community.webp", caption: "Community signals: verifications and reports from shoppers who were actually there." },
-        { src: "/images/ebtfinder/app/guides.webp", caption: "Guides and SNAP news, the content layer that brings search traffic to the web app." },
-        { src: "/images/ebtfinder/app/trust.webp", caption: "Trust, stated plainly: independent, free, no judgment, browse without an account." },
+        { src: "/images/ebtfinder/app/live-home.webp", caption: "Opens to EBT stores near you, sorted by distance, with one tap to use your exact location." },
+        { src: "/images/ebtfinder/app/live-search.webp", caption: "Search by store or place, with Hot Meals, Open Now, distance and sort filters." },
+        { src: "/images/ebtfinder/app/live-store.webp", caption: "A store page answers fast: USDA listing, distance, map, hours and directions." },
+        { src: "/images/ebtfinder/app/live-blog.webp", caption: "SNAP Savvy: the guides and news that bring people in from search." },
+      ],
+      storeFrames: [
+        { src: "/images/ebtfinder/app/map.webp", alt: "App Store screenshot: Every store that takes EBT. One map." },
+        { src: "/images/ebtfinder/app/store.webp", alt: "App Store screenshot: Check before you drive there." },
+        { src: "/images/ebtfinder/app/community.webp", alt: "App Store screenshot: Confirmed by people who shop there." },
+        { src: "/images/ebtfinder/app/guides.webp", alt: "App Store screenshot: Guides that make EBT go further." },
+        { src: "/images/ebtfinder/app/trust.webp", alt: "App Store screenshot: Free. No account. No card number. Ever." },
       ],
       // Facts from the EBT Finder repo: store-submission/ios/metadata.md, prerender-routes.json,
       // the blog scheduler migration, src/pages/EmbedCity.tsx and docs/partnerships-playbook.md.

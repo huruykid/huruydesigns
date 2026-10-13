@@ -43,26 +43,28 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         {project.shipped.screens && (
           <div className="mb-10">
             <h3 className="mb-1 font-bold tracking-tight text-foreground font-display">The live app</h3>
-            <p className="mb-4 text-sm text-muted-foreground">These are the App Store screenshots I designed for the listing.</p>
-            {/* Phones swipe; from lg up all five sit in one row, uncropped, wider than the text column. */}
+            <p className="mb-4 text-sm text-muted-foreground">Screens from the shipped iPhone app. Select one to see it full size.</p>
+            {/* Phones swipe; from lg up the four screens sit in one row, wider than the text column, so the UI is readable. */}
             <ul
-              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0 lg:pb-0"
               aria-label="Screens from the shipped EBT Finder app"
             >
               {project.shipped.screens.map((shot) => {
                 const dims = imageDimensions[shot.src];
                 return (
-                  <li key={shot.src} className="w-[240px] shrink-0 snap-start lg:w-auto">
-                    <img
-                      src={shot.src}
-                      alt={shot.caption}
-                      width={dims?.width}
-                      height={dims?.height}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-auto w-full rounded-xl border border-border"
-                    />
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{shot.caption}</p>
+                  <li key={shot.src} className="w-[260px] shrink-0 snap-start lg:w-auto">
+                    <a href={shot.src} target="_blank" rel="noopener noreferrer" className="block rounded-[1.25rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                      <img
+                        src={shot.src}
+                        alt={shot.caption}
+                        width={dims?.width}
+                        height={dims?.height}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-auto w-full rounded-[1.25rem] border border-border shadow-sm"
+                      />
+                    </a>
+                    <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{shot.caption}</p>
                   </li>
                 );
               })}
@@ -81,6 +83,24 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         <p className="mb-8">
           Shipping is half the job. I also run distribution: the App Store listing, search, content and partners. It is the same research, applied to how people find the product instead of how they use it.
         </p>
+        {project.shipped.storeFrames && (
+          <figure className="mb-10">
+            <ul
+              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+              aria-label="App Store screenshots designed for the EBT Finder listing"
+            >
+              {project.shipped.storeFrames.map((f) => {
+                const dims = imageDimensions[f.src];
+                return (
+                  <li key={f.src} className="w-[200px] shrink-0 snap-start lg:w-auto">
+                    <img src={f.src} alt={f.alt} width={dims?.width} height={dims?.height} loading="lazy" decoding="async" className="h-auto w-full rounded-xl border border-border" />
+                  </li>
+                );
+              })}
+            </ul>
+            <figcaption className="mt-3 text-sm text-muted-foreground">The App Store screenshots I designed for the listing: one benefit per frame.</figcaption>
+          </figure>
+        )}
         <ul className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
           {project.shipped.marketing.map((m) => (
             <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 sm:p-7">
