@@ -49,6 +49,6 @@ describe("Book page", () => {
     renderBook();
     const link = screen.getByRole("link", { name: /buy a signed copy/i });
     expect(link).toHaveAttribute("href", "https://buy.stripe.com/test_123");
-    expect(screen.getByText("$24.99")).toBeInTheDocument();
+    expect(screen.getByText(book.formats.find((f) => f.id === "signed")!.price!)).toBeInTheDocument();
   });
 });
