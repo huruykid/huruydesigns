@@ -28,7 +28,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
           <>
             <StatRow stats={project.shipped.stats} columns={4} />
             <p className="mb-10 mt-4 text-xs text-muted-foreground">
-              Sources: {Array.from(new Set(project.shipped.stats.map((s) => s.source))).join(", ")}. Database and release figures read on 2026-09-18.
+              Sources: {Array.from(new Set(project.shipped.stats.map((s) => s.source))).join(", ")}. Locations and builds read 2026-09-18; users and verifications read 2026-10-12.
             </p>
           </>
         )}

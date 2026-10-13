@@ -198,11 +198,12 @@ export const projects: Project[] = [
         { label: "Data", value: "USDA SNAP retailer dataset synced on a schedule, enriched with Google Places, plus community verifications" },
         { label: "Team", value: "Solo: research, design, code, backend, release and support" },
       ],
-      // Locations and builds read from production on 2026-09-18 (Supabase, release log); users from GA4, US only, read 2026-10-12.
+      // Locations and builds read 2026-09-18 (Supabase, release log). Users: GA4, US only, read 2026-10-12.
+      // Verifications: store_verifications excluding admin accounts, read 2026-10-12 (72 = 55 confirms + 17 reports, 69 stores).
       stats: [
-        { value: "264,000+", label: "EBT-accepting locations mapped", source: "production database" },
-        { value: "53", label: "states and territories covered", source: "production database" },
+        { value: "264,000+", label: "EBT-accepting locations mapped across 53 states and territories", source: "production database" },
         { value: "1,470", label: "US users on the web app in the last 28 days", source: "Google Analytics (Sep 14 – Oct 11, 2026)" },
+        { value: "49", label: "shoppers have confirmed or flagged a store's EBT status", source: "verification records" },
         { value: "13", label: "TestFlight builds to reach a clean release", source: "release log" },
       ],
       // Simulator captures from the 1.0.2 release (EBT Finder repo, store-submission/ios/screenshots).
