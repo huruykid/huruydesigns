@@ -123,7 +123,7 @@ export const asureContent: AsureGatedContent = {
       "title": "Scalable CRUD for 9,000+ Tax Agencies"
     }
   ],
-  "impactIntro": "The results of this work aren't measured in clicks. They're measured in eliminated risk, increased clarity, and an architecture that scales to regulatory complexity.",
+  "impactIntro": "After launch, configuration errors went down and onboarding a new tax agency took less time. Underneath those results: eliminated risk, increased clarity, and an architecture that scales to regulatory complexity.",
   "impactItems": [
     {
       "body": "Explicit state machine eliminated a class of errors where configuration edits cascaded invisibly into live payroll filings, protecting compliance for thousands of active employers.",

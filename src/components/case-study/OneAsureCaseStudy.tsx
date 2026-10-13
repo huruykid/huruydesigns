@@ -95,10 +95,10 @@ const OneAsureCaseStudy = ({ project }: Props) => {
         <AdminNotificationDemo />
       </CaseStudySection>
 
-      <CaseStudySection label="Outcome" title="One product, and a sales team that could demo it">
+      <CaseStudySection label="Outcome" title="One product, fewer support tickets, and a sales team that could demo it">
         <p className="mb-4">{project.outcomeMetrics}</p>
         <p className="text-base">
-          Post-launch, administrators reported fewer errors and faster onboarding, and enterprise prospects engaged with demos again. I have those as qualitative signals from support and sales, not as baselined metrics, which is the first thing I'd change (below).
+          Post-launch, support tickets went down, administrators reported fewer errors and faster onboarding, and enterprise prospects engaged with demos again. I have those as qualitative signals from support and sales, not as baselined metrics, which is the first thing I'd change (below).
         </p>
       </CaseStudySection>
 
