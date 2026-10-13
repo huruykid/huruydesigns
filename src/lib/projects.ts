@@ -198,11 +198,11 @@ export const projects: Project[] = [
         { label: "Data", value: "USDA SNAP retailer dataset synced on a schedule, enriched with Google Places, plus community verifications" },
         { label: "Team", value: "Solo: research, design, code, backend, release and support" },
       ],
-      // Read from production on 2026-09-18 (Supabase) and Google Analytics (docs/vercel-deploy-guide.md).
+      // Locations and builds read from production on 2026-09-18 (Supabase, release log); users from GA4, US only, read 2026-10-12.
       stats: [
         { value: "264,000+", label: "EBT-accepting locations mapped", source: "production database" },
         { value: "53", label: "states and territories covered", source: "production database" },
-        { value: "~318", label: "real US users a week on the web app", source: "Google Analytics" },
+        { value: "1,470", label: "US users on the web app in the last 28 days", source: "Google Analytics (Sep 14 – Oct 11, 2026)" },
         { value: "13", label: "TestFlight builds to reach a clean release", source: "release log" },
       ],
       // Simulator captures from the 1.0.2 release (EBT Finder repo, store-submission/ios/screenshots).
@@ -421,10 +421,10 @@ export const projects: Project[] = [
     process: "I interviewed 7 EBT users, created journey maps and personas, ran a competitive analysis across USDA, Yelp, and Fresh EBT, designed wireframes, and usability-tested the prototype with 10 people before building the app.",
     keyResults: [
       { value: "264k+", label: "EBT-accepting locations mapped, 53 states and territories" },
-      { value: "~318", label: "real users a week on the web app" },
+      { value: "1,470", label: "US users in the last 28 days" },
       { value: "Shipped", label: "live on the iOS App Store, run solo" },
     ],
-    outcomeMetrics: "Live on the App Store and at ebtfinder.org: 264,000+ EBT-accepting locations across 53 states and territories, about 318 real US users a week on the web app, and a release process rebuilt after a 13-build TestFlight cycle. Before code, moderated testing with 10 participants: 9 found a hot food location in under 15 seconds and all 10 preferred it to the USDA locator.",
+    outcomeMetrics: "Live on the App Store and at ebtfinder.org: 264,000+ EBT-accepting locations across 53 states and territories, 1,470 US users on the web app in the last 28 days, and a release process rebuilt after a 13-build TestFlight cycle. Before code, moderated testing with 10 participants: 9 found a hot food location in under 15 seconds and all 10 preferred it to the USDA locator.",
     image: "/images/ebtfinder/hero-mockup.webp",
   },
   {

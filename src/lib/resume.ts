@@ -58,7 +58,7 @@ export const experience: ExperienceItem[] = [
     org: "Appfinity Labs (Independent)",
     location: "Los Angeles, CA",
     bullets: [
-      "Designed, built and shipped EBT Finder, a SNAP/EBT store locator on the App Store and web: 264,000+ locations across 53 states and territories and about 318 users a week; 9 of 10 test participants found hot food in under 15 seconds",
+      "Designed, built and shipped EBT Finder, a SNAP/EBT store locator on the App Store and web: 264,000+ locations across 53 states and territories and about 1,500 US users a month; 9 of 10 test participants found hot food in under 15 seconds",
       "Designed, built and shipped Beles, a dating and community app for the Tigrayan diaspora, now on the App Store; usability testing raised understanding of its traditional matchmaking feature from 37.5% to 87.5%",
       "Build production React, Supabase and Capacitor apps, including LLM features with guardrails and human-in-the-loop review",
     ],
