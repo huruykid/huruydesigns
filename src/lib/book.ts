@@ -74,6 +74,8 @@ export const book = {
       label: "Paperback, printed to order",
       detail: "6 × 9 in. Printed on demand and shipped to you by Lulu.",
       retailer: "Lulu",
+      price: "$16.99",
+      note: "Secure checkout by Lulu. Shipping is added at checkout.",
       cta: "Order the paperback",
     },
     {
