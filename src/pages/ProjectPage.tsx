@@ -160,6 +160,16 @@ const ProjectPage = () => {
           </Link>
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              {project.logo && (
+                <img
+                  src={project.logo}
+                  alt=""
+                  width={64}
+                  height={64}
+                  decoding="async"
+                  className="mb-6 h-14 w-14 rounded-[22%] shadow-[0_6px_16px_-6px_rgba(0,0,0,0.35)] ring-1 ring-black/10 dark:ring-white/15 sm:h-16 sm:w-16"
+                />
+              )}
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{project.impact}</p>
               <h1 className="mb-6 text-4xl font-bold tracking-tight font-display sm:text-5xl lg:text-[3.5rem] lg:leading-[1.05]">
                 {project.title}<span className="sr-only">: UX Case Study</span>

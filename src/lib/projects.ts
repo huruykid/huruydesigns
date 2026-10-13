@@ -90,6 +90,8 @@ export interface Project {
   cardTags?: string[];
   /** 4:3 homepage card cover (brand-color canvas with the real UI). Falls back to `image`. */
   cardImage?: string;
+  /** Square product logo (app-icon style), shown beside the title on the case-study hero. */
+  logo?: string;
   appStoreUrl?: string;
   /** Social card image when it differs from the hero image. */
   ogImage?: string;
@@ -117,6 +119,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "asure-compliance",
+    logo: "/images/logos/asure.webp",
     ogImage: "/og/asure-compliance.png",
     cardImage: "/images/asure/card.webp",
     client: "Asure Software",
@@ -144,6 +147,7 @@ export const projects: Project[] = [
   },
   {
     id: "oneasure-portal",
+    logo: "/images/logos/asure.webp",
     ogImage: "/og/oneasure-portal.png",
     cardImage: "/images/oneasure/card.webp",
     client: "Asure Software",
@@ -177,6 +181,7 @@ export const projects: Project[] = [
   },
   {
     id: "ebtfinder",
+    logo: "/images/logos/ebtfinder.webp",
     ogImage: "/og/ebtfinder.png",
     cardImage: "/images/ebtfinder/card.webp",
     client: "Independent",
@@ -430,6 +435,7 @@ export const projects: Project[] = [
   },
   {
     id: "beles",
+    logo: "/images/logos/beles.webp",
     ogImage: "/og/beles.png",
     cardImage: "/images/beles/card.webp",
     client: "Independent",
