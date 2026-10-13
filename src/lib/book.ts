@@ -63,6 +63,7 @@ export const book = {
       label: "Signed paperback",
       detail: "Signed by the author and mailed from Los Angeles. US shipping included.",
       retailer: "the author",
+      url: "https://buy.stripe.com/dRm7sLaCq26q4lzcPFgfu02",
       price: "$39.99",
       cta: "Buy a signed copy",
       note: "Secure checkout by Stripe. Ships within a week of launch.",
