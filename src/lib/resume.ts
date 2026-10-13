@@ -16,6 +16,8 @@ export const person = {
   email: "huruydesigns@gmail.com",
   linkedin: "https://www.linkedin.com/in/huruykidanemariam/",
   linkedinLabel: "linkedin.com/in/huruykidanemariam",
+  github: "https://github.com/huruykid",
+  githubLabel: "github.com/huruykid",
   website: "https://huruy.tech",
   websiteLabel: "huruy.tech",
   yearsExperience: "8+",

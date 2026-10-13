@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
-import { Send, Linkedin, Mail, Copy, Check } from "lucide-react";
+import { Send, Linkedin, Github, Mail, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -91,6 +91,9 @@ const Contact = () => {
                 </a>
                 <a href={person.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-3 min-h-11 text-muted-foreground hover:text-accent transition-colors">
                   <Linkedin className="h-5 w-5" aria-hidden="true" /> LinkedIn profile
+                </a>
+                <a href={person.github} target="_blank" rel="noreferrer" className="flex items-center gap-3 min-h-11 text-muted-foreground hover:text-accent transition-colors">
+                  <Github className="h-5 w-5" aria-hidden="true" /> GitHub profile
                 </a>
               </div>
             </motion.div>

@@ -15,6 +15,9 @@ const Footer = () => (
           <a href={person.linkedin} target="_blank" rel="noreferrer" className={linkClass} aria-label="LinkedIn (opens in a new tab)">
             LinkedIn
           </a>
+          <a href={person.github} target="_blank" rel="noreferrer" className={linkClass} aria-label="GitHub (opens in a new tab)">
+            GitHub
+          </a>
           <Link to="/resume" className={linkClass}>Resume</Link>
           <Link to="/book" className={linkClass}>Book</Link>
         </nav>

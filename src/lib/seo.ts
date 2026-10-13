@@ -30,7 +30,7 @@ export const PERSON = {
     "Enterprise SaaS",
     "AI and Conversational UX",
   ],
-  sameAs: [person.linkedin],
+  sameAs: [person.linkedin, person.github],
 } as const;
 
 /** Short reference for nested author/provider fields. */
