@@ -145,7 +145,7 @@ const Book = () => {
 
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                {released ? "New book" : onSale ? "Book · Signed pre-orders open" : "Book · Coming soon"}
+                {released ? "New book" : onSale ? "Book · Available direct" : "Book · Coming soon"}
               </p>
               <h1 className="mb-4 text-4xl font-bold tracking-tight font-display sm:text-5xl lg:text-6xl">{book.title}</h1>
               <p className="mb-6 max-w-[56ch] text-base leading-relaxed text-muted-foreground sm:text-lg">{book.subtitle}</p>
@@ -162,7 +162,7 @@ const Book = () => {
                 <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
                   <a href="#buy">
                     <ShoppingBag className="mr-2 h-4 w-4" aria-hidden="true" />
-                    {released ? "Buy the book" : onSale ? "Pre-order a signed copy" : "Formats & availability"}
+                    {onSale ? "Buy the book" : "Formats & availability"}
                   </a>
                 </Button>
                 {!released && (
@@ -188,7 +188,7 @@ const Book = () => {
               {released
                 ? "Buy a signed copy straight from the author, or pick up the book on Amazon."
                 : onSale
-                ? "Signed copies are open for pre-order now and ship the week the book launches. The other formats switch on here at launch."
+                ? "Order direct from this page now. The Amazon paperback and Kindle edition switch on here at launch."
                 : "The book is in final production. Buttons switch on here the day each format goes live."}
             </p>
           </div>
