@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, ExternalLink, Mail, Package, PenLine, ShoppingBag, Smartphone } from "lucide-react";
+import { ArrowRight, BookMarked, BookOpen, ExternalLink, Mail, Package, PenLine, ShoppingBag, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import BookCover from "@/components/BookCover";
@@ -15,7 +15,7 @@ const notifyHref = `mailto:${book.notifyEmail}?subject=${encodeURIComponent(
   `Tell me when ${book.title} is out`,
 )}&body=${encodeURIComponent("Please email me when the book is available.")}`;
 
-const formatIcon = { signed: PenLine, printed: Package, paperback: BookOpen, kindle: Smartphone } as const;
+const formatIcon = { signed: PenLine, printed: Package, hardcover: BookMarked, paperback: BookOpen, kindle: Smartphone } as const;
 
 const directFormats = book.formats.filter((f) => f.channel === "direct");
 const retailFormats = book.formats.filter((f) => f.channel === "retail");
@@ -100,7 +100,7 @@ const FormatGroup = ({
   <div className={className}>
     <h3 className="mb-1 text-sm font-semibold uppercase tracking-[0.14em] text-foreground">{heading}</h3>
     {blurb && <p className="mb-5 text-sm text-muted-foreground">{blurb}</p>}
-    <ul className={`grid gap-6 md:grid-cols-2 ${blurb ? "" : "mt-5"}`}>
+    <ul className={`grid gap-6 md:grid-cols-2 ${formats.length === 3 ? "lg:grid-cols-3" : ""} ${blurb ? "" : "mt-5"}`}>
       {formats.map((f) => (
         <FormatCard key={f.id} format={f} />
       ))}

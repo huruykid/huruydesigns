@@ -14,7 +14,7 @@
  */
 
 export interface BookFormat {
-  id: "signed" | "printed" | "paperback" | "kindle";
+  id: "signed" | "printed" | "hardcover" | "paperback" | "kindle";
   /** "direct" formats are sold from this site; "retail" ones send people to a store. */
   channel: "direct" | "retail";
   label: string;
@@ -71,13 +71,23 @@ export const book = {
     {
       id: "printed",
       channel: "direct",
-      label: "Paperback, printed to order",
+      label: "Paperback",
       detail: "6 × 9 in. Printed on demand and shipped to you by Lulu.",
       retailer: "Lulu",
       url: "https://svc.lulu.com/?items=a22b5c75-fbd0-46bd-bdd8-5ef350e59432",
       price: "$25.00",
       note: "Secure checkout by Lulu. Shipping is added at checkout.",
       cta: "Order the paperback",
+    },
+    {
+      id: "hardcover",
+      channel: "direct",
+      label: "Hardcover",
+      detail: "6 × 9 in. Case-wrap hardcover, printed on demand and shipped to you by Lulu.",
+      retailer: "Lulu",
+      price: "$34.99",
+      note: "Secure checkout by Lulu. Shipping is added at checkout.",
+      cta: "Order the hardcover",
     },
     {
       id: "paperback",
