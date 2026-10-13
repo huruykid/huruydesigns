@@ -8,7 +8,7 @@ import BenefitsModuleDemo from "./BenefitsModuleDemo";
 import PayModuleDemo from "./PayModuleDemo";
 
 /**
- * The consolidated OneAsure portal: one navigation across what used to be three
+ * The consolidated OneAsure portal: one navigation across what used to be four
  * products. Pay and Benefits are the full module prototypes; Home, Time and More
  * are lighter screens so every tab goes somewhere. Recreated with sample data.
  */

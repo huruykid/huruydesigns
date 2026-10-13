@@ -74,7 +74,7 @@ export const experience: ExperienceItem[] = [
     location: "Austin, TX",
     bullets: [
       "As the sole designer embedded onsite, re-architected the configuration model behind 9,000+ tax agencies; after launch the team saw fewer configuration errors and faster onboarding of new agencies",
-      "Led research and information architecture for OneAsure, consolidating three HR portals and logins into one product across 16 interviews and 24 usability tests; support tickets went down after launch",
+      "Led research and information architecture for OneAsure, consolidating four HR portals and logins into one product across 16 interviews and 24 usability tests; support tickets went down after launch",
       "Designed the persona and conversational scripts for Luna, an enterprise AI chatbot integrated across HR, payroll, and benefits",
       "Authored WCAG-compliant design system guidelines that set accessibility standards across web and mobile products",
     ],

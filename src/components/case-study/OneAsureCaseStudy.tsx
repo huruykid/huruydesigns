@@ -23,7 +23,7 @@ const evidence = [
 const decisions = [
   {
     title: "Reframe the brief from a refresh to a consolidation",
-    body: "The request was a visual refresh so sales could demo the product. After 16 interviews the real finding was that users had lost trust in the system: three portals, three logins, three sets of rules, and admins avoiding tasks that felt risky. I brought that back to stakeholders as a sequencing argument: structure first, then visuals, or the refresh would put a new coat of paint on the same fragmentation.",
+    body: "The request was a visual refresh so sales could demo the product. After 16 interviews the real finding was that users had lost trust in the system: four portals, four logins, four sets of rules, and admins avoiding tasks that felt risky. I brought that back to stakeholders as a sequencing argument: structure first, then visuals, or the refresh would put a new coat of paint on the same fragmentation.",
     rejected: "Shipping the refresh first to unblock sales. It would have hit the date and left every structural complaint in place.",
   },
   {
@@ -49,7 +49,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
 
   return (
     <>
-      <CaseStudySection label="Context" title="Three portals, three logins, one HR team">
+      <CaseStudySection label="Context" title="Four portals, four logins, one HR team">
         <p className="mb-4">
           HR professionals at mid-to-large enterprises ran their day across separate Asure portals for time and attendance, benefits and payroll, each with its own login, logic and quirks. Administrators made errors. Employees gave up on self-service. The sales team struggled to demo a product that looked a decade old.
         </p>
@@ -60,7 +60,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
 
       <CaseStudySection label="The Hard Problem" title="The ask was a refresh. The problem was trust.">
         <p className="mb-8">
-          The brief came from sales: make it look modern. The interviews said something else. Users had stopped trusting the system, and several described avoiding tasks entirely because the process felt too risky. Consolidating three products into one without losing the complexity enterprise clients actually needed was the real work, and it had to happen before any visual change could land.
+          The brief came from sales: make it look modern. The interviews said something else. Users had stopped trusting the system, and several described avoiding tasks entirely because the process felt too risky. Consolidating four products into one without losing the complexity enterprise clients actually needed was the real work, and it had to happen before any visual change could land.
         </p>
         <StatRow stats={evidence} columns={4} />
       </CaseStudySection>
@@ -70,7 +70,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
       </CaseStudySection>
 
       <CaseStudySection label="The Product" title="The Pay module, as shipped">
-        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product. Both prototypes are the whole portal: the navigation moves between Home, Time, Pay, Benefits and More, the way one login replaced three.</p>
+        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product. Both prototypes are the whole portal: the navigation moves between Home, Time, Pay, Benefits and More, the way one login replaced four.</p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
             <OneAsurePortalDemo layout={demoLayout} initial="Pay" />
           </ResponsiveAppShell>
           <p className="mt-3 max-w-[40ch] text-center text-sm leading-relaxed text-muted-foreground">
-            Take-home pay, tax breakdowns, disbursements and pay history, replacing three separate logins.
+            Take-home pay, tax breakdowns, disbursements and pay history, replacing separate logins.
           </p>
         </motion.div>
         <IterationTimeline />

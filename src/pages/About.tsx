@@ -19,7 +19,7 @@ const howIWork = [
   {
     icon: Compass,
     title: "I find the real problem before the brief's problem",
-    body: "Twice now the brief was \"redesign the screens\" and the real problem was structural: a missing entity map at Asure, three products pretending to be one at OneAsure. I spend the first weeks with users and engineers, and I'll push back on a brief when the evidence says to, with the evidence in hand.",
+    body: "Twice now the brief was \"redesign the screens\" and the real problem was structural: a missing entity map at Asure, four products pretending to be one at OneAsure. I spend the first weeks with users and engineers, and I'll push back on a brief when the evidence says to, with the evidence in hand.",
   },
   {
     icon: MessageSquare,
