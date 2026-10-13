@@ -13,8 +13,8 @@ interface Props {
 }
 
 /**
- * Seven sections, in the order a hiring manager reads them: what shipped, what
- * broke in production, the problem, the research that shaped the design, the
+ * Eight sections, in the order a hiring manager reads them: what shipped, how it
+ * is marketed, what broke in production, the problem, the research that shaped the design, the
  * product, the test results, and what I'd change. The search demo lives in the
  * page hero, so it is not repeated here.
  */
@@ -42,12 +42,17 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
         </dl>
         {project.shipped.screens && (
           <div className="mb-10">
-            <h3 className="mb-4 font-bold tracking-tight text-foreground font-display">The live app</h3>
-            <ul className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4" aria-label="Screens from the shipped EBT Finder app">
+            <h3 className="mb-1 font-bold tracking-tight text-foreground font-display">The live app</h3>
+            <p className="mb-4 text-sm text-muted-foreground">These are the App Store screenshots I designed for the listing.</p>
+            {/* Phones swipe; from lg up all five sit in one row, uncropped, wider than the text column. */}
+            <ul
+              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+              aria-label="Screens from the shipped EBT Finder app"
+            >
               {project.shipped.screens.map((shot) => {
                 const dims = imageDimensions[shot.src];
                 return (
-                  <li key={shot.src} className="w-[240px] shrink-0 snap-start">
+                  <li key={shot.src} className="w-[240px] shrink-0 snap-start lg:w-auto">
                     <img
                       src={shot.src}
                       alt={shot.caption}
@@ -64,7 +69,31 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
             </ul>
           </div>
         )}
-        <AppStorePromoBanner project={project} placement="case_study_shipped" />
+        <div className="flex justify-center">
+          <AppStorePromoBanner project={project} placement="case_study_shipped" />
+        </div>
+      </CaseStudySection>
+    )}
+
+    {/* Marketing: how people find it */}
+    {project.shipped?.marketing && (
+      <CaseStudySection label="Marketing" title="How I market it">
+        <p className="mb-8">
+          Shipping is half the job. I also run distribution: the App Store listing, search, content and partners. It is the same research, applied to how people find the product instead of how they use it.
+        </p>
+        <ul className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+          {project.shipped.marketing.map((m) => (
+            <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 sm:p-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{m.channel}</p>
+              <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground font-display">{m.title}</h3>
+              <p className="text-[15px] leading-6">{m.body}</p>
+              <p className="mt-auto pt-2 text-sm font-semibold text-foreground tabular-nums">{m.proof}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 text-[15px] leading-6">
+          <span className="font-semibold text-foreground">What I don't do:</span> marketing push notifications. A notification only sends if it saves someone a wasted trip or wasted money.
+        </p>
       </CaseStudySection>
     )}
 

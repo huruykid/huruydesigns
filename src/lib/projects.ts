@@ -107,6 +107,8 @@ export interface Project {
     screens?: { src: string; caption: string }[];
     /** Operational problems solved after launch: the senior evidence. */
     postLaunch?: { title: string; problem: string; fix: string; lesson: string }[];
+    /** How the product reaches people: listing, search, content, partners. */
+    marketing?: { channel: string; title: string; body: string; proof: string }[];
   };
 }
 
@@ -207,6 +209,34 @@ export const projects: Project[] = [
         { src: "/images/ebtfinder/app/community.webp", caption: "Community signals: verifications and reports from shoppers who were actually there." },
         { src: "/images/ebtfinder/app/guides.webp", caption: "Guides and SNAP news, the content layer that brings search traffic to the web app." },
         { src: "/images/ebtfinder/app/trust.webp", caption: "Trust, stated plainly: independent, free, no judgment, browse without an account." },
+      ],
+      // Facts from the EBT Finder repo: store-submission/ios/metadata.md, prerender-routes.json,
+      // the blog scheduler migration, src/pages/EmbedCity.tsx and docs/partnerships-playbook.md.
+      marketing: [
+        {
+          channel: "App Store",
+          title: "The listing is an ad",
+          body: "I designed the store screenshots above as marketing frames, one benefit each, in the words people used in interviews. The subtitle and keywords match how people actually search: food stamps, CalFresh, hot food, WIC. On the web, a Smart App Banner sends iPhone visitors to the listing.",
+          proof: "7 designed store screenshots",
+        },
+        {
+          channel: "Search",
+          title: "A landing page for every state and major city",
+          body: "Prerendered pages for every state, 121 cities and the questions people type, like “Does Walmart take EBT?”, plus a store sitemap with structured data so results can show EBT acceptance.",
+          proof: "198 search landing pages",
+        },
+        {
+          channel: "Content",
+          title: "SNAP guides on a steady schedule",
+          body: "Guides and SNAP news publish twice a week. I cut it from daily once quality mattered more than volume. The site works in English and Spanish.",
+          proof: "2 posts a week, English and Spanish",
+        },
+        {
+          channel: "Partners",
+          title: "Distribution through people users already trust",
+          body: "An embeddable city widget that food banks and 211 sites can put on their own pages, with tracked links back, and an outreach plan aimed at 211 networks, food banks and SNAP-Ed.",
+          proof: "26 partner organizations targeted",
+        },
       ],
       postLaunch: [
         {
