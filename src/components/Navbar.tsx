@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Work", path: "/#work", match: "/" },
   { label: "About", path: "/about", match: "/about" },
   { label: "Resume", path: "/resume", match: "/resume" },
+  { label: "Book", path: "/book", match: "/book" },
   { label: "Contact", path: "/contact", match: "/contact" },
 ];
 
