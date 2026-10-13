@@ -97,7 +97,7 @@ const Resume = () => {
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight font-display">
               Resume
             </h1>
-            <p className="text-muted-foreground mt-1 text-sm">View online or save as PDF</p>
+            <p className="text-muted-foreground mt-1 text-sm">Designed PDF to read, or a plain single-column Word file for application systems</p>
           </div>
           <div className="grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-wrap">
             <Button asChild variant="outline" className="min-h-11 w-full sm:w-auto">
@@ -106,7 +106,7 @@ const Resume = () => {
               </a>
             </Button>
             <Button variant="outline" onClick={handleWord} disabled={exporting} className="min-h-11 w-full sm:w-auto">
-              {exporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> : <FileText className="mr-2 h-4 w-4" aria-hidden="true" />} Word
+              {exporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" /> : <FileText className="mr-2 h-4 w-4" aria-hidden="true" />} Word (ATS)
             </Button>
             <Button onClick={handlePrint} className="col-span-2 hidden min-h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:inline-flex sm:w-auto">
               <Printer className="mr-2 h-4 w-4" aria-hidden="true" /> Print
@@ -122,36 +122,36 @@ const Resume = () => {
           {/* Name header */}
           <div className="px-4 md:px-8 pt-6 md:pt-8 pb-4 md:pb-6 border-b border-border resume-divider">
             <div className="flex items-start justify-between gap-4">
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-xl md:text-3xl font-bold tracking-tight font-display">
                   {person.name}
                 </h2>
                 <p className="text-accent font-semibold mt-1 print-accent font-display">
                   {person.title}
                 </p>
-                <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
-                  {contactLinks.map((c) => {
-                    const Icon = contactIcons[c.kind];
-                    return (
-                      <a
-                        key={c.label}
-                        href={c.href}
-                        target={c.href.startsWith("mailto") ? undefined : "_blank"}
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
-                      >
-                        <Icon className="h-3.5 w-3.5 shrink-0" />
-                        {c.label}
-                      </a>
-                    );
-                  })}
-                </div>
               </div>
               <img
                 src={headshot}
                 alt="Huruy Kidanemariam, Senior UX Designer"
-                className="h-20 w-20 rounded-full object-cover object-top border-2 border-accent/20 shrink-0"
+                className="h-16 w-16 md:h-20 md:w-20 rounded-full object-cover object-top border-2 border-accent/20 shrink-0"
               />
+            </div>
+            <div className="flex flex-wrap gap-x-5 gap-y-1.5 mt-3">
+              {contactLinks.map((c) => {
+                const Icon = contactIcons[c.kind];
+                return (
+                  <a
+                    key={c.label}
+                    href={c.href}
+                    target={c.href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    className="inline-flex min-w-0 items-center gap-1.5 text-sm text-muted-foreground hover:text-accent transition-colors"
+                  >
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    {c.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -241,10 +241,10 @@ const Resume = () => {
 
               <hr className="border-border resume-divider mb-6" />
 
-              {/* Design Leadership */}
+              {/* Leadership & Community */}
               <div className="resume-section">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-accent mb-4 print-accent font-display">
-                  Design Leadership
+                  Leadership & Community
                 </h3>
                 {leadership.map((item, i) => (
                   <div key={i}>

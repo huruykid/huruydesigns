@@ -117,10 +117,10 @@ const About = () => (
               </div>
             </div>
 
-            {/* Design Leadership */}
+            {/* Leadership & Community */}
             <div className="mb-12">
               <h2 className="text-xl font-bold flex items-center gap-2 mb-6 font-display">
-                <Briefcase className="h-5 w-5 text-accent" aria-hidden="true" /> Design Leadership
+                <Briefcase className="h-5 w-5 text-accent" aria-hidden="true" /> Leadership & Community
               </h2>
               {leadership.map((item) => (
                 <div key={item.org} className="flex gap-4">

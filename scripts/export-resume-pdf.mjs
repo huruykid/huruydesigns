@@ -19,12 +19,24 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 1650 } });
 await page.emulateMedia({ media: "print", colorScheme: "light" });
 await page.goto(`${base}/resume`, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
-await page.pdf({
-  path: out,
-  format: "Letter",
-  printBackground: true,
-  preferCSSPageSize: true,
-  margin: { top: "0.2in", right: "0.2in", bottom: "0.2in", left: "0.2in" },
-});
+// Recruiters expect one page. Start at 100% and step down until it fits, so a
+// longer bullet never silently pushes the last section onto page 2.
+const countPages = (buf) => (buf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+let scale = 1;
+let pdf;
+for (;;) {
+  pdf = await page.pdf({
+    format: "Letter",
+    printBackground: true,
+    preferCSSPageSize: true,
+    scale,
+    margin: { top: "0.2in", right: "0.2in", bottom: "0.2in", left: "0.2in" },
+  });
+  if (countPages(pdf) <= 1 || scale <= 0.8) break;
+  scale = Math.round((scale - 0.02) * 100) / 100;
+}
+const { writeFile } = await import("node:fs/promises");
+await writeFile(out, pdf);
+console.log(`scale ${scale}, ${countPages(pdf)} page(s)`);
 await browser.close();
 console.log(`wrote ${path.relative(process.cwd(), out)}`);

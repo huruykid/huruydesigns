@@ -1,197 +1,136 @@
-import {
-  Document,
-  Paragraph,
-  TextRun,
-  Table,
-  TableRow,
-  TableCell,
-  WidthType,
-  BorderStyle,
-  ExternalHyperlink,
-  Packer,
-} from "docx";
+import { Document, Paragraph, TextRun, BorderStyle, ExternalHyperlink, Packer } from "docx";
 import { saveAs } from "file-saver";
 
-import { person, experience, sideProjects, leadership, skillGroups } from "./resume";
+import { person, experience, leadership, skillGroups } from "./resume";
+
+/**
+ * ATS-friendly Word resume.
+ *
+ * One column, standard section headings, plain text runs and real bullets. No
+ * tables, text boxes, icons or columns: applicant tracking systems read those
+ * out of order or drop them. Side projects are not repeated here because they
+ * already appear as the Appfinity Labs role under Experience.
+ */
 
 const FONT = "Calibri";
-const ACCENT_COLOR = "B34A05";
-const BORDER_NONE = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
-const NO_BORDERS = { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, right: BORDER_NONE };
+const TEXT = "1F1F1F";
+const MUTED = "555555";
 
 function sectionHeading(text: string): Paragraph {
   return new Paragraph({
-    spacing: { before: 300, after: 140 },
-    children: [
-      new TextRun({ text: text.toUpperCase(), font: FONT, size: 22, bold: true, color: ACCENT_COLOR }),
+    spacing: { before: 160, after: 60 },
+    border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "BBBBBB", space: 2 } },
+    children: [new TextRun({ text: text.toUpperCase(), font: FONT, size: 22, bold: true, color: TEXT })],
+  });
+}
+
+function roleHeader(title: string, org: string, location: string, period: string): Paragraph[] {
+  return [
+    new Paragraph({
+      spacing: { before: 120, after: 0 },
+      keepNext: true,
+      children: [new TextRun({ text: title, font: FONT, size: 22, bold: true, color: TEXT })],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      keepNext: true,
+      children: [new TextRun({ text: `${org} | ${location} | ${period}`, font: FONT, size: 20, color: MUTED })],
+    }),
+  ];
+}
+
+function bullet(text: string): Paragraph {
+  return new Paragraph({
+    spacing: { after: 30 },
+    bullet: { level: 0 },
+    indent: { left: 340, hanging: 220 },
+    children: [new TextRun({ text, font: FONT, size: 20, color: TEXT })],
+  });
+}
+
+function link(text: string, href: string): ExternalHyperlink {
+  return new ExternalHyperlink({ link: href, children: [new TextRun({ text, font: FONT, size: 20, color: TEXT })] });
+}
+
+/** Builds the document. Exported separately from the download so it can be tested. */
+export function buildResumeDocument(): Document {
+  const sep = () => new TextRun({ text: "  |  ", font: FONT, size: 20, color: MUTED });
+
+  const children: Paragraph[] = [
+    new Paragraph({
+      spacing: { after: 20 },
+      children: [new TextRun({ text: person.name, font: FONT, size: 36, bold: true, color: TEXT })],
+    }),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [new TextRun({ text: person.title, font: FONT, size: 24, color: TEXT })],
+    }),
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({ text: person.location, font: FONT, size: 20, color: TEXT }),
+        sep(),
+        link(person.email, `mailto:${person.email}`),
+        sep(),
+        link(person.linkedinLabel, person.linkedin),
+        sep(),
+        link(person.websiteLabel, person.website),
+      ],
+    }),
+
+    sectionHeading("Summary"),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [new TextRun({ text: person.summary, font: FONT, size: 20, color: TEXT })],
+    }),
+
+    sectionHeading("Experience"),
+    ...experience.flatMap((job) => [
+      ...roleHeader(job.title, job.org, job.location, job.period),
+      ...job.bullets.map(bullet),
+    ]),
+
+    sectionHeading("Skills"),
+    ...skillGroups.map(
+      (group) =>
+        new Paragraph({
+          spacing: { after: 20 },
+          children: [
+            new TextRun({ text: `${group.label}: `, font: FONT, size: 20, bold: true, color: TEXT }),
+            new TextRun({ text: group.skills.join(", "), font: FONT, size: 20, color: TEXT }),
+          ],
+        }),
+    ),
+
+    sectionHeading("Leadership & Community"),
+    ...leadership.flatMap((item) => [
+      new Paragraph({
+        spacing: { before: 80, after: 20 },
+        keepNext: true,
+        children: [
+          new TextRun({ text: item.title, font: FONT, size: 20, bold: true, color: TEXT }),
+          new TextRun({ text: `  ${item.org} | ${item.location} | ${item.period}`, font: FONT, size: 20, color: MUTED }),
+        ],
+      }),
+      new Paragraph({ children: [new TextRun({ text: item.description, font: FONT, size: 20, color: TEXT })] }),
+    ]),
+  ];
+
+  return new Document({
+    creator: person.name,
+    title: `${person.name} – Resume`,
+    styles: { default: { document: { run: { font: FONT, size: 20 }, paragraph: { spacing: { line: 250 } } } } },
+    sections: [
+      {
+        // US Letter; the docx library defaults to A4.
+        properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 576, bottom: 576, left: 720, right: 720 } } },
+        children,
+      },
     ],
-  });
-}
-
-function buildSidebar(): TableCell {
-  const children: Paragraph[] = [];
-
-  // Skills
-  children.push(sectionHeading("Skills"));
-  for (const group of skillGroups) {
-    children.push(new Paragraph({
-      spacing: { before: 120, after: 50 },
-      children: [new TextRun({ text: group.label, font: FONT, size: 20, bold: true })],
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: group.skills.join(", "), font: FONT, size: 19, color: "444444" })],
-    }));
-  }
-
-
-  // Side Projects
-  children.push(sectionHeading("Side Projects"));
-  for (const p of sideProjects) {
-    children.push(new Paragraph({
-      spacing: { before: 80, after: 30 },
-      children: [new TextRun({ text: p.title, font: FONT, size: 22, bold: true })],
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 100 },
-      children: [new TextRun({ text: p.description, font: FONT, size: 19, color: "666666" })],
-    }));
-  }
-
-  return new TableCell({
-    width: { size: 25, type: WidthType.PERCENTAGE },
-    borders: NO_BORDERS,
-    margins: { right: 200 },
-    children,
-  });
-}
-
-function buildMainColumn(): TableCell {
-  const children: Paragraph[] = [];
-
-  // Summary
-  children.push(sectionHeading("Summary"));
-  children.push(new Paragraph({
-    spacing: { after: 160 },
-    children: [new TextRun({
-      text: person.summary,
-      font: FONT, size: 22,
-    })],
-  }));
-
-  // Experience
-  children.push(sectionHeading("Experience"));
-  for (const job of experience) {
-    children.push(new Paragraph({
-      spacing: { before: 180, after: 30 },
-      children: [
-        new TextRun({ text: job.title, font: FONT, size: 24, bold: true }),
-        new TextRun({ text: `  |  ${job.period}`, font: FONT, size: 20, color: "666666" }),
-      ],
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: `${job.org} · ${job.location}`, font: FONT, size: 20, color: ACCENT_COLOR })],
-    }));
-    for (const bullet of job.bullets) {
-      children.push(new Paragraph({
-        spacing: { after: 80 },
-        bullet: { level: 0 },
-        children: [new TextRun({ text: bullet, font: FONT, size: 22 })],
-      }));
-    }
-  }
-
-  // Leadership
-  children.push(sectionHeading("Design Leadership"));
-  for (const item of leadership) {
-    children.push(new Paragraph({
-      spacing: { before: 180, after: 30 },
-      children: [
-        new TextRun({ text: item.title, font: FONT, size: 24, bold: true }),
-        new TextRun({ text: `  |  ${item.period}`, font: FONT, size: 20, color: "666666" }),
-      ],
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: `${item.org} · ${item.location}`, font: FONT, size: 20, color: ACCENT_COLOR })],
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: item.description, font: FONT, size: 22 })],
-    }));
-  }
-
-  return new TableCell({
-    width: { size: 75, type: WidthType.PERCENTAGE },
-    borders: NO_BORDERS,
-    margins: { left: 200 },
-    children,
   });
 }
 
 export async function generateAndDownloadDocx() {
-  const doc = new Document({
-    styles: {
-      default: {
-        document: { run: { font: FONT, size: 22 } },
-      },
-    },
-    sections: [
-      {
-        properties: { page: { margin: { top: 720, bottom: 720, left: 720, right: 720 } } },
-        children: [
-          // Name
-          new Paragraph({
-            spacing: { after: 40 },
-            children: [new TextRun({ text: person.name, font: FONT, size: 40, bold: true })],
-          }),
-          // Title
-          new Paragraph({
-            spacing: { after: 60 },
-            children: [new TextRun({ text: person.title, font: FONT, size: 28, color: ACCENT_COLOR, bold: true })],
-          }),
-          // Contact
-          new Paragraph({
-            spacing: { after: 120 },
-            children: [
-              new ExternalHyperlink({
-                link: `mailto:${person.email}`,
-                children: [new TextRun({ text: person.email, font: FONT, size: 20, color: "555555" })],
-              }),
-              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
-              new ExternalHyperlink({
-                link: person.linkedin,
-                children: [new TextRun({ text: person.linkedinLabel, font: FONT, size: 20, color: "555555" })],
-              }),
-              new TextRun({ text: "  |  ", font: FONT, size: 20, color: "AAAAAA" }),
-              new ExternalHyperlink({
-                link: person.website,
-                children: [new TextRun({ text: person.websiteLabel, font: FONT, size: 20, color: "555555" })],
-              }),
-            ],
-          }),
-          // Orange separator line
-          new Paragraph({
-            spacing: { after: 200 },
-            border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: ACCENT_COLOR } },
-            children: [],
-          }),
-          // Two-column table
-          new Table({
-            width: { size: 100, type: WidthType.PERCENTAGE },
-            borders: { top: BORDER_NONE, bottom: BORDER_NONE, left: BORDER_NONE, right: BORDER_NONE, insideHorizontal: BORDER_NONE, insideVertical: BORDER_NONE },
-            rows: [
-              new TableRow({
-                children: [buildSidebar(), buildMainColumn()],
-              }),
-            ],
-          }),
-        ],
-      },
-    ],
-  });
-
-  const blob = await Packer.toBlob(doc);
-  saveAs(blob, "huruy-kidanemariam-resume.docx");
+  const blob = await Packer.toBlob(buildResumeDocument());
+  saveAs(blob, "huruy-kidanemariam-resume-ats.docx");
 }
