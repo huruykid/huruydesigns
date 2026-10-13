@@ -139,10 +139,10 @@ export const projects: Project[] = [
     process: "Embedded onsite in Dallas with engineering, product, and compliance SMEs: whiteboarding, entity mapping, wireframes, and interactive prototypes.",
     keyResults: [
       { value: "9,000+", label: "tax agencies configured through one model" },
-      { value: "Fewer", label: "configuration errors, and faster onboarding for new agencies" },
-      { value: "1:1", label: "UI state to backend state, no silent changes" },
+      { value: "4", label: "revision states kept distinct, so no change reaches a live filing silently" },
+      { value: "Fewer", label: "configuration errors after launch, observed by the team, not baselined" },
     ],
-    outcomeMetrics: "After launch, configuration errors went down and onboarding a new tax agency took less time. The redesign eliminated silent state changes, made entity relationships visible, and gave the product an audit-ready revision lifecycle.",
+    outcomeMetrics: "The redesign made entity relationships visible, kept draft, in-review, locked and released configurations distinct, and gave the product an audit-ready revision lifecycle. After launch the team observed fewer configuration errors and faster onboarding for new tax agencies; these are observations, not measured against a baseline.",
     image: "/images/asure/cover.svg",
   },
   {
@@ -166,9 +166,9 @@ export const projects: Project[] = [
     keyResults: [
       { value: "3 to 1", label: "portals and logins consolidated" },
       { value: "16 + 24", label: "interviews and usability tests behind the decisions" },
-      { value: "Fewer", label: "support tickets after launch" },
+      { value: "Fewer", label: "support tickets after launch, reported by support, not baselined" },
     ],
-    outcomeMetrics: "Three portals and three logins consolidated into one product with consistent patterns. After launch, support tickets went down, admins reported fewer errors, and the sales team gained a product it could demo. Built on 16 interviews and 24 usability tests across 8 iterations over six months.",
+    outcomeMetrics: "Three portals and three logins consolidated into one product with consistent patterns. After launch, support reported fewer tickets, admins reported fewer errors, and the sales team gained a product it could demo. These are qualitative signals, not baselined metrics. Built on 16 interviews and 24 usability tests across 8 iterations over six months.",
     whatIdDoDifferently: [
       "Instrument the portal before launch. I have qualitative evidence that admin errors dropped and onboarding got faster; I should have baselined both so I could state the numbers, not just the direction.",
       "Push the single sign-on decision earlier. It was the most requested change and the least contested; sequencing it first would have bought goodwill for the harder IA changes.",
@@ -347,7 +347,7 @@ export const projects: Project[] = [
       },
       {
         title: "Map View with EBT-Only Results",
-        description: "Unlike Google Maps or Yelp, EBT Finder only shows verified SNAP-accepting locations. No noise, no confusion.",
+        description: "Unlike Google Maps or Yelp, EBT Finder shows only USDA-authorized SNAP retailers, and marks the ones shoppers have recently confirmed. No noise, no confusion.",
         details: [],
         whyItMatters: "Government tools ignore real workflows. Users need focused, relevant results, not a cluttered database.",
         imageSlot: "feature-map",
@@ -496,13 +496,13 @@ export const projects: Project[] = [
     ],
     // 8 usability-test participants; before/after numbers compare round one to the final prototype.
     validationMetrics: [
-      { label: "Shmagele understanding", value: "37.5% to 87.5%", description: "of the 8 participants understood the matchmaking feature before vs. after onboarding screens and tooltips were added" },
-      { label: "Personal connection", value: "62.5% to 0%", description: "reported the layout lacked a personal connection before vs. after the Tigray-inspired palette and illustrations" },
-      { label: "Navigation clutter", value: "8 of 8 to 0 of 5", description: "flagged the nav bar as cluttered in round one; none did in the follow-up test of the streamlined nav" },
+      { label: "Shmagele understanding", value: "5 of 8 to 7 of 8", description: "testers understood the matchmaking feature in round one vs. round two, after onboarding screens and tooltips (3 were confused at first, 1 after)" },
+      { label: "Personal connection", value: "5 of 8 to none", description: "said the layout lacked a personal connection in round one; none did after the Tigray-inspired palette and illustrations" },
+      { label: "Navigation clutter", value: "8 of 8 to 0 of 5", description: "flagged the nav bar as cluttered: all 8 in the initial test, none of the 5 in the follow-up test of the streamlined nav" },
       { label: "Launch interest", value: "6 of 8", description: "said they would use the app at launch" },
     ],
     learnings: [
-      "Building a community-focused UI requires deep cultural understanding. You can't design for a cultural community without immersing yourself in their values, traditions, and pain points.",
+      "Building a community-focused UI takes deep cultural understanding. Immersing myself in the community's values, traditions and pain points surfaced needs that outside assumptions would have missed.",
       "Experimentation with matchmaking features teaches iterative design. Complex features need scaffolding: tooltips, explainer screens, and gradual introduction to help users understand their value.",
       "User feedback is gold. Listen, iterate, validate. Every round of usability testing revealed insights I never would have discovered on my own.",
       "Design can be an act of resistance and healing. Creating a platform that helps a diaspora community stay connected during a humanitarian crisis showed me the real-world impact design can have.",
@@ -517,11 +517,11 @@ export const projects: Project[] = [
     process: "Followed a user-centered design approach across six phases: empathize, research, personas, wireframing, usability testing, and visual design.",
     solution: "A dating and social media app blending traditional Tigrayan matchmaking (Shmagele) with modern dating app technology, featuring event discovery, Just Friends mode, and community features.",
     keyResults: [
-      { value: "37.5% to 87.5%", label: "Shmagele feature understanding" },
-      { value: "8 of 8 to 0", label: "participants flagging nav clutter" },
+      { value: "5 → 7 of 8", label: "testers understood Shmagele, round one to round two" },
+      { value: "8/8 → 0/5", label: "flagged nav clutter, initial test vs. follow-up" },
       { value: "6 of 8", label: "would use the app at launch" },
     ],
-    outcomeMetrics: "Across 8 usability-test participants, understanding of the Shmagele feature rose from 37.5% to 87.5%, navigation clutter complaints dropped from 8 of 8 to none, and 6 of 8 said they would use the app at launch.",
+    outcomeMetrics: "In usability testing with 8 people, understanding of the Shmagele feature went from 5 of 8 to 7 of 8 between rounds, navigation clutter went from 8 of 8 testers in the initial test to 0 of 5 in the follow-up, and 6 of 8 said they would use the app at launch.",
     image: "/images/beles/hero-mockup.webp",
   },
   {

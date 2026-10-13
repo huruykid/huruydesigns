@@ -61,7 +61,7 @@ export const experience: ExperienceItem[] = [
     location: "Los Angeles, CA",
     bullets: [
       "Designed, built and shipped EBT Finder, a SNAP/EBT store locator on the App Store and web: 264,000+ locations across 53 states and territories and about 1,500 US users a month; 9 of 10 test participants found hot food in under 15 seconds",
-      "Designed, built and shipped Beles, a dating and community app for the Tigrayan diaspora, now on the App Store; usability testing raised understanding of its traditional matchmaking feature from 37.5% to 87.5%",
+      "Designed, built and shipped Beles, a dating and community app for the Tigrayan diaspora, now on the App Store; usability testing raised understanding of its traditional matchmaking feature from 5 of 8 testers to 7 of 8",
       "Build production React, Supabase and Capacitor apps, including LLM features with guardrails and human-in-the-loop review",
     ],
   },
@@ -73,7 +73,7 @@ export const experience: ExperienceItem[] = [
     org: "Asure Software",
     location: "Austin, TX",
     bullets: [
-      "As the sole designer embedded onsite, re-architected the configuration model behind 9,000+ tax agencies; after launch, configuration errors went down and new agencies onboarded faster",
+      "As the sole designer embedded onsite, re-architected the configuration model behind 9,000+ tax agencies; after launch the team saw fewer configuration errors and faster onboarding of new agencies",
       "Led research and information architecture for OneAsure, consolidating three HR portals and logins into one product across 16 interviews and 24 usability tests; support tickets went down after launch",
       "Designed the persona and conversational scripts for Luna, an enterprise AI chatbot integrated across HR, payroll, and benefits",
       "Authored WCAG-compliant design system guidelines that set accessibility standards across web and mobile products",

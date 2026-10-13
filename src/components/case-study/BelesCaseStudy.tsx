@@ -25,7 +25,7 @@ interface Props {
 const decisions = [
   {
     title: "Explain Shmagele inside the product, not around it",
-    body: "Traditional Tigrayan matchmaking works through trusted community members. The first prototype dropped that into the app as a feature name, and 3 of 8 testers didn't understand what it did or why they'd want it. I rejected the easy fix (rename it to something generic) because the tradition was the point. Instead I added an onboarding explainer, contextual tooltips, and a visible Shmagele score so the mechanism explained itself in use. Understanding went from 37.5% to 87.5% in the second round.",
+    body: "Traditional Tigrayan matchmaking works through trusted community members. The first prototype dropped that into the app as a feature name, and 3 of 8 testers didn't understand what it did or why they'd want it. I rejected the easy fix (rename it to something generic) because the tradition was the point. Instead I added an onboarding explainer, contextual tooltips, and a visible Shmagele score so the mechanism explained itself in use. In the second round, only 1 of 8 was still unsure, down from 3.",
     rejected: "Renaming it \"Trusted Introductions\". Clearer to a Western reader, and it would have erased the thing that made the app worth building.",
   },
   {
@@ -35,7 +35,7 @@ const decisions = [
   },
   {
     title: "Cut the navigation to what people actually used",
-    body: "All 8 testers called the first nav bar cluttered, even though they could find Events. I removed the icons nobody touched, tested three configurations with 5 people, and shipped the one where no participant flagged clutter.",
+    body: "All 8 testers called the first nav bar cluttered, even though they could find Events. I removed the icons nobody touched, tested three configurations with 5 people in a follow-up, and shipped the one where none of the 5 flagged clutter.",
     rejected: "Keeping every section reachable from the bar for discoverability. Testing showed it cost more than it gave.",
   },
 ];
@@ -68,7 +68,7 @@ const BelesCaseStudy = ({ project }: Props) => (
     </CaseStudySection>
 
     {project.learnings && (
-      <CaseStudySection label="What I Learned" title="You can't design for a community from outside it">
+      <CaseStudySection label="What I Learned" title="Designing for a community meant spending time inside it">
         <NumberedList items={project.learnings} />
       </CaseStudySection>
     )}

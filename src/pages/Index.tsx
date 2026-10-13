@@ -80,10 +80,13 @@ const Index = () => (
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" className="rounded-full px-6">
-                <a href={mailto}>Say hello</a>
+                <a href="#work">View selected work</a>
               </Button>
               <Button asChild size="lg" variant="outline" className="rounded-full px-6">
                 <Link to="/resume">View resume</Link>
+              </Button>
+              <Button asChild size="lg" variant="ghost" className="rounded-full px-5 text-muted-foreground hover:text-foreground">
+                <a href={mailto}>Say hello</a>
               </Button>
             </div>
           </div>

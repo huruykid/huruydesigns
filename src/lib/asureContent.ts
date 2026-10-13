@@ -123,7 +123,7 @@ export const asureContent: AsureGatedContent = {
       "title": "Scalable CRUD for 9,000+ Tax Agencies"
     }
   ],
-  "impactIntro": "After launch, configuration errors went down and onboarding a new tax agency took less time. Underneath those results: eliminated risk, increased clarity, and an architecture that scales to regulatory complexity.",
+  "impactIntro": "After launch the team observed fewer configuration errors and faster onboarding for new tax agencies. Those are observations rather than baselined measurements; what the redesign demonstrably changed is below.",
   "impactItems": [
     {
       "body": "Explicit state machine eliminated a class of errors where configuration edits cascaded invisibly into live payroll filings, protecting compliance for thousands of active employers.",
@@ -146,7 +146,7 @@ export const asureContent: AsureGatedContent = {
       "title": "Improved Audit Transparency"
     },
     {
-      "body": "UI state transitions map 1:1 to actual data model states, reducing implementation ambiguity, cutting engineering overhead, and preventing the product from diverging from the system again.",
+      "body": "The revision states the UI shows (draft, in review, locked, released) correspond exactly to the system's, reducing implementation ambiguity and keeping the product from diverging from the system again.",
       "icon": "Search",
       "title": "Aligned UX with Backend State Model"
     },
@@ -185,7 +185,7 @@ export const asureContent: AsureGatedContent = {
   "intuitionIntro": "The differentiator wasn't the UI patterns. It was the translation layer. Turning compliance logic into something a payroll admin can confidently configure without a tax law degree.",
   "learnings": [
     "The most impactful design work often isn't a deliverable. It's forcing a conversation that hasn't happened yet. Mapping the entity dependency chain on a whiteboard created more alignment than any prototype.",
-    "For compliance products, UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hides what's actually happening. That's not a UX preference. It's a correctness requirement."
+    "In a compliance workflow, draft, approved and in-effect configurations must always be distinguishable, and the interface must never confirm a state change that hasn't happened. That is a correctness requirement. It doesn't mean every database state belongs on screen."
   ],
   "onsitePhoto": {
     "alt": "Onsite collaboration session in Dallas with the Asure engineering and compliance teams",
@@ -231,7 +231,7 @@ export const asureContent: AsureGatedContent = {
   "role": [
     "My most significant contribution wasn't a deliverable. It was forcing a conversation that hadn't happened yet.",
     "When I mapped the entity dependency chain on a whiteboard (tax code to formula to filing frequency to payee to holiday calendar) the room got quiet. Engineers recognized the data relationships. SMEs recognized the compliance logic. Neither group had seen both layers mapped together before. That diagram became the foundation for everything that followed.",
-    "I also pushed hard for one specific architectural decision that engineering initially resisted: UI state should map 1:1 to backend state. No abstract statuses, no optimistic UI that hid what was actually happening in the system. For a compliance product, that's not a UX preference. It's a correctness requirement."
+    "I also pushed hard for one decision that engineering initially resisted: draft, in-review, locked and released configurations had to stay visibly distinct, and the interface could never confirm a transition the system hadn't made. No optimistic UI that hid whether a change was live. For a compliance product, that is a correctness requirement, not a UX preference."
   ],
   "roleItems": [
     "Spent multiple days onsite in Dallas collaborating with engineering, PM, and SMEs",

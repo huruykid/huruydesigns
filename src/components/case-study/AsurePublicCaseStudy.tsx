@@ -22,8 +22,8 @@ const decisions = [
     rejected: "Redesigning module by module. Faster to show progress, and it would have shipped six inconsistent mental models.",
   },
   {
-    title: "UI state maps 1:1 to backend state",
-    body: "In a compliance product, a screen that looks saved while the system is still deciding is a filing error waiting to happen. I pushed for an explicit revision lifecycle (draft, in review, locked, released) exposed exactly as the system holds it, with no optimistic UI and no abstract statuses. Engineering initially resisted the extra states; the compliance team made the case with me.",
+    title: "Never show a state the system isn't in",
+    body: "In a compliance product, a screen that looks saved while the system is still deciding is a filing error waiting to happen. I pushed for an explicit revision lifecycle (draft, in review, locked, released) with every state visibly distinct, and no confirmation of a transition the system hadn't made. That didn't mean exposing every database state, only never blurring whether a change was live. Engineering initially resisted the extra states; the compliance team made the case with me.",
     rejected: "Friendlier, simplified statuses. They read better and hid the one thing users needed to know: whether a change was live.",
   },
   {

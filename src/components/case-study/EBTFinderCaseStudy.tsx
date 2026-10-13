@@ -244,7 +244,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
     {project.validationMetrics && (
       <CaseStudySection label="Validation" title="9 of 10 found hot food in under 15 seconds">
         <p className="mb-8">
-          Before writing production code, I ran moderated usability tests with 10 participants, each asked to find a hot food location near them in EBT Finder and in the USDA locator. These are the only numbers behind EBT Finder, and they all come from that session.
+          Before writing production code, I ran moderated usability tests with 10 participants, each asked to find a hot food location near them in EBT Finder and in the USDA locator. All four numbers below come from that one session; the production usage figures are at the top of this page.
         </p>
         <StatRow stats={project.validationMetrics} columns={4} />
       </CaseStudySection>

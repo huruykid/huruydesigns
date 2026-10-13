@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 
-const stats = [
-  { label: "Lacked personal connection", value: 62.5, desc: "did not feel personal connection with overall layout", color: "bg-accent" },
+// Round one, 8 participants. Counts where they are known; percentages for the gender splits.
+const stats: { label: string; value: number; display?: string; desc: string; color: string }[] = [
+  { label: "Lacked personal connection", value: 62.5, display: "5 of 8", desc: "did not feel personal connection with overall layout", color: "bg-accent" },
   { label: "Women: Just Friends", value: 50, desc: "of women would use app today with Just Friends option", color: "bg-primary" },
-  { label: "Shmagele confusion", value: 37.5, desc: "were confused about Shmagele feature", color: "bg-destructive" },
+  { label: "Shmagele confusion", value: 37.5, display: "3 of 8", desc: "were confused about Shmagele feature", color: "bg-destructive" },
   { label: "Men: Just Friends", value: 12.5, desc: "of men would use app today with Just Friends option", color: "bg-muted-foreground" },
 ];
 
@@ -13,7 +14,7 @@ const UsabilityStatBars = () => (
       <div key={i} className="space-y-1.5">
         <div className="flex items-baseline justify-between gap-4">
           <span className="text-sm font-semibold text-foreground">{stat.label}</span>
-          <span className="text-sm font-bold text-accent tabular-nums">{stat.value}%</span>
+          <span className="text-sm font-bold text-accent tabular-nums">{stat.display ?? `${stat.value}%`}</span>
         </div>
         <div className="h-3 w-full rounded-full bg-muted/40 overflow-hidden">
           <motion.div

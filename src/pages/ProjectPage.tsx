@@ -158,7 +158,7 @@ const ProjectPage = () => {
           <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               {project.logo && (
                 <img
@@ -195,29 +195,36 @@ const ProjectPage = () => {
                 </dl>
               )}
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex items-center justify-center">
-              <HeroVisual project={project} heroImage={uploadedImages.hero} />
-            </motion.div>
+            {/* At a glance: the one-minute read, beside the title so reviewers get context before the demo */}
+            <motion.section
+              aria-labelledby="tldr-heading"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="min-w-0 rounded-xl border border-border bg-background p-6 sm:p-8"
+            >
+              <h2 id="tldr-heading" className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-accent">At a glance</h2>
+              <dl className="grid gap-6">
+                {[
+                  { k: "Problem", v: project.problem },
+                  { k: "Solution", v: project.solution },
+                  { k: "Outcome", v: project.outcomeMetrics },
+                ].map(({ k, v }) => (
+                  <div key={k} className="min-w-0">
+                    <dt className="mb-1.5 text-base font-bold tracking-tight text-foreground font-display">{k}</dt>
+                    <dd className="text-[15px] leading-7 text-muted-foreground">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </motion.section>
           </div>
         </div>
       </section>
 
-      {/* At a glance: the 30-second read for scanners */}
-      <section aria-labelledby="tldr-heading" className="border-y border-border">
-        <div className="container mx-auto max-w-5xl px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
-          <h2 id="tldr-heading" className="mb-8 text-xs font-semibold uppercase tracking-[0.14em] text-accent">At a glance</h2>
-          <dl className="grid gap-10 md:grid-cols-3 md:gap-12">
-            {[
-              { k: "Problem", v: project.problem },
-              { k: "Solution", v: project.solution },
-              { k: "Outcome", v: project.outcomeMetrics },
-            ].map(({ k, v }) => (
-              <div key={k} className="min-w-0">
-                <dt className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{k}</dt>
-                <dd className="text-[15px] leading-7 text-muted-foreground">{v}</dd>
-              </div>
-            ))}
-          </dl>
+      {/* The interactive prototype or hero visual, after the summary */}
+      <section aria-label={`${project.title} prototype`} className="border-y border-border">
+        <div className="container mx-auto flex justify-center px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
+          <HeroVisual project={project} heroImage={uploadedImages.hero} />
         </div>
       </section>
 
