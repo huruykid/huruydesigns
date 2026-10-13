@@ -15,60 +15,64 @@ import { person, experience, leadership, skillGroups } from "./resume";
 const FONT = "Calibri";
 const TEXT = "1F1F1F";
 const MUTED = "555555";
+// Half-point sizes. Two pages is fine for 8+ years, so this favors easy reading
+// over cramming: 11pt body, 0.75in margins, 1.15 line spacing.
+const BODY = 22;
+const META = 21;
 
 function sectionHeading(text: string): Paragraph {
   return new Paragraph({
-    spacing: { before: 160, after: 60 },
+    spacing: { before: 300, after: 120 },
     border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "BBBBBB", space: 2 } },
-    children: [new TextRun({ text: text.toUpperCase(), font: FONT, size: 22, bold: true, color: TEXT })],
+    children: [new TextRun({ text: text.toUpperCase(), font: FONT, size: 24, bold: true, color: TEXT })],
   });
 }
 
 function roleHeader(title: string, org: string, location: string, period: string): Paragraph[] {
   return [
     new Paragraph({
-      spacing: { before: 120, after: 0 },
+      spacing: { before: 200, after: 20 },
       keepNext: true,
       children: [new TextRun({ text: title, font: FONT, size: 22, bold: true, color: TEXT })],
     }),
     new Paragraph({
-      spacing: { after: 40 },
+      spacing: { after: 80 },
       keepNext: true,
-      children: [new TextRun({ text: `${org} | ${location} | ${period}`, font: FONT, size: 20, color: MUTED })],
+      children: [new TextRun({ text: `${org} | ${location} | ${period}`, font: FONT, size: META, color: MUTED })],
     }),
   ];
 }
 
 function bullet(text: string): Paragraph {
   return new Paragraph({
-    spacing: { after: 30 },
+    spacing: { after: 60 },
     bullet: { level: 0 },
-    indent: { left: 340, hanging: 220 },
-    children: [new TextRun({ text, font: FONT, size: 20, color: TEXT })],
+    indent: { left: 360, hanging: 240 },
+    children: [new TextRun({ text, font: FONT, size: BODY, color: TEXT })],
   });
 }
 
 function link(text: string, href: string): ExternalHyperlink {
-  return new ExternalHyperlink({ link: href, children: [new TextRun({ text, font: FONT, size: 20, color: TEXT })] });
+  return new ExternalHyperlink({ link: href, children: [new TextRun({ text, font: FONT, size: META, color: TEXT })] });
 }
 
 /** Builds the document. Exported separately from the download so it can be tested. */
 export function buildResumeDocument(): Document {
-  const sep = () => new TextRun({ text: "  |  ", font: FONT, size: 20, color: MUTED });
+  const sep = () => new TextRun({ text: "  |  ", font: FONT, size: META, color: MUTED });
 
   const children: Paragraph[] = [
     new Paragraph({
       spacing: { after: 20 },
-      children: [new TextRun({ text: person.name, font: FONT, size: 36, bold: true, color: TEXT })],
+      children: [new TextRun({ text: person.name, font: FONT, size: 40, bold: true, color: TEXT })],
     }),
     new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: person.title, font: FONT, size: 24, color: TEXT })],
+      spacing: { after: 80 },
+      children: [new TextRun({ text: person.title, font: FONT, size: 26, color: TEXT })],
     }),
     new Paragraph({
       spacing: { after: 80 },
       children: [
-        new TextRun({ text: person.location, font: FONT, size: 20, color: TEXT }),
+        new TextRun({ text: person.location, font: FONT, size: META, color: TEXT }),
         sep(),
         link(person.email, `mailto:${person.email}`),
         sep(),
@@ -80,8 +84,8 @@ export function buildResumeDocument(): Document {
 
     sectionHeading("Summary"),
     new Paragraph({
-      spacing: { after: 40 },
-      children: [new TextRun({ text: person.summary, font: FONT, size: 20, color: TEXT })],
+      spacing: { after: 60 },
+      children: [new TextRun({ text: person.summary, font: FONT, size: BODY, color: TEXT })],
     }),
 
     sectionHeading("Experience"),
@@ -94,36 +98,29 @@ export function buildResumeDocument(): Document {
     ...skillGroups.map(
       (group) =>
         new Paragraph({
-          spacing: { after: 20 },
+          spacing: { after: 60 },
           children: [
-            new TextRun({ text: `${group.label}: `, font: FONT, size: 20, bold: true, color: TEXT }),
-            new TextRun({ text: group.skills.join(", "), font: FONT, size: 20, color: TEXT }),
+            new TextRun({ text: `${group.label}: `, font: FONT, size: BODY, bold: true, color: TEXT }),
+            new TextRun({ text: group.skills.join(", "), font: FONT, size: BODY, color: TEXT }),
           ],
         }),
     ),
 
     sectionHeading("Leadership & Community"),
     ...leadership.flatMap((item) => [
-      new Paragraph({
-        spacing: { before: 80, after: 20 },
-        keepNext: true,
-        children: [
-          new TextRun({ text: item.title, font: FONT, size: 20, bold: true, color: TEXT }),
-          new TextRun({ text: `  ${item.org} | ${item.location} | ${item.period}`, font: FONT, size: 20, color: MUTED }),
-        ],
-      }),
-      new Paragraph({ children: [new TextRun({ text: item.description, font: FONT, size: 20, color: TEXT })] }),
+      ...roleHeader(item.title, item.org, item.location, item.period),
+      bullet(item.description),
     ]),
   ];
 
   return new Document({
     creator: person.name,
     title: `${person.name} – Resume`,
-    styles: { default: { document: { run: { font: FONT, size: 20 }, paragraph: { spacing: { line: 250 } } } } },
+    styles: { default: { document: { run: { font: FONT, size: BODY }, paragraph: { spacing: { line: 276 } } } } },
     sections: [
       {
         // US Letter; the docx library defaults to A4.
-        properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 576, bottom: 576, left: 720, right: 720 } } },
+        properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1008, bottom: 1008, left: 1080, right: 1080 } } },
         children,
       },
     ],

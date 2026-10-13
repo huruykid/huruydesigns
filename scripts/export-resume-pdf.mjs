@@ -19,8 +19,9 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 1650 } });
 await page.emulateMedia({ media: "print", colorScheme: "light" });
 await page.goto(`${base}/resume`, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
-// Recruiters expect one page. Start at 100% and step down until it fits, so a
-// longer bullet never silently pushes the last section onto page 2.
+// If the resume overflows one page by a few lines, shrink up to ~5% so a lone
+// section doesn't strand on page 2. Past that, let it run to two pages rather
+// than shrinking text (two pages is fine for 8+ years).
 const countPages = (buf) => (buf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
 let scale = 1;
 let pdf;
@@ -32,7 +33,7 @@ for (;;) {
     scale,
     margin: { top: "0.2in", right: "0.2in", bottom: "0.2in", left: "0.2in" },
   });
-  if (countPages(pdf) <= 1 || scale <= 0.8) break;
+  if (countPages(pdf) <= 1 || scale <= 0.94) break;
   scale = Math.round((scale - 0.02) * 100) / 100;
 }
 const { writeFile } = await import("node:fs/promises");
