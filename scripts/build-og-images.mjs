@@ -20,6 +20,7 @@ const cards = [
   { file: "book.png", query: "?card=book" },
   { file: "asure-compliance.png", query: "?card=asure-compliance" },
   { file: "oneasure-portal.png", query: "?card=oneasure-portal" },
+  { file: "doula-care-portal.png", query: "?card=doula-care-portal" },
   { file: "ebtfinder.png", query: "?card=ebtfinder" },
   { file: "beles.png", query: "?card=beles" },
 ];

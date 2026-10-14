@@ -8,8 +8,9 @@ import { person, experience, resumePdfPath } from "@/lib/resume";
 import { PERSON, PERSON_REF, SITE_URL, absoluteUrl } from "@/lib/seo";
 import SEO from "@/components/SEO";
 
-/** Enterprise work first: it's what the roles Huruy is applying for ask about. */
-const ORDER = ["asure-compliance", "oneasure-portal", "ebtfinder", "beles"];
+/** Enterprise work first: it's what the roles Huruy is applying for ask about. With an
+ * odd count, the last card spans the row, so healthcare gets the featured slot. */
+const ORDER = ["asure-compliance", "oneasure-portal", "ebtfinder", "beles", "doula-care-portal"];
 const visibleProjects = publicProjects();
 const work = [
   ...ORDER.map((id) => visibleProjects.find((p) => p.id === id)).filter((p): p is NonNullable<typeof p> => !!p),
@@ -23,7 +24,7 @@ const previous = experience.find((e) => e.org.startsWith("Asure"));
 const facts = [
   { label: "Currently", value: `${current.title} at ${person.currentEmployer}`, detail: "Enterprise products in a regulated industry" },
   ...(previous ? [{ label: "Previously", value: `${previous.title} at Asure Software`, detail: "Payroll compliance and HR platforms" }] : []),
-  { label: "Experience", value: `${person.yearsExperience} years in UX and product design`, detail: "Enterprise SaaS, compliance, AI" },
+  { label: "Experience", value: `${person.yearsExperience} years in UX and product design`, detail: "Enterprise SaaS, compliance, healthcare, AI" },
   { label: "Open to", value: "Senior and staff UX roles", detail: `${person.location} · remote or hybrid` },
 ];
 
@@ -115,7 +116,7 @@ const Index = () => (
         </div>
         <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:gap-x-10 lg:gap-y-16">
           {work.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard key={project.id} project={project} index={index} wide={work.length % 2 === 1 && index === work.length - 1} />
           ))}
         </div>
       </div>

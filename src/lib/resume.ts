@@ -25,7 +25,7 @@ export const person = {
   currentEmployerFull: "Capital Group (via Luxoft)",
   availability: "Open to senior UX, senior product design, and staff UX roles: full-time, contract, or consulting. Based in Los Angeles: remote, hybrid, or onsite in LA.",
   summary:
-    "Senior UX Designer with 8+ years designing enterprise products where mistakes are costly: payroll compliance, HR platforms, and conversational AI. I also build what I design, with two apps live on the App Store that I researched, designed, and shipped solo. Currently a Senior UX Designer at Capital Group.",
+    "Senior UX Designer with 8+ years designing enterprise products where mistakes are costly: payroll compliance, HR platforms, healthcare billing, and conversational AI. I also build what I design, with two apps live on the App Store that I researched, designed, and shipped solo. Currently a Senior UX Designer at Capital Group.",
   /** One positioning line used across the homepage, About and Hire pages. */
   positioning:
     "Senior UX Designer and Builder with 8+ years crafting accessible, human-centered products for enterprise SaaS, compliance, AI, and social impact.",
@@ -60,6 +60,7 @@ export const experience: ExperienceItem[] = [
     org: "Appfinity Labs (Independent)",
     location: "Los Angeles, CA",
     bullets: [
+      "Designed and built a HIPAA-compliant doula care and Medi-Cal billing portal for a Bay Area birth-justice nonprofit, now used by about 60 people across 5 community birth organizations: visit logging against Medi-Cal caps, CMS-1500 claims, five roles enforced with row-level security, two-factor sign-in and audit logs",
       "Designed, built and shipped EBT Finder, a SNAP/EBT store locator on the App Store and web: 264,000+ locations across 53 states and territories and about 1,500 US users a month; 9 of 10 test participants found hot food in under 15 seconds",
       "Designed, built and shipped Beles, a dating and community app for the Tigrayan diaspora, now on the App Store; usability testing raised understanding of its traditional matchmaking feature from 5 of 8 testers to 7 of 8",
       "Build production React, Supabase and Capacitor apps, including LLM features with guardrails and human-in-the-loop review",

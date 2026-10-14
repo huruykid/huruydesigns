@@ -14,6 +14,8 @@ import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
+import DoulaCareCaseStudy from "@/components/case-study/DoulaCareCaseStudy";
+import DoulaCareDemo from "@/components/case-study/DoulaCareDemo";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesAppDemo from "@/components/case-study/BelesAppDemo";
@@ -45,6 +47,16 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
           <AsureConfigDemo />
         </ResponsiveAppShell>
         <Caption center>Recreated with sample data to show the design decisions. Not Asure's production UI.</Caption>
+      </figure>
+    );
+  }
+  if (project.id === "doula-care-portal") {
+    return (
+      <figure className="w-full">
+        <ResponsiveAppShell label="Doula Care Portal" allowToggle minDesktopWidth={640} desktopHeight={660} mobileWidth={340} mobileHeight={660}>
+          <DoulaCareDemo />
+        </ResponsiveAppShell>
+        <Caption center>Recreated with sample data. No real clients, doulas or organizations.</Caption>
       </figure>
     );
   }
@@ -239,6 +251,8 @@ const ProjectPage = () => {
           <OneAsureCaseStudy project={project} {...slotProps} />
         ) : project.id === "asure-compliance" ? (
           <AsureComplianceCaseStudy project={project} content={asureContent} />
+        ) : project.id === "doula-care-portal" ? (
+          <DoulaCareCaseStudy project={project} {...slotProps} />
         ) : project.id === "ebtfinder" ? (
           <EBTFinderCaseStudy project={project} {...slotProps} />
         ) : project.id === "fentfinder" ? (

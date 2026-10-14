@@ -15,5 +15,6 @@
 
 - [Asure Compliance Engine](https://huruy.tech/project/asure-compliance): Onsite redesign of an enterprise payroll compliance engine serving 9,000+ tax agencies: the entity model, revision state machine and configuration patterns, with the detailed narrative available by request.
 - [OneAsure Portal](https://huruy.tech/project/oneasure-portal): Consolidating four enterprise HR portals (time, benefits, payroll, HR) into one product.
+- [Doula Care Portal](https://huruy.tech/project/doula-care-portal): HIPAA-compliant doula care records and Medi-Cal billing (visit caps, CMS-1500 claims, role-based access) for a Bay Area birth-justice nonprofit; about 60 users across 5 organizations.
 - [EBT Finder](https://huruy.tech/project/ebtfinder): Review-first store locator for SNAP/EBT households, researched, designed, built, and shipped solo to the App Store.
 - [Beles](https://huruy.tech/project/beles): Dating and community app concept for the Tigrayan diaspora, built around traditional matchmaking.

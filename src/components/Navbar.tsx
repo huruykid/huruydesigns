@@ -48,10 +48,16 @@ const Navbar = () => {
     };
   }, [open]);
 
-  const themeLabel = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+  // The prerendered HTML can't know the visitor's theme, so the first render must not
+  // depend on it: both icons are drawn and CSS (the .dark class set before paint) picks one,
+  // and the pressed state is filled in after mount. Otherwise dark-mode visitors hit a
+  // hydration mismatch and React re-renders the whole page.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const themeButton = (
-    <Button variant="ghost" size="icon" onClick={toggle} aria-label={themeLabel} aria-pressed={theme === "dark"} className="h-11 w-11">
-      {theme === "dark" ? <Sun className="h-4 w-4" aria-hidden="true" /> : <Moon className="h-4 w-4" aria-hidden="true" />}
+    <Button variant="ghost" size="icon" onClick={toggle} aria-label="Dark theme" aria-pressed={mounted ? theme === "dark" : undefined} className="h-11 w-11">
+      <Moon className="h-4 w-4 dark:hidden" aria-hidden="true" />
+      <Sun className="hidden h-4 w-4 dark:block" aria-hidden="true" />
     </Button>
   );
 

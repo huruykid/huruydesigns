@@ -7,7 +7,8 @@ import { imageDimensions } from "@/lib/imageDimensions";
  * Homepage work card: a large cover, then "Title, Client | headline result" and a
  * few scannable tags. The whole card is the link.
  */
-const ProjectCard = ({ project, index, fintechContext }: { project: Project; index: number; fintechContext?: string }) => {
+/** `wide`: spans the whole grid row, cover beside the text (used for an odd last card). */
+const ProjectCard = ({ project, index, fintechContext, wide = false }: { project: Project; index: number; fintechContext?: string; wide?: boolean }) => {
   const cover = project.cardImage ?? project.image;
   const dims = imageDimensions[cover];
   const outcome = project.keyResults?.[0];
@@ -16,7 +17,7 @@ const ProjectCard = ({ project, index, fintechContext }: { project: Project; ind
   return (
     <Link
       to={`/project/${project.id}`}
-      className={`group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background ${fintechContext ? "h-full border border-border p-6 lg:p-8" : ""}`}
+      className={`group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background ${fintechContext ? "h-full border border-border p-6 lg:p-8" : ""} ${wide ? "md:col-span-2 md:grid md:grid-cols-2 md:items-center md:gap-10 lg:gap-16" : ""}`}
       aria-label={`${project.title}${project.client ? `, ${project.client}` : ""}: ${outcome ? `${outcome.value} ${outcome.label}` : project.impact}`}
     >
       <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted">
@@ -30,7 +31,7 @@ const ProjectCard = ({ project, index, fintechContext }: { project: Project; ind
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
         />
       </div>
-      <div className="pt-4">
+      <div className={wide ? "pt-4 md:pt-0" : "pt-4"}>
         {fintechContext ? <h3 className="text-[17px] font-medium leading-snug text-foreground">{project.title}</h3> : <p className="text-[17px] leading-snug">
           <span className="font-medium text-foreground">{project.title}</span>
           {project.client && <span className="text-muted-foreground">, {project.client}</span>}
@@ -40,6 +41,7 @@ const ProjectCard = ({ project, index, fintechContext }: { project: Project; ind
             {outcome.value} {outcome.label}
           </p>
         )}
+        {wide && !fintechContext && <p className="mt-4 max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>}
         {fintechContext && (
           <>
             <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
