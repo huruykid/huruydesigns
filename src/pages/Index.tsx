@@ -63,7 +63,7 @@ const Index = () => (
 
     {/* Intro: who he is, what he does, where he is, how to reach him */}
     <section className="pb-14 pt-16 sm:pb-20 sm:pt-28 lg:pt-32">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,7 +108,7 @@ const Index = () => (
 
     {/* Work */}
     <section id="work" className="scroll-mt-16 pb-20 sm:pb-28" aria-labelledby="work-heading">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="container">
         <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-border pt-6">
           <h2 id="work-heading" className="text-[15px] font-medium tracking-normal">Selected work</h2>
           <p className="text-[15px] text-muted-foreground">Each case study opens with a one-minute summary.</p>
@@ -123,7 +123,7 @@ const Index = () => (
 
     {/* Hiring */}
     <section id="hire" className="scroll-mt-16 pb-24" aria-labelledby="hire-heading">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="container">
         <div className="grid gap-8 rounded-2xl bg-muted p-6 sm:p-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div>
             <h2 id="hire-heading" className="mb-3 text-3xl font-light tracking-tight sm:text-4xl">Hiring a senior UX designer?</h2>

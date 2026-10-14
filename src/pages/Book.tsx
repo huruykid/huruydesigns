@@ -130,7 +130,7 @@ const Book = () => {
 
       {/* Hero */}
       <section className="py-16 sm:py-24">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="container">
           <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -180,7 +180,7 @@ const Book = () => {
 
       {/* Store */}
       <section id="buy" className="scroll-mt-20 border-t border-border/50 bg-muted/30 py-20" aria-labelledby="buy-heading">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="container">
           <div className="mb-10 max-w-2xl">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Store</p>
             <h2 id="buy-heading" className="mb-3 text-3xl font-bold tracking-tight font-display">Get a copy</h2>
@@ -214,7 +214,7 @@ const Book = () => {
 
       {/* About the book */}
       <section className="py-20" aria-labelledby="about-book-heading">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="container">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About the book</p>
@@ -242,7 +242,7 @@ const Book = () => {
 
       {/* About the author */}
       <section className="border-t border-border/50 py-20" aria-labelledby="author-heading">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="container">
           <div className="max-w-3xl">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About the author</p>
           <h2 id="author-heading" className="mb-4 text-3xl font-bold tracking-tight font-display">{book.author}</h2>

@@ -24,6 +24,7 @@ import CaseStudySection from "./CaseStudySection";
 import AsureConfigDemo from "./AsureConfigDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { EntityDiagram, StateMachineDiagram } from "./AsureDiagrams";
+import { Caption, Full, Wide } from "./primitives";
 import { Project } from "@/lib/projects";
 import type { AsureGatedContent, GatedIconName } from "@/lib/gatedContent";
 
@@ -63,10 +64,12 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
   <>
     {/* 01 - CONTEXT & SCALE */}
     <CaseStudySection label="01 | Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
-      {content.context.map((p) => (
-        <p key={p} className="mb-8">{p}</p>
+      {content.context.map((p, i) => (
+        <p key={p} className={i === content.context.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
-      <EntityDiagram />
+      <Wide>
+        <EntityDiagram />
+      </Wide>
     </CaseStudySection>
 
     {/* 02 - THE REAL PROBLEM */}
@@ -75,11 +78,11 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
         <p key={i} className={i === content.problem.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
 
-      <div className="grid sm:grid-cols-2 gap-4 mb-8">
+      <Wide className="mb-8 grid gap-4 sm:grid-cols-2 lg:gap-6">
         {content.problemCards.map((card, i) => (
           <motion.div key={card.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
             <Card className="border-border bg-muted/20 h-full">
-              <CardContent className="p-5">
+              <CardContent className="p-6 lg:p-8">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-accent"><Icon name={card.icon} /></span>
                   <h3 className="font-bold text-foreground text-sm">{card.title}</h3>
@@ -89,7 +92,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
             </Card>
           </motion.div>
         ))}
-      </div>
+      </Wide>
 
       <div className="space-y-3">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Audience Needs</p>
@@ -108,8 +111,8 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
         <p key={i} className={i === content.role.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
       {content.onsitePhoto && (
-        <figure className="rounded-xl overflow-hidden border border-border mb-8">
-          <div className="aspect-[16/7] overflow-hidden">
+        <figure className="cs-wide mb-8">
+          <div className="aspect-[16/7] overflow-hidden rounded-xl border border-border">
             <img
               src={content.onsitePhoto.src}
               alt={content.onsitePhoto.alt}
@@ -120,8 +123,8 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
               className="w-full h-full object-cover object-[center_25%]"
             />
           </div>
-          <figcaption className="px-4 py-2.5 bg-muted/30 border-t border-border">
-            <p className="text-xs text-muted-foreground">{content.onsitePhoto.caption}</p>
+          <figcaption>
+            <Caption>{content.onsitePhoto.caption}</Caption>
           </figcaption>
         </figure>
       )}
@@ -139,17 +142,17 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     <CaseStudySection label="04 | Core Design Contributions" title="Four changes that made configuration predictable" icon={<ClipboardList className="h-4 w-4" />}>
       <p className="mb-8">{content.contributionsIntro}</p>
 
-      <div className="space-y-12">
+      <div className="cs-flow cs-full gap-y-12">
         {content.coreContributions.map((c) => (
-          <motion.div key={c.letter} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <motion.div key={c.letter} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="cs-flow cs-full">
             <div className="flex items-baseline gap-3 mb-2">
               <span className="text-accent font-bold text-lg">{c.letter}</span>
               <h3 className="text-lg font-bold text-foreground">{c.title}</h3>
             </div>
             <p className="text-sm text-muted-foreground italic mb-4">{c.subtitle}</p>
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="cs-wide grid gap-4 sm:grid-cols-2 lg:gap-6">
               <Card className="border-destructive/20 bg-destructive/5">
-                <CardContent className="p-4">
+                <CardContent className="p-6 lg:p-8">
                   <p className="text-xs font-semibold text-destructive uppercase tracking-wide mb-2">Problem</p>
                   <ul className="space-y-1.5">
                     {c.problemPoints.map((p) => (
@@ -161,7 +164,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
                 </CardContent>
               </Card>
               <Card className="border-green-500/20 bg-green-500/5">
-                <CardContent className="p-4">
+                <CardContent className="p-6 lg:p-8">
                   <p className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wide mb-2">Solution</p>
                   <ul className="space-y-1.5">
                     {c.solutionPoints.map((s) => (
@@ -174,12 +177,22 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
               </Card>
             </div>
 
-            {c.letter === "B" && <div className="mt-6"><StateMachineDiagram /></div>}
+            {c.letter === "B" && <div className="cs-wide mt-6"><StateMachineDiagram /></div>}
 
             {c.letter === "C" && (
-              <div className="mt-6 rounded-xl border border-border bg-card/50 overflow-x-auto">
+              <div className="cs-wide mt-6 rounded-xl border border-border bg-card/50">
                 <p className="text-xs font-semibold text-accent uppercase tracking-wide p-4 pb-2">Validation Matrix</p>
-                <table className="w-full text-sm">
+                {/* Phones: each rule reads as a short stack, so nothing scrolls sideways. */}
+                <ul className="divide-y divide-border/60 sm:hidden">
+                  {content.validationMatrix.map((row) => (
+                    <li key={row.condition} className="space-y-1.5 px-4 py-3 text-sm">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${typeClass(row.type)}`}>{row.type}</span>
+                      <p className="font-medium text-foreground">{row.condition}</p>
+                      <p>{row.behavior}</p>
+                    </li>
+                  ))}
+                </ul>
+                <table className="hidden w-full text-sm sm:table">
                   <thead>
                     <tr className="border-b border-border">
                       <th scope="col" className="text-left p-3 font-bold text-foreground">Condition</th>
@@ -211,20 +224,20 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     {/* 05 - DESIGNING FOR INTUITION */}
     <CaseStudySection label="05 | Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
       <p className="mb-6">{content.intuitionIntro}</p>
-      <div className="grid sm:grid-cols-2 gap-4 mb-10">
+      <Wide className="mb-10 grid gap-4 sm:grid-cols-2 lg:gap-6">
         {content.intuitionCards.map((card, i) => (
           <motion.div key={card.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
             <Card className="border-border bg-card/50 h-full">
-              <CardContent className="p-5">
+              <CardContent className="p-6 lg:p-8">
                 <h3 className="font-bold text-foreground text-sm mb-1">{card.title}</h3>
                 <p className="text-sm">{card.body}</p>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-      </div>
+      </Wide>
 
-      <div className="rounded-xl border border-accent/20 bg-accent/5 p-6">
+      <div className="rounded-xl border border-accent/20 bg-accent/5 p-6 lg:p-8">
         <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-4">Legacy to Redesign</p>
         <div className="space-y-3">
           {content.transformations.map((t) => (
@@ -238,33 +251,33 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </div>
     </CaseStudySection>
 
-    {/* Interactive Prototype */}
-    <div className="mb-16">
-      <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Interactive Prototype</p>
-      <h2 className="text-2xl sm:text-3xl font-bold mb-4 font-display">Change a rate, the way an admin would</h2>
-      <p className="text-muted-foreground leading-relaxed mb-3">
+    {/* Interactive Prototype: the one place the page uses its full width */}
+    <CaseStudySection label="Interactive Prototype" title="Change a rate, the way an admin would">
+      <p className="mb-3">
         A recreation of the configuration workflow, built to show the four decisions above working together. Try it in this order:
       </p>
-      <ol className="mb-6 list-decimal space-y-1 pl-5 text-muted-foreground leading-relaxed">
+      <ol className="mb-8 list-decimal space-y-1 pl-5">
         <li>The tree is the entity model: agency, tax code, then its formula, filing frequencies, payee and holiday calendar.</li>
         <li>On CA-SDI, change the rate. Past 25% from the released value you get a warning to confirm; past the jurisdiction maximum, a hard stop with the rule.</li>
         <li>Save the draft and read the impact before it saves, then take it through review, lock and release. Every step lands in History.</li>
       </ol>
-      <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={780} desktopHeight={620} allowToggle mobileWidth={290} mobileHeight={600}>
-        <AsureConfigDemo />
-      </ResponsiveAppShell>
-      <p className="mt-3 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Agencies are real jurisdictions; rates, counts and people are not. Not Asure's production UI.</p>
-    </div>
+      <Full>
+        <ResponsiveAppShell label="Compliance Engine · tax code configuration" allowToggle minDesktopWidth={640} desktopHeight={640} mobileWidth={340} mobileHeight={640}>
+          <AsureConfigDemo />
+        </ResponsiveAppShell>
+        <Caption center>Recreated with sample data to show the design decisions. Agencies are real jurisdictions; rates, counts and people are not. Not Asure's production UI.</Caption>
+      </Full>
+    </CaseStudySection>
 
     {/* 06 - COLLABORATION */}
     <CaseStudySection label="06 | Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
       {content.collaboration.map((p, i) => (
         <p key={i} className={i === content.collaboration.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
-      <div className="grid sm:grid-cols-3 gap-4">
+      <Wide className="grid gap-4 sm:grid-cols-3 lg:gap-6">
         {content.collaborators.map((col) => (
           <Card key={col.group} className="border-border bg-card/50">
-            <CardContent className="p-5">
+            <CardContent className="p-6 lg:p-8">
               <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-3">{col.group}</p>
               <ul className="space-y-2">
                 {col.items.map((item) => (
@@ -277,17 +290,17 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Wide>
     </CaseStudySection>
 
     {/* 07 - IMPACT */}
     <CaseStudySection label="07 | Impact" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>
       <p className="mb-6">{content.impactIntro}</p>
-      <div className="grid sm:grid-cols-2 gap-4">
+      <Wide className="grid gap-4 sm:grid-cols-2 lg:gap-6">
         {content.impactItems.map((item, i) => (
           <motion.div key={item.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
             <Card className="border-accent/20 bg-accent/5 h-full">
-              <CardContent className="p-5">
+              <CardContent className="p-6 lg:p-8">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-accent"><Icon name={item.icon} /></span>
                   <h3 className="font-bold text-foreground text-sm">{item.title}</h3>
@@ -297,7 +310,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
             </Card>
           </motion.div>
         ))}
-      </div>
+      </Wide>
     </CaseStudySection>
 
     {/* Learnings */}
@@ -315,7 +328,8 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     )}
 
     {/* 08 - LET'S WORK TOGETHER */}
-    <div className="rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center mt-12">
+    <div className="cs-flow mb-16 lg:mb-24">
+    <div className="cs-wide rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center">
       <p className="text-xs font-semibold text-orange-400 uppercase tracking-wide mb-2">08 | Let's Work Together</p>
       <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 font-display">Let's Work Together</h2>
       <p className="text-base text-white/80 max-w-2xl mx-auto mb-8">
@@ -331,6 +345,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
           <Link to="/#work">View all projects</Link>
         </Button>
       </div>
+    </div>
     </div>
   </>
 );

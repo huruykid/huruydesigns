@@ -4,7 +4,7 @@ import { imageDimensions } from "@/lib/imageDimensions";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
 import CaseStudySection from "./CaseStudySection";
 import ImageSlot from "./ImageSlot";
-import { Callout, NumberedList, StatRow } from "./primitives";
+import { Callout, Caption, NumberedList, StatRow, Wide } from "./primitives";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -41,18 +41,18 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
           ))}
         </dl>
         {project.shipped.screens && (
-          <div className="mb-10">
+          <div className="cs-flow cs-full mb-10">
             <h3 className="mb-1 font-bold tracking-tight text-foreground font-display">The live app</h3>
-            <p className="mb-4 text-sm text-muted-foreground">Screens from the shipped iPhone app. Select one to see it full size.</p>
-            {/* Phones swipe; from lg up the four screens sit in one row, wider than the text column, so the UI is readable. */}
+            <p className="mb-4 text-sm text-muted-foreground">Screens from the shipped iPhone app. Swipe on a phone; select one to see it full size.</p>
+            {/* Phones and tablets swipe; from lg up the four screens sit in one row across the wide column. */}
             <ul
-              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0 lg:pb-0"
+              className="cs-wide -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0 lg:pb-0"
               aria-label="Screens from the shipped EBT Finder app"
             >
               {project.shipped.screens.map((shot) => {
                 const dims = imageDimensions[shot.src];
                 return (
-                  <li key={shot.src} className="w-[260px] shrink-0 snap-start lg:w-auto">
+                  <li key={shot.src} className="w-[240px] shrink-0 snap-start lg:w-auto">
                     <a href={shot.src} target="_blank" rel="noopener noreferrer" className="block rounded-[1.25rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                       <img
                         src={shot.src}
@@ -64,7 +64,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
                         className="h-auto w-full rounded-[1.25rem] border border-border shadow-sm"
                       />
                     </a>
-                    <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{shot.caption}</p>
+                    <Caption className="text-xs">{shot.caption}</Caption>
                   </li>
                 );
               })}
@@ -84,9 +84,9 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
           Shipping is half the job. I also run distribution: the App Store listing, search, content and partners. It is the same research, applied to how people find the product instead of how they use it.
         </p>
         {project.shipped.storeFrames && (
-          <figure className="mb-10">
+          <figure className="cs-wide mb-10">
             <ul
-              className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:relative lg:left-1/2 lg:mx-0 lg:grid lg:w-[min(72rem,calc(100vw-6rem))] lg:-translate-x-1/2 lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+              className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
               aria-label="App Store screenshots designed for the EBT Finder listing"
             >
               {project.shipped.storeFrames.map((f) => {
@@ -98,12 +98,14 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
                 );
               })}
             </ul>
-            <figcaption className="mt-3 text-sm text-muted-foreground">The App Store screenshots I designed for the listing: one benefit per frame.</figcaption>
+            <figcaption>
+              <Caption>The App Store screenshots I designed for the listing: one benefit per frame. Swipe for all five on a phone.</Caption>
+            </figcaption>
           </figure>
         )}
-        <ul className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+        <ul className="cs-wide grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
           {project.shipped.marketing.map((m) => (
-            <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 sm:p-7">
+            <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 lg:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{m.channel}</p>
               <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground font-display">{m.title}</h3>
               <p className="text-[15px] leading-6">{m.body}</p>
@@ -172,14 +174,16 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
           <span className="font-semibold text-foreground">Competitive audit</span> (USDA locator, Google Maps, Yelp, Propel): {project.competitiveKeyTakeaways[0].toLowerCase()}.
         </p>
       )}
-      <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} />
+      <Wide>
+        <ImageSlot slot="usda-screenshot" label="USDA SNAP Retailer Locator screenshot" imageSrc={getSlotImage("usda-screenshot")} />
+      </Wide>
     </CaseStudySection>
 
     {/* Research: what shaped the design */}
     {project.findings && (
       <CaseStudySection label="Research" title="Seven interviews, three findings, five decisions">
         {project.interviews && <p className="mb-8">{project.interviews}</p>}
-        <div className="mb-12 grid gap-x-8 gap-y-8 md:grid-cols-3">
+        <div className="cs-wide mb-12 grid gap-x-8 gap-y-8 md:grid-cols-3">
           {project.findings.map((f, i) => (
             <div key={i} className="border-t border-border pt-5">
               <h3 className="mb-3 font-bold tracking-tight text-foreground font-display">{f.title}</h3>
@@ -189,8 +193,17 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
           ))}
         </div>
         {project.researchToDesign && (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-[15px]">
+          <div className="mb-10">
+            <h3 className="mb-4 font-bold tracking-tight text-foreground font-display sm:hidden">What users said, and what it became</h3>
+            <dl className="divide-y divide-border/60 border-y border-border text-[15px] sm:hidden">
+              {project.researchToDesign.map((r, i) => (
+                <div key={i} className="space-y-1 py-3">
+                  <dt className="italic">{r.need}</dt>
+                  <dd className="text-foreground">{r.solution}</dd>
+                </div>
+              ))}
+            </dl>
+            <table className="hidden w-full border-collapse text-[15px] sm:table">
               <caption className="mb-4 text-left font-bold tracking-tight text-foreground font-display">What users said, and what it became</caption>
               <thead>
                 <tr className="border-b border-border">
@@ -209,22 +222,28 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
             </table>
           </div>
         )}
-        <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} />
+        <Wide>
+          <ImageSlot slot="wireframes" label="Annotated wireframes mapping research to features" imageSrc={getSlotImage("wireframes")} />
+        </Wide>
       </CaseStudySection>
     )}
 
     {/* The product */}
     {project.solutionFeatures && (
       <CaseStudySection label="The Solution" title="Reviews, real photos and a hot-food filter">
-        <p className="mb-10 text-base">The search and filter flow is the interactive prototype at the top of this page. The features below are what turn a search result into a store a person will actually walk into.</p>
-        <div className="space-y-12">
+        <p className="mb-10">The search and filter flow is the interactive prototype at the top of this page. The features below are what turn a search result into a store a person will actually walk into.</p>
+        <div className="cs-flow cs-full gap-y-12">
           {project.solutionFeatures.map((feat, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="border-t border-border pt-8">
-              <h3 className="mb-2 text-xl font-bold tracking-tight text-foreground font-display">{i + 1}. {feat.title}</h3>
-              <p className="mb-4 max-w-[64ch]">{feat.description}</p>
-              <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="cs-flow cs-full">
+              <div className="mb-4 border-t border-border pt-8">
+                <h3 className="mb-2 text-xl font-bold tracking-tight text-foreground font-display">{i + 1}. {feat.title}</h3>
+                <p>{feat.description}</p>
+              </div>
+              <Wide>
+                <ImageSlot slot={feat.imageSlot} label={feat.title} imageSrc={getSlotImage(feat.imageSlot)} />
+              </Wide>
               {feat.details.length > 0 && (
-                <ul className="mt-4 max-w-[64ch] space-y-1 text-[15px]">
+                <ul className="mt-4 space-y-1 text-[15px]">
                   {feat.details.map((d, j) => (
                     <li key={j} className="flex items-start gap-2">
                       <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
@@ -233,7 +252,7 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
                   ))}
                 </ul>
               )}
-              <p className="mt-4 max-w-[64ch] text-[15px] leading-6"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
+              <p className="mt-4 text-[15px] leading-6"><strong className="text-accent">Why it matters:</strong> {feat.whyItMatters}</p>
             </motion.div>
           ))}
         </div>

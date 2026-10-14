@@ -88,7 +88,7 @@ const Resume = () => {
       `}</style>
 
       {/* Action bar - screen only */}
-      <div className="no-print container mx-auto px-6 sm:px-8 lg:px-12 pt-8 pb-4 max-w-5xl">
+      <div className="no-print container pt-8 pb-4 max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight font-display">
@@ -113,7 +113,7 @@ const Resume = () => {
       </div>
 
       {/* Resume document */}
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 pb-16 max-w-5xl resume-page">
+      <div className="container pb-16 max-w-5xl resume-page">
         <div className="resume-card rounded-xl border border-border bg-card shadow-sm overflow-hidden">
           
           {/* Name header */}

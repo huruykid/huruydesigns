@@ -232,12 +232,15 @@ function Field({ id, label, aside, hint, suffix, prefix, value, display, onChang
   );
 }
 
-export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobile" | "desktop" }) {
+export default function AsureConfigDemo({ layout = "desktop", frameWidth = 0 }: { layout?: "mobile" | "desktop"; frameWidth?: number }) {
   const mobile = layout === "mobile";
+  // With room to spare, the dependency chain sits beside the form instead of behind a tab.
+  const wide = !mobile && frameWidth >= 1040;
   const [agencies, setAgencies] = useState<Agency[]>(AGENCIES);
   const [agencyId, setAgencyId] = useState("ca");
   const [codeId, setCodeId] = useState("ca-sdi");
   const [tab, setTab] = useState<Tab>("formula");
+  const shownTab: Tab = wide && tab === "dependencies" ? "formula" : tab;
   const [query, setQuery] = useState("");
   const [edits, setEdits] = useState<Record<string, Values>>({});
   const [acknowledged, setAcknowledged] = useState<Record<string, boolean>>({});
@@ -442,13 +445,13 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
     <button
       type="button"
       onClick={() => setTab("dependencies")}
-      className="flex w-full items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-left text-[12px] text-gray-600 transition-colors hover:bg-gray-100"
+      className={cn("flex w-full items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-left text-[12px] text-gray-600 transition-colors hover:bg-gray-100", mobile && "min-h-11 text-[13px]")}
     >
       <ShieldCheck className="size-4 shrink-0 text-gray-400" aria-hidden="true" />
-      <span className="min-w-0 flex-1 truncate">
+      <span className={cn("min-w-0 flex-1", !mobile && "truncate")}>
         Affects <span className="font-semibold text-gray-900">{current.employers} employers</span> · {current.filing.length} filing {current.filing.length === 1 ? "frequency" : "frequencies"} · 1 payee
       </span>
-      <span className="shrink-0 font-medium text-gray-900">See what it affects <span aria-hidden="true">→</span></span>
+      <span className="shrink-0 font-medium text-gray-900">{mobile ? <span className="sr-only">See what it affects</span> : "See what it affects "}<span aria-hidden="true">→</span></span>
     </button>
   );
 
@@ -464,7 +467,7 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
   const formulaTab = (
     <div className="space-y-4">
       {lockedNote}
-      <div className={cn("grid gap-x-5 gap-y-4", !mobile && "grid-cols-2")}>
+      <div className={cn("grid gap-x-5 gap-y-4", mobile ? "grid-cols-[minmax(0,1fr)]" : "grid-cols-2")}>
         <Field
           id={`${current.id}-rate`}
           label="Rate"
@@ -513,7 +516,7 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
       {editable && warning && !errors.rate && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-[12px] leading-snug text-amber-900" role="status">
           <p className="flex items-start gap-2 font-medium"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600" aria-hidden="true" /> {warning}</p>
-          <label className="mt-2.5 flex cursor-pointer items-center gap-2 pl-6">
+          <label className={cn("mt-2.5 flex cursor-pointer items-center gap-2 pl-6", mobile && "min-h-11")}>
             <input type="checkbox" checked={ack} onChange={(e) => setAcknowledged((a) => ({ ...a, [current.id]: e.target.checked }))} className="size-4 rounded accent-amber-700" />
             I've checked this against the agency notice
           </label>
@@ -539,13 +542,14 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
 
   const canSubmit = editable && !dirty && !hasErrors && (!warning || ack);
   const stateLine =
-    editable && dirty ? { dot: "bg-amber-500", text: "Unsaved changes" }
+    editable && dirty && hasErrors ? { dot: "bg-red-500", text: "Fix the highlighted field to save" }
+    : editable && dirty ? { dot: "bg-amber-500", text: "Unsaved changes" }
     : editable ? { dot: "bg-gray-400", text: hasErrors ? "Fix the highlighted field" : warning && !ack ? "Confirm the unusual change to submit" : "Draft saved · not in effect" }
     : current.status === "review" ? { dot: "bg-amber-500", text: `Waiting on ${REVIEWER.split(" ·")[0]}` }
     : current.status === "locked" ? { dot: "bg-indigo-500", text: "Approved · ready to release" }
     : { dot: "bg-emerald-500", text: `In effect from ${fmtDate(values.effective)}` };
 
-  const btn = "inline-flex h-9 items-center justify-center rounded-lg px-4 text-[12.5px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40";
+  const btn = cn("inline-flex items-center", mobile ? "h-11" : "h-9") + " justify-center rounded-lg px-4 text-[12.5px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40";
   const primary = `${btn} text-white hover:opacity-90`;
   const secondary = `${btn} bg-white text-gray-800 ring-1 ring-inset ring-gray-200 hover:bg-gray-50`;
 
@@ -582,11 +586,11 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
   );
 
   const footer = (
-    <div className={cn("flex shrink-0 gap-3 border-t border-gray-100 bg-white", mobile ? "flex-col px-4 py-3" : "items-center justify-between px-6 py-3")}>
+    <div className={cn("flex shrink-0 border-t border-gray-100 bg-white", mobile ? "flex-col gap-2 px-4 py-3" : "items-center justify-between gap-3 px-6 py-3")}>
       <p className="flex items-center gap-2 text-[12px] text-gray-500">
         <span className={cn("size-2 rounded-full", stateLine.dot)} aria-hidden="true" /> {stateLine.text}
       </p>
-      <div className={cn("flex gap-2", mobile ? "flex-col-reverse" : "items-center")}>{buttons}</div>
+      <div className={cn("flex gap-2", mobile ? "flex-row-reverse [&>*]:flex-1" : "items-center")}>{buttons}</div>
     </div>
   );
 
@@ -596,14 +600,14 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
         { id: "formula", label: "Formula" },
         { id: "dependencies", label: "Dependencies" },
         { id: "history", label: `History (${current.audit.length})` },
-      ] as const).map(({ id, label }) => (
+      ] as const).filter(({ id }) => !(wide && id === "dependencies")).map(({ id, label }) => (
         <button
           key={id}
           type="button"
           role="tab"
-          aria-selected={tab === id}
+          aria-selected={shownTab === id}
           onClick={() => setTab(id)}
-          className={cn("-mb-px border-b-2 pb-2.5 transition-colors", tab === id ? "border-gray-900 font-semibold text-gray-900" : "border-transparent text-gray-500 hover:text-gray-800")}
+          className={cn("-mb-px border-b-2 pb-2.5 transition-colors", mobile && "min-h-11 pt-3", shownTab === id ? "border-gray-900 font-semibold text-gray-900" : "border-transparent text-gray-500 hover:text-gray-800")}
         >
           {label}
         </button>
@@ -626,11 +630,11 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
         </p>
       </div>
       <Progress status={current.status} />
-      {impactStrip}
+      {!wide && impactStrip}
     </div>
   );
 
-  const body = tab === "formula" ? formulaTab : tab === "history" ? historyTab : chain;
+  const body = shownTab === "formula" ? formulaTab : shownTab === "history" ? historyTab : chain;
 
   const overlays = (
     <>
@@ -686,7 +690,7 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
 
   if (mobile) {
     return (
-      <div className="relative flex h-full min-h-[480px] flex-col bg-white font-sans text-gray-900">
+      <div className="relative flex h-full min-h-[480px] flex-col bg-white font-sans text-gray-900 [&_[role=option]]:min-h-11 [&_input:not([type=checkbox])]:text-base [&_select]:text-base">
         <div className="flex h-12 shrink-0 items-center justify-between border-b border-gray-100 px-4">{brand}{avatar}</div>
         <div className="space-y-2 border-b border-gray-100 p-4">
           {searchBox}
@@ -696,7 +700,7 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
               <select
                 value={`${agency.id}:${current.id}`}
                 onChange={(e) => { const [a, c] = e.target.value.split(":"); select(a, c); }}
-                className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 pr-8 text-[13px] shadow-sm"
+                className="h-11 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 pr-8 shadow-sm"
               >
                 {agencies.map((a) => (
                   <optgroup key={a.id} label={a.name}>
@@ -704,7 +708,7 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
                   </optgroup>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-3 size-4 text-gray-400" aria-hidden="true" />
+              <ChevronDown className="pointer-events-none absolute right-3 top-3.5 size-4 text-gray-400" aria-hidden="true" />
             </span>
           </label>
         </div>
@@ -735,10 +739,18 @@ export default function AsureConfigDemo({ layout = "desktop" }: { layout?: "mobi
           <div className="min-h-0 flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>{tree}</div>
         </aside>
         <main className="flex min-w-0 flex-1 flex-col">
-          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-6 py-4" style={{ scrollbarWidth: "none" }}>
-            {header}
-            {tabs}
-            {body}
+          <div className={cn("min-h-0 flex-1 overflow-y-auto px-6 py-4", wide && "flex items-start gap-8 px-8 py-6")} style={{ scrollbarWidth: "none" }}>
+            <div className="min-w-0 max-w-[760px] flex-1 space-y-4">
+              {header}
+              {tabs}
+              {body}
+            </div>
+            {wide && (
+              <aside aria-label="What this tax code affects" className="w-[300px] shrink-0 rounded-xl border border-gray-100 bg-gray-50/70 p-4">
+                <p className="mb-3 text-[11px] font-medium uppercase tracking-wide text-gray-400">What a release reaches</p>
+                {chain}
+              </aside>
+            )}
           </div>
           {footer}
         </main>

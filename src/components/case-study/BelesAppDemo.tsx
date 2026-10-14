@@ -167,7 +167,9 @@ export function BelesMatchMoment({ intent = "dating", onClose, className }: { in
 }
 
 /** The match moment on its own, at a given frame size (used where the page talks about it). */
-export function BelesMatchPreview({ width = 280, height = 560 }: { width?: number; height?: number }) {
+export function BelesMatchPreview({ width: preferred = 280, height = 560, frameWidth }: { width?: number; height?: number; frameWidth?: number }) {
+  // Fill the phone frame the shell gives us; the app keeps its 390pt proportions.
+  const width = frameWidth || preferred;
   const zoom = width / APP_WIDTH;
   return (
     <div style={{ ...THEME, width, height, overflow: "hidden" }} className="bg-background">
@@ -186,7 +188,8 @@ const NAV = [
   { label: "Profile", Icon: User },
 ];
 
-export default function BelesAppDemo({ width = 300, height = 600 }: { width?: number; height?: number }) {
+export default function BelesAppDemo({ width: preferred = 300, height = 600, frameWidth }: { width?: number; height?: number; frameWidth?: number }) {
+  const width = frameWidth || preferred;
   const [intent, setIntent] = useState<Intent>("dating");
   const [hit, setHit] = useState<Target | null>(null);
   const [matched, setMatched] = useState(false);

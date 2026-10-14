@@ -112,6 +112,52 @@ html {
   }
 }
 
+@layer base {
+  /* Fallback keyboard focus for any control that doesn't style its own. Zero
+     specificity, so components with their own ring keep it. */
+  :where(a, button, input, select, textarea, summary, [role="button"], [role="tab"], [role="switch"], [role="option"], [tabindex]):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /*
+   * The one page container: fluid, capped at 1,440px including its gutters,
+   * which are applied here and nowhere else: 24px phone, 32px tablet, 48px desktop.
+   */
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 640px) { .container { padding-inline: 2rem; } }
+  @media (min-width: 1024px) { .container { padding-inline: 3rem; } }
+
+  /*
+   * Case-study flow: three widths inside the page container.
+   * Children sit in the centred reading column by default; evidence opts into
+   * .cs-wide (up to 1,120px) or .cs-full (the whole container). A child that is
+   * itself .cs-flow.cs-full re-creates the same tracks, so nested groups align.
+   */
+  .cs-flow {
+    --cs-read: 640px;
+    --cs-wide: 1120px;
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(0, 1fr)
+      [wide-start] minmax(0, calc((var(--cs-wide) - var(--cs-read)) / 2))
+      [read-start] min(var(--cs-read), 100%)
+      [read-end] minmax(0, calc((var(--cs-wide) - var(--cs-read)) / 2))
+      [wide-end] minmax(0, 1fr)
+      [full-end];
+  }
+  .cs-flow > * { grid-column: read; min-width: 0; }
+  .cs-flow > .cs-wide { grid-column: wide; }
+  .cs-flow > .cs-full { grid-column: full; }
+}
+
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-[hsl(var(--accent-gradient-end))];

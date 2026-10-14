@@ -43,30 +43,30 @@ function HomeScreen({ go }: { go: (m: Module) => void }) {
         <div className="flex items-center gap-2.5">
           <span className="flex size-8 items-center justify-center rounded-lg" style={{ background: TEAL_BG, color: TEAL }}><Heart size={15} /></span>
           <span className="min-w-0 flex-1">
-            <span className="block font-semibold text-gray-900" style={{ fontSize: 11.5 }}>Open enrollment ends Aug 25</span>
-            <span className="block text-gray-500" style={{ fontSize: 9.5 }}>Review your plans in Benefits</span>
+            <span className="block font-semibold text-gray-900" style={{ fontSize: 14.5 }}>Open enrollment ends Aug 25</span>
+            <span className="block text-gray-500" style={{ fontSize: 12.5 }}>Review your plans in Benefits</span>
           </span>
           <ChevronRight size={14} className="text-gray-400" />
         </div>
       </Card>
       <Card onClick={() => go("Pay")} label="Next paycheck, go to Pay">
-        <p className="text-gray-500" style={{ fontSize: 9.5 }}>Next paycheck · Aug 31</p>
-        <p className="mt-0.5 font-bold text-gray-900" style={{ fontSize: 18 }}>$3,452.57</p>
-        <p className="mt-1 font-medium" style={{ fontSize: 10, color: TEAL }}>View pay details →</p>
+        <p className="text-gray-500" style={{ fontSize: 12.5 }}>Next paycheck · Aug 31</p>
+        <p className="mt-0.5 font-bold text-gray-900" style={{ fontSize: 20 }}>$3,452.57</p>
+        <p className="mt-1 font-medium" style={{ fontSize: 13, color: TEAL }}>View pay details →</p>
       </Card>
       <Card onClick={() => go("Time")} label="Hours this week, go to Time">
         <div className="flex items-center justify-between">
           <span>
-            <span className="block text-gray-500" style={{ fontSize: 9.5 }}>Hours this week</span>
-            <span className="block font-bold text-gray-900" style={{ fontSize: 16 }}>32.5 <span className="font-normal text-gray-500" style={{ fontSize: 10 }}>/ 40</span></span>
+            <span className="block text-gray-500" style={{ fontSize: 12.5 }}>Hours this week</span>
+            <span className="block font-bold text-gray-900" style={{ fontSize: 18 }}>32.5 <span className="font-normal text-gray-500" style={{ fontSize: 13 }}>/ 40</span></span>
           </span>
-          <span className="rounded-full px-2 py-0.5 font-medium" style={{ fontSize: 9, background: TEAL_BG, color: TEAL }}>Timesheet due Fri</span>
+          <span className="rounded-full px-2 py-0.5 font-medium" style={{ fontSize: 12, background: TEAL_BG, color: TEAL }}>Timesheet due Fri</span>
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-gray-100"><div className="h-full rounded-full" style={{ width: "81%", background: TEAL }} /></div>
       </Card>
       <Card>
-        <p className="mb-1.5 flex items-center gap-1.5 font-semibold text-gray-900" style={{ fontSize: 11 }}><Bell size={12} /> Updates</p>
-        <ul className="space-y-1.5 text-gray-600" style={{ fontSize: 10 }}>
+        <p className="mb-1.5 flex items-center gap-1.5 font-semibold text-gray-900" style={{ fontSize: 14 }}><Bell size={12} /> Updates</p>
+        <ul className="space-y-1.5 text-gray-600" style={{ fontSize: 13 }}>
           <li>Your W-4 change takes effect next pay period.</li>
           <li>Office closed Monday, Sep 1 (Labor Day).</li>
         </ul>
@@ -85,41 +85,41 @@ function TimeScreen() {
       <Card>
         <div className="flex items-center justify-between gap-3">
           <span>
-            <span className="block text-gray-500" style={{ fontSize: 9.5 }}>{clockedIn ? "Clocked in at 9:41 AM" : "You're clocked out"}</span>
-            <span className="block font-bold text-gray-900" style={{ fontSize: 15 }}>{clockedIn ? "On the clock" : "Friday, Aug 29"}</span>
+            <span className="block text-gray-500" style={{ fontSize: 12.5 }}>{clockedIn ? "Clocked in at 9:41 AM" : "You're clocked out"}</span>
+            <span className="block font-bold text-gray-900" style={{ fontSize: 17 }}>{clockedIn ? "On the clock" : "Friday, Aug 29"}</span>
           </span>
           <button
             type="button"
             onClick={() => setClockedIn((v) => !v)}
             className="flex items-center gap-1.5 rounded-lg px-3 py-2 font-semibold text-white"
-            style={{ fontSize: 11, background: clockedIn ? "#b42318" : TEAL }}
+            style={{ fontSize: 14, background: clockedIn ? "#b42318" : TEAL }}
           >
             {clockedIn ? <LogOut size={13} /> : <LogIn size={13} />} {clockedIn ? "Clock out" : "Clock in"}
           </button>
         </div>
       </Card>
       <Card>
-        <p className="mb-2 font-semibold text-gray-900" style={{ fontSize: 11 }}>This week</p>
+        <p className="mb-2 font-semibold text-gray-900" style={{ fontSize: 14 }}>This week</p>
         <ul className="space-y-1.5">
           {days.map(({ d, h }) => (
-            <li key={d} className="flex items-center gap-2" style={{ fontSize: 10 }}>
+            <li key={d} className="flex items-center gap-2" style={{ fontSize: 13 }}>
               <span className="w-7 text-gray-500">{d}</span>
               <span className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100"><span className="block h-full rounded-full" style={{ width: `${(h / 10) * 100}%`, background: TEAL }} /></span>
               <span className="w-9 text-right tabular-nums text-gray-700">{h ? `${h}h` : "-"}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-2 text-right font-semibold text-gray-900" style={{ fontSize: 10.5 }}>32.5 hours</p>
+        <p className="mt-2 text-right font-semibold text-gray-900" style={{ fontSize: 13.5 }}>32.5 hours</p>
       </Card>
       <Card>
         <div className="flex items-center gap-2.5">
           <span className="flex size-8 items-center justify-center rounded-lg" style={{ background: TEAL_BG, color: TEAL }}><Plane size={15} /></span>
           <span className="min-w-0 flex-1">
-            <span className="block font-semibold text-gray-900" style={{ fontSize: 11.5 }}>PTO balance: 64 hours</span>
-            <span className="block text-gray-500" style={{ fontSize: 9.5 }}>Accrues 3.08 hours per pay period</span>
+            <span className="block font-semibold text-gray-900" style={{ fontSize: 14.5 }}>PTO balance: 64 hours</span>
+            <span className="block text-gray-500" style={{ fontSize: 12.5 }}>Accrues 3.08 hours per pay period</span>
           </span>
         </div>
-        <button type="button" className="mt-2.5 w-full rounded-lg border py-1.5 font-semibold" style={{ fontSize: 10.5, color: TEAL, borderColor: TEAL }}>Request time off</button>
+        <button type="button" className="mt-2.5 w-full rounded-lg border py-1.5 font-semibold" style={{ fontSize: 13.5, color: TEAL, borderColor: TEAL }}>Request time off</button>
       </Card>
     </>
   );
@@ -139,8 +139,8 @@ function MoreScreen() {
         <div key={it.label} className={`flex items-center gap-2.5 px-3.5 py-2.5 ${i ? "border-t border-gray-100" : ""}`}>
           <span className="flex size-7 items-center justify-center rounded-lg" style={{ background: TEAL_BG, color: TEAL }}>{it.icon}</span>
           <span className="min-w-0 flex-1">
-            <span className="block font-medium text-gray-900" style={{ fontSize: 11.5 }}>{it.label}</span>
-            <span className="block text-gray-500" style={{ fontSize: 9.5 }}>{it.sub}</span>
+            <span className="block font-medium text-gray-900" style={{ fontSize: 14.5 }}>{it.label}</span>
+            <span className="block text-gray-500" style={{ fontSize: 12.5 }}>{it.sub}</span>
           </span>
           <ChevronRight size={13} className="text-gray-300" />
         </div>
@@ -177,7 +177,7 @@ function PortalScreen({ module, layout, go, children }: { module: Module; layout
   return (
     <div className="flex h-full w-full select-none flex-col bg-gray-50" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
       {layout === "mobile" && (
-        <div className="flex shrink-0 items-center justify-between px-4 py-1.5 text-white" style={{ background: TEAL, fontSize: 9 }}>
+        <div className="flex shrink-0 items-center justify-between px-4 py-1.5 text-white" style={{ background: TEAL, fontSize: 12 }}>
           <span className="font-semibold">9:41 AM</span>
           <span className="opacity-80">●●● WiFi 🔋</span>
         </div>
@@ -191,10 +191,10 @@ function PortalScreen({ module, layout, go, children }: { module: Module; layout
         <div className={layout === "desktop" ? "flex min-w-0 flex-1 flex-col" : "contents"}>
           <div className="flex shrink-0 items-center justify-between px-4 py-3 text-white" style={{ background: TEAL }}>
             <div>
-              <p className="font-bold" style={{ fontSize: 15 }}>{module === "Home" ? "Good morning, Jordan" : module}</p>
-              <p className="mt-0.5 opacity-70" style={{ fontSize: 9.5 }}>{SUBTITLES[module as keyof typeof SUBTITLES]}</p>
+              <p className="font-bold" style={{ fontSize: 17 }}>{module === "Home" ? "Good morning, Jordan" : module}</p>
+              <p className="mt-0.5 opacity-70" style={{ fontSize: 12.5 }}>{SUBTITLES[module as keyof typeof SUBTITLES]}</p>
             </div>
-            <div className="flex size-8 items-center justify-center rounded-full bg-white/20 font-bold text-white" style={{ fontSize: 12 }}>JD</div>
+            <div className="flex size-8 items-center justify-center rounded-full bg-white/20 font-bold text-white" style={{ fontSize: 15 }}>JD</div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto pb-3" style={{ scrollbarWidth: "none" }}>{children}</div>
         </div>

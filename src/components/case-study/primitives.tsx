@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 /**
  * Unboxed building blocks shared by every case study. Hairlines and numbers do
@@ -58,10 +59,11 @@ export interface Stat {
   description?: string;
 }
 
-const columnClass = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-3", 4: "sm:grid-cols-2 lg:grid-cols-4" } as const;
+// Two-up stats tend to carry long values ("5 of 8 to 7 of 8"), so they stack on phones.
+const columnClass = { 2: "grid-cols-1 sm:grid-cols-2", 3: "grid-cols-2 sm:grid-cols-3", 4: "grid-cols-2 lg:grid-cols-4" } as const;
 
 export const StatRow = ({ stats, columns = 4, className = "" }: { stats: Stat[]; columns?: 2 | 3 | 4; className?: string }) => (
-  <dl className={`grid grid-cols-2 gap-x-8 gap-y-8 ${columnClass[columns]} ${className}`}>
+  <dl className={`grid gap-x-8 gap-y-8 ${columnClass[columns]} ${className}`}>
     {stats.map((s) => (
       <div key={s.label} className="flex flex-col border-t border-border pt-4">
         <dt className="order-2 text-sm font-medium text-foreground">{s.label}</dt>
@@ -77,4 +79,22 @@ export const Callout = ({ label, children, className = "" }: { label?: string; c
     {label && <p className="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-accent">{label}</p>}
     <div className="max-w-[64ch] text-foreground">{children}</div>
   </div>
+);
+
+/** Breaks out of the reading column to the wide column (up to 1,120px). */
+export const Wide = ({ children, className }: { children: ReactNode; className?: string }) => (
+  <div className={cn("cs-wide", className)}>{children}</div>
+);
+
+/** Spans the whole page container, for complex demos. */
+export const Full = ({ children, className }: { children: ReactNode; className?: string }) => (
+  <div className={cn("cs-full", className)}>{children}</div>
+);
+
+/**
+ * A caption that stays attached to the visual above it: 12px below, readable
+ * measure, same treatment everywhere.
+ */
+export const Caption = ({ children, className, center = false }: { children: ReactNode; className?: string; center?: boolean }) => (
+  <p className={cn("mt-3 max-w-[60ch] text-sm leading-relaxed text-muted-foreground", center && "mx-auto text-center", className)}>{children}</p>
 );

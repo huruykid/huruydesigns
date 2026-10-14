@@ -19,42 +19,45 @@ import EBTSearchDemo from "@/components/case-study/EBTSearchDemo";
 import BelesAppDemo from "@/components/case-study/BelesAppDemo";
 import OneAsurePortalDemo from "@/components/case-study/OneAsurePortalDemo";
 import AsureConfigDemo from "@/components/case-study/AsureConfigDemo";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Caption } from "@/components/case-study/primitives";
 import { supabase } from "@/integrations/supabase/client";
 import NotFound from "./NotFound";
 import { asureContent } from "@/lib/asureContent";
 
-const HeroPhoneMockup = () => {
-  const isMobile = useIsMobile();
-  return (
-    <ResponsiveAppShell label="OneAsure Portal">
-      <OneAsurePortalDemo layout={isMobile ? "mobile" : "desktop"} initial="Benefits" />
-    </ResponsiveAppShell>
-  );
-};
-
+/**
+ * The prototype under the summary. Complex desktop demos take the whole page
+ * container; phone apps stay in a realistically proportioned phone frame.
+ */
 const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: string }) => {
-  if (project.id === "oneasure-portal") return <HeroPhoneMockup />;
+  if (project.id === "oneasure-portal") {
+    return (
+      <div className="mx-auto w-full max-w-[1120px]">
+        <ResponsiveAppShell label="OneAsure Portal" allowToggle minDesktopWidth={640} desktopHeight={600} mobileWidth={340} mobileHeight={640}>
+          <OneAsurePortalDemo initial="Benefits" />
+        </ResponsiveAppShell>
+      </div>
+    );
+  }
   if (project.id === "asure-compliance") {
     return (
-      <div className="w-full">
-        <ResponsiveAppShell label="Compliance Engine · tax code configuration" desktopWidth={760} desktopHeight={580} allowToggle mobileWidth={290} mobileHeight={580}>
+      <figure className="w-full">
+        <ResponsiveAppShell label="Compliance Engine · tax code configuration" allowToggle minDesktopWidth={640} desktopHeight={620} mobileWidth={340} mobileHeight={640}>
           <AsureConfigDemo />
         </ResponsiveAppShell>
-        <p className="mt-2 text-center text-xs text-muted-foreground">Recreated with sample data to show the design decisions. Not Asure's production UI.</p>
-      </div>
+        <Caption center>Recreated with sample data to show the design decisions. Not Asure's production UI.</Caption>
+      </figure>
     );
   }
   if (project.id === "beles") {
     return (
-      <ResponsiveAppShell label="Beles" fixedLayout="mobile" mobileWidth={300} mobileHeight={600}>
-        <BelesAppDemo width={294} height={600} />
+      <ResponsiveAppShell label="Beles" fixedLayout="mobile" mobileWidth={320} mobileHeight={640}>
+        <BelesAppDemo width={314} height={640} />
       </ResponsiveAppShell>
     );
   }
   if (project.id === "ebtfinder") {
     return (
-      <ResponsiveAppShell label="ebtfinder.org" allowToggle>
+      <ResponsiveAppShell label="ebtfinder.org" fixedLayout="mobile" mobileWidth={340} mobileHeight={640}>
         <EBTSearchDemo />
       </ResponsiveAppShell>
     );
@@ -66,14 +69,14 @@ const HeroVisual = ({ project, heroImage }: { project: Project; heroImage?: stri
     const dims = imageDimensions[project.image];
     const isMockup = project.image.includes("hero-mockup");
     return (
-      <div className={isMockup ? "flex items-center justify-center w-full" : "w-full overflow-hidden rounded-xl border border-border"}>
+      <div className={isMockup ? "flex w-full items-center justify-center" : "mx-auto w-full max-w-[1120px] overflow-hidden rounded-xl border border-border"}>
         <img
           src={project.image}
           alt={`${project.title} case study cover by Huruy Kidanemariam`}
           width={dims?.width ?? 1200}
           height={dims?.height ?? 750}
           decoding="async"
-          className={isMockup ? "w-full max-w-[420px] h-auto object-contain drop-shadow-2xl" : "w-full h-auto"}
+          className={isMockup ? "h-auto w-full max-w-[420px] object-contain drop-shadow-2xl" : "h-auto w-full"}
         />
       </div>
     );
@@ -153,8 +156,8 @@ const ProjectPage = () => {
         }}
       />
       {/* Hero */}
-      <section className="bg-muted/30 py-20 lg:py-28">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+      <section className="bg-muted/30 py-16 lg:py-24">
+        <div className="container">
           <Link to="/#work" className="mb-10 inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-accent">
             <ArrowLeft className="mr-1 h-4 w-4" aria-hidden="true" /> All work
           </Link>
@@ -201,7 +204,7 @@ const ProjectPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="min-w-0 rounded-xl border border-border bg-background p-6 sm:p-8"
+              className="min-w-0 rounded-xl border border-border bg-background p-6 lg:p-8"
             >
               <h2 id="tldr-heading" className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-accent">At a glance</h2>
               <dl className="grid gap-6">
@@ -223,13 +226,13 @@ const ProjectPage = () => {
 
       {/* The interactive prototype or hero visual, after the summary */}
       <section aria-label={`${project.title} prototype`} className="border-y border-border">
-        <div className="container mx-auto flex justify-center px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
+        <div className="container flex justify-center py-16 lg:py-24">
           <HeroVisual project={project} heroImage={uploadedImages.hero} />
         </div>
       </section>
 
       {/* Content */}
-      <div className="container mx-auto max-w-4xl px-6 sm:px-8 lg:px-12 pb-28 pt-24">
+      <div className="container pb-16 pt-16 lg:pb-24 lg:pt-24">
         {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (
@@ -243,7 +246,7 @@ const ProjectPage = () => {
         ) : null}
 
         {/* Next project, and a way to reach Huruy without going back to the homepage */}
-        <div className="grid gap-10 border-t border-border pt-16 sm:grid-cols-2">
+        <div className="mx-auto grid max-w-[1120px] gap-10 border-t border-border pt-16 sm:grid-cols-2">
           <div>
             <p className="mb-2 text-sm text-muted-foreground">Next project</p>
             <Link to={`/project/${next.id}`} className="group inline-flex items-center gap-2 text-2xl font-medium tracking-tight hover:underline underline-offset-4">

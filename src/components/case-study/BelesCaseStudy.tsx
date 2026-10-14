@@ -8,7 +8,7 @@ import CaseStudySection from "./CaseStudySection";
 import { BelesMatchPreview } from "./BelesAppDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { ArrowUpRight } from "lucide-react";
-import { DecisionList, NumberedList, StatRow } from "./primitives";
+import { DecisionList, NumberedList, StatRow, Wide } from "./primitives";
 import { Project } from "@/lib/projects";
 import { Button } from "@/components/ui/button";
 
@@ -47,14 +47,18 @@ const BelesCaseStudy = ({ project }: Props) => (
     <CaseStudySection label="Context" title="A displaced community with nowhere to connect">
       <p className="mb-6">{project.problem}</p>
       <p className="mb-8">Mainstream dating apps had no way to find other Tigrayans, and no concept of the matchmaking tradition the community already trusted.</p>
-      <ExistingSolutionsComparison />
+      <Wide>
+        <ExistingSolutionsComparison />
+      </Wide>
     </CaseStudySection>
 
     <CaseStudySection label="The Hard Problem" title="Tradition inside a modern app, without flattening it">
       <p className="mb-8">
         The obvious product was a swipe app with an ethnicity filter. The interviews (8 people, ages 19 to 55, across the diaspora) pointed somewhere harder: people wanted the trust of traditional matchmaking, a way to stay close to community events, and in many cases connection without dating at all. The design problem was making those three things coexist in one product a 26-year-old and a 55-year-old would both understand.
       </p>
-      <InterviewInsightCards />
+      <Wide>
+        <InterviewInsightCards />
+      </Wide>
     </CaseStudySection>
 
     <CaseStudySection label="Decisions" title="Three calls I made, and what I turned down">
@@ -74,8 +78,8 @@ const BelesCaseStudy = ({ project }: Props) => (
     )}
 
     <CaseStudySection label="Status" title="Where it stands">
-      <div className="grid items-center gap-10 lg:grid-cols-[1fr_360px] lg:gap-14">
-        <div>
+      <Wide className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+        <div className="max-w-[680px]">
           <p className="mb-6">
             Beles is live on the App Store and at belesconnect.app, built and shipped after the research and testing rounds above. The Discover screen and match moment in the demos on this page are ported from the shipped app's own components, including the Shmagele suggestion card shown at the moment a match lands; only the profile is a demo member. Next up: a beta with community organizations, Tigrinya language support, and instrumenting match and event-attendance rates.
           </p>
@@ -85,12 +89,12 @@ const BelesCaseStudy = ({ project }: Props) => (
             </a>
           </Button>
         </div>
-        <div className="mx-auto w-full max-w-sm">
-          <ResponsiveAppShell label="Beles match moment" fixedLayout="mobile" mobileWidth={260} mobileHeight={520}>
-            <BelesMatchPreview width={254} height={520} />
+        <div className="mx-auto w-full md:w-[320px]">
+          <ResponsiveAppShell label="Beles match moment" fixedLayout="mobile" mobileWidth={320} mobileHeight={600}>
+            <BelesMatchPreview width={314} height={600} />
           </ResponsiveAppShell>
         </div>
-      </div>
+      </Wide>
     </CaseStudySection>
   </>
 );

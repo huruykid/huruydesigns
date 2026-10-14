@@ -40,7 +40,7 @@ const Resume = lazy(() => import("./pages/Resume"));
 const Book = lazy(() => import("./pages/Book"));
 
 const RouteFallback = () => (
-  <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-24" aria-busy="true" aria-live="polite">
+  <div className="container py-24" aria-busy="true" aria-live="polite">
     <div className="h-8 w-48 rounded bg-muted animate-pulse mb-6" />
     <div className="h-4 w-full max-w-xl rounded bg-muted animate-pulse mb-3" />
     <div className="h-4 w-full max-w-md rounded bg-muted animate-pulse" />

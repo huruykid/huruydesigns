@@ -5,14 +5,9 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  // .container is defined in index.css (fluid, 1,440px cap, gutters applied once).
+  corePlugins: { container: false },
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1680px",
-      },
-    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

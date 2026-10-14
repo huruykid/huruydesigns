@@ -52,8 +52,8 @@ function EnrollmentBanner({ onBegin }: { onBegin: () => void }) {
         <div className="flex items-start gap-2 mb-2">
           <span className="text-base">📋</span>
           <div>
-            <p className="font-bold" style={{ fontSize: 12, color: TEAL }}>Open Enrollment Has Begun!</p>
-            <p className="mt-1 leading-relaxed" style={{ fontSize: 10, color: "#4b5563" }}>
+            <p className="font-bold" style={{ fontSize: 15, color: TEAL }}>Open Enrollment Has Begun!</p>
+            <p className="mt-1 leading-relaxed" style={{ fontSize: 13, color: "#4b5563" }}>
               Starting <span className="font-semibold">August 21st, 2023</span>, employees may enroll or update benefits.{" "}
               <span className="font-bold" style={{ color: TEAL }}>Complete by August 25th, 2023.</span>
             </p>
@@ -62,7 +62,7 @@ function EnrollmentBanner({ onBegin }: { onBegin: () => void }) {
         <button
           onClick={onBegin}
           className="w-full mt-3 rounded-xl py-2.5 text-white font-bold transition-opacity hover:opacity-90 active:opacity-80"
-          style={{ background: TEAL, fontSize: 11 }}
+          style={{ background: TEAL, fontSize: 14 }}
         >
           Begin Enrollment
         </button>
@@ -83,7 +83,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ background: TEAL, color: "white" }}>
-        <p className="font-bold" style={{ fontSize: 13 }}>Open Enrollment</p>
+        <p className="font-bold" style={{ fontSize: 15.5 }}>Open Enrollment</p>
         <button onClick={onClose}><X size={15} /></button>
       </div>
 
@@ -93,11 +93,11 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
           <div key={i} className="flex items-center gap-2 flex-1">
             <div
               className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-white font-bold"
-              style={{ background: i <= step ? TEAL : "#e5e7eb", fontSize: 9 }}
+              style={{ background: i <= step ? TEAL : "#e5e7eb", fontSize: 12 }}
             >
               {i < step ? <Check size={10} /> : i + 1}
             </div>
-            <span style={{ fontSize: 9, color: i <= step ? TEAL : "#9ca3af" }} className="font-semibold truncate">{s}</span>
+            <span style={{ fontSize: 12, color: i <= step ? TEAL : "#9ca3af" }} className="font-semibold truncate">{s}</span>
             {i < steps.length - 1 && <div className="h-px flex-1" style={{ background: i < step ? TEAL : "#e5e7eb" }} />}
           </div>
         ))}
@@ -107,28 +107,28 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
       <div className="flex-1 overflow-y-auto px-4 py-4" style={{ scrollbarWidth: "none" }}>
         {step === 0 && (
           <div className="space-y-2">
-            <p className="font-semibold mb-3" style={{ fontSize: 11, color: "#374151" }}>Select plans to enroll in:</p>
+            <p className="font-semibold mb-3" style={{ fontSize: 14, color: "#374151" }}>Select plans to enroll in:</p>
             {["Medical", "Dental", "Vision", "HSA Wellcare"].map((plan, i) => (
               <label key={i} className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50">
                 <input type="checkbox" defaultChecked={i < 2} className="accent-teal-600 w-4 h-4" />
-                <span className="font-medium" style={{ fontSize: 11, color: "#1f2937" }}>{plan}</span>
+                <span className="font-medium" style={{ fontSize: 14, color: "#1f2937" }}>{plan}</span>
               </label>
             ))}
           </div>
         )}
         {step === 1 && (
           <div className="space-y-2">
-            <p className="font-semibold mb-3" style={{ fontSize: 11, color: "#374151" }}>Review your selections:</p>
+            <p className="font-semibold mb-3" style={{ fontSize: 14, color: "#374151" }}>Review your selections:</p>
             {["Medical: $156.40", "Dental: $18.50"].map((item, i) => (
               <div key={i} className="flex items-center gap-2 p-3 rounded-xl" style={{ background: TEAL_BG }}>
                 <Check size={12} style={{ color: TEAL }} />
-                <span style={{ fontSize: 11, color: "#1f2937" }}>{item}</span>
+                <span style={{ fontSize: 14, color: "#1f2937" }}>{item}</span>
               </div>
             ))}
             <div className="mt-3 p-3 rounded-xl border border-dashed border-gray-300">
               <div className="flex justify-between">
-                <span className="font-semibold" style={{ fontSize: 11, color: "#374151" }}>Est. Total / Period</span>
-                <span className="font-bold" style={{ fontSize: 11, color: TEAL }}>$174.90</span>
+                <span className="font-semibold" style={{ fontSize: 14, color: "#374151" }}>Est. Total / Period</span>
+                <span className="font-bold" style={{ fontSize: 14, color: TEAL }}>$174.90</span>
               </div>
             </div>
           </div>
@@ -142,8 +142,8 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
             >
               <Check size={24} style={{ color: "#10b981" }} />
             </motion.div>
-            <p className="font-bold" style={{ fontSize: 14, color: "#1f2937" }}>Enrollment Complete!</p>
-            <p className="mt-2" style={{ fontSize: 10, color: "#6b7280" }}>Your benefits selections have been submitted.</p>
+            <p className="font-bold" style={{ fontSize: 16, color: "#1f2937" }}>Enrollment Complete!</p>
+            <p className="mt-2" style={{ fontSize: 13, color: "#6b7280" }}>Your benefits selections have been submitted.</p>
           </div>
         )}
       </div>
@@ -154,7 +154,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
           <button
             onClick={() => setStep(s => s + 1)}
             className="w-full rounded-xl py-2.5 text-white font-bold"
-            style={{ background: TEAL, fontSize: 11 }}
+            style={{ background: TEAL, fontSize: 14 }}
           >
             {step === 0 ? "Continue to Review →" : "Confirm Enrollment"}
           </button>
@@ -164,7 +164,7 @@ function EnrollmentOverlay({ onClose }: { onClose: () => void }) {
           <button
             onClick={onClose}
             className="w-full rounded-xl py-2.5 font-bold border"
-            style={{ color: TEAL, borderColor: TEAL, fontSize: 11 }}
+            style={{ color: TEAL, borderColor: TEAL, fontSize: 14 }}
           >
             Done
           </button>
@@ -185,13 +185,13 @@ function LifeEventOverlay({ onClose }: { onClose: () => void }) {
       className="absolute inset-0 z-40 flex flex-col bg-white"
     >
       <div className="flex items-center justify-between px-4 py-3 shrink-0" style={{ background: TEAL, color: "white" }}>
-        <p className="font-bold" style={{ fontSize: 13 }}>Life Event</p>
+        <p className="font-bold" style={{ fontSize: 15.5 }}>Life Event</p>
         <button onClick={onClose}><X size={15} /></button>
       </div>
       <div className="flex-1 overflow-y-auto px-4 py-4" style={{ scrollbarWidth: "none" }}>
         {!submitted ? (
           <>
-            <p className="mb-4" style={{ fontSize: 11, color: "#4b5563" }}>
+            <p className="mb-4" style={{ fontSize: 14, color: "#4b5563" }}>
               Select your qualifying life event to begin updating your benefits:
             </p>
             <div className="space-y-2">
@@ -205,8 +205,8 @@ function LifeEventOverlay({ onClose }: { onClose: () => void }) {
                     background: selected === i ? TEAL_BG : "white",
                   }}
                 >
-                  <span style={{ fontSize: 18 }}>{evt.icon}</span>
-                  <span className="font-medium" style={{ fontSize: 11, color: "#1f2937" }}>{evt.label}</span>
+                  <span style={{ fontSize: 20 }}>{evt.icon}</span>
+                  <span className="font-medium" style={{ fontSize: 14, color: "#1f2937" }}>{evt.label}</span>
                   {selected === i && <Check size={13} style={{ color: TEAL, marginLeft: "auto" }} />}
                 </button>
               ))}
@@ -215,10 +215,10 @@ function LifeEventOverlay({ onClose }: { onClose: () => void }) {
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-center py-8">
             <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: TEAL_BG }}>
-              <span style={{ fontSize: 26 }}>{selected !== null ? LIFE_EVENTS[selected].icon : "✓"}</span>
+              <span style={{ fontSize: 28 }}>{selected !== null ? LIFE_EVENTS[selected].icon : "✓"}</span>
             </div>
-            <p className="font-bold" style={{ fontSize: 14, color: "#1f2937" }}>Event Submitted</p>
-            <p className="mt-2" style={{ fontSize: 10, color: "#6b7280" }}>HR will reach out within 30 days to process your changes.</p>
+            <p className="font-bold" style={{ fontSize: 16, color: "#1f2937" }}>Event Submitted</p>
+            <p className="mt-2" style={{ fontSize: 13, color: "#6b7280" }}>HR will reach out within 30 days to process your changes.</p>
           </div>
         )}
       </div>
@@ -227,7 +227,7 @@ function LifeEventOverlay({ onClose }: { onClose: () => void }) {
           <button
             onClick={() => selected !== null && setSubmitted(true)}
             className="w-full rounded-xl py-2.5 text-white font-bold transition-opacity"
-            style={{ background: TEAL, fontSize: 11, opacity: selected !== null ? 1 : 0.4 }}
+            style={{ background: TEAL, fontSize: 14, opacity: selected !== null ? 1 : 0.4 }}
           >
             Continue →
           </button>
@@ -275,7 +275,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
           }}
         >
           {item.icon}
-          <span className="font-medium" style={{ fontSize: 8, color: item.active ? TEAL : "#9ca3af" }}>
+          <span className="font-medium" style={{ fontSize: 11, color: item.active ? TEAL : "#9ca3af" }}>
             {item.label}
           </span>
         </button>
@@ -292,7 +292,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
       {layout === "mobile" && (
         <div
           className="flex items-center justify-between px-4 py-1.5 text-white shrink-0"
-          style={{ background: TEAL, fontSize: 9 }}
+          style={{ background: TEAL, fontSize: 12 }}
         >
           <span className="font-semibold">9:41 AM</span>
           <div className="flex items-center gap-2 opacity-80">
@@ -312,10 +312,10 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
         style={{ background: TEAL }}
       >
         <div>
-          <p className="font-bold" style={{ fontSize: 15 }}>Benefits</p>
-          <p className="opacity-70 mt-0.5" style={{ fontSize: 9.5 }}>Get a detailed look at your benefits</p>
+          <p className="font-bold" style={{ fontSize: 17 }}>Benefits</p>
+          <p className="opacity-70 mt-0.5" style={{ fontSize: 12.5 }}>Get a detailed look at your benefits</p>
         </div>
-        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-white" style={{ fontSize: 12 }}>
+        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-white" style={{ fontSize: 15 }}>
           JD
         </div>
       </div>
@@ -334,8 +334,8 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
             <div className="flex items-start gap-2 mb-2">
               <span className="text-base">🧬</span>
               <div>
-                <p className="font-bold" style={{ fontSize: 12, color: TEAL }}>Life Event</p>
-                <p className="mt-1 leading-relaxed" style={{ fontSize: 10, color: "#4b5563" }}>
+                <p className="font-bold" style={{ fontSize: 15, color: TEAL }}>Life Event</p>
+                <p className="mt-1 leading-relaxed" style={{ fontSize: 13, color: "#4b5563" }}>
                   Tell us about your life event. We will assist you in managing the related changes or updates.
                 </p>
               </div>
@@ -343,7 +343,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
             <button
               onClick={() => setShowLifeEvent(true)}
               className="w-full mt-3 rounded-xl py-2.5 font-bold border-2 transition-colors hover:bg-teal-50"
-              style={{ color: TEAL, borderColor: TEAL, fontSize: 11 }}
+              style={{ color: TEAL, borderColor: TEAL, fontSize: 14 }}
             >
               Modify Benefits
             </button>
@@ -353,10 +353,10 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
         {/* ── Benefit List ──────────────────────────────────── */}
         <SectionCard>
           <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-            <span className="font-bold uppercase tracking-wide" style={{ fontSize: 9, color: "#9ca3af", letterSpacing: "0.08em" }}>
+            <span className="font-bold uppercase tracking-wide" style={{ fontSize: 12, color: "#9ca3af", letterSpacing: "0.08em" }}>
               Benefit List
             </span>
-            <span className="font-semibold" style={{ fontSize: 9, color: "#9ca3af" }}>Cost / Pay Period</span>
+            <span className="font-semibold" style={{ fontSize: 12, color: "#9ca3af" }}>Cost / Pay Period</span>
           </div>
 
           {/* Active plans */}
@@ -370,8 +370,8 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
                   className="w-full flex items-center px-4 hover:bg-gray-50 transition-colors"
                   style={{ minHeight: 42, borderBottom: "1px solid #f0f0f0" }}
                 >
-                  <span className="flex-1 text-left font-medium" style={{ fontSize: 11, color: "#1f2937" }}>{plan.name}</span>
-                  <span className="font-bold shrink-0 mr-2" style={{ fontSize: 11, color: TEAL }}>{plan.cost}</span>
+                  <span className="flex-1 text-left font-medium" style={{ fontSize: 14, color: "#1f2937" }}>{plan.name}</span>
+                  <span className="font-bold shrink-0 mr-2" style={{ fontSize: 14, color: TEAL }}>{plan.cost}</span>
                   {isExpanded
                     ? <ChevronUp size={11} className="text-gray-400 shrink-0" />
                     : <ChevronRight size={11} className="text-gray-400 shrink-0" />
@@ -386,7 +386,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
                       className="overflow-hidden"
                     >
                       <div className="px-4 py-2.5 border-b border-gray-100" style={{ background: TEAL_BG }}>
-                        <p style={{ fontSize: 9.5, color: "#374151" }}>{plan.detail}</p>
+                        <p style={{ fontSize: 12.5, color: "#374151" }}>{plan.detail}</p>
                       </div>
                     </motion.div>
                   )}
@@ -410,8 +410,8 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
                     opacity: 0.55,
                   }}
                 >
-                  <span className="flex-1 text-left font-medium" style={{ fontSize: 11, color: "#6b7280" }}>{plan.name}</span>
-                  <span className="font-medium shrink-0 mr-2" style={{ fontSize: 11, color: "#9ca3af" }}>Waived</span>
+                  <span className="flex-1 text-left font-medium" style={{ fontSize: 14, color: "#6b7280" }}>{plan.name}</span>
+                  <span className="font-medium shrink-0 mr-2" style={{ fontSize: 14, color: "#9ca3af" }}>Waived</span>
                   {isExpanded
                     ? <ChevronUp size={11} className="text-gray-400 shrink-0" />
                     : <ChevronRight size={11} className="text-gray-400 shrink-0" />
@@ -426,7 +426,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
                       className="overflow-hidden"
                     >
                       <div className="px-4 py-2.5 border-b border-gray-100 bg-gray-50">
-                        <p style={{ fontSize: 9.5, color: "#6b7280" }}>{plan.detail}</p>
+                        <p style={{ fontSize: 12.5, color: "#6b7280" }}>{plan.detail}</p>
                       </div>
                     </motion.div>
                   )}
@@ -440,8 +440,8 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
             className="flex items-center justify-between px-4 py-3 mt-1"
             style={{ borderTop: "2px solid #e5e7eb" }}
           >
-            <span className="font-bold" style={{ fontSize: 11, color: "#1f2937" }}>Total Cost / Pay Period</span>
-            <span className="font-bold" style={{ fontSize: 14, color: TEAL }}>$369.60</span>
+            <span className="font-bold" style={{ fontSize: 14, color: "#1f2937" }}>Total Cost / Pay Period</span>
+            <span className="font-bold" style={{ fontSize: 16, color: TEAL }}>$369.60</span>
           </div>
         </SectionCard>
 
@@ -449,7 +449,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
         <div className="mx-3 mb-4">
           <button
             className="w-full rounded-xl py-3 font-bold border-2 transition-colors hover:bg-teal-50"
-            style={{ color: TEAL, borderColor: TEAL, fontSize: 11 }}
+            style={{ color: TEAL, borderColor: TEAL, fontSize: 14 }}
           >
             View Benefits Summary
           </button>
@@ -483,7 +483,7 @@ export default function BenefitsModuleDemo({ layout = "mobile", onNavigate }: Be
               style={{ color: item.active ? TEAL : "#9ca3af" }}
             >
               {item.icon}
-              <span className="font-medium" style={{ fontSize: 9, color: item.active ? TEAL : "#9ca3af" }}>
+              <span className="font-medium" style={{ fontSize: 12, color: item.active ? TEAL : "#9ca3af" }}>
                 {item.label}
               </span>
               {item.active && <span className="w-1 h-1 rounded-full" style={{ background: TEAL }} />}

@@ -4,8 +4,7 @@ import IterationTimeline from "./IterationTimeline";
 import AdminNotificationDemo from "./AdminNotificationDemo";
 import OneAsurePortalDemo from "./OneAsurePortalDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
-import { DecisionList, NumberedList, StatRow } from "./primitives";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Caption, DecisionList, NumberedList, StatRow, Wide } from "./primitives";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -44,9 +43,6 @@ const decisions = [
 ];
 
 const OneAsureCaseStudy = ({ project }: Props) => {
-  const isMobile = useIsMobile();
-  const demoLayout = isMobile ? "mobile" : "desktop";
-
   return (
     <>
       <CaseStudySection label="Context" title="Four portals, four logins, one HR team">
@@ -70,22 +66,24 @@ const OneAsureCaseStudy = ({ project }: Props) => {
       </CaseStudySection>
 
       <CaseStudySection label="The Product" title="The Pay module, as shipped">
-        <p className="mb-8 text-base">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product. Both prototypes are the whole portal: the navigation moves between Home, Time, Pay, Benefits and More, the way one login replaced four.</p>
-        <motion.div
+        <p className="mb-8">The Benefits module is the interactive prototype at the top of this page. Pay was the second module to move into the consolidated product. Both prototypes are the whole portal: the navigation moves between Home, Time, Pay, Benefits and More, the way one login replaced four.</p>
+        <motion.figure
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12 flex flex-col items-center"
+          className="cs-wide mb-12"
         >
-          <ResponsiveAppShell label="Pay Module" desktopWidth={480} allowToggle>
-            <OneAsurePortalDemo layout={demoLayout} initial="Pay" />
+          <ResponsiveAppShell label="Pay Module" allowToggle minDesktopWidth={640} desktopHeight={600} mobileWidth={340} mobileHeight={640}>
+            <OneAsurePortalDemo initial="Pay" />
           </ResponsiveAppShell>
-          <p className="mt-3 max-w-[40ch] text-center text-sm leading-relaxed text-muted-foreground">
-            Take-home pay, tax breakdowns, disbursements and pay history, replacing separate logins.
-          </p>
-        </motion.div>
-        <IterationTimeline />
+          <figcaption>
+            <Caption center>Take-home pay, tax breakdowns, disbursements and pay history, replacing separate logins.</Caption>
+          </figcaption>
+        </motion.figure>
+        <Wide>
+          <IterationTimeline />
+        </Wide>
       </CaseStudySection>
 
       <CaseStudySection label="Testing" title="24 tests, 8 iterations, and what they caught">
@@ -97,7 +95,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
 
       <CaseStudySection label="Outcome" title="One product, fewer support tickets, and a sales team that could demo it">
         <p className="mb-4">{project.outcomeMetrics}</p>
-        <p className="text-base">
+        <p>
           Administrators also reported faster onboarding, and enterprise prospects engaged with demos again. Not having a baseline for any of this is the first thing I'd change (below).
         </p>
       </CaseStudySection>

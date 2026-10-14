@@ -5,7 +5,7 @@ const linkClass = "py-2 text-muted-foreground transition-colors hover:text-foreg
 
 const Footer = () => (
   <footer className="print:hidden">
-    <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+    <div className="container">
       <div className="flex flex-col gap-4 border-t border-border py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-foreground">
           © {new Date().getFullYear()} {person.name}. <span className="text-muted-foreground">{person.title}, {person.location}</span>

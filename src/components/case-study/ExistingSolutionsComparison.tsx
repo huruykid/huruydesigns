@@ -66,12 +66,14 @@ const ExistingSolutionsComparison = () => {
   return (
     <div className="space-y-4">
       {/* App selector row */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3" role="group" aria-label="Apps compared">
         {apps.map((app) => (
           <button
             key={app.id}
+            type="button"
             onClick={() => setSelectedApp(app.id)}
-            className={`relative rounded-lg border p-4 text-left transition-all duration-200 ${
+            aria-pressed={selectedApp === app.id}
+            className={`relative min-h-11 rounded-lg border p-3 text-left sm:p-4 transition-all duration-200 ${
               selectedApp === app.id
                 ? "border-destructive/50 bg-destructive/5 shadow-md"
                 : "border-border bg-card hover:border-muted-foreground/30"
@@ -83,7 +85,7 @@ const ExistingSolutionsComparison = () => {
               </span>
               <span className="font-bold text-foreground text-sm">{app.name}</span>
             </div>
-            <p className="text-xs text-muted-foreground">{app.tagline}</p>
+            <p className="hidden text-xs text-muted-foreground sm:block">{app.tagline}</p>
             {selectedApp === app.id && (
               <motion.div
                 layoutId="app-indicator"
@@ -104,7 +106,7 @@ const ExistingSolutionsComparison = () => {
           transition={{ duration: 0.25 }}
         >
           <Card className="border-destructive/20 bg-destructive/5">
-            <CardContent className="p-5 space-y-3">
+            <CardContent className="space-y-3 p-6 lg:p-8">
               {current.painPoints.map((point, i) => (
                 <motion.div
                   key={i}

@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import ChatBubble from "./ChatBubble";
+import ChatBubble, { ChatProvider } from "./ChatBubble";
 
 /**
  * Site chrome. Mounted once in App around all routes so the navbar, footer and
  * chat panel survive navigation. Pages render into the Outlet.
  */
 const Layout = () => (
+  <ChatProvider>
   <div className="min-h-screen flex flex-col">
     <a
       href="#main-content"
@@ -22,6 +23,7 @@ const Layout = () => (
     <Footer />
     <ChatBubble />
   </div>
+  </ChatProvider>
 );
 
 export default Layout;
