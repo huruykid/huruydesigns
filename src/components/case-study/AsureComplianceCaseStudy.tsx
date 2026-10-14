@@ -1,34 +1,12 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import {
-  AlertTriangle,
-  Lightbulb,
-  BarChart3,
-  ChevronRight,
-  Search,
-  Users,
-  ClipboardList,
-  Star,
-  Shield,
-  Lock,
-  Eye,
-  Layers,
-  Zap,
-  Building2,
-  ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import CaseStudySection from "./CaseStudySection";
 import AsureConfigDemo from "./AsureConfigDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { EntityDiagram, StateMachineDiagram } from "./AsureDiagrams";
-import { Caption, Full, Wide } from "./primitives";
+import { Caption, Full, NumberedList, Wide } from "./primitives";
 import AsureBeforeAfter from "./AsureBeforeAfter";
 import ProjectQuotes from "./ProjectQuotes";
 import { Project } from "@/lib/projects";
-import type { AsureGatedContent, GatedIconName } from "@/lib/gatedContent";
+import type { AsureGatedContent } from "@/lib/gatedContent";
 
 interface Props {
   project: Project;
@@ -36,36 +14,45 @@ interface Props {
   content: AsureGatedContent;
 }
 
-const icons: Record<GatedIconName, LucideIcon> = {
-  Shield,
-  Layers,
-  BarChart3,
-  ClipboardList,
-  Search,
-  Building2,
-  Lock,
-  Eye,
-  Zap,
-};
-
-const Icon = ({ name }: { name: GatedIconName }) => {
-  const Cmp = icons[name] ?? Shield;
-  return <Cmp className="h-5 w-5" aria-hidden="true" />;
-};
+/**
+ * Rendered with the same unboxed primitives as the other case studies:
+ * hairlines, numbers and a reading column, no icon cards or coloured boxes.
+ */
 
 const typeClass = (type: string) =>
   type === "Hard Stop"
-    ? "bg-destructive/15 text-destructive"
+    ? "text-destructive ring-destructive/40"
     : type === "Warning"
-    ? "bg-yellow-500/15 text-yellow-700 dark:text-yellow-400"
-    : type === "Conditional"
-    ? "bg-blue-500/15 text-blue-700 dark:text-blue-400"
-    : "bg-muted text-foreground";
+    ? "text-amber-700 ring-amber-500/50 dark:text-amber-400"
+    : "text-foreground ring-border";
+
+/** Short titled points in a hairline grid. */
+const PointGrid = ({ items, columns = 2 }: { items: { title: string; body: string }[]; columns?: 2 | 3 }) => (
+  <dl className={`grid gap-x-8 gap-y-6 ${columns === 3 ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2"}`}>
+    {items.map((it) => (
+      <div key={it.title} className="border-t border-border pt-4">
+        <dt className="mb-1 text-[15px] font-semibold text-foreground">{it.title}</dt>
+        <dd className="text-[15px] leading-6">{it.body}</dd>
+      </div>
+    ))}
+  </dl>
+);
+
+/** Label on the left, text on the right. */
+const Rows = ({ items }: { items: { label: string; text: string }[] }) => (
+  <dl className="divide-y divide-border border-y border-border">
+    {items.map((r) => (
+      <div key={r.label + r.text} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
+        <dt className="text-sm font-semibold text-foreground">{r.label}</dt>
+        <dd className="text-[15px] leading-6">{r.text}</dd>
+      </div>
+    ))}
+  </dl>
+);
 
 const AsureComplianceCaseStudy = ({ project, content }: Props) => (
   <>
-    {/* 01 - CONTEXT & SCALE */}
-    <CaseStudySection label="Context" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="An engine hidden behind legacy abstraction">
       {content.context.map((p, i) => (
         <p key={p} className={i === content.context.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -74,46 +61,23 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </Wide>
     </CaseStudySection>
 
-    {/* 02 - THE REAL PROBLEM */}
-    <CaseStudySection label="The Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
+    <CaseStudySection label="The Problem" title="The brief was to redesign screens. The real problem was elsewhere.">
       {content.problem.map((p, i) => (
         <p key={i} className={i === content.problem.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
-
-      <Wide className="mb-8 grid gap-4 sm:grid-cols-2 lg:gap-6">
-        {content.problemCards.map((card, i) => (
-          <motion.div key={card.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-border bg-muted/20 h-full">
-              <CardContent className="p-6 lg:p-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-accent"><Icon name={card.icon} /></span>
-                  <h3 className="font-bold text-foreground text-sm">{card.title}</h3>
-                </div>
-                <p className="text-sm">{card.body}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+      <Wide className="mb-12">
+        <PointGrid items={content.problemCards} columns={3} />
       </Wide>
-
-      <div className="space-y-3">
-        <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">Audience Needs</p>
-        {content.audienceNeeds.map((a) => (
-          <div key={a.role} className="flex items-start gap-4 p-4 rounded-lg bg-accent/5 border border-accent/20">
-            <span className="text-accent font-bold text-sm shrink-0 mt-0.5">{a.role}</span>
-            <p className="text-sm">{a.need}</p>
-          </div>
-        ))}
-      </div>
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">What each audience needed</p>
+      <Rows items={content.audienceNeeds.map((a) => ({ label: a.role, text: a.need }))} />
     </CaseStudySection>
 
-    {/* 03 - MY ROLE & INFLUENCE */}
-    <CaseStudySection label="My Role" title="Embedded, cross-functional, onsite in Dallas." icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection label="My Role" title="Embedded, cross-functional, onsite in Dallas.">
       {content.role.map((p, i) => (
         <p key={i} className={i === content.role.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
       {content.onsitePhoto && (
-        <figure className="cs-wide mb-8">
+        <figure className="cs-wide mb-10">
           <div className="aspect-[16/7] overflow-hidden rounded-xl border border-border">
             <img
               src={content.onsitePhoto.src}
@@ -122,7 +86,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
               height={700}
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover object-[center_25%]"
+              className="h-full w-full object-cover object-[center_25%]"
             />
           </div>
           <figcaption>
@@ -130,87 +94,66 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
           </figcaption>
         </figure>
       )}
-      <div className="space-y-2">
-        {content.roleItems.map((item, i) => (
-          <div key={item} className="flex items-start gap-4 p-3 rounded-lg bg-muted/20 border border-border">
-            <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-            <p className="text-sm">{item}</p>
-          </div>
-        ))}
-      </div>
+      <NumberedList items={content.roleItems} />
     </CaseStudySection>
 
-    {/* 04 - CORE DESIGN CONTRIBUTIONS */}
-    <CaseStudySection label="Decisions" title="Four changes that made configuration predictable" icon={<ClipboardList className="h-4 w-4" />}>
+    <CaseStudySection label="Decisions" title="Four changes that made configuration predictable">
       <p className="mb-8">{content.contributionsIntro}</p>
-
-      <div className="cs-flow cs-full gap-y-12">
-        {content.coreContributions.map((c) => (
-          <motion.div key={c.letter} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="cs-flow cs-full">
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-accent font-bold text-lg">{c.letter}</span>
-              <h3 className="text-lg font-bold text-foreground">{c.title}</h3>
-            </div>
-            <p className="text-sm text-muted-foreground italic mb-4">{c.subtitle}</p>
-            <div className="cs-wide grid gap-4 sm:grid-cols-2 lg:gap-6">
-              <Card className="border-destructive/20 bg-destructive/5">
-                <CardContent className="p-6 lg:p-8">
-                  <p className="text-xs font-semibold text-destructive uppercase tracking-wide mb-2">Problem</p>
-                  <ul className="space-y-1.5">
-                    {c.problemPoints.map((p) => (
-                      <li key={p} className="text-sm flex items-start gap-2">
-                        <span className="text-destructive mt-0.5" aria-hidden="true">✗</span> {p}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="border-green-500/20 bg-green-500/5">
-                <CardContent className="p-6 lg:p-8">
-                  <p className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wide mb-2">Solution</p>
-                  <ul className="space-y-1.5">
-                    {c.solutionPoints.map((s) => (
-                      <li key={s} className="text-sm flex items-start gap-2">
-                        <span className="text-green-700 dark:text-green-400 mt-0.5" aria-hidden="true">✓</span> {s}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+      <ol className="cs-full cs-flow list-none gap-y-0">
+        {content.coreContributions.map((c, i) => (
+          <li key={c.letter} className="cs-flow cs-full border-t border-border py-10">
+            <div className="grid gap-3 sm:grid-cols-[3.5rem_1fr]">
+              <span className="text-sm font-semibold tabular-nums text-accent sm:pt-1" aria-hidden="true">0{i + 1}</span>
+              <div className="min-w-0">
+                <h3 className="mb-1 font-display text-lg font-bold tracking-tight text-foreground">{c.title}</h3>
+                <p className="mb-6 max-w-[64ch] text-sm">{c.subtitle}</p>
+                <div className="grid gap-8 sm:grid-cols-2">
+                  <div>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Before</p>
+                    <ul className="divide-y divide-border border-y border-border text-[15px] leading-6">
+                      {c.problemPoints.map((p) => <li key={p} className="py-2">{p}</li>)}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">After</p>
+                    <ul className="divide-y divide-border border-y border-border text-[15px] leading-6 text-foreground">
+                      {c.solutionPoints.map((p) => <li key={p} className="py-2">{p}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {c.letter === "B" && <div className="cs-wide mt-6"><StateMachineDiagram /></div>}
+            {c.letter === "B" && <div className="cs-wide mt-8"><StateMachineDiagram /></div>}
 
             {c.letter === "C" && (
-              <div className="cs-wide mt-6 rounded-xl border border-border bg-card/50">
-                <p className="text-xs font-semibold text-accent uppercase tracking-wide p-4 pb-2">Validation Matrix</p>
+              <div className="cs-wide mt-8">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Validation rules</p>
                 {/* Phones: each rule reads as a short stack, so nothing scrolls sideways. */}
-                <ul className="divide-y divide-border/60 sm:hidden">
+                <ul className="divide-y divide-border border-y border-border sm:hidden">
                   {content.validationMatrix.map((row) => (
-                    <li key={row.condition} className="space-y-1.5 px-4 py-3 text-sm">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${typeClass(row.type)}`}>{row.type}</span>
+                    <li key={row.condition} className="space-y-1.5 py-3 text-[15px] leading-6">
+                      <span className={`inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ${typeClass(row.type)}`}>{row.type}</span>
                       <p className="font-medium text-foreground">{row.condition}</p>
                       <p>{row.behavior}</p>
                     </li>
                   ))}
                 </ul>
-                <table className="hidden w-full text-sm sm:table">
+                <table className="hidden w-full border-collapse text-left text-[15px] leading-6 sm:table">
                   <thead>
-                    <tr className="border-b border-border">
-                      <th scope="col" className="text-left p-3 font-bold text-foreground">Condition</th>
-                      <th scope="col" className="text-left p-3 font-bold text-foreground">Field Behavior</th>
-                      <th scope="col" className="text-left p-3 font-bold text-foreground">Type</th>
+                    <tr className="border-b border-border text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      <th scope="col" className="py-3 pr-6 font-semibold">Condition</th>
+                      <th scope="col" className="py-3 pr-6 font-semibold">Field behavior</th>
+                      <th scope="col" className="py-3 font-semibold">Type</th>
                     </tr>
                   </thead>
                   <tbody>
                     {content.validationMatrix.map((row) => (
-                      <tr key={row.condition} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
-                        <td className="p-3">{row.condition}</td>
-                        <td className="p-3">{row.behavior}</td>
-                        <td className="p-3">
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${typeClass(row.type)}`}>
-                            {row.type}
-                          </span>
+                      <tr key={row.condition} className="border-b border-border/60 align-top">
+                        <td className="py-3 pr-6 font-medium text-foreground">{row.condition}</td>
+                        <td className="py-3 pr-6">{row.behavior}</td>
+                        <td className="py-3">
+                          <span className={`inline-flex whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ${typeClass(row.type)}`}>{row.type}</span>
                         </td>
                       </tr>
                     ))}
@@ -218,48 +161,33 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
                 </table>
               </div>
             )}
-          </motion.div>
+          </li>
         ))}
-      </div>
+      </ol>
     </CaseStudySection>
 
-    {/* Before and after: one screen, annotated */}
     <CaseStudySection label="Before & After" title="Editing a tax rate, before and after">
       <p className="mb-8">The same task on the legacy screen and on the redesign. Three changes did most of the work.</p>
       <AsureBeforeAfter />
     </CaseStudySection>
 
-    {/* 05 - DESIGNING FOR INTUITION */}
-    <CaseStudySection label="Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
-      <p className="mb-6">{content.intuitionIntro}</p>
-      <Wide className="mb-10 grid gap-4 sm:grid-cols-2 lg:gap-6">
-        {content.intuitionCards.map((card, i) => (
-          <motion.div key={card.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-border bg-card/50 h-full">
-              <CardContent className="p-6 lg:p-8">
-                <h3 className="font-bold text-foreground text-sm mb-1">{card.title}</h3>
-                <p className="text-sm">{card.body}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+    <CaseStudySection label="Designing for Intuition" title="Translating regulatory logic into human mental models">
+      <p className="mb-8">{content.intuitionIntro}</p>
+      <Wide className="mb-12">
+        <PointGrid items={content.intuitionCards} />
       </Wide>
-
-      <div className="rounded-xl border border-accent/20 bg-accent/5 p-6 lg:p-8">
-        <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-4">Legacy to Redesign</p>
-        <div className="space-y-3">
-          {content.transformations.map((t) => (
-            <div key={t.from} className="flex items-center gap-3 text-sm">
-              <span className="text-muted-foreground line-through flex-1">{t.from}</span>
-              <ArrowRight className="h-4 w-4 text-accent shrink-0" aria-hidden="true" />
-              <span className="text-foreground font-medium flex-1">{t.to}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Legacy to redesign</p>
+      <dl className="divide-y divide-border border-y border-border">
+        {content.transformations.map((t) => (
+          <div key={t.from} className="grid gap-1 py-3 text-[15px] leading-6 sm:grid-cols-[1fr_1.5rem_1fr] sm:items-baseline sm:gap-3">
+            <dt className="text-muted-foreground line-through decoration-border">{t.from}</dt>
+            <span className="hidden text-muted-foreground sm:block" aria-hidden="true">→</span>
+            <dd className="font-medium text-foreground">{t.to}</dd>
+          </div>
+        ))}
+      </dl>
     </CaseStudySection>
 
-    {/* Interactive Prototype: the one place the page uses its full width */}
     <CaseStudySection label="Interactive Prototype" title="Change a rate, the way an admin would">
       <p className="mb-3">
         A recreation of the configuration workflow, built to show the four decisions above working together. Try it in this order:
@@ -277,86 +205,38 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </Full>
     </CaseStudySection>
 
-    {/* 06 - COLLABORATION */}
-    <CaseStudySection label="Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection label="Collaboration" title="Three disciplines. One shared mental model.">
       {content.collaboration.map((p, i) => (
         <p key={i} className={i === content.collaboration.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
-      <Wide className="grid gap-4 sm:grid-cols-3 lg:gap-6">
-        {content.collaborators.map((col) => (
-          <Card key={col.group} className="border-border bg-card/50">
-            <CardContent className="p-6 lg:p-8">
-              <p className="text-accent font-semibold text-xs uppercase tracking-wide mb-3">{col.group}</p>
-              <ul className="space-y-2">
-                {col.items.map((item) => (
-                  <li key={item} className="text-sm flex items-start gap-2">
-                    <ChevronRight className="h-3 w-3 mt-1 text-accent shrink-0" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
+      <Wide>
+        <div className="grid gap-x-8 gap-y-8 sm:grid-cols-3">
+          {content.collaborators.map((col) => (
+            <div key={col.group} className="border-t border-border pt-4">
+              <h3 className="mb-3 text-[15px] font-semibold text-foreground">{col.group}</h3>
+              <ul className="space-y-2 text-[15px] leading-6">
+                {col.items.map((item) => <li key={item}>{item}</li>)}
               </ul>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
+        </div>
       </Wide>
     </CaseStudySection>
 
     <ProjectQuotes projectId={project.id} />
 
-    {/* 07 - IMPACT */}
-    <CaseStudySection label="Outcome" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>
-      <p className="mb-6">{content.impactIntro}</p>
-      <Wide className="grid gap-4 sm:grid-cols-2 lg:gap-6">
-        {content.impactItems.map((item, i) => (
-          <motion.div key={item.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-            <Card className="border-accent/20 bg-accent/5 h-full">
-              <CardContent className="p-6 lg:p-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-accent"><Icon name={item.icon} /></span>
-                  <h3 className="font-bold text-foreground text-sm">{item.title}</h3>
-                </div>
-                <p className="text-sm">{item.body}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+    <CaseStudySection label="Outcome" title="No silent changes, and an audit-ready lifecycle">
+      <p className="mb-8">{content.impactIntro}</p>
+      <Wide>
+        <PointGrid items={content.impactItems} />
       </Wide>
     </CaseStudySection>
 
-    {/* Learnings */}
     {content.learnings.length > 0 && (
-      <CaseStudySection label="What I Learned" title="The biggest deliverable was a conversation" icon={<Lightbulb className="h-4 w-4" />}>
-        <div className="space-y-4">
-          {content.learnings.map((l, i) => (
-            <div key={i} className="flex items-start gap-4 p-4 rounded-lg bg-muted/20 border border-border">
-              <span className="text-accent font-bold text-sm shrink-0 mt-0.5">0{i + 1}</span>
-              <p className="text-sm">{l}</p>
-            </div>
-          ))}
-        </div>
+      <CaseStudySection label="What I Learned" title="The biggest deliverable was a conversation">
+        <NumberedList items={content.learnings} />
       </CaseStudySection>
     )}
-
-    {/* 08 - LET'S WORK TOGETHER */}
-    <div className="cs-flow mb-16 lg:mb-24">
-    <div className="cs-wide rounded-2xl bg-[hsl(220,30%,12%)] dark:bg-[hsl(220,30%,8%)] p-8 sm:p-12 text-center">
-      <p className="text-xs font-semibold text-orange-400 uppercase tracking-wide mb-2">08 | Let's Work Together</p>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 font-display">Let's Work Together</h2>
-      <p className="text-base text-white/80 max-w-2xl mx-auto mb-8">
-        I specialize in complex enterprise products like {project.title}: systems where getting the UX wrong isn't an inconvenience, it's a liability. If that's the kind of work you're hiring for, let's talk.
-      </p>
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-          <Link to="/contact">
-            Email Huruy <ArrowRight className="h-4 w-4 ml-1" aria-hidden="true" />
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white">
-          <Link to="/#work">View all projects</Link>
-        </Button>
-      </div>
-    </div>
-    </div>
   </>
 );
 
