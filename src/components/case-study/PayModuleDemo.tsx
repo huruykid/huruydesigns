@@ -33,7 +33,9 @@ const ARCS = buildArcs();
 // ── Donut ──────────────────────────────────────────────────────────────────
 function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i: number | null) => void }) {
   const focused = active !== null ? SEGMENTS[active] : SEGMENTS[0];
-  const R = 42, SIZE = 120;
+  // Sized so the centre label always fits the hole: hole = 2 * (R - widest stroke / 2).
+  const R = 62, SIZE = 160, STROKE = 16, ACTIVE_STROKE = 20;
+  const hole = 2 * (R - ACTIVE_STROKE / 2);
   const center = SIZE / 2;
 
   return (
@@ -47,7 +49,7 @@ function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i:
               cx={center} cy={center} r={R}
               fill="none"
               stroke={SEGMENTS[i].color}
-              strokeWidth={active === i ? 18 : 14}
+              strokeWidth={active === i ? ACTIVE_STROKE : STROKE}
               strokeDasharray={`${dash} ${gap}`}
               strokeDashoffset={-offset}
               strokeLinecap="butt"
@@ -67,10 +69,10 @@ function DonutChart({ active, onSelect }: { active: number | null; onSelect: (i:
         </svg>
         {/* Center label */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="font-semibold leading-tight text-center" style={{ fontSize: 12, color: focused.color, maxWidth: 48, textAlign: "center" }}>
+          <span className="font-semibold leading-tight text-center" style={{ fontSize: 12, color: focused.color, maxWidth: hole - 24, textAlign: "center" }}>
             {focused.short}
           </span>
-          <span className="font-bold" style={{ fontSize: 14, color: "#111" }}>
+          <span className="mt-0.5 font-bold tabular-nums leading-tight" style={{ fontSize: 15, color: "#111", maxWidth: hole - 16 }}>
             {focused.amount}
           </span>
         </div>
