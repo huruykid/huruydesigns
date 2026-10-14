@@ -65,7 +65,7 @@ const typeClass = (type: string) =>
 const AsureComplianceCaseStudy = ({ project, content }: Props) => (
   <>
     {/* 01 - CONTEXT & SCALE */}
-    <CaseStudySection label="01 | Context & Scale" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
+    <CaseStudySection label="Context" title="An engine hidden behind legacy abstraction" icon={<Search className="h-4 w-4" />}>
       {content.context.map((p, i) => (
         <p key={p} className={i === content.context.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -75,7 +75,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 02 - THE REAL PROBLEM */}
-    <CaseStudySection label="02 | The Real Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
+    <CaseStudySection label="The Problem" title="The brief was to redesign screens. The real problem was elsewhere." icon={<AlertTriangle className="h-4 w-4" />}>
       {content.problem.map((p, i) => (
         <p key={i} className={i === content.problem.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -108,7 +108,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 03 - MY ROLE & INFLUENCE */}
-    <CaseStudySection label="03 | My Role & Influence" title="Embedded, cross-functional, onsite in Dallas." icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection label="My Role" title="Embedded, cross-functional, onsite in Dallas." icon={<Users className="h-4 w-4" />}>
       {content.role.map((p, i) => (
         <p key={i} className={i === content.role.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -141,7 +141,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 04 - CORE DESIGN CONTRIBUTIONS */}
-    <CaseStudySection label="04 | Core Design Contributions" title="Four changes that made configuration predictable" icon={<ClipboardList className="h-4 w-4" />}>
+    <CaseStudySection label="Decisions" title="Four changes that made configuration predictable" icon={<ClipboardList className="h-4 w-4" />}>
       <p className="mb-8">{content.contributionsIntro}</p>
 
       <div className="cs-flow cs-full gap-y-12">
@@ -230,7 +230,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 05 - DESIGNING FOR INTUITION */}
-    <CaseStudySection label="05 | Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
+    <CaseStudySection label="Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
       <p className="mb-6">{content.intuitionIntro}</p>
       <Wide className="mb-10 grid gap-4 sm:grid-cols-2 lg:gap-6">
         {content.intuitionCards.map((card, i) => (
@@ -278,7 +278,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     </CaseStudySection>
 
     {/* 06 - COLLABORATION */}
-    <CaseStudySection label="06 | Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
+    <CaseStudySection label="Collaboration" title="Three disciplines. One shared mental model." icon={<Users className="h-4 w-4" />}>
       {content.collaboration.map((p, i) => (
         <p key={i} className={i === content.collaboration.length - 1 ? "mb-8" : "mb-4"}>{p}</p>
       ))}
@@ -304,7 +304,7 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
     <ProjectQuotes projectId={project.id} />
 
     {/* 07 - IMPACT */}
-    <CaseStudySection label="07 | Impact" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>
+    <CaseStudySection label="Outcome" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>
       <p className="mb-6">{content.impactIntro}</p>
       <Wide className="grid gap-4 sm:grid-cols-2 lg:gap-6">
         {content.impactItems.map((item, i) => (

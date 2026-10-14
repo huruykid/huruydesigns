@@ -53,6 +53,8 @@ export interface Project {
   timeline: string;
   tools: string[];
   problem: string;
+  /** Hero summary, one short line each; falls back to problem/solution/outcomeMetrics. */
+  glance?: { problem: string; solution: string; outcome: string };
   process: string;
   solution: string;
   outcomeMetrics: string;
@@ -124,6 +126,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "asure-compliance",
+    glance: {
+      problem: "Legacy screens exposed the database, and nobody had mapped how the compliance entities depended on each other.",
+      solution: "One configuration model with a visible draft, review, locked and released lifecycle, and the impact of a change shown before it saves.",
+      outcome: "No silent changes to live rules and an audit-ready revision history; fewer configuration errors observed after launch, not baselined.",
+    },
     logo: "/images/logos/asure.webp",
     ogImage: "/og/asure-compliance.png",
     cardImage: "/images/asure/card.webp",
@@ -152,6 +159,11 @@ export const projects: Project[] = [
   },
   {
     id: "oneasure-portal",
+    glance: {
+      problem: "Four products, four logins, and HR teams paying for the gaps between them.",
+      solution: "A refresh brief turned into one portal for time, pay, benefits and HR, with the visual polish moved to phase two.",
+      outcome: "Consolidated into one product; fewer support tickets and admin errors reported after launch. 16 interviews, 24 usability tests, 8 iterations.",
+    },
     logo: "/images/logos/asure.webp",
     ogImage: "/og/oneasure-portal.png",
     cardImage: "/images/oneasure/card.webp",
@@ -186,6 +198,11 @@ export const projects: Project[] = [
   },
   {
     id: "doula-care-portal",
+    glance: {
+      problem: "Medi-Cal pays community doulas now, but its billing was built for clinics with billing staff.",
+      solution: "One portal from intake to claim: doulas log visits in plain language and the system writes the compliant claim.",
+      outcome: "56 accounts across five community birth organizations as of September 2026.",
+    },
     ogImage: "/og/doula-care-portal.png",
     cardImage: "/images/doula/card.webp",
     client: "Bay Area birth-justice nonprofit",
@@ -230,6 +247,11 @@ export const projects: Project[] = [
   },
   {
     id: "ebtfinder",
+    glance: {
+      problem: "The official SNAP locator is a CSV on a map. People stand in the aisle not knowing if a store takes EBT.",
+      solution: "A store finder built from interviews: hot-food filter, real photos and shopper confirmations, usable on one bar of signal.",
+      outcome: "Live on the App Store and the web: 264,000+ locations in 53 states and territories, 1,470 web users in the last 28 days.",
+    },
     logo: "/images/logos/ebtfinder.webp",
     ogImage: "/og/ebtfinder.png",
     cardImage: "/images/ebtfinder/card.webp",
@@ -484,6 +506,11 @@ export const projects: Project[] = [
   },
   {
     id: "beles",
+    glance: {
+      problem: "Tigrayan singles had no dating app that respected how their community actually meets.",
+      solution: "A dating and community app with tradition built in, from the Shmagele introduction to who can see what.",
+      outcome: "Live on the App Store. In testing, understanding of Shmagele went from 5 of 8 to 7 of 8 between rounds; 6 of 8 would use it at launch.",
+    },
     logo: "/images/logos/beles.webp",
     ogImage: "/og/beles.png",
     cardImage: "/images/beles/card.webp",

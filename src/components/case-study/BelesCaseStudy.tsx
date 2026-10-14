@@ -52,7 +52,7 @@ const BelesCaseStudy = ({ project }: Props) => (
       </Wide>
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="Tradition inside a modern app, without flattening it">
+    <CaseStudySection label="The Problem" title="Tradition inside a modern app, without flattening it">
       <p className="mb-8">
         The obvious product was a swipe app with an ethnicity filter. The interviews (8 people, ages 19 to 55, across the diaspora) pointed somewhere harder: people wanted the trust of traditional matchmaking, a way to stay close to community events, and in many cases connection without dating at all. The design problem was making those three things coexist in one product a 26-year-old and a 55-year-old would both understand.
       </p>

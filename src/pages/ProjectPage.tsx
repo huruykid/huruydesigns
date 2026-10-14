@@ -14,6 +14,7 @@ import OneAsureCaseStudy from "@/components/case-study/OneAsureCaseStudy";
 import AsureComplianceCaseStudy from "@/components/case-study/AsureComplianceCaseStudy";
 import EBTFinderCaseStudy from "@/components/case-study/EBTFinderCaseStudy";
 import FentFinderCaseStudy from "@/components/case-study/FentFinderCaseStudy";
+import CaseStudyIndex from "@/components/case-study/CaseStudyIndex";
 import DoulaCareCaseStudy from "@/components/case-study/DoulaCareCaseStudy";
 import DoulaCareDemo from "@/components/case-study/DoulaCareDemo";
 import AppStorePromoBanner from "@/components/AppStorePromoBanner";
@@ -219,18 +220,21 @@ const ProjectPage = () => {
               className="min-w-0 rounded-xl border border-border bg-background p-6 lg:p-8"
             >
               <h2 id="tldr-heading" className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-accent">At a glance</h2>
-              <dl className="grid gap-6">
+              <dl className="grid gap-5">
                 {[
-                  { k: "Problem", v: project.problem },
-                  { k: "Solution", v: project.solution },
-                  { k: "Outcome", v: project.outcomeMetrics },
+                  { k: "Problem", v: project.glance?.problem ?? project.problem },
+                  { k: "Solution", v: project.glance?.solution ?? project.solution },
+                  { k: "Outcome", v: project.glance?.outcome ?? project.outcomeMetrics },
                 ].map(({ k, v }) => (
-                  <div key={k} className="min-w-0">
-                    <dt className="mb-1.5 text-base font-bold tracking-tight text-foreground font-display">{k}</dt>
-                    <dd className="text-[15px] leading-7 text-muted-foreground">{v}</dd>
+                  <div key={k} className="grid min-w-0 gap-1 sm:grid-cols-[5.5rem_1fr] sm:gap-4">
+                    <dt className="text-sm font-semibold text-foreground">{k}</dt>
+                    <dd className="text-[15px] leading-6 text-muted-foreground sm:text-base sm:leading-7">{v}</dd>
                   </div>
                 ))}
               </dl>
+              <p className="mt-6 text-sm text-muted-foreground">
+                <a href="#on-this-page" className="underline underline-offset-4 hover:text-foreground">Full case study below</a>
+              </p>
             </motion.section>
           </div>
         </div>
@@ -245,6 +249,7 @@ const ProjectPage = () => {
 
       {/* Content */}
       <div className="container pb-16 pt-16 lg:pb-24 lg:pt-24">
+        <CaseStudyIndex key={project.id} />
         {project.id === "beles" ? (
           <BelesCaseStudy project={project} {...slotProps} />
         ) : project.id === "oneasure-portal" ? (

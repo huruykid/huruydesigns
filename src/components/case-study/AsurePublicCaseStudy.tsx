@@ -47,7 +47,7 @@ const AsurePublicCaseStudy = ({ project }: Props) => (
       <EntityDiagram />
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="The brief was screens. The problem was a missing shared model.">
+    <CaseStudySection label="The Problem" title="The brief was screens. The problem was a missing shared model.">
       <p className="mb-4">{project.problem}</p>
       <p>
         Engineers understood the data layer. Compliance experts understood the regulatory logic. Product understood the roadmap. The connections between those layers had never been drawn, and the product had been built on that gap for years. The most consequential design work on this project was forcing that conversation and capturing its result.

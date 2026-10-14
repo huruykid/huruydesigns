@@ -77,79 +77,6 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
       </CaseStudySection>
     )}
 
-    {/* Marketing: how people find it */}
-    {project.shipped?.marketing && (
-      <CaseStudySection label="Marketing" title="How I market it">
-        <p className="mb-8">
-          Shipping is half the job. I also run distribution: the App Store listing, search, content and partners. It is the same research, applied to how people find the product instead of how they use it.
-        </p>
-        {project.shipped.storeFrames && (
-          <figure className="cs-wide mb-10">
-            <ul
-              className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
-              aria-label="App Store screenshots designed for the EBT Finder listing"
-            >
-              {project.shipped.storeFrames.map((f) => {
-                const dims = imageDimensions[f.src];
-                return (
-                  <li key={f.src} className="w-[200px] shrink-0 snap-start lg:w-auto">
-                    <img src={f.src} alt={f.alt} width={dims?.width} height={dims?.height} loading="lazy" decoding="async" className="h-auto w-full rounded-xl border border-border" />
-                  </li>
-                );
-              })}
-            </ul>
-            <figcaption>
-              <Caption>The App Store screenshots I designed for the listing: one benefit per frame. Swipe for all five on a phone.</Caption>
-            </figcaption>
-          </figure>
-        )}
-        <ul className="cs-wide grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
-          {project.shipped.marketing.map((m) => (
-            <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 lg:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{m.channel}</p>
-              <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground font-display">{m.title}</h3>
-              <p className="text-[15px] leading-6">{m.body}</p>
-              <p className="mt-auto pt-2 text-sm font-semibold text-foreground tabular-nums">{m.proof}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-[15px] leading-6">
-          <span className="font-semibold text-foreground">What I don't do:</span> marketing push notifications. A notification only sends if it saves someone a wasted trip or wasted money.
-        </p>
-      </CaseStudySection>
-    )}
-
-    {/* What running it taught me */}
-    {project.shipped?.postLaunch && (
-      <CaseStudySection label="Running It" title="What broke after launch, and what I did about it">
-        <p className="mb-8">
-          A prototype never meets a changed API, an App Review rejection or a user with one bar of signal. The product did. These are the problems that mattered, each with the decision behind the fix.
-        </p>
-        <ol className="list-none border-t border-border divide-y divide-border">
-          {project.shipped.postLaunch.map((item, i) => (
-            <li key={item.title} className="py-8">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="grid gap-3 sm:grid-cols-[3.5rem_1fr]"
-              >
-                <span className="text-sm font-semibold tabular-nums text-accent sm:pt-1" aria-hidden="true">0{i + 1}</span>
-                <div className="min-w-0">
-                  <h3 className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{item.title}</h3>
-                  <dl className="max-w-[64ch] space-y-2 text-[15px] leading-6">
-                    <div><dt className="inline font-semibold text-foreground">What happened: </dt><dd className="inline">{item.problem}</dd></div>
-                    <div><dt className="inline font-semibold text-foreground">What I did: </dt><dd className="inline">{item.fix}</dd></div>
-                    <div><dt className="inline font-semibold text-accent">What it taught me: </dt><dd className="inline">{item.lesson}</dd></div>
-                  </dl>
-                </div>
-              </motion.div>
-            </li>
-          ))}
-        </ol>
-      </CaseStudySection>
-    )}
 
     {/* The problem */}
     <CaseStudySection label="The Problem" title="The official locator is a CSV on a map">
@@ -269,9 +196,82 @@ const EBTFinderCaseStudy = ({ project, getSlotImage }: Props) => (
       </CaseStudySection>
     )}
 
+    {/* Marketing: how people find it */}
+    {project.shipped?.marketing && (
+      <CaseStudySection label="Marketing" title="How I market it">
+        <p className="mb-8">
+          Shipping is half the job. I also run distribution: the App Store listing, search, content and partners. It is the same research, applied to how people find the product instead of how they use it.
+        </p>
+        {project.shipped.storeFrames && (
+          <figure className="cs-wide mb-10">
+            <ul
+              className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0"
+              aria-label="App Store screenshots designed for the EBT Finder listing"
+            >
+              {project.shipped.storeFrames.map((f) => {
+                const dims = imageDimensions[f.src];
+                return (
+                  <li key={f.src} className="w-[200px] shrink-0 snap-start lg:w-auto">
+                    <img src={f.src} alt={f.alt} width={dims?.width} height={dims?.height} loading="lazy" decoding="async" className="h-auto w-full rounded-xl border border-border" />
+                  </li>
+                );
+              })}
+            </ul>
+            <figcaption>
+              <Caption>The App Store screenshots I designed for the listing: one benefit per frame. Swipe for all five on a phone.</Caption>
+            </figcaption>
+          </figure>
+        )}
+        <ul className="cs-wide grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+          {project.shipped.marketing.map((m) => (
+            <li key={m.channel} className="flex flex-col gap-3 bg-background p-6 lg:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{m.channel}</p>
+              <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground font-display">{m.title}</h3>
+              <p className="text-[15px] leading-6">{m.body}</p>
+              <p className="mt-auto pt-2 text-sm font-semibold text-foreground tabular-nums">{m.proof}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 text-[15px] leading-6">
+          <span className="font-semibold text-foreground">What I don't do:</span> marketing push notifications. A notification only sends if it saves someone a wasted trip or wasted money.
+        </p>
+      </CaseStudySection>
+    )}
+
+    {/* What running it taught me */}
+    {project.shipped?.postLaunch && (
+      <CaseStudySection label="Running It" title="What broke after launch, and what I did about it">
+        <p className="mb-8">
+          A prototype never meets a changed API, an App Review rejection or a user with one bar of signal. The product did. These are the problems that mattered, each with the decision behind the fix.
+        </p>
+        <ol className="list-none border-t border-border divide-y divide-border">
+          {project.shipped.postLaunch.map((item, i) => (
+            <li key={item.title} className="py-8">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="grid gap-3 sm:grid-cols-[3.5rem_1fr]"
+              >
+                <span className="text-sm font-semibold tabular-nums text-accent sm:pt-1" aria-hidden="true">0{i + 1}</span>
+                <div className="min-w-0">
+                  <h3 className="mb-3 text-lg font-bold tracking-tight text-foreground font-display">{item.title}</h3>
+                  <dl className="max-w-[64ch] space-y-2 text-[15px] leading-6">
+                    <div><dt className="inline font-semibold text-foreground">What happened: </dt><dd className="inline">{item.problem}</dd></div>
+                    <div><dt className="inline font-semibold text-foreground">What I did: </dt><dd className="inline">{item.fix}</dd></div>
+                    <div><dt className="inline font-semibold text-accent">What it taught me: </dt><dd className="inline">{item.lesson}</dd></div>
+                  </dl>
+                </div>
+              </motion.div>
+            </li>
+          ))}
+        </ol>
+      </CaseStudySection>
+    )}
     {/* Learnings and hindsight */}
     {project.learnings && (
-      <CaseStudySection label="Learnings" title="What I learned, and what I'd change">
+      <CaseStudySection label="What I Learned" title="What I learned, and what I'd change">
         <NumberedList items={project.learnings} />
         {project.whatIdDoDifferently && (
           <>

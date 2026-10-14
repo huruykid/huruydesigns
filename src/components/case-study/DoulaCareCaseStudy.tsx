@@ -74,7 +74,7 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
       </p>
     </CaseStudySection>
 
-    <CaseStudySection label="The Hard Problem" title="Make Medi-Cal billing invisible, without hiding the rules">
+    <CaseStudySection label="The Problem" title="Make Medi-Cal billing invisible, without hiding the rules">
       <p className="mb-8">
         Client sign-ups lived in Google Forms and email, and the information involved is protected health information. The rules couldn't be simplified away: every visit has a code, every pregnancy has caps, and every claim has to survive an audit. The design problem was making a doula's day feel like care work while the system did the compliance work underneath.
       </p>

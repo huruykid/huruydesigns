@@ -55,7 +55,7 @@ const OneAsureCaseStudy = ({ project }: Props) => {
         </p>
       </CaseStudySection>
 
-      <CaseStudySection label="The Hard Problem" title="The ask was a refresh. The problem was trust.">
+      <CaseStudySection label="The Problem" title="The ask was a refresh. The problem was trust.">
         <p className="mb-8">
           The brief came from sales: make it look modern. The interviews said something else. Users had stopped trusting the system, and several described avoiding tasks entirely because the process felt too risky. Consolidating four products into one without losing the complexity enterprise clients actually needed was the real work, and it had to happen before any visual change could land.
         </p>
