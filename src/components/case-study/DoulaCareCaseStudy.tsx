@@ -4,6 +4,7 @@ import DoulaCareDemo from "./DoulaCareDemo";
 import { Caption, DecisionList, Full, NumberedList, StatRow, Wide } from "./primitives";
 import type { Project } from "@/lib/projects";
 import ProjectQuotes from "./ProjectQuotes";
+import { ClientRoadmap, ConsentDocumentsTable, DoulaHandoff } from "./DoulaHandoff";
 
 interface Props {
   project: Project;
@@ -39,9 +40,9 @@ const decisions = [
     rejected: "Asking doulas to fill in a CMS-1500 directly. It mirrors the payer's form and assumes billing training most doulas don't have.",
   },
   {
-    title: "Build the biller's screen for the payer's portal, not for ours",
-    body: "Billers retype claims into payer portals, so every field in a claim is click-to-copy, and each claim shows its age with flags at 20 and 30 days so nothing drifts past a filing deadline. A denial needs a reason the doula can act on.",
-    rejected: "Waiting for a clearinghouse integration before shipping billing. Better long term, and it would have left billers retyping by hand with no help in the meantime.",
+    title: "Make the existing billing process workable first",
+    body: "For the first phase I scoped the portal to what the organization could run right away: collect the documents, record visits, prepare the CMS-1500 and track each claim to paid. Submitting to payers and handling payment stayed outside it, so the biller's screen is built for the handoff. Every field is click-to-copy for retyping into the payer's portal, each claim shows its age with flags at 20 and 30 days so nothing drifts past a filing deadline, and after filing the biller attaches the submitted form for the doula's records. A denial needs a reason the doula can act on.",
+    rejected: "A clearinghouse integration and payments in phase one. Better long term, and it would have held billing back while billers kept retyping claims by hand with no help.",
   },
   {
     title: "Make security part of the flow, not a gate in front of it",
@@ -65,8 +66,11 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
       <p className="mb-4">
         California's Medi-Cal now covers doula care: prenatal visits, support during labor and postpartum visits. For community doulas that should mean steady income for work they already do. In practice, billing Medi-Cal means codes, visit limits per pregnancy, eligibility checks and claim forms designed for clinics with billing staff.
       </p>
+      <p className="mb-4">
+        A Bay Area birth-justice nonprofit that matches families with community doulas asked me to build the platform that would let its doulas get paid. I was the only designer and developer, working weekly with the nonprofit's leadership from October 2025.
+      </p>
       <p>
-        A Bay Area birth-justice nonprofit that matches families with community doulas asked me to build the platform that would let its doulas get paid. I was the only designer and developer, working weekly with the nonprofit's leadership.
+        The brief centered Black doulas and doulas serving underserved communities, and its goal was billing support that kept them independent: their own clients, their own records, their own relationships with families. That became a product requirement. A doula sees her own clients, visits and claims, and chooses whether to bill through the portal at all; billing tools unlock only after she picks the billing plan and signs a billing agreement. Admins get enough oversight to support the work, and when they look at a doula's screen it's read-only.
       </p>
     </CaseStudySection>
 
@@ -76,6 +80,26 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
       </p>
       <StatRow stats={rules} columns={4} />
       <Caption>The Medi-Cal doula benefit rules the portal tracks per client.</Caption>
+    </CaseStudySection>
+
+    <CaseStudySection label="The Service" title="Billing starts before the first visit">
+      <p className="mb-8">
+        I treated intake, visit documentation and claim preparation as one workflow, not three features. Each step has to hand the next person what they need: the client supplies insurance and signs consent, the doula documents care, and the biller turns both into a claim without chasing anyone for a member ID.
+      </p>
+      <DoulaHandoff />
+      <div className="cs-wide mt-16 grid items-center gap-8 md:grid-cols-[260px_1fr] md:gap-12">
+        <ClientRoadmap />
+        <div>
+          <h3 className="mb-3 font-display text-lg font-bold tracking-tight text-foreground">The family's side is built for a phone, and for care</h3>
+          <p className="mb-4">
+            Clients sign in on their phones to finish intake and consent, see their upcoming visits and follow where they are in the pregnancy. Their roadmap counts down the same pool of eight visits their doula bills against, without a single billing code on screen.
+          </p>
+          <p>
+            Real use shaped it. When a user reported that visit names were squeezed off narrow screens, I stacked those rows on phones and cut an indent that had left about 230px of usable width on a 375px screen.
+          </p>
+        </div>
+      </div>
+      <Caption>Client roadmap recreated with sample data.</Caption>
     </CaseStudySection>
 
     <CaseStudySection label="Decisions" title="Five calls I made, and what I turned down">
@@ -97,6 +121,16 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
       </Full>
     </CaseStudySection>
 
+    <CaseStudySection label="Dependencies" title="The intake flow depended on decisions outside the interface">
+      <p className="mb-4">
+        By November 2025 the intake and signature flows worked, but three documents clients would sign didn't exist yet: the Billing Expectations Notice, the Emergency Referral Consent and the doula contract. No screen could fix that.
+      </p>
+      <p className="mb-8">
+        I took one question into the next stakeholder meeting: who writes these, and who arranges their legal review? The organization's Program Manager took ownership, and all three are now live in the client portal. Each is signed on its own, with the date it was signed, and shows the client as pending until then.
+      </p>
+      <ConsentDocumentsTable />
+    </CaseStudySection>
+
     <CaseStudySection label="Access" title="Five roles, each enforced in the database">
       <p className="mb-8">
         Hiding a button isn't access control. Each role's limits are enforced by row-level security in the database, so a doula's session can't read another doula's clients even through the API, and no one can raise their own role.
@@ -115,7 +149,7 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
 
     <ProjectQuotes projectId={project.id} />
 
-    <CaseStudySection label="Outcome" title="Live with five community birth organizations">
+    <CaseStudySection label="Outcome" title="56 accounts across five community birth organizations">
       <p className={project.measured ? "mb-8" : "mb-4"}>{project.outcomeMetrics}</p>
       {/* Real totals from the portal, shown only once the nonprofit has OK'd them (projects.ts → measured). */}
       {project.measured && (

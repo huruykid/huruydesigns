@@ -60,7 +60,7 @@ export const experience: ExperienceItem[] = [
     org: "Appfinity Labs (Independent)",
     location: "Los Angeles, CA",
     bullets: [
-      "Designed and built a HIPAA-compliant doula care and Medi-Cal billing portal for a Bay Area birth-justice nonprofit, now used by about 60 people across 5 community birth organizations: visit logging against Medi-Cal caps, CMS-1500 claims, five roles enforced with row-level security, two-factor sign-in and audit logs",
+      "Designed and built a HIPAA-compliant doula care and Medi-Cal billing portal for a Bay Area birth-justice nonprofit, with 56 accounts across 5 community birth organizations (Sept 2026): visit logging against Medi-Cal caps, CMS-1500 claims, five roles enforced with row-level security, two-factor sign-in and audit logs",
       "Designed, built and shipped EBT Finder, a SNAP/EBT store locator on the App Store and web: 264,000+ locations across 53 states and territories and about 1,500 US users a month; 9 of 10 test participants found hot food in under 15 seconds",
       "Designed, built and shipped Beles, a dating and community app for the Tigrayan diaspora, now on the App Store; usability testing raised understanding of its traditional matchmaking feature from 5 of 8 testers to 7 of 8",
       "Build production React, Supabase and Capacitor apps, including LLM features with guardrails and human-in-the-loop review",
