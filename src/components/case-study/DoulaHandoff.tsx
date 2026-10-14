@@ -209,7 +209,7 @@ export interface DocumentRow {
   covers: string;
 }
 
-export const consentDocuments: DocumentRow[] = [
+const consentDocuments: DocumentRow[] = [
   {
     doc: "Billing Expectations Notice",
     covers: "Medi-Cal's visit limits, including that visits with another doula count toward the same total, and keeping coverage active.",
