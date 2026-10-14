@@ -6,6 +6,7 @@ import SEO from "@/components/SEO";
 import { PERSON } from "@/lib/seo";
 import { person, experience, leadership, resumePdfPath } from "@/lib/resume";
 import { testimonials } from "@/lib/testimonials";
+import { influence } from "@/lib/influence";
 
 const PAGE_DESC = `${person.positioning} Currently a ${person.title} at ${person.currentEmployer}.`;
 
@@ -161,6 +162,28 @@ const About = () => (
         </div>
       </div>
     </section>
+    {/* Beyond the project: work that outlived the brief (src/lib/influence.ts) */}
+    {influence.length > 0 && (
+      <section id="beyond-the-project" className="py-20 border-t border-border/50" aria-labelledby="beyond-heading">
+        <div className="container">
+          <div className="max-w-3xl mb-10">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Beyond the Project</p>
+            <h2 id="beyond-heading" className="mb-3 text-3xl font-bold tracking-tight font-display">Work that outlived the brief</h2>
+            <p className="text-muted-foreground">What happened after the deliverables: patterns other teams took on, and decisions that changed because of the research.</p>
+          </div>
+          <dl className="border-t border-border">
+            {influence.map((item) => (
+              <div key={item.kind} className={`grid gap-2 border-b border-border py-6 md:gap-8 ${item.confirmedBy ? "md:grid-cols-[11rem_minmax(0,1fr)_14rem]" : "md:grid-cols-[11rem_minmax(0,1fr)]"}`}>
+                <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground md:pt-1">{item.kind}</dt>
+                <dd className="max-w-[64ch] text-[16px] leading-7 text-foreground">{item.what}</dd>
+                {item.confirmedBy && <dd className="text-sm text-muted-foreground md:pt-1">Confirmed by {item.confirmedBy}</dd>}
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )}
+
     {/* Renders only once real quotes exist in src/lib/testimonials.ts */}
     {testimonials.length > 0 && (
       <section className="py-20 border-t border-border/50" aria-labelledby="testimonials-heading">

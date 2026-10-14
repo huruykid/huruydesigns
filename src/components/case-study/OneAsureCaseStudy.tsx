@@ -5,6 +5,7 @@ import AdminNotificationDemo from "./AdminNotificationDemo";
 import OneAsurePortalDemo from "./OneAsurePortalDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { Caption, DecisionList, NumberedList, StatRow, Wide } from "./primitives";
+import ProjectQuotes from "./ProjectQuotes";
 import { Project } from "@/lib/projects";
 
 interface Props {
@@ -92,6 +93,8 @@ const OneAsureCaseStudy = ({ project }: Props) => {
         </p>
         <AdminNotificationDemo />
       </CaseStudySection>
+
+      <ProjectQuotes projectId={project.id} />
 
       <CaseStudySection label="Outcome" title="One product, fewer support tickets, and a sales team that could demo it">
         <p className="mb-4">{project.outcomeMetrics}</p>

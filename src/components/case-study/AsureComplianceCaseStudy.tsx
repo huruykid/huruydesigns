@@ -25,6 +25,8 @@ import AsureConfigDemo from "./AsureConfigDemo";
 import ResponsiveAppShell from "./ResponsiveAppShell";
 import { EntityDiagram, StateMachineDiagram } from "./AsureDiagrams";
 import { Caption, Full, Wide } from "./primitives";
+import AsureBeforeAfter from "./AsureBeforeAfter";
+import ProjectQuotes from "./ProjectQuotes";
 import { Project } from "@/lib/projects";
 import type { AsureGatedContent, GatedIconName } from "@/lib/gatedContent";
 
@@ -221,6 +223,12 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
       </div>
     </CaseStudySection>
 
+    {/* Before and after: one screen, annotated */}
+    <CaseStudySection label="Before & After" title="Editing a tax rate, before and after">
+      <p className="mb-8">The same task on the legacy screen and on the redesign. Three changes did most of the work.</p>
+      <AsureBeforeAfter />
+    </CaseStudySection>
+
     {/* 05 - DESIGNING FOR INTUITION */}
     <CaseStudySection label="05 | Designing for Intuition" title="Translating regulatory logic into human mental models" icon={<Lightbulb className="h-4 w-4" />}>
       <p className="mb-6">{content.intuitionIntro}</p>
@@ -292,6 +300,8 @@ const AsureComplianceCaseStudy = ({ project, content }: Props) => (
         ))}
       </Wide>
     </CaseStudySection>
+
+    <ProjectQuotes projectId={project.id} />
 
     {/* 07 - IMPACT */}
     <CaseStudySection label="07 | Impact" title="No silent changes, and an audit-ready lifecycle" icon={<Star className="h-4 w-4" />}>

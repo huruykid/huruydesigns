@@ -99,6 +99,11 @@ export interface Project {
   gated?: boolean;
   /** Reachable by direct link only: never listed, linked, prerendered or in the sitemap. */
   hidden?: boolean;
+  /**
+   * Measured results with their source, shown in the Outcome section. Totals only;
+   * every set says where the numbers came from and when they were read.
+   */
+  measured?: { stats: { value: string; label: string; description?: string }[]; source: string };
   /** Set once a concept has been built and released. */
   shipped?: {
     summary: string;
@@ -212,6 +217,16 @@ export const projects: Project[] = [
       "Measure claim turnaround from day one. The queue flags claims at 20 and 30 days, but there's no before-launch baseline to compare against.",
     ],
     image: "/images/doula/card.webp",
+    // Fill once the nonprofit OKs totals-only numbers from the portal, then uncomment:
+    // measured: {
+    //   stats: [
+    //     { value: "N", label: "claims submitted through the portal", description: "since Month Year" },
+    //     { value: "X days", label: "median time from visit to claim" },
+    //     { value: "P%", label: "of visits billed within 30 days" },
+    //     { value: "D%", label: "of claims approved the first time" },
+    //   ],
+    //   source: "Source: portal database, totals only, Month Year to Month Year, read YYYY-MM-DD. No client or doula data used.",
+    // },
   },
   {
     id: "ebtfinder",

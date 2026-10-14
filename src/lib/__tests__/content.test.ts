@@ -84,3 +84,27 @@ describe("prerender routes", () => {
     expect(prerenderRoutes.find((r) => r.path === "/fintech-ux-designer")?.priority).toBeGreaterThan(0);
   });
 });
+
+describe("evidence slots", () => {
+  it("only links quotes to case studies that exist, and never ships template text", async () => {
+    const { testimonials } = await import("../testimonials");
+    for (const t of testimonials) {
+      if (t.projectId) expect(projects.some((p) => p.id === t.projectId), t.projectId).toBe(true);
+      expect(t.quote).not.toMatch(/…|\[|placeholder/i);
+      expect(t.role.trim()).not.toBe("");
+    }
+  });
+
+  it("keeps measured results sourced and free of placeholder values", () => {
+    for (const p of projects) {
+      if (!p.measured) continue;
+      expect(p.measured.source).toMatch(/read \d{4}-\d{2}-\d{2}/);
+      for (const s of p.measured.stats) expect(s.value).not.toMatch(/^(N|X days|P%|D%)$/);
+    }
+  });
+
+  it("lists influence as plain facts with no unfilled placeholders", async () => {
+    const { influence } = await import("../influence");
+    for (const i of influence) expect(i.what).not.toMatch(/\[|\bN\b|placeholder/);
+  });
+});

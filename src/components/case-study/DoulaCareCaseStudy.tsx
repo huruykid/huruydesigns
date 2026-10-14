@@ -3,6 +3,7 @@ import ResponsiveAppShell from "./ResponsiveAppShell";
 import DoulaCareDemo from "./DoulaCareDemo";
 import { Caption, DecisionList, Full, NumberedList, StatRow, Wide } from "./primitives";
 import type { Project } from "@/lib/projects";
+import ProjectQuotes from "./ProjectQuotes";
 
 interface Props {
   project: Project;
@@ -112,8 +113,17 @@ const DoulaCareCaseStudy = ({ project }: Props) => (
       </Wide>
     </CaseStudySection>
 
+    <ProjectQuotes projectId={project.id} />
+
     <CaseStudySection label="Outcome" title="Live with five community birth organizations">
-      <p className="mb-4">{project.outcomeMetrics}</p>
+      <p className={project.measured ? "mb-8" : "mb-4"}>{project.outcomeMetrics}</p>
+      {/* Real totals from the portal, shown only once the nonprofit has OK'd them (projects.ts → measured). */}
+      {project.measured && (
+        <>
+          <StatRow stats={project.measured.stats} columns={project.measured.stats.length >= 4 ? 4 : 2} />
+          <Caption>{project.measured.source}</Caption>
+        </>
+      )}
     </CaseStudySection>
 
     {project.learnings && (
