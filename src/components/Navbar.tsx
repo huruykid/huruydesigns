@@ -7,6 +7,7 @@ import { useChat } from "@/hooks/useChat";
 
 const navLinks = [
   { label: "Work", path: "/#work", match: "/" },
+  { label: "Fintech", path: "/fintech-ux-designer", match: "/fintech-ux-designer" },
   { label: "About", path: "/about", match: "/about" },
   { label: "Resume", path: "/resume", match: "/resume" },
   { label: "Book", path: "/book", match: "/book" },
@@ -64,13 +65,13 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-3 lg:gap-6 whitespace-nowrap">
           {navLinks.map((l) => (
             <Link
               key={l.path}
               to={l.path}
               aria-current={isActive(l.match) ? "page" : undefined}
-              className={`text-sm transition-colors hover:text-foreground ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
+              className={`inline-flex min-h-11 items-center text-sm transition-colors hover:text-foreground ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
             >
               {l.label}
             </Link>

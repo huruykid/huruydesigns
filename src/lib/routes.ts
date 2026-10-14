@@ -14,6 +14,7 @@ export interface PrerenderRoute {
 export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/", priority: 1.0, changefreq: "monthly" },
   { path: "/about", priority: 0.8, changefreq: "monthly" },
+  { path: "/fintech-ux-designer", priority: 0.8, changefreq: "monthly" },
   { path: "/resume", priority: 0.8, changefreq: "monthly" },
   { path: "/contact", priority: 0.7, changefreq: "yearly" },
   { path: "/book", priority: 0.6, changefreq: "monthly" },

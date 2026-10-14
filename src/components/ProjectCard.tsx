@@ -7,7 +7,7 @@ import { imageDimensions } from "@/lib/imageDimensions";
  * Homepage work card: a large cover, then "Title, Client | headline result" and a
  * few scannable tags. The whole card is the link.
  */
-const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+const ProjectCard = ({ project, index, fintechContext }: { project: Project; index: number; fintechContext?: string }) => {
   const cover = project.cardImage ?? project.image;
   const dims = imageDimensions[cover];
   const outcome = project.keyResults?.[0];
@@ -16,7 +16,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   return (
     <Link
       to={`/project/${project.id}`}
-      className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className={`group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background ${fintechContext ? "h-full border border-border p-6 lg:p-8" : ""}`}
       aria-label={`${project.title}${project.client ? `, ${project.client}` : ""}: ${outcome ? `${outcome.value} ${outcome.label}` : project.impact}`}
     >
       <div className="aspect-[4/3] overflow-hidden rounded-xl bg-muted">
@@ -31,14 +31,20 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         />
       </div>
       <div className="pt-4">
-        <p className="text-[17px] leading-snug">
+        {fintechContext ? <h3 className="text-[17px] font-medium leading-snug text-foreground">{project.title}</h3> : <p className="text-[17px] leading-snug">
           <span className="font-medium text-foreground">{project.title}</span>
           {project.client && <span className="text-muted-foreground">, {project.client}</span>}
-        </p>
-        {outcome && (
+        </p>}
+        {fintechContext ? <p className="mt-1 text-[15px] text-muted-foreground">{project.impact}</p> : outcome && (
           <p className="mt-1 text-[15px] text-muted-foreground">
             {outcome.value} {outcome.label}
           </p>
+        )}
+        {fintechContext && (
+          <>
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-foreground">{fintechContext}</p>
+          </>
         )}
         <ul className="mt-3 flex flex-wrap gap-2" aria-label="Tags">
           {tags.map((t) => (
