@@ -80,5 +80,7 @@ describe("prerender routes", () => {
     expect(paths).not.toContain("/project/fentfinder");
     expect(paths).not.toContain("/hire");
     expect(paths).toContain("/book");
+    expect(paths).toContain("/fintech-ux-designer");
+    expect(prerenderRoutes.find((r) => r.path === "/fintech-ux-designer")?.priority).toBeGreaterThan(0);
   });
 });
