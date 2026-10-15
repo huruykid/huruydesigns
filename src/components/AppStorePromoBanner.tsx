@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Project } from "@/lib/projects";
 import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
 
@@ -7,7 +8,8 @@ import { getAppStoreUrl, trackAppStoreClick } from "@/lib/analytics";
  * button, and the black badge carries its own grey border so it reads on light and
  * dark backgrounds alike. 119.66 x 40 is the artwork's native size.
  */
-export const APP_STORE_BADGE_SRC = "https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us";
+export const APP_STORE_BADGE_SRC =
+  "https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us";
 
 interface AppStoreBadgeLinkProps {
   href: string;
@@ -17,20 +19,48 @@ interface AppStoreBadgeLinkProps {
   className?: string;
 }
 
-export const AppStoreBadgeLink = ({ href, appName, onClick, className = "" }: AppStoreBadgeLinkProps) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label={`Download ${appName} on the App Store`}
-    onClick={onClick}
-    className={`inline-flex min-h-11 items-center rounded-[10px] transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${className}`}
-  >
-    <img src={APP_STORE_BADGE_SRC} alt="" width={144} height={48} className="h-12 w-auto" />
-  </a>
-);
+export const AppStoreBadgeLink = ({
+  href,
+  appName,
+  onClick,
+  className = "",
+}: AppStoreBadgeLinkProps) => {
+  // If Apple's badge can't load, fall back to a plain text link so the button never disappears.
+  const [badgeFailed, setBadgeFailed] = useState(false);
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Download ${appName} on the App Store`}
+      onClick={onClick}
+      className={`inline-flex min-h-11 items-center rounded-[10px] transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${className}`}
+    >
+      {badgeFailed ? (
+        <span className="rounded-[10px] border border-border px-4 py-3 text-sm font-semibold text-foreground">
+          Download on the App Store
+        </span>
+      ) : (
+        <img
+          src={APP_STORE_BADGE_SRC}
+          alt=""
+          width={144}
+          height={48}
+          className="h-12 w-auto"
+          onError={() => setBadgeFailed(true)}
+        />
+      )}
+    </a>
+  );
+};
 
-const AppStorePromoBanner = ({ project, placement = "case_study_banner" }: { project: Project; placement?: string }) => {
+const AppStorePromoBanner = ({
+  project,
+  placement = "case_study_banner",
+}: {
+  project: Project;
+  placement?: string;
+}) => {
   if (!project.appStoreUrl) return null;
   return (
     <AppStoreBadgeLink
