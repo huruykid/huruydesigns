@@ -20,6 +20,7 @@ const Footer = () => (
           </a>
           <Link to="/resume" className={linkClass}>Resume</Link>
           <Link to="/book" className={linkClass}>Book</Link>
+          <Link to="/appstore" className={linkClass}>App Store launch</Link>
         </nav>
       </div>
     </div>

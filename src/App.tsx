@@ -39,6 +39,7 @@ const OGImage = lazy(() => import("./pages/OGImage"));
 const Resume = lazy(() => import("./pages/Resume"));
 const Book = lazy(() => import("./pages/Book"));
 const FintechUX = lazy(() => import("./pages/FintechUX"));
+const AppStoreLaunch = lazy(() => import("./pages/AppStoreLaunch"));
 
 const RouteFallback = () => (
   <div className="container py-24" aria-busy="true" aria-live="polite">
@@ -75,6 +76,7 @@ export const AppRoutes = () => (
           <Route path="/resume" element={<Resume />} />
           <Route path="/book" element={<Book />} />
           <Route path="/fintech-ux-designer" element={<FintechUX />} />
+          <Route path="/appstore" element={<AppStoreLaunch />} />
           <Route path="/senior-ux-designer" element={<Navigate to="/#hire" replace />} />
           <Route path="/hire" element={<Navigate to="/#hire" replace />} />
           <Route path="/project/capital-group-research" element={<Navigate to="/#work" replace />} />

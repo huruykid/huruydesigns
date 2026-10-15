@@ -18,6 +18,7 @@ export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/resume", priority: 0.8, changefreq: "monthly" },
   { path: "/contact", priority: 0.7, changefreq: "yearly" },
   { path: "/book", priority: 0.6, changefreq: "monthly" },
+  { path: "/appstore", priority: 0.7, changefreq: "monthly" },
   ...publicProjects()
     .filter((p) => !p.gated)
     .map((p) => ({ path: `/project/${p.id}`, priority: 0.8, changefreq: "monthly" as const })),
