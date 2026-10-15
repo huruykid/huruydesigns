@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, Copy, Send } from "lucide-react";
+import { CalendarDays, Check, Copy, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,7 @@ import { trackEvent } from "@/lib/analytics";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
   BELES_APP_STORE_URL,
+  BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
   EBT_FINDER_LIVE_VERSION,
   accountStatuses,
@@ -453,9 +454,20 @@ const AppStoreLaunch = () => (
 
       <section id="start" className="mb-16 scroll-mt-24 border-t border-border pt-8 lg:mb-24" aria-labelledby="start-heading">
         <h2 id="start-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Tell me about your app</h2>
-        <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+        <p className="mb-6 text-base leading-relaxed text-muted-foreground">
           Send the link and where it's stuck. I'll tell you within one business day whether I can get it approved, and which package fits.
         </p>
+        <div className="mb-10 flex flex-col gap-3 rounded-xl border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm leading-relaxed text-foreground">
+            <span className="font-semibold">Rather talk it through?</span>{" "}
+            <span className="text-muted-foreground">Book a free 15-minute video call.</span>
+          </p>
+          <Button asChild variant="outline" className="min-h-11 shrink-0 rounded-full px-5">
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_book_call_click")}>
+              <CalendarDays className="mr-1 h-4 w-4" aria-hidden="true" /> Book a 15-minute call
+            </a>
+          </Button>
+        </div>
         <IntakeForm />
       </section>
 

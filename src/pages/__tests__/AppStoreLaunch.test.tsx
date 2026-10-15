@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
+import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
@@ -73,6 +73,11 @@ describe("App Store launch page", () => {
   it("does not name the current employer", () => {
     renderPage();
     expect(document.body.textContent).not.toMatch(/capital group|luxoft/i);
+  });
+
+  it("offers a 15-minute call next to the intake form", () => {
+    renderPage();
+    expect(screen.getByRole("link", { name: /Book a 15-minute call/ })).toHaveAttribute("href", BOOKING_URL);
   });
 
   it("has an intake form with required app link and stage", () => {

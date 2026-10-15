@@ -8,6 +8,9 @@ import { projects } from "./projects";
 
 export const BELES_APP_STORE_URL = "https://apps.apple.com/us/app/beles-tigrayan-dating/id6810825951";
 export const EBT_FINDER_APP_STORE_URL = "https://apps.apple.com/app/ebt-finder/id6751323829";
+/** Google Calendar booking page: 15-minute intro calls, Mon/Wed/Fri 12-1pm and Tue/Thu 6-7pm Pacific. */
+export const BOOKING_URL =
+  "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0PLAAK5cjS4Gu7ooPkMRlZ9eUpUHOS9gfoIRr1dRDPMMbyiKIZIhkhjgKbBE6GClPVkzC-D34k";
 
 /**
  * EBT Finder proof for /appstore, derived from its case-study data in projects.ts so the
