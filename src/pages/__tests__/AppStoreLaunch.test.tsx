@@ -7,7 +7,6 @@ import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
 import {
-  APPLE_TRANSPARENCY_2025,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -101,13 +100,6 @@ describe("App Store launch page", () => {
     renderPage();
     expect(document.body.textContent).not.toMatch(/guaranteed approval|100% approval/i);
     expect(faqs.find((f) => /guarantee/i.test(f.q))?.a).toMatch(/No one can promise/);
-  });
-
-  it("cites Apple's own 2025 review numbers, with the source linked", () => {
-    renderPage();
-    expect(APPLE_TRANSPARENCY_2025.rejected / APPLE_TRANSPARENCY_2025.reviewed).toBeCloseTo(0.23, 2);
-    expect(screen.getByText("2,093,244", { exact: false })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "App Store Transparency Report 2025" })).toHaveAttribute("href", APPLE_TRANSPARENCY_2025.url);
   });
 
   it("lists the guidelines in scope and the process in four steps", () => {

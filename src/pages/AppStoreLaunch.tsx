@@ -15,7 +15,6 @@ import { imageDimensions } from "@/lib/imageDimensions";
 import {
   type IntakeStatus,
   type ServicePackage,
-  APPLE_TRANSPARENCY_2025,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -397,8 +396,6 @@ const ResolutionCenterMock = () => (
   </div>
 );
 
-const fmt = (n: number) => n.toLocaleString("en-US");
-
 const PackageCard = ({
   pkg,
   core,
@@ -540,32 +537,6 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
         </div>
       </section>
 
-      {/* Why it matters */}
-      <Section
-        eyebrow="Why it matters"
-        title="A rejection costs days, not code."
-        lede="Every round trip is another wait in Apple's queue. The fix is usually a day's work. Knowing which day is what you're paying for."
-        band
-        aside={
-          <Card className="p-6">
-            <p className="font-mono text-xs text-muted-foreground">App Store submissions in 2025</p>
-            <p className="mt-3 text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
-              {fmt(APPLE_TRANSPARENCY_2025.rejected)} <span className="font-mono text-sm font-normal text-destructive">rejected</span>
-            </p>
-            <p className="mt-3 border-t border-border pt-3 text-xl font-medium text-foreground">
-              {fmt(APPLE_TRANSPARENCY_2025.reviewed)} <span className="font-mono text-sm font-normal text-muted-foreground">reviewed</span>
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Close to one in four did not pass.</p>
-            <p className="mt-3 text-xs text-muted-foreground">
-              Source: Apple,{" "}
-              <a href={APPLE_TRANSPARENCY_2025.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
-                App Store Transparency Report 2025
-              </a>
-            </p>
-          </Card>
-        }
-      />
-
       {/* Scope */}
       <Section eyebrow="Scope" title="What I fix" lede="Any App Review guideline. The common ones:">
         <Card className="p-2 sm:p-4">
@@ -606,14 +577,6 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             </li>
           ))}
         </ol>
-        <ul className="mt-6 flex flex-wrap items-center gap-2">
-          <li className="mr-2 font-mono text-xs text-muted-foreground">Access and code</li>
-          {trustPoints.map((t) => (
-            <li key={t} className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground">
-              <Check className="h-3 w-3 text-accent" aria-hidden="true" /> {t}
-            </li>
-          ))}
-        </ul>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {workingTerms.map((w) => (
             <div key={w.label} className="rounded-2xl bg-muted p-5">
@@ -649,7 +612,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             <p className="mt-3 text-base text-muted-foreground">Built in Lovable. First iOS build to 175 countries in ten days.</p>
             <p className="mt-3 font-mono text-xs text-accent">4.8 · 1.2 · 2.3 · iPhone-only</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
-              A dating app for the Tigrayan diaspora, built solo. Sign-in failed only in the native app, Apple wanted reporting and blocking before approval, and Sign in with Apple needed native wiring. All fixed before launch; the last one cost a version.
+              A dating app, built solo. Native sign-in, Sign in with Apple, and the reporting and blocking Apple requires, all added before approval.
             </p>
             <ul aria-label="Beles App Store screenshots" className="mt-6 grid grid-cols-5 gap-2">
               {belesScreens.map((s) => (
@@ -677,10 +640,10 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <img src={EBT_LOGO} width={imageDimensions[EBT_LOGO]?.width} height={imageDimensions[EBT_LOGO]?.height} alt="" className="h-10 w-10 rounded-xl" loading="lazy" decoding="async" />
               <h3 className="text-xl font-medium text-foreground">EBT Finder</h3>
             </div>
-            <p className="mt-3 text-base text-muted-foreground">A rejection fixed without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
-            <p className="mt-3 font-mono text-xs text-accent">2.1 · {ebtProof.stats.map((s) => s.value).join(" · ")} TestFlight builds</p>
+            <p className="mt-3 text-base text-muted-foreground">Rejected by App Review, approved without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
+            <p className="mt-3 font-mono text-xs text-accent">2.1 · {ebtProof.stats[0]?.value} locations</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
-              App Review said account creation failed. The cause was a database trigger, not the build: fixed server-side, reproduced on a real device, explained in Resolution Center. No new binary. Thirteen TestFlight builds on the next version became the pre-flight audit every client app gets now.
+              The reviewer couldn't create an account. The cause was on the server, not in the app: fixed the same day and explained in Resolution Center.
             </p>
             {ebtProof.frames.length > 0 && (
               <ul aria-label="EBT Finder App Store screenshots" className="mt-6 grid grid-cols-4 gap-2">

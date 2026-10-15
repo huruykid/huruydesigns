@@ -116,18 +116,6 @@ export const addOns = [
   { name: "Care plan", price: "$149/month", detail: "Your updates shipped, iOS and SDK upgrades, key renewals and review replies." },
 ];
 
-/**
- * Apple's own count for 2025, from the App Store Transparency Report. The Design section
- * is where guidelines 4.2 (minimum functionality) and 4.3 (spam) are counted, which is
- * exactly where AI-built apps get caught.
- */
-export const APPLE_TRANSPARENCY_2025 = {
-  reviewed: 9_100_620,
-  rejected: 2_093_244,
-  designRejections: 415_532,
-  url: "https://www.apple.com/legal/app-store/transparency/2025/",
-};
-
 /** The guidelines the service is scoped around, in the order Apple numbers them. */
 export const guidelines = [
   { number: "1.2", name: "User-Generated Content", note: "Report, block and moderation before you ship" },
@@ -140,7 +128,7 @@ export const guidelines = [
   { number: "5.1.1", name: "Data Collection and Storage", note: "Account deletion, purpose strings, privacy labels" },
 ];
 
-export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built React", "Capacitor shells"];
+export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built React"];
 
 /** The four steps, written for the process cards. */
 export const process = [
