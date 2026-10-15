@@ -12,6 +12,7 @@ import { publicProjects } from "@/lib/projects";
  *
  *   /og                  default card (home, about, resume, contact)
  *   /og?card=book        the book page
+ *   /og?card=appstore    the App Store service page
  *   /og?card=<project>   one card per public project
  */
 
@@ -91,6 +92,39 @@ const BookCard = () => (
   </Frame>
 );
 
+/** The /appstore service page: the offer on the left, the two shipped apps on the right. */
+const AppStoreCard = () => {
+  const phone: React.CSSProperties = {
+    width: 250,
+    borderRadius: 34,
+    border: "6px solid #1d1a18",
+    boxShadow: "0 30px 70px rgba(0,0,0,0.6)",
+    display: "block",
+  };
+  return (
+    <Frame bg="#0E0E0E">
+      <div style={{ width: 640, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "72px 24px 64px 80px" }}>
+        <p style={{ fontSize: 20, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#FEED25", margin: 0 }}>
+          Lovable to the App Store
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+          <h1 style={{ fontSize: 62, fontWeight: 600, letterSpacing: "-0.035em", lineHeight: 1.04, color: "#F5F5F5", margin: 0 }}>
+            Get your Lovable app approved on the App Store
+          </h1>
+          <p style={{ fontSize: 26, lineHeight: 1.4, color: "#BDBDBD", margin: 0 }}>
+            Fixed price. The balance is due only when Apple approves.
+          </p>
+        </div>
+        <p style={{ fontSize: 22, color: "#A3A3A3", margin: 0 }}>Two apps shipped solo  ·  huruy.tech/appstore</p>
+      </div>
+      <div style={{ flex: 1, position: "relative" }}>
+        <img src="/images/ebtfinder/app/live-home.webp" alt="" style={{ ...phone, position: "absolute", left: 40, top: 150, transform: "rotate(-6deg)" }} />
+        <img src="/images/beles/appstore/02-discover.webp" alt="" style={{ ...phone, position: "absolute", left: 230, top: 70, transform: "rotate(4deg)" }} />
+      </div>
+    </Frame>
+  );
+};
+
 const ProjectCard = ({ id }: { id: string }) => {
   const project = publicProjects().find((p) => p.id === id);
   if (!project) return <DefaultCard />;
@@ -124,7 +158,7 @@ const OGImage = () => {
         path="/og"
         noindex
       />
-      {card === "book" ? <BookCard /> : card ? <ProjectCard id={card} /> : <DefaultCard />}
+      {card === "book" ? <BookCard /> : card === "appstore" ? <AppStoreCard /> : card ? <ProjectCard id={card} /> : <DefaultCard />}
     </>
   );
 };
