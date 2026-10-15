@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      appstore_leads: {
+        Row: {
+          app_url: string
+          created_at: string
+          details: string | null
+          developer_account: string | null
+          email: string
+          id: string
+          name: string
+          notified: boolean
+          stage: string
+        }
+        Insert: {
+          app_url: string
+          created_at?: string
+          details?: string | null
+          developer_account?: string | null
+          email: string
+          id?: string
+          name: string
+          notified?: boolean
+          stage: string
+        }
+        Update: {
+          app_url?: string
+          created_at?: string
+          details?: string | null
+          developer_account?: string | null
+          email?: string
+          id?: string
+          name?: string
+          notified?: boolean
+          stage?: string
+        }
+        Relationships: []
+      }
       case_study_images: {
         Row: {
           created_at: string
