@@ -455,7 +455,6 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
   };
   const carePlan = addOns.find((a) => /care/i.test(a.name));
   const android = addOns.find((a) => /android/i.test(a.name));
-  const rejectedShare = Math.round((APPLE_TRANSPARENCY_2025.rejected / APPLE_TRANSPARENCY_2025.reviewed) * 100);
 
   return (
     <>
@@ -556,9 +555,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             <p className="mt-3 border-t border-border pt-3 text-xl font-medium text-foreground">
               {fmt(APPLE_TRANSPARENCY_2025.reviewed)} <span className="font-mono text-sm font-normal text-muted-foreground">reviewed</span>
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              About {rejectedShare}% didn't pass. {fmt(APPLE_TRANSPARENCY_2025.designRejections)} were Design rejections, the section that holds 4.2 and 4.3.
-            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Close to one in four did not pass.</p>
             <p className="mt-3 text-xs text-muted-foreground">
               Source: Apple,{" "}
               <a href={APPLE_TRANSPARENCY_2025.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
