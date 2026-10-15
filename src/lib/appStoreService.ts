@@ -30,7 +30,7 @@ export const ebtProof = {
 };
 
 export interface ServicePackage {
-  id: "rescue" | "launch" | "polish";
+  id: "check" | "rescue" | "launch" | "polish";
   name: string;
   price: string;
   /** Machine-readable price for JSON-LD. */
@@ -50,7 +50,7 @@ export const packages: ServicePackage[] = [
     payment: "$250 to start, $500 when Apple approves",
     bestFor: "Apple already rejected your app.",
     includes: [
-      "Diagnosis of the rejection (4.2, 4.8, 5.1.1, 2.1 and others)",
+      "A free diagnosis of the rejection (4.2, 4.8, 5.1.1, 2.1 and others) before you pay anything",
       "The fixes, in your code",
       "A reply to App Review that answers what they asked",
       "Resubmissions until approved",
@@ -88,6 +88,28 @@ export const packages: ServicePackage[] = [
     ],
   },
 ];
+
+/**
+ * The low-commitment way in for apps that have never been submitted: a paid pre-submission
+ * audit credited toward Launch. Rejected apps get a free diagnosis instead (see Rescue).
+ */
+export const readinessCheck: ServicePackage = {
+  id: "check",
+  name: "Readiness Check",
+  price: "$250",
+  priceValue: 250,
+  payment: "Paid up front. Credited in full toward Launch if you book within 30 days.",
+  bestFor: "Your app has never been submitted and you want to know what Apple will flag first.",
+  includes: [
+    "A review of your app against the guidelines that reject AI-built apps most: 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1",
+    "A written fix list, ranked by what Apple is most likely to flag",
+    "Draft notes for the App Review team, ready for when you submit",
+    "A 20-minute call to walk through it, within two business days",
+  ],
+};
+
+/** Every package a visitor can pick on the intake form, entry option first. */
+export const intakePackages = [readinessCheck, ...packages];
 
 export const addOns = [
   { name: "Android", price: "+$400", detail: "Google Play build and listing from the same app." },
@@ -154,7 +176,7 @@ export const belesLessons = [
 ];
 
 export const steps = [
-  "Intake: you send the app link and where you're stuck. I reply within one business day with a yes, a no, or questions.",
+  "Intake: you send the app link and where you're stuck. If Apple rejected it, I reply within one business day with a free diagnosis and a fixed price.",
   "Readiness audit against the guidelines that reject AI-built apps most: 4.2, 4.8, 5.1.1 and 2.1.",
   "Native build of your app with the features Apple looks for, tested on a real iPhone through TestFlight.",
   "Listing: copy, screenshots, privacy labels and notes for the App Review team.",
@@ -180,6 +202,14 @@ export const faqs = [
   {
     q: "What if you can't take my app, or Apple never approves it?",
     a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the second half.",
+  },
+  {
+    q: "Is the rejection diagnosis really free?",
+    a: "Yes. Send your app link and paste Apple's rejection message. Within one business day I'll tell you what the rejection means, what the fix involves, and the fixed price to do it. No payment details, no obligation.",
+  },
+  {
+    q: "Can I start smaller?",
+    a: "If your app has never been submitted, the $250 Readiness Check reviews it against the guidelines Apple rejects AI-built apps for, with a ranked fix list, draft reviewer notes and a short call. Fix it yourself, or book Launch within 30 days and the $250 comes off the price.",
   },
   {
     q: "Do I have to rebuild my app?",

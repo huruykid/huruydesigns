@@ -6,7 +6,7 @@ vi.mock("@/integrations/supabase/client", () => ({ supabase: { functions: { invo
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
+import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages, readinessCheck } from "@/lib/appStoreService";
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
@@ -29,6 +29,29 @@ describe("App Store launch page", () => {
       expect(within(card).getByText(p.payment)).toBeInTheDocument();
     }
     expect(within(pricing).getByText(/Founding price \$995/)).toBeInTheDocument();
+  });
+
+  it("offers a $250 Readiness Check for never-submitted apps, credited toward Launch", () => {
+    renderPage();
+    const check = screen.getByRole("group", { name: "Readiness Check" });
+    expect(within(check).getByText("$250")).toBeInTheDocument();
+    expect(readinessCheck.payment).toMatch(/Credited in full toward Launch/);
+    expect(faqs.find((f) => /start smaller/i.test(f.q))?.a).toMatch(/never been submitted/);
+  });
+
+  it("offers a free rejection diagnosis that preselects Rescue and a rejected stage", () => {
+    renderPage();
+    expect(faqs.find((f) => /diagnosis really free/i.test(f.q))?.a).toMatch(/No payment details/);
+    fireEvent.click(screen.getByRole("link", { name: "Paste the message for a free diagnosis" }));
+    expect(screen.getByLabelText("What you'd like")).toHaveValue("rescue");
+    expect(screen.getByLabelText("Where it stands")).toHaveValue("rejected");
+    expect(screen.getByRole("button", { name: "Get a free diagnosis" })).toBeInTheDocument();
+  });
+
+  it("preselects the package a visitor clicked in the intake form", () => {
+    renderPage();
+    fireEvent.click(screen.getByRole("link", { name: "Book a Readiness Check" }));
+    expect(screen.getByLabelText("What you'd like")).toHaveValue("check");
   });
 
   it("links the Beles proof to the live App Store listing and the design case study", () => {
@@ -113,6 +136,15 @@ describe("App Store launch page", () => {
       expect(invoke).toHaveBeenCalledWith("appstore-lead", {
         body: expect.objectContaining({ name: "Sam", email: "sam@example.com", appUrl: "https://sam.lovable.app", stage: "rejected", website: "" }),
       });
+    });
+
+    it("puts the chosen package at the top of the details", async () => {
+      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      renderPage();
+      fireEvent.change(screen.getByLabelText("What you'd like"), { target: { value: "check" } });
+      fill();
+      await screen.findByText(/Got it/);
+      expect(invoke.mock.calls[0][1].body.details).toMatch(/^Interested in: Readiness Check \(\$250\)/);
     });
 
     it("falls back to an email draft when saving fails", async () => {
