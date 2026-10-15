@@ -182,6 +182,8 @@ const AppStoreLaunch = () => (
       title={TITLE}
       description={DESCRIPTION}
       path={PATH}
+      image="/og/appstore.png"
+      imageAlt="Get your Lovable app approved on the App Store: Huruy Kidanemariam's fixed-price launch service, shown with Beles and EBT Finder"
       jsonLd={jsonLd}
       breadcrumbs={[{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]}
     />

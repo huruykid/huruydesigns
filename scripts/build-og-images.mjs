@@ -18,6 +18,7 @@ const OUT = path.join(ROOT, "public/og");
 const cards = [
   { file: "default.png", query: "" },
   { file: "book.png", query: "?card=book" },
+  { file: "appstore.png", query: "?card=appstore" },
   { file: "asure-compliance.png", query: "?card=asure-compliance" },
   { file: "oneasure-portal.png", query: "?card=oneasure-portal" },
   { file: "doula-care-portal.png", query: "?card=doula-care-portal" },
