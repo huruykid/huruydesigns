@@ -516,6 +516,7 @@ export const projects: Project[] = [
     cardImage: "/images/beles/card.webp",
     client: "Independent",
     cardTags: ["Live on the App Store", "User research", "Design + build, solo"],
+    appStoreUrl: "https://apps.apple.com/us/app/beles-tigrayan-dating/id6810825951",
     title: "Beles",
     seoDescription: "Culturally rooted dating and community app for the Tigrayan diaspora, blending traditional matchmaking with modern UX.",
     description: "A dating and community app for the Tigrayan diaspora, researched, designed, built and shipped solo. The hard problem was making traditional matchmaking (Shmagele) legible inside a modern app without flattening it, and serving people who wanted community more than dates.",

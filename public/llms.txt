@@ -10,6 +10,7 @@
 - [Resume](https://huruy.tech/resume): Work history and downloadable resume.
 - [Contact](https://huruy.tech/contact): Get in touch about senior UX roles and product design work.
 - [Book](https://huruy.tech/book): The Oracle of San Quentin, Huruy's unofficial biography of Curtis "Wall Street" Carroll, with paperback and Kindle availability.
+- [App Store launch](https://huruy.tech/appstore): Huruy's fixed-price service that turns Lovable and other AI-built web apps into native iOS apps approved on the App Store, with the Beles launch as a worked example.
 
 ## Case Studies
 
