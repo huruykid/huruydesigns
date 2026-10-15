@@ -30,7 +30,7 @@ describe("App Store launch page", () => {
 
   it("links the Beles proof to the live App Store listing and the design case study", () => {
     renderPage();
-    expect(screen.getByRole("link", { name: /Beles on the App Store/ })).toHaveAttribute("href", BELES_APP_STORE_URL);
+    expect(screen.getByRole("link", { name: "Download Beles on the App Store" })).toHaveAttribute("href", BELES_APP_STORE_URL);
     expect(screen.getByRole("link", { name: "Read the design case study" })).toHaveAttribute("href", "/project/beles");
   });
 
@@ -53,7 +53,7 @@ describe("App Store launch page", () => {
     const strip = screen.getByRole("list", { name: "EBT Finder App Store screenshots" });
     for (const f of ebtProof.frames) expect(imageDimensions[f.src]).toBeDefined();
     expect(within(strip).getAllByRole("img")).toHaveLength(ebtProof.frames.length);
-    expect(screen.getByRole("link", { name: /EBT Finder on the App Store/ })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
+    expect(screen.getByRole("link", { name: "Download EBT Finder on the App Store" })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
     expect(screen.getByRole("link", { name: "Read the EBT Finder case study" })).toHaveAttribute("href", "/project/ebtfinder");
   });
 
@@ -61,6 +61,13 @@ describe("App Store launch page", () => {
     renderPage();
     expect(document.body.textContent).not.toMatch(/guaranteed approval|100% approval/i);
     expect(faqs.find((f) => /guarantee/i.test(f.q))?.a).toMatch(/No one can promise/);
+  });
+
+  it("states refund terms, the business behind the service, and non-affiliation", () => {
+    renderPage();
+    expect(faqs.find((f) => /never approves/i.test(f.q))?.a).toMatch(/full refund/);
+    expect(document.body.textContent).toMatch(/Appfinity Labs LLC/);
+    expect(document.body.textContent).toMatch(/Not affiliated with or endorsed by Apple or Lovable/);
   });
 
   it("does not name the current employer", () => {

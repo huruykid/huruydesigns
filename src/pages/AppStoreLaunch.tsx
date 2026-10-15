@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import SEO from "@/components/SEO";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import { NumberedList, StatRow, Wide } from "@/components/case-study/primitives";
-import { AppleLogo } from "@/components/AppStorePromoBanner";
+import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
 import { trackEvent } from "@/lib/analytics";
@@ -346,12 +346,8 @@ const AppStoreLaunch = () => (
           ))}
         </ol>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button asChild size="lg" className="min-h-11 rounded-full bg-[#0d0d12] px-6 text-white hover:bg-[#0d0d12]/85">
-            <a href={BELES_APP_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })}>
-              <AppleLogo className="mr-1 h-5 w-5" /> Beles on the App Store
-            </a>
-          </Button>
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <AppStoreBadgeLink href={BELES_APP_STORE_URL} appName="Beles" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })} />
           <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
             <Link to="/project/beles">Read the design case study</Link>
           </Button>
@@ -416,12 +412,8 @@ const AppStoreLaunch = () => (
           ))}
         </ol>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button asChild size="lg" className="min-h-11 rounded-full bg-[#0d0d12] px-6 text-white hover:bg-[#0d0d12]/85">
-            <a href={EBT_FINDER_APP_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })}>
-              <AppleLogo className="mr-1 h-5 w-5" /> EBT Finder on the App Store
-            </a>
-          </Button>
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <AppStoreBadgeLink href={EBT_FINDER_APP_STORE_URL} appName="EBT Finder" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })} />
           <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
             <Link to="/project/ebtfinder">Read the EBT Finder case study</Link>
           </Button>
@@ -466,6 +458,10 @@ const AppStoreLaunch = () => (
         </p>
         <IntakeForm />
       </section>
+
+      <p className="mb-16 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground lg:mb-24">
+        The App Store launch service is provided by Appfinity Labs LLC, Los Angeles, California. Not affiliated with or endorsed by Apple or Lovable. App Store is a service mark of Apple Inc.
+      </p>
     </div>
   </>
 );

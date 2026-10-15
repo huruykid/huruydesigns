@@ -175,6 +175,10 @@ export const faqs = [
     a: "No one can promise Apple's decision. What I can promise: if Apple rejects it, I fix it and resubmit at no charge, and you don't pay the second half until it's approved. If your app has nothing app-like to add, I'll tell you at intake instead of taking your money.",
   },
   {
+    q: "What if you can't take my app, or Apple never approves it?",
+    a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the second half.",
+  },
+  {
     q: "Do I have to rebuild my app?",
     a: "No. Your iOS app is built from the code you already have. Your backend, including Lovable Cloud, stays where it is.",
   },
