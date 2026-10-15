@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, Check, Copy, Send } from "lucide-react";
+import { ArrowRight, CalendarDays, Check, Copy, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import SEO from "@/components/SEO";
-import CaseStudySection from "@/components/case-study/CaseStudySection";
-import { NumberedList, StatRow, Wide } from "@/components/case-study/primitives";
 import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
@@ -17,6 +15,7 @@ import { imageDimensions } from "@/lib/imageDimensions";
 import {
   type IntakeStatus,
   type ServicePackage,
+  APPLE_TRANSPARENCY_2025,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -25,21 +24,24 @@ import {
   addOns,
   belesLessons,
   belesScreens,
-  belesTimeline,
   ebtProof,
+  exclusions,
   faqs,
+  guarantee,
+  guidelines,
   intakePackages,
   intakeStatuses,
   packages,
+  process,
   readinessCheck,
-  problems,
   requirements,
-  steps,
+  stacks,
+  trustPoints,
+  workingTerms,
 } from "@/lib/appStoreService";
 
 const PATH = "/appstore";
 const RESCUE_PATH = "/appstore/rescue";
-const HERO_IMAGE = "/images/beles/appstore/02-discover.webp";
 const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
 const DESCRIPTION =
   "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Free rejection diagnosis. Rejection rescue $750, readiness check $250, full launch from $1,500, balance due on approval.";
@@ -55,6 +57,9 @@ const RESCUE_DESCRIPTION =
   "Paste Apple's rejection message and get a free diagnosis within one business day. Rejection Rescue is a fixed $750: $250 to start, $500 only when Apple approves, free resubmissions.";
 
 export type AppStoreVariant = "launch" | "rescue";
+
+const BELES_LOGO = "/images/logos/beles.webp";
+const EBT_LOGO = "/images/logos/ebtfinder.webp";
 
 const jsonLd = [
   {
@@ -83,7 +88,7 @@ const jsonLd = [
 ];
 
 const selectClass =
-  "mt-1.5 flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm";
+  "mt-1.5 flex h-11 w-full rounded-lg border border-input bg-background px-3 py-2 text-base text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm";
 
 type IntakeState = "idle" | "sending" | "sent" | "failed";
 type PackageId = ServicePackage["id"];
@@ -163,7 +168,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
 
   if (state === "sent") {
     return (
-      <div role="status" className="rounded-xl border border-accent/30 bg-accent/5 p-6">
+      <div role="status" className="rounded-2xl border border-border bg-card p-6">
         <p className="mb-1 flex items-center gap-2 font-semibold text-foreground">
           <Check className="h-5 w-5 text-accent" aria-hidden="true" /> Got it. Thanks.
         </p>
@@ -188,16 +193,16 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-name">Name</Label>
-          <Input id="intake-name" name="name" autoComplete="name" required maxLength={120} className="mt-1.5 h-11" />
+          <Input id="intake-name" name="name" autoComplete="name" required maxLength={120} className="mt-1.5 h-11 rounded-lg" />
         </div>
         <div>
           <Label htmlFor="intake-email">Email</Label>
-          <Input id="intake-email" name="email" type="email" autoComplete="email" required maxLength={254} className="mt-1.5 h-11" />
+          <Input id="intake-email" name="email" type="email" autoComplete="email" required maxLength={254} className="mt-1.5 h-11 rounded-lg" />
         </div>
       </div>
       <div>
         <Label htmlFor="intake-url">Link to your app</Label>
-        <Input id="intake-url" name="appUrl" type="url" inputMode="url" placeholder="https://yourapp.lovable.app" required maxLength={500} className="mt-1.5 h-11" />
+        <Input id="intake-url" name="appUrl" type="url" inputMode="url" placeholder="https://yourapp.lovable.app" required maxLength={500} className="mt-1.5 h-11 rounded-lg" />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -242,14 +247,14 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
         </select>
       </div>
       <div>
-        <Label htmlFor="intake-details">Anything else</Label>
+        <Label htmlFor="intake-details">What's going on?</Label>
         <Textarea
           id="intake-details"
           name="details"
-          rows={4}
+          rows={5}
           maxLength={2000}
-          placeholder="If Apple rejected it, paste the guideline and message here."
-          className="mt-1.5"
+          placeholder="If Apple rejected it, paste the guideline and their message here."
+          className="mt-1.5 rounded-lg"
         />
       </div>
       <Button
@@ -260,20 +265,22 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
       >
         <Send className="mr-1 h-4 w-4" aria-hidden="true" /> {state === "sending" ? "Sending…" : "Get a free diagnosis"}
       </Button>
-      <p className="text-xs text-muted-foreground">I reply within one business day. Your details are used only to answer you.</p>
+      <p className="text-xs text-muted-foreground">
+        I reply within one business day. Your details are used only to answer you. Don't send passwords or API keys.
+      </p>
       {state === "failed" && draft && (
-        <div role="alert" className="rounded-lg border border-border bg-muted/40 p-4 text-sm">
+        <div role="alert" className="rounded-xl border border-border bg-muted/40 p-4 text-sm">
           <p className="mb-3">
             {error && !/request failed|failed to fetch/i.test(error) ? `${error} ` : "That didn't go through. "}
             You can send the same message by email instead.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Button asChild variant="outline" size="sm" className="min-h-11">
+            <Button asChild variant="outline" size="sm" className="min-h-11 rounded-full">
               <a href={`mailto:${person.email}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`}>
                 Open in email
               </a>
             </Button>
-            <Button type="button" variant="outline" size="sm" onClick={copyDraft} className="min-h-11">
+            <Button type="button" variant="outline" size="sm" onClick={copyDraft} className="min-h-11 rounded-full">
               {copied ? <Check className="mr-1 h-4 w-4" aria-hidden="true" /> : <Copy className="mr-1 h-4 w-4" aria-hidden="true" />}
               {copied ? "Copied" : `Copy message for ${person.email}`}
             </Button>
@@ -284,6 +291,157 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
   );
 };
 
+/* ---------- Small layout pieces, kept local so the page reads top to bottom ---------- */
+
+const Eyebrow = ({ children }: { children: ReactNode }) => (
+  <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">{children}</p>
+);
+
+interface SectionProps {
+  id?: string;
+  eyebrow?: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  band?: boolean;
+  children: ReactNode;
+}
+
+/** One page section: eyebrow, title, optional lede, content. `band` tints the full-width background. */
+const Section = ({ id, eyebrow, title, lede, band, children }: SectionProps) => {
+  const headingId = `${id ?? eyebrow?.toLowerCase().replace(/\s+/g, "-") ?? "section"}-heading`;
+  return (
+    <section id={id} aria-labelledby={headingId} className={`${band ? "bg-muted/50" : ""} scroll-mt-24 py-16 sm:py-20 lg:py-24`}>
+      <div className="container">
+        <div className="mx-auto max-w-[1120px]">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          <h2 id={headingId} className="max-w-[26ch] text-3xl font-medium tracking-tight text-foreground sm:text-4xl text-balance">
+            {title}
+          </h2>
+          {lede && <p className="mt-4 max-w-[62ch] text-base leading-relaxed text-muted-foreground sm:text-lg">{lede}</p>}
+          <div className="mt-10">{children}</div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Card = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <div className={`rounded-2xl border border-border bg-card shadow-[0_1px_2px_hsl(var(--foreground)/0.04)] ${className}`}>{children}</div>
+);
+
+const Chip = ({ children, tone = "neutral" }: { children: ReactNode; tone?: "neutral" | "bad" | "good" }) => {
+  const tones = {
+    neutral: "bg-muted text-muted-foreground",
+    bad: "bg-destructive/10 text-destructive",
+    good: "bg-foreground text-background",
+  };
+  return <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[11px] leading-none ${tones[tone]}`}>{children}</span>;
+};
+
+const PrimaryLink = ({ href, onClick, children, to }: { href?: string; to?: string; onClick?: () => void; children: ReactNode }) => (
+  <Button asChild size="lg" className="min-h-11 rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90">
+    {to ? (
+      <Link to={to} onClick={onClick}>{children} <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+    ) : (
+      <a href={href} onClick={onClick}>{children} <ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
+    )}
+  </Button>
+);
+
+const OutlineLink = ({ href, onClick, children }: { href: string; onClick?: () => void; children: ReactNode }) => (
+  <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
+    <a href={href} onClick={onClick}>{children}</a>
+  </Button>
+);
+
+const stages = ["Rejected", "Diagnosed", "Fixed", "Resubmitted", "Approved"] as const;
+
+/** A mock of the message a founder is holding when they land here, plus the path out of it. */
+const ResolutionCenterMock = () => (
+  <div className="rounded-3xl bg-muted/60 p-4 sm:p-6" aria-hidden="true">
+    <Card>
+      <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">
+        <span className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <span className="inline-block h-5 w-5 rounded-md bg-foreground" />
+          Resolution Center
+        </span>
+        <Chip tone="bad"><X className="h-3 w-3" /> Rejected</Chip>
+      </div>
+      <div className="px-5 py-4">
+        <p className="font-mono text-xs leading-relaxed text-muted-foreground">Guideline 4.2 – Design – Minimum Functionality</p>
+        <p className="mt-2 text-sm leading-relaxed text-foreground">
+          The experience your app provides is not sufficiently different from a mobile browsing experience. Please revise your app to include features that go beyond a repackaged website.
+        </p>
+      </div>
+      <div className="border-t border-border px-5 py-3 font-mono text-xs text-muted-foreground">○ Waiting on your reply in Resolution Center</div>
+    </Card>
+    <div className="my-3 flex justify-end">
+      <Card className="px-3 py-1.5 font-mono text-[11px] text-muted-foreground">● diagnosed free, within one business day</Card>
+    </div>
+    <Card className="p-5">
+      <p className="text-sm font-medium text-foreground">A typical case, start to finish</p>
+      <ol className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-2">
+        {stages.map((s, i) => (
+          <li key={s} className="flex items-center gap-1.5">
+            <Chip tone={i === 0 ? "bad" : i === stages.length - 1 ? "good" : "neutral"}>
+              {i === 0 ? <X className="h-3 w-3" /> : i === stages.length - 1 ? <Check className="h-3 w-3" /> : null}
+              {s}
+            </Chip>
+            {i < stages.length - 1 && <span className="text-muted-foreground/60">→</span>}
+          </li>
+        ))}
+      </ol>
+    </Card>
+  </div>
+);
+
+const fmt = (n: number) => n.toLocaleString("en-US");
+
+const PackageCard = ({
+  pkg,
+  core,
+  cta,
+  onChoose,
+  role,
+}: {
+  pkg: ServicePackage;
+  core?: boolean;
+  cta: string;
+  onChoose: (id: PackageId) => void;
+  role?: "group";
+}) => (
+  <li
+    role={role}
+    aria-labelledby={`pkg-${pkg.id}`}
+    className={`flex flex-col rounded-2xl border bg-card p-6 shadow-[0_1px_2px_hsl(var(--foreground)/0.04)] ${core ? "border-foreground/30" : "border-border"}`}
+  >
+    <div className="flex items-start justify-between gap-3">
+      <h3 id={`pkg-${pkg.id}`} className="text-lg font-medium text-foreground">{pkg.name}</h3>
+      {core && <Chip>Core service</Chip>}
+    </div>
+    <p className="mt-3 text-4xl font-medium tracking-tight text-foreground">{pkg.price}</p>
+    {pkg.note && <p className="mt-1 font-mono text-xs text-muted-foreground">{pkg.note}</p>}
+    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pkg.bestFor}</p>
+    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{pkg.payment}</p>
+    <p className="mt-5 border-t border-border pt-4 font-mono text-xs text-muted-foreground">Includes</p>
+    <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground">
+      {pkg.includes.map((item) => (
+        <li key={item} className="flex gap-2.5">
+          <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+    <div className="mt-auto pt-6">
+      <Button asChild variant="outline" className="min-h-11 w-full rounded-full">
+        <a href="#start" onClick={() => onChoose(pkg.id)}>{cta}</a>
+      </Button>
+    </div>
+  </li>
+);
+
+/* ------------------------------------------ Page ------------------------------------------ */
+
 const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) => {
   const rescue = variant === "rescue";
   const [pkg, setPkg] = useState<PackageId | "">(rescue ? "rescue" : "");
@@ -293,208 +451,234 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
     if (id === "rescue") setStage("rejected");
     trackEvent("appstore_package_click", { package: id });
   };
+  const carePlan = addOns.find((a) => /care/i.test(a.name));
+  const android = addOns.find((a) => /android/i.test(a.name));
+  const rejectedShare = Math.round((APPLE_TRANSPARENCY_2025.rejected / APPLE_TRANSPARENCY_2025.reviewed) * 100);
 
   return (
-  <>
-    <SEO
-      title={rescue ? RESCUE_TITLE : TITLE}
-      description={rescue ? RESCUE_DESCRIPTION : DESCRIPTION}
-      path={rescue ? RESCUE_PATH : PATH}
-      image="/og/appstore.png"
-      imageAlt="Get your Lovable app approved on the App Store: Huruy Kidanemariam's fixed-price launch service, shown with Beles and EBT Finder"
-      jsonLd={rescue ? undefined : jsonLd}
-      noindex={rescue}
-      breadcrumbs={
-        rescue
-          ? [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }, { name: "Rejection rescue", path: RESCUE_PATH }]
-          : [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]
-      }
-    />
-    <div className="container cs-flow pt-16 sm:pt-24 lg:pt-28">
-      <section
-        className="cs-wide mb-16 grid items-center gap-12 lg:mb-24 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px]"
-        aria-labelledby="appstore-heading"
-      >
-        {rescue ? (
-          <div className="max-w-[40rem]">
-            <p className="mb-4 text-sm font-medium text-accent">App Store rejection rescue</p>
-            <h1 id="appstore-heading" className="mb-6 text-4xl font-light leading-tight tracking-normal sm:text-5xl">
-              Rejected by App Review? Paste the message. The diagnosis is free.
-            </h1>
-            <p className="mb-5 text-lg leading-relaxed text-foreground">
-              Within one business day I tell you what the rejection means, what the fix involves, and the fixed price. Rejection Rescue is $750: $250 to start, $500 only when Apple approves, and free resubmissions until it's live.
-            </p>
-            <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Guidelines 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1 · Two of my own Lovable-built apps live on the App Store · Los Angeles, working worldwide
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="lg" className="min-h-11 rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90">
-                <a href="#start" onClick={() => choose("rescue")}>Get a free diagnosis</a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
-                <a href="#pricing">See the packages</a>
-              </Button>
-            </div>
-            <p className="mt-5 text-sm text-muted-foreground">
-              Never submitted yet?{" "}
-              <Link to={PATH} className="font-medium text-accent underline underline-offset-4">
-                Start with the launch service
-              </Link>
-            </p>
-          </div>
-        ) : (
-          <div className="max-w-[40rem]">
-            <p className="mb-4 text-sm font-medium text-accent">Lovable to the App Store</p>
-            <h1 id="appstore-heading" className="mb-6 text-4xl font-light leading-tight tracking-normal sm:text-5xl">
-              Get your Lovable app approved on the App Store
-            </h1>
-            <p className="mb-5 text-lg leading-relaxed text-foreground">
-              I turn AI-built web apps into native iPhone apps that pass Apple review and feel like they belong on the phone. You keep your code and your backend, and you pay the balance only when Apple approves.
-            </p>
-            <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Senior UX designer · Two of my own apps live on the App Store · Los Angeles, working worldwide
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="lg" className="min-h-11 rounded-full px-6">
-                <a href="#start">Tell me about your app</a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
-                <a href="#beles">See how Beles shipped</a>
-              </Button>
-            </div>
-            <p className="mt-5 text-sm text-muted-foreground">
-              Rejected by Apple?{" "}
-              <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
-                Paste the message for a free diagnosis
-              </a>
-            </p>
-          </div>
-        )}
-        <figure className="hidden lg:block">
-          <img
-            src={HERO_IMAGE}
-            width={imageDimensions[HERO_IMAGE]?.width}
-            height={imageDimensions[HERO_IMAGE]?.height}
-            alt="Beles Discover screen on iPhone: a member profile with a compatibility score, Dating and Friends modes, and a native tab bar"
-            className="mx-auto h-auto w-full max-w-[290px] rounded-[2.25rem] border-[6px] border-[#0d0d12] shadow-xl"
-          />
-          <figcaption className="mt-4 text-center text-xs text-muted-foreground">Beles, built in Lovable. Screenshot from its App Store listing.</figcaption>
-        </figure>
-      </section>
+    <>
+      <SEO
+        title={rescue ? RESCUE_TITLE : TITLE}
+        description={rescue ? RESCUE_DESCRIPTION : DESCRIPTION}
+        path={rescue ? RESCUE_PATH : PATH}
+        image="/og/appstore.png"
+        imageAlt="Get your Lovable app approved on the App Store: Huruy Kidanemariam's fixed-price launch service, shown with Beles and EBT Finder"
+        jsonLd={rescue ? undefined : jsonLd}
+        noindex={rescue}
+        breadcrumbs={
+          rescue
+            ? [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }, { name: "Rejection rescue", path: RESCUE_PATH }]
+            : [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]
+        }
+      />
 
-      <section className="cs-wide mb-16 lg:mb-24" aria-labelledby="problem-heading">
-        <h2 id="problem-heading" className="mb-8 text-2xl font-medium tracking-normal sm:text-3xl">Why AI-built apps get stuck</h2>
-        <div className="grid gap-x-8 gap-y-8 md:grid-cols-3">
-          {problems.map((p) => (
-            <div key={p.title} className="border-t border-border pt-4">
-              <h3 className="mb-2 text-lg font-semibold text-foreground">{p.title}</h3>
-              <p className="text-base leading-relaxed text-muted-foreground">{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="pricing" className="cs-wide mb-16 scroll-mt-24 lg:mb-24" aria-labelledby="pricing-heading">
-        <h2 id="pricing-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Packages</h2>
-        <p className="mb-10 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-          Fixed prices. Free resubmissions. The second payment is due only when Apple approves your app. Rejected already? The diagnosis is free.
-        </p>
-        <ul className="grid list-none gap-x-8 gap-y-12 lg:grid-cols-3">
-          {packages.map((p) => (
-            <li
-              key={p.id}
-              aria-labelledby={`pkg-${p.id}`}
-              className={`flex flex-col border-t pt-5 ${p.id === "launch" ? "border-t-2 border-accent" : "border-border"}`}
-            >
-              <h3 id={`pkg-${p.id}`} className="mb-1 text-lg font-semibold text-foreground">{p.name}</h3>
-              <p className="mb-3 text-sm text-muted-foreground">{p.bestFor}</p>
-              <p className="text-3xl font-bold leading-none tracking-tight text-foreground font-display">{p.price}</p>
-              {p.note && <p className="mt-2 text-sm font-medium text-accent">{p.note}</p>}
-              <p className="mb-5 mt-2 text-sm text-muted-foreground">{p.payment}</p>
-              <ul className="mb-6 space-y-2.5 text-sm leading-relaxed text-foreground">
-                {p.includes.map((item) => (
-                  <li key={item} className="flex gap-2.5">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                    <span>{item}</span>
+      {/* Hero */}
+      <section aria-labelledby="appstore-heading" className="relative overflow-hidden">
+        <div className="bg-dotgrid pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="container relative pt-14 sm:pt-20 lg:pt-24">
+          <div className="mx-auto grid max-w-[1120px] items-start gap-12 pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16 lg:pb-24">
+            <div className="max-w-[40rem]">
+              <Eyebrow>{rescue ? "App Store rejection rescue" : "Lovable to the App Store"}</Eyebrow>
+              <h1 id="appstore-heading" className="text-[2.75rem] font-medium leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+                {rescue ? (
+                  <>
+                    Rejected by App Review?{" "}
+                    <span className="font-serif-display mt-1 block font-normal italic">The diagnosis is free.</span>
+                  </>
+                ) : (
+                  <>
+                    Built it in Lovable?{" "}
+                    <span className="font-serif-display mt-1 block font-normal italic">Let's get it on the App Store.</span>
+                  </>
+                )}
+              </h1>
+              <p className="mt-7 max-w-[46ch] text-lg leading-relaxed text-muted-foreground">
+                {rescue
+                  ? "Paste Apple's message. Within one business day I tell you what it means, what the fix involves, and the fixed price. Rejection Rescue is $750: $250 to start, $500 only when Apple approves, and free resubmissions until it's live."
+                  : "I turn AI-built web apps into native iPhone apps that pass Apple review and feel like they belong on the phone. You keep your code and your backend, and you pay the balance only when Apple approves."}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                {rescue ? (
+                  <>
+                    <PrimaryLink href="#start" onClick={() => choose("rescue")}>Get a free diagnosis</PrimaryLink>
+                    <OutlineLink href="#pricing">See pricing</OutlineLink>
+                  </>
+                ) : (
+                  <>
+                    <PrimaryLink href="#start">Tell me about your app</PrimaryLink>
+                    <OutlineLink href="#pricing">See pricing</OutlineLink>
+                  </>
+                )}
+              </div>
+              <ul className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
+                {trustPoints.slice(0, 3).map((t) => (
+                  <li key={t} className="flex items-start gap-2">
+                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                    {t}
                   </li>
                 ))}
               </ul>
-              <Button asChild variant={p.id === "launch" ? "default" : "outline"} className="mt-auto min-h-11 w-full rounded-full sm:w-auto sm:self-start">
-                <a href="#start" onClick={() => choose(p.id)}>
-                  {p.id === "rescue" ? "Get a free diagnosis" : `Start ${p.name}`}
-                </a>
-              </Button>
+              <p className="mt-6 text-sm text-muted-foreground">
+                {rescue ? (
+                  <>
+                    Never submitted yet?{" "}
+                    <Link to={PATH} className="font-medium text-accent underline underline-offset-4">Start with the launch service</Link>
+                  </>
+                ) : (
+                  <>
+                    Rejected by Apple?{" "}
+                    <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
+                      Paste the message for a free diagnosis
+                    </a>
+                  </>
+                )}
+              </p>
+            </div>
+            <ResolutionCenterMock />
+          </div>
+        </div>
+      </section>
+
+      {/* Why it matters */}
+      <Section
+        eyebrow="Why it matters"
+        title="A rejection costs days, not code."
+        lede="Every round trip is another wait in Apple's queue, and the launch date you gave someone is already wrong. AI-built apps get rejected for a short list of reasons, and the fix is usually a day of work. Knowing which day is what you're paying for."
+        band
+      >
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+          <div className="grid gap-4 self-start sm:grid-cols-3">
+            {[
+              { value: "1 business day", label: "to a written diagnosis and a fixed price" },
+              { value: "10 days", label: "from Beles's first iOS build to release in 175 countries" },
+              { value: "$0", label: "for the diagnosis, and the balance only when Apple approves" },
+            ].map((s) => (
+              <Card key={s.label} className="p-5">
+                <p className="text-2xl font-medium tracking-tight text-foreground">{s.value}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.label}</p>
+              </Card>
+            ))}
+          </div>
+          <Card className="p-6">
+            <p className="font-mono text-xs text-muted-foreground">App Store submissions in 2025</p>
+            <p className="mt-3 text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
+              {fmt(APPLE_TRANSPARENCY_2025.rejected)} <span className="font-mono text-sm font-normal text-destructive">rejected</span>
+            </p>
+            <p className="mt-3 border-t border-border pt-3 text-xl font-medium text-foreground">
+              {fmt(APPLE_TRANSPARENCY_2025.reviewed)} <span className="font-mono text-sm font-normal text-muted-foreground">reviewed</span>
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              About {rejectedShare}% didn't pass. {fmt(APPLE_TRANSPARENCY_2025.designRejections)} of the rejections were under Design, the section that holds 4.2 Minimum Functionality and 4.3 Spam, where AI-built apps get caught.
+            </p>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Source: Apple,{" "}
+              <a href={APPLE_TRANSPARENCY_2025.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
+                App Store Transparency Report 2025
+              </a>
+            </p>
+          </Card>
+        </div>
+      </Section>
+
+      {/* Scope */}
+      <Section eyebrow="Scope" title="What I fix" lede="Any App Review guideline. These are the ones that catch AI-built apps most:">
+        <Card className="p-2 sm:p-4">
+          <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
+            {guidelines.map((g) => (
+              <li key={g.number} className="border-b border-border px-3 py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
+                <p className="flex items-baseline gap-3">
+                  <span className="font-mono text-sm text-accent">{g.number}</span>
+                  <span className="font-medium text-foreground">{g.name}</span>
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{g.note}</p>
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <p className="mt-6 text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">Stacks I work in:</span> {stacks.join(", ")}. If it runs as a web app, it can usually become an iOS app, and your backend stays where it is.
+        </p>
+      </Section>
+
+      {/* Process */}
+      <Section id="how-it-works" eyebrow="Process" title="How it works" lede="Four steps. Your account and your code stay under your control." band>
+        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {process.map((step, i) => (
+            <li key={step.title}>
+              <Card className="flex h-full flex-col p-6">
+                <span className="inline-flex w-fit rounded-full bg-muted px-2.5 py-1 font-mono text-[11px] text-muted-foreground" aria-hidden="true">0{i + 1}</span>
+                <h3 className="mt-4 text-lg font-medium text-foreground">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                {step.levels && (
+                  <ul className="mt-4 space-y-2 text-sm text-foreground">
+                    {step.levels.map((l, j) => (
+                      <li key={l} className="flex items-center gap-2.5">
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-border font-mono text-[10px] text-muted-foreground" aria-hidden="true">{j}</span>
+                        {l}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+            </li>
+          ))}
+        </ol>
+        <ul className="mt-6 flex flex-wrap items-center gap-2">
+          <li className="mr-2 font-mono text-xs text-muted-foreground">Access and code</li>
+          {trustPoints.map((t) => (
+            <li key={t} className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs text-foreground">
+              <Check className="h-3 w-3 text-accent" aria-hidden="true" /> {t}
             </li>
           ))}
         </ul>
-        <div
-          id="readiness-check"
-          role="group"
-          aria-labelledby="pkg-check"
-          className="mt-12 grid gap-6 rounded-xl border border-border p-6 sm:p-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10"
-        >
-          <div className="flex flex-col">
-            <p className="mb-2 text-sm font-medium text-accent">Never submitted? Start here</p>
-            <h3 id="pkg-check" className="mb-1 text-lg font-semibold text-foreground">{readinessCheck.name}</h3>
-            <p className="mb-3 text-sm text-muted-foreground">{readinessCheck.bestFor}</p>
-            <p className="text-3xl font-bold leading-none tracking-tight text-foreground font-display">{readinessCheck.price}</p>
-            <p className="mb-5 mt-2 text-sm text-muted-foreground">{readinessCheck.payment}</p>
-            <Button asChild variant="outline" className="mt-auto min-h-11 w-full rounded-full sm:w-auto sm:self-start">
-              <a href="#start" onClick={() => choose(readinessCheck.id)}>Book a Readiness Check</a>
-            </Button>
-          </div>
-          <div>
-            <ul className="space-y-2.5 text-sm leading-relaxed text-foreground">
-              {readinessCheck.includes.map((item) => (
-                <li key={item} className="flex gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                  <span>{item}</span>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {workingTerms.map((w) => (
+            <div key={w.label} className="rounded-2xl bg-muted p-5">
+              <p className="font-mono text-xs text-muted-foreground">{w.label}</p>
+              <p className="mt-2 text-sm leading-relaxed text-foreground">{w.body}</p>
+            </div>
+          ))}
+        </div>
+        <details className="group mt-6 rounded-2xl border border-border bg-card p-5">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-foreground">
+            What I need from you
+            <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+            {requirements.map((r) => (
+              <li key={r} className="flex gap-2.5">
+                <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                <span>{r}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </Section>
+
+      {/* Cases */}
+      <Section id="beles" eyebrow="Cases" title="From a Lovable project to the App Store" lede="Two apps of my own, both live. The second one is where I learned the release discipline I bring to client apps.">
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+          <Card className="flex flex-col p-6 sm:p-8">
+            <div className="flex items-center gap-3">
+              <img src={BELES_LOGO} width={imageDimensions[BELES_LOGO]?.width} height={imageDimensions[BELES_LOGO]?.height} alt="" className="h-10 w-10 rounded-xl" loading="lazy" decoding="async" />
+              <h3 className="text-xl font-medium text-foreground">Beles</h3>
+            </div>
+            <p className="mt-3 text-base text-muted-foreground">Built in Lovable. Ten days from its first iOS build to release in 175 countries.</p>
+            <p className="mt-3 font-mono text-xs text-accent">4.8 · 1.2 · 2.3 · iPhone-only · Sign in with Apple</p>
+            <p className="mt-4 text-sm leading-relaxed text-foreground">
+              A dating and community app for the Tigrayan diaspora that I researched, designed and built solo. Getting it onto iPhones meant a native shell, Sign in with Apple, reporting and blocking for Apple's user-generated content rules, and five things that broke on the way:
+            </p>
+            <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-muted-foreground">
+              {belesLessons.map((l) => (
+                <li key={l.title} className="flex gap-2.5">
+                  <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-foreground/50" aria-hidden="true" />
+                  {l.title}
                 </li>
               ))}
             </ul>
-            <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
-              Book Launch within 30 days and the $250 comes off the price. Already rejected? Skip this: the diagnosis is free.
-            </p>
-          </div>
-        </div>
-        <dl className="mt-12 grid gap-x-8 gap-y-4 border-t border-border pt-6 sm:grid-cols-2">
-          {addOns.map((a) => (
-            <div key={a.name}>
-              <dt className="text-sm font-semibold text-foreground">
-                {a.name} <span className="font-normal text-muted-foreground">· {a.price}</span>
-              </dt>
-              <dd className="mt-1 text-sm text-muted-foreground">{a.detail}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-    </div>
-
-    <div className="container pb-4">
-      <CaseStudySection id="beles" label="Proof" title="Beles: a Lovable project, live in 175 countries ten days after its first iOS build">
-        <p className="mb-8">
-          Beles is a dating and community app for the Tigrayan diaspora that I researched, designed and built solo in Lovable. This is how it went from a web app to the App Store, including what broke along the way.
-        </p>
-        <Wide>
-          <StatRow
-            columns={3}
-            stats={[
-              { value: "10 days", label: "First iOS build to worldwide release" },
-              { value: "175", label: "Countries at launch" },
-              { value: "1 person", label: "Research, design, build and release" },
-            ]}
-          />
-        </Wide>
-
-        <Wide>
-          <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">As shipped, from the App Store listing</h3>
-          <ul
-            aria-label="Beles App Store screenshots"
-            className="-mb-2 flex list-none snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-5 md:overflow-visible"
-          >
-            {belesScreens.map((s) => (
-              <li key={s.src} className="w-[44%] shrink-0 snap-start sm:w-[30%] md:w-auto">
-                <figure>
+            <ul aria-label="Beles App Store screenshots" className="mt-6 grid grid-cols-5 gap-2">
+              {belesScreens.map((s) => (
+                <li key={s.src}>
                   <img
                     src={s.src}
                     width={imageDimensions[s.src]?.width}
@@ -502,167 +686,185 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
                     alt={s.alt}
                     loading="lazy"
                     decoding="async"
-                    className="h-auto w-full rounded-2xl border border-border"
-                  />
-                  <figcaption className="mt-2 text-sm font-medium text-foreground">{s.caption}</figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </Wide>
-
-        <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">Timeline, September 2026</h3>
-        <ol className="list-none border-t border-border divide-y divide-border">
-          {belesTimeline.map((t) => (
-            <li key={t.date} className="grid gap-1 py-4 sm:grid-cols-[5.5rem_1fr] sm:gap-4">
-              <span className="text-sm font-semibold tabular-nums text-accent">{t.date}</span>
-              <p className="max-w-[64ch]">{t.text}</p>
-            </li>
-          ))}
-        </ol>
-
-        <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">What broke, and what I do differently now</h3>
-        <ol className="list-none border-t border-border divide-y divide-border">
-          {belesLessons.map((l, i) => (
-            <li key={l.title} className="grid gap-2 py-6 sm:grid-cols-[3.5rem_1fr]">
-              <span className="text-sm font-semibold tabular-nums text-accent" aria-hidden="true">0{i + 1}</span>
-              <div className="min-w-0">
-                <h4 className="mb-1.5 font-semibold text-foreground">{l.title}</h4>
-                <p className="max-w-[64ch]">{l.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-
-        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <AppStoreBadgeLink href={BELES_APP_STORE_URL} appName="Beles" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })} />
-          <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
-            <Link to="/project/beles">Read the design case study</Link>
-          </Button>
-        </div>
-      </CaseStudySection>
-
-      <CaseStudySection
-        id="ebt-finder"
-        label="Proof"
-        title="EBT Finder: an App Review rejection fixed without a new build"
-      >
-        <p className="mb-8">
-          EBT Finder helps SNAP households find stores that take EBT. I researched, designed, built and shipped it solo, and version {EBT_FINDER_LIVE_VERSION} is live on the App Store. It's where I learned the release discipline I now bring to client apps.
-        </p>
-        <Wide>
-          <StatRow
-            columns={3}
-            stats={[
-              ...ebtProof.stats.map((s) => ({ value: s.value, label: s.label })),
-              { value: EBT_FINDER_LIVE_VERSION, label: "Version live on the App Store" },
-            ]}
-          />
-        </Wide>
-
-        {ebtProof.frames.length > 0 && (
-          <Wide>
-            <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">The App Store listing I designed</h3>
-            <ul
-              aria-label="EBT Finder App Store screenshots"
-              className="-mb-2 flex list-none snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-4 md:overflow-visible"
-            >
-              {ebtProof.frames.map((f) => (
-                <li key={f.src} className="w-[44%] shrink-0 snap-start sm:w-[30%] md:w-auto">
-                  <img
-                    src={f.src}
-                    width={imageDimensions[f.src]?.width}
-                    height={imageDimensions[f.src]?.height}
-                    alt={f.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-auto w-full rounded-2xl border border-border"
+                    className="h-auto w-full rounded-lg border border-border"
                   />
                 </li>
               ))}
             </ul>
-          </Wide>
-        )}
+            <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <AppStoreBadgeLink href={BELES_APP_STORE_URL} appName="Beles" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })} />
+              <Link to="/project/beles" className="text-sm font-medium text-accent underline underline-offset-4">Read the design case study</Link>
+            </div>
+          </Card>
 
-        <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">Two release problems, and what they changed</h3>
-        <ol className="list-none border-t border-border divide-y divide-border">
-          {ebtProof.stories.map((st, i) => (
-            <li key={st.title} className="grid gap-2 py-6 sm:grid-cols-[3.5rem_1fr]">
-              <span className="text-sm font-semibold tabular-nums text-accent" aria-hidden="true">0{i + 1}</span>
-              <div className="min-w-0">
-                <h4 className="mb-1.5 font-semibold text-foreground">{st.title}</h4>
-                <p className="mb-2 max-w-[64ch]">{st.problem}</p>
-                <p className="max-w-[64ch]">
-                  <span className="font-semibold text-foreground">Fix:</span> {st.fix}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
-
-        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <AppStoreBadgeLink href={EBT_FINDER_APP_STORE_URL} appName="EBT Finder" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })} />
-          <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
-            <Link to="/project/ebtfinder">Read the EBT Finder case study</Link>
-          </Button>
+          <Card className="flex flex-col p-6 sm:p-8">
+            <div className="flex items-center gap-3">
+              <img src={EBT_LOGO} width={imageDimensions[EBT_LOGO]?.width} height={imageDimensions[EBT_LOGO]?.height} alt="" className="h-10 w-10 rounded-xl" loading="lazy" decoding="async" />
+              <h3 className="text-xl font-medium text-foreground">EBT Finder</h3>
+            </div>
+            <p className="mt-3 text-base text-muted-foreground">An App Review rejection fixed without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
+            <p className="mt-3 font-mono text-xs text-accent">
+              {ebtProof.stats.map((s) => `${s.value} ${s.label}`).join(" · ")}
+            </p>
+            <ul className="mt-4 space-y-4 text-sm leading-relaxed">
+              {ebtProof.stories.map((st) => (
+                <li key={st.title}>
+                  <p className="font-medium text-foreground">{st.title}</p>
+                  <p className="mt-1 text-muted-foreground">{st.problem}</p>
+                  <p className="mt-1 text-muted-foreground"><span className="font-medium text-foreground">Fix:</span> {st.fix}</p>
+                </li>
+              ))}
+            </ul>
+            {ebtProof.frames.length > 0 && (
+              <ul aria-label="EBT Finder App Store screenshots" className="mt-6 grid grid-cols-4 gap-2">
+                {ebtProof.frames.map((f) => (
+                  <li key={f.src}>
+                    <img
+                      src={f.src}
+                      width={imageDimensions[f.src]?.width}
+                      height={imageDimensions[f.src]?.height}
+                      alt={f.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-auto w-full rounded-lg border border-border"
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <AppStoreBadgeLink href={EBT_FINDER_APP_STORE_URL} appName="EBT Finder" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })} />
+              <Link to="/project/ebtfinder" className="text-sm font-medium text-accent underline underline-offset-4">Read the EBT Finder case study</Link>
+            </div>
+          </Card>
         </div>
-      </CaseStudySection>
-    </div>
+        <Card className="mt-6 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div>
+            <p className="text-lg font-medium text-foreground">Your app could be next.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Send the link, or the rejection, and get the real cause and a fixed price.</p>
+          </div>
+          <PrimaryLink href="#start" onClick={() => rescue && choose("rescue")}>Get a free diagnosis</PrimaryLink>
+        </Card>
+      </Section>
 
-    <div className="container cs-flow">
-      <section className="mb-16 lg:mb-24" aria-labelledby="process-heading">
-        <h2 id="process-heading" className="mb-6 text-2xl font-medium tracking-normal sm:text-3xl">How it works</h2>
-        <NumberedList items={steps} />
-      </section>
-
-      <section className="mb-16 lg:mb-24" aria-labelledby="needs-heading">
-        <h2 id="needs-heading" className="mb-6 text-2xl font-medium tracking-normal sm:text-3xl">What I need from you</h2>
-        <ul className="list-disc space-y-4 pl-5 text-base leading-relaxed marker:text-accent">
-          {requirements.map((r) => (
-            <li key={r}>{r}</li>
+      {/* Pricing */}
+      <Section
+        id="pricing"
+        eyebrow="Pricing"
+        title="Fixed prices, quoted after the free diagnosis"
+        lede="You get the price before any work starts, and it doesn't move unless the scope does. No hourly billing. Free resubmissions on every package."
+        band
+      >
+        <ul className="grid list-none gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="Packages">
+          <PackageCard pkg={readinessCheck} cta="Book a Readiness Check" onChoose={choose} role="group" />
+          {packages.map((p) => (
+            <PackageCard key={p.id} pkg={p} core={p.id === "rescue"} cta={p.id === "rescue" ? "Get a free diagnosis" : `Start ${p.name}`} onChoose={choose} />
           ))}
+          {carePlan && (
+            <li className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-[0_1px_2px_hsl(var(--foreground)/0.04)]">
+              <h3 className="text-lg font-medium text-foreground">{carePlan.name}</h3>
+              <p className="mt-3 text-4xl font-medium tracking-tight text-foreground">
+                {carePlan.price.replace("/month", "")} <span className="font-mono text-sm font-normal text-muted-foreground">per month</span>
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{carePlan.detail}</p>
+              {android && (
+                <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
+                  <span className="font-medium text-foreground">{android.name} {android.price}.</span> {android.detail}
+                </p>
+              )}
+            </li>
+          )}
+          <li className="flex flex-col justify-center rounded-2xl bg-muted p-6">
+            <p className="text-lg font-medium text-foreground">Not sure which fits?</p>
+            <p className="font-serif-display mt-1 text-2xl italic text-foreground">Start with the free diagnosis.</p>
+            <div className="mt-5">
+              <PrimaryLink href="#start">Get a free diagnosis</PrimaryLink>
+            </div>
+          </li>
         </ul>
-      </section>
+      </Section>
 
-      <section className="mb-16 lg:mb-24" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="mb-6 text-2xl font-medium tracking-normal sm:text-3xl">Questions</h2>
-        <div className="border-t border-border divide-y divide-border">
+      {/* Guarantee */}
+      <Section eyebrow="Guarantee" title="What I stand behind">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+          <Card className="border-l-4 border-l-foreground p-6 sm:p-8">
+            <p className="font-serif-display text-2xl italic leading-snug text-foreground sm:text-3xl">{guarantee}</p>
+          </Card>
+          <Card className="p-6 sm:p-8">
+            <p className="font-medium text-foreground">What I don't take on</p>
+            <ul className="mt-4 divide-y divide-border">
+              {exclusions.map((x) => (
+                <li key={x} className="flex items-center gap-3 py-3 text-sm text-foreground">
+                  <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive" aria-hidden="true">
+                    <X className="h-3 w-3" />
+                  </span>
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+        <p className="mt-5 max-w-[70ch] text-sm leading-relaxed text-muted-foreground">
+          Covers the guidelines in the written diagnosis. Anything new Apple raises on resubmission is fixed at no charge. Nobody outside Apple can promise approval, and I won't.
+        </p>
+      </Section>
+
+      {/* FAQ */}
+      <Section id="faq" eyebrow="FAQ" title="Questions" band>
+        <Card className="divide-y divide-border px-6 sm:px-8">
           {faqs.map((f) => (
             <details key={f.q} className="group py-4">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground">
                 {f.q}
-                <span className="text-accent transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-transform group-open:rotate-45" aria-hidden="true">+</span>
               </summary>
-              <p className="mt-2 max-w-[64ch] text-base leading-relaxed text-muted-foreground">{f.a}</p>
+              <p className="mt-2 max-w-[70ch] text-base leading-relaxed text-muted-foreground">{f.a}</p>
             </details>
           ))}
-        </div>
-      </section>
+        </Card>
+      </Section>
 
-      <section id="start" className="mb-16 scroll-mt-24 border-t border-border pt-8 lg:mb-24" aria-labelledby="start-heading">
-        <h2 id="start-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Tell me about your app</h2>
-        <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-          Send the link and where it's stuck. If Apple rejected it, paste their message: the diagnosis is free. Within one business day I'll tell you what's wrong, whether I can get it approved, and the fixed price.
+      {/* Intake */}
+      <Section
+        id="start"
+        eyebrow="Free diagnosis"
+        title={rescue ? "Paste the rejection. Get a diagnosis within one business day." : "Tell me about your app."}
+      >
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+          <div>
+            <p className="text-base leading-relaxed text-muted-foreground">
+              No call needed, no discovery session. Send the link and where it's stuck. If Apple rejected it, paste their message. Within one business day you'll know what's wrong, whether I can get it approved, and the fixed price.
+            </p>
+            <ul className="mt-6 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
+              {trustPoints.map((t) => (
+                <li key={t} className="flex items-start gap-2">
+                  <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 rounded-2xl bg-muted p-5">
+              <p className="text-sm font-medium text-foreground">Rather talk it through?</p>
+              <p className="mt-1 text-sm text-muted-foreground">A free 15-minute video call, no pitch.</p>
+              <Button asChild variant="outline" className="mt-4 min-h-11 rounded-full px-5">
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_book_call_click")}>
+                  <CalendarDays className="mr-1 h-4 w-4" aria-hidden="true" /> Book a 15-minute call
+                </a>
+              </Button>
+            </div>
+          </div>
+          <Card className="p-6 sm:p-8">
+            <IntakeForm pkg={pkg} onPkgChange={setPkg} stage={stage} onStageChange={setStage} />
+          </Card>
+        </div>
+      </Section>
+
+      <div className="container pb-16">
+        <p className="mx-auto max-w-[1120px] border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
+          The App Store launch service is provided by Appfinity Labs LLC, Los Angeles, California. Not affiliated with or endorsed by Apple or Lovable. App Store is a service mark of Apple Inc.
         </p>
-        <div className="mb-10 flex flex-col gap-3 rounded-xl border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm leading-relaxed text-foreground">
-            <span className="font-semibold">Rather talk it through?</span>{" "}
-            <span className="text-muted-foreground">Book a free 15-minute video call.</span>
-          </p>
-          <Button asChild variant="outline" className="min-h-11 shrink-0 rounded-full px-5">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_book_call_click")}>
-              <CalendarDays className="mr-1 h-4 w-4" aria-hidden="true" /> Book a 15-minute call
-            </a>
-          </Button>
-        </div>
-        <IntakeForm pkg={pkg} onPkgChange={setPkg} stage={stage} onStageChange={setStage} />
-      </section>
-
-      <p className="mb-16 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground lg:mb-24">
-        The App Store launch service is provided by Appfinity Labs LLC, Los Angeles, California. Not affiliated with or endorsed by Apple or Lovable. App Store is a service mark of Apple Inc.
-      </p>
-    </div>
-  </>
+      </div>
+    </>
   );
 };
 

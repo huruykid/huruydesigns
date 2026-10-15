@@ -116,6 +116,76 @@ export const addOns = [
   { name: "Care plan", price: "$149/month", detail: "Your updates shipped, iOS and SDK upgrades, key renewals and review replies." },
 ];
 
+/**
+ * Apple's own count for 2025, from the App Store Transparency Report. The Design section
+ * is where guidelines 4.2 (minimum functionality) and 4.3 (spam) are counted, which is
+ * exactly where AI-built apps get caught.
+ */
+export const APPLE_TRANSPARENCY_2025 = {
+  reviewed: 9_100_620,
+  rejected: 2_093_244,
+  designRejections: 415_532,
+  url: "https://www.apple.com/legal/app-store/transparency/2025/",
+};
+
+/** The guidelines the service is scoped around, in the order Apple numbers them. */
+export const guidelines = [
+  { number: "1.2", name: "User-Generated Content", note: "Report, block and moderation before you ship" },
+  { number: "2.1", name: "App Completeness", note: "Crashes, dead buttons, a reviewer who couldn't sign in" },
+  { number: "2.3", name: "Accurate Metadata", note: "Screenshots and copy that match the build" },
+  { number: "3.1.1", name: "In-App Purchase", note: "Digital goods sold through Apple, not a web checkout" },
+  { number: "4.2", name: "Minimum Functionality", note: "The 'website in a frame' rejection" },
+  { number: "4.3", name: "Spam", note: "What makes yours different, shown to the reviewer first" },
+  { number: "4.8", name: "Login Services", note: "Sign in with Apple next to Google or social login" },
+  { number: "5.1.1", name: "Data Collection and Storage", note: "Account deletion, purpose strings, privacy labels" },
+];
+
+export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built React", "Capacitor shells"];
+
+/** The four steps, written for the process cards. */
+export const process = [
+  {
+    title: "Free diagnosis",
+    body: "Send the app link and, if Apple rejected it, paste their message. Within one business day you get the guideline at play, what the fix involves, and a fixed price.",
+  },
+  {
+    title: "Scoped access",
+    body: "You grant only what the job needs: an App Store Connect invite with the App Manager role for one app, and your code on GitHub or as a Lovable export. Never your Apple ID password.",
+    levels: ["Rejection text only", "App Manager, one app", "Code access"],
+  },
+  {
+    title: "Fix and reply",
+    body: "The fixes land in your code. The reply to App Review names the guideline and points to where the fix lives, and you read it before it goes out.",
+  },
+  {
+    title: "Resubmit until approved",
+    body: "I prepare the build and the submission. If Apple pushes back, I fix it and resubmit at no charge. The balance is due when it's approved.",
+  },
+];
+
+export const trustPoints = [
+  "No Apple ID password, ever",
+  "App Manager access to one app, revoked at handover",
+  "Your code and backend stay where they are",
+  "Balance due only when Apple approves",
+];
+
+export const workingTerms = [
+  { label: "Timelines", body: "Diagnosis within one business day. Apple reviews most submissions within two days; nobody outside Apple controls that part." },
+  { label: "Working style", body: "Written updates by default. A 15-minute call whenever you want one." },
+];
+
+/** Work the service turns down, stated so prospects can self-select. */
+export const exclusions = [
+  "Hiding features from the reviewer",
+  "Working around a terminated developer account",
+  "Apps with nothing app-like to add (I'll say so at intake, for free)",
+  "Template and spam apps",
+];
+
+export const guarantee =
+  "If Apple rejects the app after we've worked through its feedback, I fix it and resubmit at no charge, and you never pay the second half. Cancel for a full refund any time before I start work.";
+
 export const problems = [
   {
     title: "Lovable builds web apps",
