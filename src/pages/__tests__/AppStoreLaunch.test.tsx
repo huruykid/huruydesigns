@@ -31,12 +31,21 @@ describe("App Store launch page", () => {
     expect(within(pricing).getByText(/Founding price \$995/)).toBeInTheDocument();
   });
 
-  it("offers a $250 Readiness Check credited toward Rescue or Launch", () => {
+  it("offers a $250 Readiness Check for never-submitted apps, credited toward Launch", () => {
     renderPage();
     const check = screen.getByRole("group", { name: "Readiness Check" });
     expect(within(check).getByText("$250")).toBeInTheDocument();
-    expect(readinessCheck.payment).toMatch(/Credited in full toward Rescue or Launch/);
-    expect(faqs.find((f) => /start smaller/i.test(f.q))?.a).toMatch(/\$250 counts toward it/);
+    expect(readinessCheck.payment).toMatch(/Credited in full toward Launch/);
+    expect(faqs.find((f) => /start smaller/i.test(f.q))?.a).toMatch(/never been submitted/);
+  });
+
+  it("offers a free rejection diagnosis that preselects Rescue and a rejected stage", () => {
+    renderPage();
+    expect(faqs.find((f) => /diagnosis really free/i.test(f.q))?.a).toMatch(/No payment details/);
+    fireEvent.click(screen.getByRole("link", { name: "Paste the message for a free diagnosis" }));
+    expect(screen.getByLabelText("What you'd like")).toHaveValue("rescue");
+    expect(screen.getByLabelText("Where it stands")).toHaveValue("rejected");
+    expect(screen.getByRole("button", { name: "Get a free diagnosis" })).toBeInTheDocument();
   });
 
   it("preselects the package a visitor clicked in the intake form", () => {

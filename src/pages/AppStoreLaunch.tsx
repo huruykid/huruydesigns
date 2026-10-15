@@ -15,6 +15,7 @@ import { trackEvent } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
+  type IntakeStatus,
   type ServicePackage,
   BELES_APP_STORE_URL,
   BOOKING_URL,
@@ -40,7 +41,7 @@ const PATH = "/appstore";
 const HERO_IMAGE = "/images/beles/appstore/02-discover.webp";
 const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
 const DESCRIPTION =
-  "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Readiness check $250, rejection rescue from $750, full launch from $1,500, balance due on approval.";
+  "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Free rejection diagnosis. Rejection rescue $750, readiness check $250, full launch from $1,500, balance due on approval.";
 
 const jsonLd = [
   {
@@ -74,7 +75,14 @@ const selectClass =
 type IntakeState = "idle" | "sending" | "sent" | "failed";
 type PackageId = ServicePackage["id"];
 
-const IntakeForm = ({ pkg, onPkgChange }: { pkg: PackageId | ""; onPkgChange: (id: PackageId | "") => void }) => {
+interface IntakeFormProps {
+  pkg: PackageId | "";
+  onPkgChange: (id: PackageId | "") => void;
+  stage: IntakeStatus | "";
+  onStageChange: (stage: IntakeStatus | "") => void;
+}
+
+const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: IntakeFormProps) => {
   const [state, setState] = useState<IntakeState>("idle");
   const [copied, setCopied] = useState(false);
   const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
@@ -180,7 +188,14 @@ const IntakeForm = ({ pkg, onPkgChange }: { pkg: PackageId | ""; onPkgChange: (i
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-stage">Where it stands</Label>
-          <select id="intake-stage" name="stage" required defaultValue="" className={selectClass}>
+          <select
+            id="intake-stage"
+            name="stage"
+            required
+            value={stageValue}
+            onChange={(e) => onStageChange(e.target.value as IntakeStatus | "")}
+            className={selectClass}
+          >
             <option value="" disabled>Choose one</option>
             {intakeStatuses.map((st) => (
               <option key={st.value} value={st.value}>{st.label}</option>
@@ -229,7 +244,7 @@ const IntakeForm = ({ pkg, onPkgChange }: { pkg: PackageId | ""; onPkgChange: (i
         disabled={state === "sending"}
         className="min-h-11 w-full rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90 sm:w-auto"
       >
-        <Send className="mr-1 h-4 w-4" aria-hidden="true" /> {state === "sending" ? "Sending…" : "Send to Huruy"}
+        <Send className="mr-1 h-4 w-4" aria-hidden="true" /> {state === "sending" ? "Sending…" : "Get a free diagnosis"}
       </Button>
       <p className="text-xs text-muted-foreground">I reply within one business day. Your details are used only to answer you.</p>
       {state === "failed" && draft && (
@@ -257,8 +272,10 @@ const IntakeForm = ({ pkg, onPkgChange }: { pkg: PackageId | ""; onPkgChange: (i
 
 const AppStoreLaunch = () => {
   const [pkg, setPkg] = useState<PackageId | "">("");
+  const [stage, setStage] = useState<IntakeStatus | "">("");
   const choose = (id: PackageId) => {
     setPkg(id);
+    if (id === "rescue") setStage("rejected");
     trackEvent("appstore_package_click", { package: id });
   };
 
@@ -297,6 +314,12 @@ const AppStoreLaunch = () => {
               <a href="#beles">See how Beles shipped</a>
             </Button>
           </div>
+          <p className="mt-5 text-sm text-muted-foreground">
+            Rejected by Apple?{" "}
+            <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
+              Paste the message for a free diagnosis
+            </a>
+          </p>
         </div>
         <figure className="hidden lg:block">
           <img
@@ -325,7 +348,7 @@ const AppStoreLaunch = () => {
       <section id="pricing" className="cs-wide mb-16 scroll-mt-24 lg:mb-24" aria-labelledby="pricing-heading">
         <h2 id="pricing-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Packages</h2>
         <p className="mb-10 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-          Fixed prices. Free resubmissions. The second payment is due only when Apple approves your app. Not sure yet? Start with a $250 Readiness Check.
+          Fixed prices. Free resubmissions. The second payment is due only when Apple approves your app. Rejected already? The diagnosis is free.
         </p>
         <ul className="grid list-none gap-x-8 gap-y-12 lg:grid-cols-3">
           {packages.map((p) => (
@@ -349,7 +372,7 @@ const AppStoreLaunch = () => {
               </ul>
               <Button asChild variant={p.id === "launch" ? "default" : "outline"} className="mt-auto min-h-11 w-full rounded-full sm:w-auto sm:self-start">
                 <a href="#start" onClick={() => choose(p.id)}>
-                  {p.id === "rescue" ? "Get it approved" : `Start ${p.name}`}
+                  {p.id === "rescue" ? "Get a free diagnosis" : `Start ${p.name}`}
                 </a>
               </Button>
             </li>
@@ -362,7 +385,7 @@ const AppStoreLaunch = () => {
           className="mt-12 grid gap-6 rounded-xl border border-border p-6 sm:p-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10"
         >
           <div className="flex flex-col">
-            <p className="mb-2 text-sm font-medium text-accent">Not sure yet? Start here</p>
+            <p className="mb-2 text-sm font-medium text-accent">Never submitted? Start here</p>
             <h3 id="pkg-check" className="mb-1 text-lg font-semibold text-foreground">{readinessCheck.name}</h3>
             <p className="mb-3 text-sm text-muted-foreground">{readinessCheck.bestFor}</p>
             <p className="text-3xl font-bold leading-none tracking-tight text-foreground font-display">{readinessCheck.price}</p>
@@ -381,7 +404,7 @@ const AppStoreLaunch = () => {
               ))}
             </ul>
             <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
-              Book Rejection Rescue afterwards and the $250 covers its first payment, so you pay nothing more until Apple approves.
+              Book Launch within 30 days and the $250 comes off the price. Already rejected? Skip this: the diagnosis is free.
             </p>
           </div>
         </div>
@@ -570,7 +593,7 @@ const AppStoreLaunch = () => {
       <section id="start" className="mb-16 scroll-mt-24 border-t border-border pt-8 lg:mb-24" aria-labelledby="start-heading">
         <h2 id="start-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Tell me about your app</h2>
         <p className="mb-6 text-base leading-relaxed text-muted-foreground">
-          Send the link and where it's stuck. I'll tell you within one business day whether I can get it approved, and which package fits.
+          Send the link and where it's stuck. If Apple rejected it, paste their message: the diagnosis is free. Within one business day I'll tell you what's wrong, whether I can get it approved, and the fixed price.
         </p>
         <div className="mb-10 flex flex-col gap-3 rounded-xl border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm leading-relaxed text-foreground">
@@ -583,7 +606,7 @@ const AppStoreLaunch = () => {
             </a>
           </Button>
         </div>
-        <IntakeForm pkg={pkg} onPkgChange={setPkg} />
+        <IntakeForm pkg={pkg} onPkgChange={setPkg} stage={stage} onStageChange={setStage} />
       </section>
 
       <p className="mb-16 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground lg:mb-24">
