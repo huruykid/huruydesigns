@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, belesScreens, faqs, packages } from "@/lib/appStoreService";
+import { BELES_APP_STORE_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
@@ -43,6 +43,18 @@ describe("App Store launch page", () => {
       expect(imageDimensions[s.src]).toBeDefined();
       expect(within(strip).getByAltText(s.alt)).toHaveAttribute("src", s.src);
     }
+  });
+
+  it("shows EBT Finder as a second proof, with facts taken from its case study", () => {
+    renderPage();
+    expect(ebtProof.stats.map((s) => s.value)).toEqual(["264,000+", "13"]);
+    expect(ebtProof.stories).toHaveLength(2);
+    expect(ebtProof.frames.length).toBeGreaterThanOrEqual(3);
+    const strip = screen.getByRole("list", { name: "EBT Finder App Store screenshots" });
+    for (const f of ebtProof.frames) expect(imageDimensions[f.src]).toBeDefined();
+    expect(within(strip).getAllByRole("img")).toHaveLength(ebtProof.frames.length);
+    expect(screen.getByRole("link", { name: /EBT Finder on the App Store/ })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
+    expect(screen.getByRole("link", { name: "Read the EBT Finder case study" })).toHaveAttribute("href", "/project/ebtfinder");
   });
 
   it("never promises Apple's decision", () => {
