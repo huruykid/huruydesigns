@@ -1,4 +1,5 @@
 import { clientIp, corsHeaders, isAllowedOrigin, json, withinRateLimit } from "../_shared/http.ts";
+import { sendTemplateEmail } from "../_shared/transactional-email-templates/send-email.ts";
 
 /**
  * Saves an intake lead from huruy.tech/appstore into public.appstore_leads and emails
@@ -71,9 +72,9 @@ Deno.serve(async (req) => {
 });
 
 /**
- * Best-effort email to Huruy via Lovable's built-in app emails (send-transactional-email,
- * template "appstore-lead"). Until the sender domain is verified and the email function
- * is set up, the call fails and is only logged; the lead is already saved.
+ * Best-effort email to Huruy via Lovable's built-in app emails (template
+ * "appstore-lead", fixed recipient huruydesigns@gmail.com). If the send fails
+ * (e.g. sender domain still verifying), it is only logged; the lead is saved.
  */
 const NOTIFY_TO = "huruydesigns@gmail.com";
 
@@ -95,19 +96,13 @@ async function notify(
   ].join("\n");
 
   try {
-    const res = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
-      method: "POST",
-      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        templateName: "appstore-lead",
-        recipientEmail: NOTIFY_TO,
-        replyTo: lead.email,
-        idempotencyKey: `appstore-lead-${id ?? crypto.randomUUID()}`,
-        templateData: { subject, text },
-      }),
+    const result = await sendTemplateEmail("appstore-lead", NOTIFY_TO, {
+      templateData: { subject, text },
+      replyTo: lead.email,
+      idempotencyKey: `appstore-lead-${id ?? crypto.randomUUID()}`,
     });
-    if (!res.ok) {
-      console.error("lead email failed:", res.status, await res.text().catch(() => ""));
+    if (!result.sent) {
+      console.error("lead email not sent:", result.reason);
       return;
     }
     if (id) {
