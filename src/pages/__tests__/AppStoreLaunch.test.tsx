@@ -149,9 +149,12 @@ describe("App Store launch page", () => {
 
     it("saves the lead through the appstore-lead function and confirms", async () => {
       invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      window.dataLayer = [];
       renderPage();
       fill();
       expect(await screen.findByText(/Got it/)).toBeInTheDocument();
+      const conversion = (window.dataLayer as IArguments[]).find((a) => a[0] === "event" && a[1] === "conversion");
+      expect(conversion?.[2]).toMatchObject({ send_to: "AW-11554603785/Ig_zCOTzxZ0dEImG1YUr" });
       expect(invoke).toHaveBeenCalledWith("appstore-lead", {
         body: expect.objectContaining({ name: "Sam", email: "sam@example.com", appUrl: "https://sam.lovable.app", stage: "rejected", website: "" }),
       });

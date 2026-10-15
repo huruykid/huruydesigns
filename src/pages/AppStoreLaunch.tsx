@@ -11,7 +11,7 @@ import { NumberedList, StatRow, Wide } from "@/components/case-study/primitives"
 import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
-import { trackEvent } from "@/lib/analytics";
+import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
@@ -143,6 +143,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
       if (fnError || !res?.ok) throw new Error(res?.error ?? fnError?.message ?? "Request failed");
       setState("sent");
       trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
+      trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
     } catch (err) {
       setError(err instanceof Error ? err.message : null);
       setState("failed");

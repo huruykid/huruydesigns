@@ -2,6 +2,10 @@
 // GA4 measurement IDs are public, so hardcoding avoids the connector
 // overriding the ID we want to report to.
 const measurementId = "G-YD4149ZH3V";
+/** Google Ads account tag; conversions for the App Store service are reported to it. */
+const adsId = "AW-11554603785";
+/** Google Ads conversion action "App Store diagnosis request" (Submit lead form). */
+export const APPSTORE_LEAD_CONVERSION = `${adsId}/Ig_zCOTzxZ0dEImG1YUr`;
 
 declare global {
   interface Window {
@@ -25,6 +29,8 @@ if (typeof window !== "undefined") {
   gtag("js", new Date());
   // SPA: disable automatic page views; we send them on route changes.
   gtag("config", measurementId, { send_page_view: false });
+  // The same gtag.js serves Google Ads; this config lets conversion events reach it.
+  gtag("config", adsId);
 }
 
 let scriptInjected = false;
@@ -46,6 +52,11 @@ export function trackPageView(path: string) {
 
 export function trackEvent(name: string, params?: Record<string, unknown>) {
   gtag("event", name, params);
+}
+
+/** Reports a Google Ads conversion. Safe to call anywhere; it queues until gtag.js loads. */
+export function trackConversion(sendTo: string, params?: Record<string, unknown>) {
+  gtag("event", "conversion", { send_to: sendTo, ...params });
 }
 
 /**
