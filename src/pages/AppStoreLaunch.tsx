@@ -11,7 +11,7 @@ import { NumberedList, StatRow, Wide } from "@/components/case-study/primitives"
 import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
-import { trackEvent } from "@/lib/analytics";
+import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
@@ -38,10 +38,23 @@ import {
 } from "@/lib/appStoreService";
 
 const PATH = "/appstore";
+const RESCUE_PATH = "/appstore/rescue";
 const HERO_IMAGE = "/images/beles/appstore/02-discover.webp";
 const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
 const DESCRIPTION =
   "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Free rejection diagnosis. Rejection rescue $750, readiness check $250, full launch from $1,500, balance due on approval.";
+
+/**
+ * The /appstore/rescue variant is the landing page for rejection-intent search ads: same
+ * page, but the hero speaks to someone holding a rejection and the form opens on Rescue.
+ * It is prerendered but kept out of the sitemap and marked noindex, so the two pages never
+ * compete in organic search.
+ */
+const RESCUE_TITLE = "Rejected by App Review? Free Diagnosis, Fixed-Price Fix | Huruy Kidanemariam";
+const RESCUE_DESCRIPTION =
+  "Paste Apple's rejection message and get a free diagnosis within one business day. Rejection Rescue is a fixed $750: $250 to start, $500 only when Apple approves, free resubmissions.";
+
+export type AppStoreVariant = "launch" | "rescue";
 
 const jsonLd = [
   {
@@ -130,6 +143,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
       if (fnError || !res?.ok) throw new Error(res?.error ?? fnError?.message ?? "Request failed");
       setState("sent");
       trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
+      trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
     } catch (err) {
       setError(err instanceof Error ? err.message : null);
       setState("failed");
@@ -270,9 +284,10 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
   );
 };
 
-const AppStoreLaunch = () => {
-  const [pkg, setPkg] = useState<PackageId | "">("");
-  const [stage, setStage] = useState<IntakeStatus | "">("");
+const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) => {
+  const rescue = variant === "rescue";
+  const [pkg, setPkg] = useState<PackageId | "">(rescue ? "rescue" : "");
+  const [stage, setStage] = useState<IntakeStatus | "">(rescue ? "rejected" : "");
   const choose = (id: PackageId) => {
     setPkg(id);
     if (id === "rescue") setStage("rejected");
@@ -282,45 +297,79 @@ const AppStoreLaunch = () => {
   return (
   <>
     <SEO
-      title={TITLE}
-      description={DESCRIPTION}
-      path={PATH}
+      title={rescue ? RESCUE_TITLE : TITLE}
+      description={rescue ? RESCUE_DESCRIPTION : DESCRIPTION}
+      path={rescue ? RESCUE_PATH : PATH}
       image="/og/appstore.png"
       imageAlt="Get your Lovable app approved on the App Store: Huruy Kidanemariam's fixed-price launch service, shown with Beles and EBT Finder"
-      jsonLd={jsonLd}
-      breadcrumbs={[{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]}
+      jsonLd={rescue ? undefined : jsonLd}
+      noindex={rescue}
+      breadcrumbs={
+        rescue
+          ? [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }, { name: "Rejection rescue", path: RESCUE_PATH }]
+          : [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]
+      }
     />
     <div className="container cs-flow pt-16 sm:pt-24 lg:pt-28">
       <section
         className="cs-wide mb-16 grid items-center gap-12 lg:mb-24 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px]"
         aria-labelledby="appstore-heading"
       >
-        <div className="max-w-[40rem]">
-          <p className="mb-4 text-sm font-medium text-accent">Lovable to the App Store</p>
-          <h1 id="appstore-heading" className="mb-6 text-4xl font-light leading-tight tracking-normal sm:text-5xl">
-            Get your Lovable app approved on the App Store
-          </h1>
-          <p className="mb-5 text-lg leading-relaxed text-foreground">
-            I turn AI-built web apps into native iPhone apps that pass Apple review and feel like they belong on the phone. You keep your code and your backend, and you pay the balance only when Apple approves.
-          </p>
-          <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-            Senior UX designer · Two of my own apps live on the App Store · Los Angeles, working worldwide
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Button asChild size="lg" className="min-h-11 rounded-full px-6">
-              <a href="#start">Tell me about your app</a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
-              <a href="#beles">See how Beles shipped</a>
-            </Button>
+        {rescue ? (
+          <div className="max-w-[40rem]">
+            <p className="mb-4 text-sm font-medium text-accent">App Store rejection rescue</p>
+            <h1 id="appstore-heading" className="mb-6 text-4xl font-light leading-tight tracking-normal sm:text-5xl">
+              Rejected by App Review? Paste the message. The diagnosis is free.
+            </h1>
+            <p className="mb-5 text-lg leading-relaxed text-foreground">
+              Within one business day I tell you what the rejection means, what the fix involves, and the fixed price. Rejection Rescue is $750: $250 to start, $500 only when Apple approves, and free resubmissions until it's live.
+            </p>
+            <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
+              Guidelines 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1 · Two of my own Lovable-built apps live on the App Store · Los Angeles, working worldwide
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button asChild size="lg" className="min-h-11 rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90">
+                <a href="#start" onClick={() => choose("rescue")}>Get a free diagnosis</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
+                <a href="#pricing">See the packages</a>
+              </Button>
+            </div>
+            <p className="mt-5 text-sm text-muted-foreground">
+              Never submitted yet?{" "}
+              <Link to={PATH} className="font-medium text-accent underline underline-offset-4">
+                Start with the launch service
+              </Link>
+            </p>
           </div>
-          <p className="mt-5 text-sm text-muted-foreground">
-            Rejected by Apple?{" "}
-            <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
-              Paste the message for a free diagnosis
-            </a>
-          </p>
-        </div>
+        ) : (
+          <div className="max-w-[40rem]">
+            <p className="mb-4 text-sm font-medium text-accent">Lovable to the App Store</p>
+            <h1 id="appstore-heading" className="mb-6 text-4xl font-light leading-tight tracking-normal sm:text-5xl">
+              Get your Lovable app approved on the App Store
+            </h1>
+            <p className="mb-5 text-lg leading-relaxed text-foreground">
+              I turn AI-built web apps into native iPhone apps that pass Apple review and feel like they belong on the phone. You keep your code and your backend, and you pay the balance only when Apple approves.
+            </p>
+            <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
+              Senior UX designer · Two of my own apps live on the App Store · Los Angeles, working worldwide
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button asChild size="lg" className="min-h-11 rounded-full px-6">
+                <a href="#start">Tell me about your app</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
+                <a href="#beles">See how Beles shipped</a>
+              </Button>
+            </div>
+            <p className="mt-5 text-sm text-muted-foreground">
+              Rejected by Apple?{" "}
+              <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
+                Paste the message for a free diagnosis
+              </a>
+            </p>
+          </div>
+        )}
         <figure className="hidden lg:block">
           <img
             src={HERO_IMAGE}

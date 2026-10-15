@@ -19,6 +19,8 @@ export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/contact", priority: 0.7, changefreq: "yearly" },
   { path: "/book", priority: 0.6, changefreq: "monthly" },
   { path: "/appstore", priority: 0.7, changefreq: "monthly" },
+  // Ad landing variant: prerendered for speed, noindex and out of the sitemap.
+  { path: "/appstore/rescue" },
   ...publicProjects()
     .filter((p) => !p.gated)
     .map((p) => ({ path: `/project/${p.id}`, priority: 0.8, changefreq: "monthly" as const })),

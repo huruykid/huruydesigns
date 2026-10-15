@@ -10,7 +10,8 @@ import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreen
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
-const renderPage = () => render(<HelmetProvider><MemoryRouter><AppStoreLaunch /></MemoryRouter></HelmetProvider>);
+const renderPage = (variant?: "launch" | "rescue") =>
+  render(<HelmetProvider><MemoryRouter><AppStoreLaunch variant={variant} /></MemoryRouter></HelmetProvider>);
 
 describe("App Store launch page", () => {
   it("leads with the offer and links to intake and proof", () => {
@@ -117,6 +118,24 @@ describe("App Store launch page", () => {
     expect(prerenderRoutes.find((r) => r.path === "/appstore")?.priority).toBeGreaterThan(0);
   });
 
+  describe("rescue ad landing variant", () => {
+    it("leads with the rejection and opens the form on Rescue", () => {
+      renderPage("rescue");
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Rejected by App Review?");
+      const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
+      expect(within(hero).getByRole("link", { name: "Get a free diagnosis" })).toHaveAttribute("href", "#start");
+      expect(screen.getByLabelText("What you'd like")).toHaveValue("rescue");
+      expect(screen.getByLabelText("Where it stands")).toHaveValue("rejected");
+      expect(screen.getByRole("link", { name: "Start with the launch service" })).toHaveAttribute("href", "/appstore");
+    });
+
+    it("is prerendered but kept out of the sitemap", () => {
+      const route = prerenderRoutes.find((r) => r.path === "/appstore/rescue");
+      expect(route).toBeDefined();
+      expect(route?.priority).toBeUndefined();
+    });
+  });
+
   describe("intake form", () => {
     beforeEach(() => invoke.mockReset());
 
@@ -130,9 +149,12 @@ describe("App Store launch page", () => {
 
     it("saves the lead through the appstore-lead function and confirms", async () => {
       invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      window.dataLayer = [];
       renderPage();
       fill();
       expect(await screen.findByText(/Got it/)).toBeInTheDocument();
+      const conversion = (window.dataLayer as IArguments[]).find((a) => a[0] === "event" && a[1] === "conversion");
+      expect(conversion?.[2]).toMatchObject({ send_to: "AW-11554603785/Ig_zCOTzxZ0dEImG1YUr" });
       expect(invoke).toHaveBeenCalledWith("appstore-lead", {
         body: expect.objectContaining({ name: "Sam", email: "sam@example.com", appUrl: "https://sam.lovable.app", stage: "rejected", website: "" }),
       });
