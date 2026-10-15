@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, faqs, packages } from "@/lib/appStoreService";
+import { BELES_APP_STORE_URL, belesScreens, faqs, packages } from "@/lib/appStoreService";
+import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
 const renderPage = () => render(<HelmetProvider><MemoryRouter><AppStoreLaunch /></MemoryRouter></HelmetProvider>);
@@ -31,6 +32,17 @@ describe("App Store launch page", () => {
     renderPage();
     expect(screen.getByRole("link", { name: /Beles on the App Store/ })).toHaveAttribute("href", BELES_APP_STORE_URL);
     expect(screen.getByRole("link", { name: "Read the design case study" })).toHaveAttribute("href", "/project/beles");
+  });
+
+  it("shows the real App Store screenshots, each with alt text and known dimensions", () => {
+    renderPage();
+    const strip = screen.getByRole("list", { name: "Beles App Store screenshots" });
+    const imgs = within(strip).getAllByRole("img");
+    expect(imgs).toHaveLength(belesScreens.length);
+    for (const s of belesScreens) {
+      expect(imageDimensions[s.src]).toBeDefined();
+      expect(within(strip).getByAltText(s.alt)).toHaveAttribute("src", s.src);
+    }
   });
 
   it("never promises Apple's decision", () => {

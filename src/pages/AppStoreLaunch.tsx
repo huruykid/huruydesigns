@@ -19,6 +19,7 @@ import {
   accountStatuses,
   addOns,
   belesLessons,
+  belesScreens,
   belesTimeline,
   faqs,
   intakeStatuses,
@@ -29,7 +30,7 @@ import {
 } from "@/lib/appStoreService";
 
 const PATH = "/appstore";
-const HERO_IMAGE = "/images/beles/hero-mockup.webp";
+const HERO_IMAGE = "/images/beles/appstore/02-discover.webp";
 const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
 const DESCRIPTION =
   "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Rejection rescue from $750, full launch from $1,500, balance due on approval.";
@@ -212,10 +213,10 @@ const AppStoreLaunch = () => (
             src={HERO_IMAGE}
             width={imageDimensions[HERO_IMAGE]?.width}
             height={imageDimensions[HERO_IMAGE]?.height}
-            alt="Beles, a dating and community app built in Lovable, running as a native iPhone app"
-            className="h-auto w-full rounded-2xl"
+            alt="Beles Discover screen on iPhone: a member profile with a compatibility score, Dating and Friends modes, and a native tab bar"
+            className="mx-auto h-auto w-full max-w-[290px] rounded-[2.25rem] border-[6px] border-[#0d0d12] shadow-xl"
           />
-          <figcaption className="mt-3 text-center text-xs text-muted-foreground">Beles: built in Lovable, live on the App Store</figcaption>
+          <figcaption className="mt-4 text-center text-xs text-muted-foreground">Beles, built in Lovable. Screenshot from its App Store listing.</figcaption>
         </figure>
       </section>
 
@@ -291,6 +292,31 @@ const AppStoreLaunch = () => (
               { value: "1 person", label: "Research, design, build and release" },
             ]}
           />
+        </Wide>
+
+        <Wide>
+          <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">As shipped, from the App Store listing</h3>
+          <ul
+            aria-label="Beles App Store screenshots"
+            className="-mb-2 flex list-none snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-5 md:overflow-visible"
+          >
+            {belesScreens.map((s) => (
+              <li key={s.src} className="w-[44%] shrink-0 snap-start sm:w-[30%] md:w-auto">
+                <figure>
+                  <img
+                    src={s.src}
+                    width={imageDimensions[s.src]?.width}
+                    height={imageDimensions[s.src]?.height}
+                    alt={s.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto w-full rounded-2xl border border-border"
+                  />
+                  <figcaption className="mt-2 text-sm font-medium text-foreground">{s.caption}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
         </Wide>
 
         <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">Timeline, September 2026</h3>

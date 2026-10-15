@@ -87,6 +87,18 @@ export const problems = [
   },
 ];
 
+/**
+ * The screenshots on Beles's live App Store listing, in listing order (captured from
+ * apps.apple.com, not mockups). `src` paths are registered in imageDimensions.
+ */
+export const belesScreens = [
+  { src: "/images/beles/appstore/02-discover.webp", caption: "Discover", alt: "Beles Discover screen: a member profile with a compatibility score, Dating and Friends modes, and a Like button" },
+  { src: "/images/beles/appstore/03-like-comment.webp", caption: "Like with a comment", alt: "Beles sheet for liking a photo with an optional comment before sending" },
+  { src: "/images/beles/appstore/04-likes-you.webp", caption: "Likes you", alt: "Beles Likes screen showing a community vouch and the answer the other member liked" },
+  { src: "/images/beles/appstore/05-chat.webp", caption: "Chat", alt: "Beles chat with match context, a vouch, and options to vouch, unmatch or report" },
+  { src: "/images/beles/appstore/07-events.webp", caption: "Events", alt: "Beles Events screen listing a Tigray festival and a community fundraiser" },
+];
+
 /** Beles, from first iOS build to worldwide release. Dates are 2026. */
 export const belesTimeline = [
   { date: "Sep 10", text: "Wrapped the Lovable project in a native iOS shell and uploaded the first three builds to App Store Connect." },
