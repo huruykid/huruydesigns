@@ -50,9 +50,9 @@ export const packages: ServicePackage[] = [
     payment: "$250 to start, $500 when Apple approves",
     bestFor: "Apple already rejected your app.",
     includes: [
-      "A free diagnosis of the rejection (4.2, 4.8, 5.1.1, 2.1 and others) before you pay anything",
-      "The fixes, in your code",
-      "A reply to App Review that answers what they asked",
+      "Free diagnosis before you pay anything",
+      "Fixes, in your code",
+      "The reply to App Review",
       "Resubmissions until approved",
     ],
   },
@@ -63,14 +63,14 @@ export const packages: ServicePackage[] = [
     priceValue: 1500,
     note: "Founding price $995 for the first five clients",
     payment: "Half to start, half when Apple approves",
-    bestFor: "Your app works on the web and has never been submitted.",
+    bestFor: "Works on the web, never submitted.",
     includes: [
-      "Native iOS build of your existing app, no rewrite",
-      "The native features Apple looks for: tab bar, push, offline screen, haptics",
-      "Sign in with Apple and in-app account deletion where Apple requires them",
-      "App Store Connect setup, privacy labels and reviewer notes",
-      "Listing copy and screenshots for every required size",
-      "Submission and free resubmits until approved",
+      "Native iOS build, no rewrite",
+      "Tab bar, push, offline screen, haptics",
+      "Sign in with Apple and account deletion where required",
+      "App Store Connect, privacy labels, reviewer notes",
+      "Listing copy and screenshots",
+      "Submission and free resubmits",
     ],
   },
   {
@@ -79,12 +79,12 @@ export const packages: ServicePackage[] = [
     price: "$2,500",
     priceValue: 2500,
     payment: "Half to start, half when Apple approves",
-    bestFor: "You want it to look and earn like a real iPhone app.",
+    bestFor: "Should look and earn like a real iPhone app.",
     includes: [
       "Everything in Launch",
-      "A UX pass on your key screens against Apple's Human Interface Guidelines",
-      "App Store keyword set for search",
-      "In-app purchases through RevenueCat if you sell digital goods",
+      "UX pass against Apple's Human Interface Guidelines",
+      "App Store keyword set",
+      "In-app purchases through RevenueCat",
     ],
   },
 ];
@@ -99,12 +99,12 @@ export const readinessCheck: ServicePackage = {
   price: "$250",
   priceValue: 250,
   payment: "Paid up front. Credited in full toward Launch if you book within 30 days.",
-  bestFor: "Your app has never been submitted and you want to know what Apple will flag first.",
+  bestFor: "Never submitted. You want to know what Apple will flag first.",
   includes: [
-    "A review of your app against the guidelines that reject AI-built apps most: 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1",
-    "A written fix list, ranked by what Apple is most likely to flag",
-    "Draft notes for the App Review team, ready for when you submit",
-    "A 20-minute call to walk through it, within two business days",
+    "Review against 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1",
+    "Fix list, ranked by what Apple flags first",
+    "Draft reviewer notes",
+    "20-minute call within two business days",
   ],
 };
 
@@ -146,20 +146,20 @@ export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built 
 export const process = [
   {
     title: "Free diagnosis",
-    body: "Send the app link and, if Apple rejected it, paste their message. Within one business day you get the guideline at play, what the fix involves, and a fixed price.",
+    body: "Send the link, or the rejection. Within one business day: the guideline, the fix, and a fixed price.",
   },
   {
     title: "Scoped access",
-    body: "You grant only what the job needs: an App Store Connect invite with the App Manager role for one app, and your code on GitHub or as a Lovable export. Never your Apple ID password.",
+    body: "You grant only what the job needs. Never your Apple ID password.",
     levels: ["Rejection text only", "App Manager, one app", "Code access"],
   },
   {
     title: "Fix and reply",
-    body: "The fixes land in your code. The reply to App Review names the guideline and points to where the fix lives, and you read it before it goes out.",
+    body: "Fixes land in your code. You read the reply to App Review before it goes out.",
   },
   {
     title: "Resubmit until approved",
-    body: "I prepare the build and the submission. If Apple pushes back, I fix it and resubmit at no charge. The balance is due when it's approved.",
+    body: "I prepare the build; you press Release. Pushback is fixed at no charge. Balance due on approval.",
   },
 ];
 
@@ -171,20 +171,20 @@ export const trustPoints = [
 ];
 
 export const workingTerms = [
-  { label: "Timelines", body: "Diagnosis within one business day. Apple reviews most submissions within two days; nobody outside Apple controls that part." },
-  { label: "Working style", body: "Written updates by default. A 15-minute call whenever you want one." },
+  { label: "Timelines", body: "Diagnosis within one business day. Apple's review takes as long as Apple takes, usually a day or two." },
+  { label: "Working style", body: "Written updates by default. A 15-minute call when you want one." },
 ];
 
 /** Work the service turns down, stated so prospects can self-select. */
 export const exclusions = [
   "Hiding features from the reviewer",
   "Working around a terminated developer account",
-  "Apps with nothing app-like to add (I'll say so at intake, for free)",
+  "Apps with nothing app-like to add",
   "Template and spam apps",
 ];
 
 export const guarantee =
-  "If Apple rejects the app after we've worked through its feedback, I fix it and resubmit at no charge, and you never pay the second half. Cancel for a full refund any time before I start work.";
+  "If Apple still won't approve the app after we've worked through its feedback, you never pay the second half. Cancel for a full refund any time before I start.";
 
 export const problems = [
   {
