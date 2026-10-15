@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
  * members that ship with the app).
  *
  * Try it: switch Dating/Friends (the react affordance forks: heart vs. a kemay
- * wave), scroll Hiwet's profile, and react to any photo, prompt or the vouch to
+ * wave), scroll Rahwa's profile, and react to any photo, prompt or the vouch to
  * see the match moment with the Shmagele's suggestion.
  */
 
@@ -42,32 +42,37 @@ const elevated = "bg-[hsl(var(--elevated))]";
 type Intent = "dating" | "friends";
 type Target = { type: "photo" | "prompt" | "bio" | "shmagele"; ref: string | null };
 
-const hiwet = {
-  name: "Hiwet",
-  age: 31,
+/**
+ * Rahwa, the profile shown on Beles's App Store listing. Every detail here is visible
+ * in the public listing screenshots (or, for the Shmagele vouch, written into the app's
+ * own demo data); nothing is read from the production database.
+ */
+const rahwa = {
+  name: "Rahwa",
+  age: 29,
   verified: true,
   city: "Los Angeles, CA",
-  roots: "Adwa, Tigray",
+  roots: "Mekelle, Tigray",
   distanceMiles: 4,
-  bio: "Nurse, weekend hiker, keeper of the family jebena. Looking for something serious.",
-  photos: ["/images/beles/demo/hiwet-1.webp", "/images/beles/demo/hiwet-2.webp", "/images/beles/demo/hiwet-3.webp"],
+  bio: "Product designer in Los Angeles, with family from Mekelle.",
+  photos: ["/images/beles/demo/rahwa-1.webp", "/images/beles/demo/rahwa-2.webp", "/images/beles/demo/rahwa-3.webp"],
   prompts: [
-    { q: "A perfect Sunday", a: "Buna at my aunt's, then a long walk in Griffith Park." },
-    { q: "The way to win me over", a: "Know your grandmother's village, or ask me about mine." },
+    { q: "My roots in one sentence", a: "Mekelle-born, Inglewood-raised, Tigrinya at the dinner table." },
+    { q: "The dish I'd cook for you", a: "Shiro with a lot of berbere and zero apologies." },
   ],
   basics: [
-    { key: "height", Icon: Ruler, text: "5'5\"" },
-    { key: "work", Icon: Briefcase, text: "Nurse" },
-    { key: "education", Icon: GraduationCap, text: "BSc Nursing" },
+    { key: "height", Icon: Ruler, text: "5'5\" · 165 cm" },
+    { key: "work", Icon: Briefcase, text: "Product designer" },
+    { key: "education", Icon: GraduationCap, text: "Master's" },
     { key: "faith", Icon: Church, text: "Orthodox Christian" },
     { key: "family", Icon: Baby, text: "Want kids" },
-    { key: "drinking", Icon: Wine, text: "Drinks: socially" },
+    { key: "drinking", Icon: Wine, text: "Drinks: sometimes" },
     { key: "smoking", Icon: Cigarette, text: "Smokes: never" },
   ] as { key: string; Icon: LucideIcon; text: string }[],
-  shmagele: { by: "Aunt Letebrhan", relationship: "Aunt", note: "Serious, kind, keeps her family close. She'll make you laugh at the coffee ceremony." },
-  suggestedBy: "Aster",
-  suggestedNote: "She keeps the family jebena. You two will talk for hours.",
-  tags: ["Hiking", "Coffee ceremony", "Tigrigna music", "Tigrigna", "English"],
+  shmagele: { by: "Aunt Mebrat", relationship: "Aunt", note: "Rahwa has looked after her grandmother every summer since she was sixteen. Nothing more needs saying." },
+  suggestedBy: "Aunt Mebrat",
+  suggestedNote: "She looks after the people she loves. Start there.",
+  tags: [] as string[],
 };
 
 const same = (a: Target | null, b: Target) => !!a && a.type === b.type && a.ref === b.ref;
@@ -130,19 +135,19 @@ export function BelesMatchMoment({ intent = "dating", onClose, className }: { in
   const friends = intent === "friends";
   return (
     <div className={cn("flex flex-col items-center justify-center bg-background/95 px-8 py-10 text-center text-foreground backdrop-blur-sm", className)}>
-      <h2 className={cn(display, "text-4xl font-bold leading-tight")}>{hiwet.suggestedBy} might have been onto something</h2>
+      <h2 className={cn(display, "text-4xl font-bold leading-tight")}>{rahwa.suggestedBy} might have been onto something</h2>
       <p className="mt-3 text-sm text-muted-foreground">
-        {friends ? `You both said kemay. Start a conversation with ${hiwet.name}.` : `The feeling is mutual. Start a conversation with ${hiwet.name}.`}
+        {friends ? `You both said kemay. Start a conversation with ${rahwa.name}.` : `The feeling is mutual. Start a conversation with ${rahwa.name}.`}
       </p>
       <div className="mt-5 w-full max-w-xs rounded-2xl border border-primary/30 bg-primary/10 p-3 text-left">
         <p className="flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-widest text-primary">
-          <Sparkles className="size-3" aria-hidden="true" /> {hiwet.suggestedBy} suggested them
+          <Sparkles className="size-3" aria-hidden="true" /> {rahwa.suggestedBy} suggested them
         </p>
-        <p className="mt-1.5 text-sm leading-relaxed">“{hiwet.suggestedNote}”</p>
+        <p className="mt-1.5 text-sm leading-relaxed">“{rahwa.suggestedNote}”</p>
       </div>
       <img
-        src={hiwet.photos[0]}
-        alt={hiwet.name}
+        src={rahwa.photos[0]}
+        alt={rahwa.name}
         width={640}
         height={853}
         className="mt-8 h-64 w-48 rotate-3 rounded-3xl border-4 border-primary object-cover"
@@ -207,16 +212,16 @@ export default function BelesAppDemo({ width: preferred = 300, height = 600, fra
   };
 
   const photoTarget = (i: number): Target => ({ type: "photo", ref: String(i) });
-  const promptTarget = (i: number): Target => ({ type: "prompt", ref: hiwet.prompts[i].q });
+  const promptTarget = (i: number): Target => ({ type: "prompt", ref: rahwa.prompts[i].q });
 
   const promptCard = (i: number) => (
-    <Card key={`p${i}`} hit={same(hit, promptTarget(i))} onLike={() => react(promptTarget(i))} likeLabel={`${likeVerb} ${hiwet.name}'s answer to “${hiwet.prompts[i].q}”`} friends={friends}>
-      <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground">{hiwet.prompts[i].q}</p>
-      <p className={cn(display, "mt-1.5 pr-10 text-xl font-bold leading-snug")}>{hiwet.prompts[i].a}</p>
+    <Card key={`p${i}`} hit={same(hit, promptTarget(i))} onLike={() => react(promptTarget(i))} likeLabel={`${likeVerb} ${rahwa.name}'s answer to “${rahwa.prompts[i].q}”`} friends={friends}>
+      <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground">{rahwa.prompts[i].q}</p>
+      <p className={cn(display, "mt-1.5 pr-10 text-xl font-bold leading-snug")}>{rahwa.prompts[i].a}</p>
     </Card>
   );
   const photo = (i: number) => (
-    <PhotoBlock key={`ph${i}`} src={hiwet.photos[i]} alt={`${hiwet.name}, photo ${i + 1} of ${hiwet.photos.length}`} hit={same(hit, photoTarget(i))} onLike={() => react(photoTarget(i))} friends={friends} />
+    <PhotoBlock key={`ph${i}`} src={rahwa.photos[i]} alt={`${rahwa.name}, photo ${i + 1} of ${rahwa.photos.length}`} hit={same(hit, photoTarget(i))} onLike={() => react(photoTarget(i))} friends={friends} />
   );
 
   return (
@@ -254,29 +259,29 @@ export default function BelesAppDemo({ width: preferred = 300, height = 600, fra
 
         {/* The profile, as one scrolling document */}
         <div className="min-h-0 flex-1 overflow-y-auto pb-6" style={{ scrollbarWidth: "none" }}>
-          <article aria-label={`${hiwet.name}, ${hiwet.age}`}>
+          <article aria-label={`${rahwa.name}, ${rahwa.age}`}>
             <div className={cn("relative aspect-[4/5] w-full overflow-hidden", elevated)}>
-              <img src={hiwet.photos[0]} alt={`${hiwet.name}, main photo`} width={640} height={800} className="size-full object-cover" />
+              <img src={rahwa.photos[0]} alt={`${rahwa.name}, main photo`} width={640} height={800} className="size-full object-cover" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/55 to-transparent pb-5 pl-5 pr-20 pt-24 text-white">
                 <h2 className={cn(display, "text-3xl font-bold leading-tight")}>
-                  {hiwet.name}, {hiwet.age}
+                  {rahwa.name}, {rahwa.age}
                   <ShieldCheck className="ml-2 inline size-6 text-primary" aria-label="Verified by the community" />
                 </h2>
                 <p className="mt-1 flex items-center gap-1.5 text-sm text-white/90">
                   <MapPin className="size-3.5 shrink-0" aria-hidden="true" />
-                  {hiwet.city} · {hiwet.roots} · about {hiwet.distanceMiles} mi away
+                  {rahwa.city} · {rahwa.roots} · about {rahwa.distanceMiles} mi away
                 </p>
               </div>
               <div className="absolute left-4 right-4 top-4 flex items-start justify-between gap-2">
                 <span className="flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">
-                  <Sparkles className="size-3.5" aria-hidden="true" /> {hiwet.suggestedBy} suggests
+                  <Sparkles className="size-3.5" aria-hidden="true" /> {rahwa.suggestedBy} suggests
                 </span>
                 <span className="rounded-full bg-black/70 px-3 py-1.5 text-xs font-bold text-primary backdrop-blur">86% compatible</span>
               </div>
               <LikeButton
                 hit={same(hit, photoTarget(0))}
                 onClick={() => react(photoTarget(0))}
-                label={`${likeVerb} ${hiwet.name}'s main photo`}
+                label={`${likeVerb} ${rahwa.name}'s main photo`}
                 friends={friends}
                 className="absolute bottom-5 right-5"
               />
@@ -284,7 +289,7 @@ export default function BelesAppDemo({ width: preferred = 300, height = 600, fra
 
             <div className="space-y-4 px-5 pt-4">
               <ul className="flex flex-wrap gap-2">
-                {hiwet.basics.map(({ key, Icon, text }) => (
+                {rahwa.basics.map(({ key, Icon, text }) => (
                   <li key={key} className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm", elevated)}>
                     <Icon className="size-3.5 text-muted-foreground" aria-hidden="true" />
                     {text}
@@ -294,14 +299,14 @@ export default function BelesAppDemo({ width: preferred = 300, height = 600, fra
 
               <Card tone="primary" hit={false} likeLabel="" friends={friends}>
                 <p className="flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
-                  <Sparkles className="size-3.5" aria-hidden="true" /> Suggested by {hiwet.suggestedBy}
+                  <Sparkles className="size-3.5" aria-hidden="true" /> Suggested by {rahwa.suggestedBy}
                 </p>
-                <p className="mt-1.5 leading-relaxed">“{hiwet.suggestedNote}”</p>
+                <p className="mt-1.5 leading-relaxed">“{rahwa.suggestedNote}”</p>
               </Card>
 
-              <Card hit={same(hit, { type: "bio", ref: null })} onLike={() => react({ type: "bio", ref: null })} likeLabel={`${likeVerb} ${hiwet.name}'s bio`} friends={friends}>
-                <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground">About {hiwet.name}</p>
-                <p className="mt-1.5 pr-10 leading-relaxed">{hiwet.bio}</p>
+              <Card hit={same(hit, { type: "bio", ref: null })} onLike={() => react({ type: "bio", ref: null })} likeLabel={`${likeVerb} ${rahwa.name}'s bio`} friends={friends}>
+                <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground">About {rahwa.name}</p>
+                <p className="mt-1.5 pr-10 leading-relaxed">{rahwa.bio}</p>
               </Card>
               {photo(1)}
               {promptCard(0)}
@@ -311,20 +316,20 @@ export default function BelesAppDemo({ width: preferred = 300, height = 600, fra
                 tone="primary"
                 hit={same(hit, { type: "shmagele", ref: null })}
                 onLike={() => react({ type: "shmagele", ref: null })}
-                likeLabel={`${likeVerb} what ${hiwet.shmagele.by} says about ${hiwet.name}`}
+                likeLabel={`${likeVerb} what ${rahwa.shmagele.by} says about ${rahwa.name}`}
                 friends={friends}
               >
                 <p className="flex items-center gap-1.5 text-[0.7rem] font-semibold uppercase tracking-widest text-primary">
                   <BadgeCheck className="size-3.5" aria-hidden="true" /> Vouched for by their Shmagele
                 </p>
-                <p className="mt-1.5 pr-10 leading-relaxed">“{hiwet.shmagele.note}”</p>
-                <p className="mt-2 text-xs font-semibold text-muted-foreground">{hiwet.shmagele.by} · {hiwet.shmagele.relationship}</p>
+                <p className="mt-1.5 pr-10 leading-relaxed">“{rahwa.shmagele.note}”</p>
+                <p className="mt-2 text-xs font-semibold text-muted-foreground">{rahwa.shmagele.by} · {rahwa.shmagele.relationship}</p>
               </Card>
-              <div className="flex flex-wrap gap-2 pt-1">
-                {hiwet.tags.map((t) => (
+              {rahwa.tags.length > 0 && <div className="flex flex-wrap gap-2 pt-1">
+                {rahwa.tags.map((t) => (
                   <span key={t} className={cn("rounded-full px-3 py-1.5 text-sm text-muted-foreground", elevated)}>{t}</span>
                 ))}
-              </div>
+              </div>}
             </div>
           </article>
         </div>
