@@ -30,7 +30,7 @@ export const ebtProof = {
 };
 
 export interface ServicePackage {
-  id: "rescue" | "launch" | "polish";
+  id: "check" | "rescue" | "launch" | "polish";
   name: string;
   price: string;
   /** Machine-readable price for JSON-LD. */
@@ -88,6 +88,28 @@ export const packages: ServicePackage[] = [
     ],
   },
 ];
+
+/**
+ * The low-commitment way in: a paid audit whose fee is credited toward Rescue or Launch,
+ * so a client who goes on to Rescue pays nothing more until Apple approves.
+ */
+export const readinessCheck: ServicePackage = {
+  id: "check",
+  name: "Readiness Check",
+  price: "$250",
+  priceValue: 250,
+  payment: "Paid up front. Credited in full toward Rescue or Launch if you book within 30 days.",
+  bestFor: "You want to know what Apple will flag before you spend more.",
+  includes: [
+    "A review of your app against the guidelines that reject AI-built apps most: 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1",
+    "A written fix list, ranked by what Apple is most likely to flag",
+    "If Apple already rejected you, what the rejection means and a reply to App Review you can send",
+    "A 20-minute call to walk through it, within two business days",
+  ],
+};
+
+/** Every package a visitor can pick on the intake form, entry option first. */
+export const intakePackages = [readinessCheck, ...packages];
 
 export const addOns = [
   { name: "Android", price: "+$400", detail: "Google Play build and listing from the same app." },
@@ -180,6 +202,10 @@ export const faqs = [
   {
     q: "What if you can't take my app, or Apple never approves it?",
     a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the second half.",
+  },
+  {
+    q: "Can I start smaller?",
+    a: "Yes. The $250 Readiness Check reviews your app against the guidelines Apple rejects AI-built apps for and gives you a ranked fix list and a short call. Fix it yourself, or book Rescue or Launch within 30 days and the $250 counts toward it. With Rescue, that covers the first payment, so you pay nothing more until Apple approves.",
   },
   {
     q: "Do I have to rebuild my app?",

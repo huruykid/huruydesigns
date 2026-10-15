@@ -15,6 +15,7 @@ import { trackEvent } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
+  type ServicePackage,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -26,8 +27,10 @@ import {
   belesTimeline,
   ebtProof,
   faqs,
+  intakePackages,
   intakeStatuses,
   packages,
+  readinessCheck,
   problems,
   requirements,
   steps,
@@ -37,7 +40,7 @@ const PATH = "/appstore";
 const HERO_IMAGE = "/images/beles/appstore/02-discover.webp";
 const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
 const DESCRIPTION =
-  "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Rejection rescue from $750, full launch from $1,500, balance due on approval.";
+  "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Readiness check $250, rejection rescue from $750, full launch from $1,500, balance due on approval.";
 
 const jsonLd = [
   {
@@ -49,7 +52,7 @@ const jsonLd = [
     url: absoluteUrl(PATH),
     provider: PERSON_REF,
     areaServed: "Worldwide",
-    offers: packages.map((p) => ({
+    offers: intakePackages.map((p) => ({
       "@type": "Offer",
       name: p.name,
       price: p.priceValue,
@@ -69,8 +72,9 @@ const selectClass =
   "mt-1.5 flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm";
 
 type IntakeState = "idle" | "sending" | "sent" | "failed";
+type PackageId = ServicePackage["id"];
 
-const IntakeForm = () => {
+const IntakeForm = ({ pkg, onPkgChange }: { pkg: PackageId | ""; onPkgChange: (id: PackageId | "") => void }) => {
   const [state, setState] = useState<IntakeState>("idle");
   const [copied, setCopied] = useState(false);
   const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
@@ -92,7 +96,12 @@ const IntakeForm = () => {
     const stage = intakeStatuses.find((st) => st.value === payload.stage);
     if (!payload.name || !payload.email || !payload.appUrl || !stage) return;
 
-    const subject = `App Store ${stage.value === "rejected" ? "rescue" : "launch"}: ${payload.name}`;
+    // The lead backend has no package column, so the choice travels at the top of the details.
+    const chosen = intakePackages.find((p) => p.id === pkg);
+    if (chosen) payload.details = [`Interested in: ${chosen.name} (${chosen.price})`, payload.details].filter(Boolean).join("\n\n");
+
+    const kind = chosen?.id === "check" ? "readiness check" : stage.value === "rejected" ? "rescue" : "launch";
+    const subject = `App Store ${kind}: ${payload.name}`;
     const body = [
       `Name: ${payload.name}`,
       `Email: ${payload.email}`,
@@ -112,7 +121,7 @@ const IntakeForm = () => {
       });
       if (fnError || !res?.ok) throw new Error(res?.error ?? fnError?.message ?? "Request failed");
       setState("sent");
-      trackEvent("appstore_intake", { stage: stage.value, channel: "form" });
+      trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
     } catch (err) {
       setError(err instanceof Error ? err.message : null);
       setState("failed");
@@ -189,6 +198,21 @@ const IntakeForm = () => {
         </div>
       </div>
       <div>
+        <Label htmlFor="intake-package">What you'd like</Label>
+        <select
+          id="intake-package"
+          name="package"
+          value={pkg}
+          onChange={(e) => onPkgChange(e.target.value as PackageId | "")}
+          className={selectClass}
+        >
+          <option value="">Not sure yet</option>
+          {intakePackages.map((p) => (
+            <option key={p.id} value={p.id}>{`${p.name} (${p.price})`}</option>
+          ))}
+        </select>
+      </div>
+      <div>
         <Label htmlFor="intake-details">Anything else</Label>
         <Textarea
           id="intake-details"
@@ -231,7 +255,14 @@ const IntakeForm = () => {
   );
 };
 
-const AppStoreLaunch = () => (
+const AppStoreLaunch = () => {
+  const [pkg, setPkg] = useState<PackageId | "">("");
+  const choose = (id: PackageId) => {
+    setPkg(id);
+    trackEvent("appstore_package_click", { package: id });
+  };
+
+  return (
   <>
     <SEO
       title={TITLE}
@@ -294,7 +325,7 @@ const AppStoreLaunch = () => (
       <section id="pricing" className="cs-wide mb-16 scroll-mt-24 lg:mb-24" aria-labelledby="pricing-heading">
         <h2 id="pricing-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Packages</h2>
         <p className="mb-10 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-          Fixed prices. Free resubmissions. The second payment is due only when Apple approves your app.
+          Fixed prices. Free resubmissions. The second payment is due only when Apple approves your app. Not sure yet? Start with a $250 Readiness Check.
         </p>
         <ul className="grid list-none gap-x-8 gap-y-12 lg:grid-cols-3">
           {packages.map((p) => (
@@ -317,13 +348,43 @@ const AppStoreLaunch = () => (
                 ))}
               </ul>
               <Button asChild variant={p.id === "launch" ? "default" : "outline"} className="mt-auto min-h-11 w-full rounded-full sm:w-auto sm:self-start">
-                <a href="#start" onClick={() => trackEvent("appstore_package_click", { package: p.id })}>
+                <a href="#start" onClick={() => choose(p.id)}>
                   {p.id === "rescue" ? "Get it approved" : `Start ${p.name}`}
                 </a>
               </Button>
             </li>
           ))}
         </ul>
+        <div
+          id="readiness-check"
+          role="group"
+          aria-labelledby="pkg-check"
+          className="mt-12 grid gap-6 rounded-xl border border-border p-6 sm:p-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10"
+        >
+          <div className="flex flex-col">
+            <p className="mb-2 text-sm font-medium text-accent">Not sure yet? Start here</p>
+            <h3 id="pkg-check" className="mb-1 text-lg font-semibold text-foreground">{readinessCheck.name}</h3>
+            <p className="mb-3 text-sm text-muted-foreground">{readinessCheck.bestFor}</p>
+            <p className="text-3xl font-bold leading-none tracking-tight text-foreground font-display">{readinessCheck.price}</p>
+            <p className="mb-5 mt-2 text-sm text-muted-foreground">{readinessCheck.payment}</p>
+            <Button asChild variant="outline" className="mt-auto min-h-11 w-full rounded-full sm:w-auto sm:self-start">
+              <a href="#start" onClick={() => choose(readinessCheck.id)}>Book a Readiness Check</a>
+            </Button>
+          </div>
+          <div>
+            <ul className="space-y-2.5 text-sm leading-relaxed text-foreground">
+              {readinessCheck.includes.map((item) => (
+                <li key={item} className="flex gap-2.5">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
+              Book Rejection Rescue afterwards and the $250 covers its first payment, so you pay nothing more until Apple approves.
+            </p>
+          </div>
+        </div>
         <dl className="mt-12 grid gap-x-8 gap-y-4 border-t border-border pt-6 sm:grid-cols-2">
           {addOns.map((a) => (
             <div key={a.name}>
@@ -522,7 +583,7 @@ const AppStoreLaunch = () => (
             </a>
           </Button>
         </div>
-        <IntakeForm />
+        <IntakeForm pkg={pkg} onPkgChange={setPkg} />
       </section>
 
       <p className="mb-16 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground lg:mb-24">
@@ -530,6 +591,7 @@ const AppStoreLaunch = () => (
       </p>
     </div>
   </>
-);
+  );
+};
 
 export default AppStoreLaunch;
