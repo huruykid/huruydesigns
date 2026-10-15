@@ -4,8 +4,27 @@
  * page, its JSON-LD and its tests all read the same facts.
  */
 
+import { projects } from "./projects";
+
 export const BELES_APP_STORE_URL = "https://apps.apple.com/us/app/beles-tigrayan-dating/id6810825951";
 export const EBT_FINDER_APP_STORE_URL = "https://apps.apple.com/app/ebt-finder/id6751323829";
+
+/**
+ * EBT Finder proof for /appstore, derived from its case-study data in projects.ts so the
+ * numbers, store frames and post-launch stories can't drift between the two pages.
+ */
+const ebt = projects.find((p) => p.id === "ebtfinder")?.shipped;
+const ebtStat = (needle: RegExp) => ebt?.stats?.find((s) => needle.test(s.label));
+const ebtStory = (needle: RegExp) => ebt?.postLaunch?.find((s) => needle.test(s.title));
+
+/** Live version on the App Store, read from App Store Connect on 2026-10-14. */
+export const EBT_FINDER_LIVE_VERSION = "1.0.4";
+
+export const ebtProof = {
+  stats: [ebtStat(/locations mapped/), ebtStat(/TestFlight builds/)].filter((s): s is NonNullable<typeof s> => Boolean(s)),
+  stories: [ebtStory(/Apple rejected/), ebtStory(/TestFlight builds/)].filter((s): s is NonNullable<typeof s> => Boolean(s)),
+  frames: (ebt?.storeFrames ?? []).slice(0, 4),
+};
 
 export interface ServicePackage {
   id: "rescue" | "launch" | "polish";

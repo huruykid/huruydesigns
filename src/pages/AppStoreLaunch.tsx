@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Copy, Send } from "lucide-react";
+import { Check, Copy, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,11 +16,13 @@ import { imageDimensions } from "@/lib/imageDimensions";
 import {
   BELES_APP_STORE_URL,
   EBT_FINDER_APP_STORE_URL,
+  EBT_FINDER_LIVE_VERSION,
   accountStatuses,
   addOns,
   belesLessons,
   belesScreens,
   belesTimeline,
+  ebtProof,
   faqs,
   intakeStatuses,
   packages,
@@ -352,13 +354,76 @@ const AppStoreLaunch = () => (
             <Link to="/project/beles">Read the design case study</Link>
           </Button>
         </div>
-        <p className="mt-4 text-sm">
-          Also live:{" "}
-          <a href={EBT_FINDER_APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-4">
-            EBT Finder <ArrowUpRight className="inline h-3.5 w-3.5" aria-hidden="true" />
-          </a>
-          , a store finder for SNAP households, designed and shipped solo.
+      </CaseStudySection>
+
+      <CaseStudySection
+        id="ebt-finder"
+        label="Proof"
+        title="EBT Finder: an App Review rejection fixed without a new build"
+      >
+        <p className="mb-8">
+          EBT Finder helps SNAP households find stores that take EBT. I researched, designed, built and shipped it solo, and version {EBT_FINDER_LIVE_VERSION} is live on the App Store. It's where I learned the release discipline I now bring to client apps.
         </p>
+        <Wide>
+          <StatRow
+            columns={3}
+            stats={[
+              ...ebtProof.stats.map((s) => ({ value: s.value, label: s.label })),
+              { value: EBT_FINDER_LIVE_VERSION, label: "Version live on the App Store" },
+            ]}
+          />
+        </Wide>
+
+        {ebtProof.frames.length > 0 && (
+          <Wide>
+            <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">The App Store listing I designed</h3>
+            <ul
+              aria-label="EBT Finder App Store screenshots"
+              className="-mb-2 flex list-none snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-4 md:overflow-visible"
+            >
+              {ebtProof.frames.map((f) => (
+                <li key={f.src} className="w-[44%] shrink-0 snap-start sm:w-[30%] md:w-auto">
+                  <img
+                    src={f.src}
+                    width={imageDimensions[f.src]?.width}
+                    height={imageDimensions[f.src]?.height}
+                    alt={f.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto w-full rounded-2xl border border-border"
+                  />
+                </li>
+              ))}
+            </ul>
+          </Wide>
+        )}
+
+        <h3 className="mb-4 mt-12 text-lg font-bold tracking-tight text-foreground font-display">Two release problems, and what they changed</h3>
+        <ol className="list-none border-t border-border divide-y divide-border">
+          {ebtProof.stories.map((st, i) => (
+            <li key={st.title} className="grid gap-2 py-6 sm:grid-cols-[3.5rem_1fr]">
+              <span className="text-sm font-semibold tabular-nums text-accent" aria-hidden="true">0{i + 1}</span>
+              <div className="min-w-0">
+                <h4 className="mb-1.5 font-semibold text-foreground">{st.title}</h4>
+                <p className="mb-2 max-w-[64ch]">{st.problem}</p>
+                <p className="max-w-[64ch]">
+                  <span className="font-semibold text-foreground">Fix:</span> {st.fix}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <Button asChild size="lg" className="min-h-11 rounded-full bg-[#0d0d12] px-6 text-white hover:bg-[#0d0d12]/85">
+            <a href={EBT_FINDER_APP_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })}>
+              <AppleLogo className="mr-1 h-5 w-5" /> EBT Finder on the App Store
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
+            <Link to="/project/ebtfinder">Read the EBT Finder case study</Link>
+          </Button>
+        </div>
       </CaseStudySection>
     </div>
 
