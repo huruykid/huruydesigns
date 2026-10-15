@@ -1,5 +1,8 @@
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const invoke = vi.fn();
+vi.mock("@/integrations/supabase/client", () => ({ supabase: { functions: { invoke: (...args: unknown[]) => invoke(...args) } } }));
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
@@ -89,5 +92,35 @@ describe("App Store launch page", () => {
 
   it("is prerendered and in the sitemap", () => {
     expect(prerenderRoutes.find((r) => r.path === "/appstore")?.priority).toBeGreaterThan(0);
+  });
+
+  describe("intake form", () => {
+    beforeEach(() => invoke.mockReset());
+
+    const fill = () => {
+      fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Sam" } });
+      fireEvent.change(screen.getByLabelText("Email"), { target: { value: "sam@example.com" } });
+      fireEvent.change(screen.getByLabelText("Link to your app"), { target: { value: "https://sam.lovable.app" } });
+      fireEvent.change(screen.getByLabelText("Where it stands"), { target: { value: "rejected" } });
+      fireEvent.submit(screen.getByRole("form", { name: "App Store intake" }));
+    };
+
+    it("saves the lead through the appstore-lead function and confirms", async () => {
+      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      renderPage();
+      fill();
+      expect(await screen.findByText(/Got it/)).toBeInTheDocument();
+      expect(invoke).toHaveBeenCalledWith("appstore-lead", {
+        body: expect.objectContaining({ name: "Sam", email: "sam@example.com", appUrl: "https://sam.lovable.app", stage: "rejected", website: "" }),
+      });
+    });
+
+    it("falls back to an email draft when saving fails", async () => {
+      invoke.mockResolvedValue({ data: null, error: new Error("Request failed") });
+      renderPage();
+      fill();
+      const alert = await screen.findByRole("alert");
+      await waitFor(() => expect(within(alert).getByRole("link", { name: "Open in email" }).getAttribute("href")).toMatch(/^mailto:/));
+    });
   });
 });
