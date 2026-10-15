@@ -1,9 +1,12 @@
-import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const invoke = vi.fn();
+vi.mock("@/integrations/supabase/client", () => ({ supabase: { functions: { invoke: (...args: unknown[]) => invoke(...args) } } }));
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
+import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages } from "@/lib/appStoreService";
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
@@ -30,7 +33,7 @@ describe("App Store launch page", () => {
 
   it("links the Beles proof to the live App Store listing and the design case study", () => {
     renderPage();
-    expect(screen.getByRole("link", { name: /Beles on the App Store/ })).toHaveAttribute("href", BELES_APP_STORE_URL);
+    expect(screen.getByRole("link", { name: "Download Beles on the App Store" })).toHaveAttribute("href", BELES_APP_STORE_URL);
     expect(screen.getByRole("link", { name: "Read the design case study" })).toHaveAttribute("href", "/project/beles");
   });
 
@@ -53,7 +56,7 @@ describe("App Store launch page", () => {
     const strip = screen.getByRole("list", { name: "EBT Finder App Store screenshots" });
     for (const f of ebtProof.frames) expect(imageDimensions[f.src]).toBeDefined();
     expect(within(strip).getAllByRole("img")).toHaveLength(ebtProof.frames.length);
-    expect(screen.getByRole("link", { name: /EBT Finder on the App Store/ })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
+    expect(screen.getByRole("link", { name: "Download EBT Finder on the App Store" })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
     expect(screen.getByRole("link", { name: "Read the EBT Finder case study" })).toHaveAttribute("href", "/project/ebtfinder");
   });
 
@@ -63,9 +66,21 @@ describe("App Store launch page", () => {
     expect(faqs.find((f) => /guarantee/i.test(f.q))?.a).toMatch(/No one can promise/);
   });
 
+  it("states refund terms, the business behind the service, and non-affiliation", () => {
+    renderPage();
+    expect(faqs.find((f) => /never approves/i.test(f.q))?.a).toMatch(/full refund/);
+    expect(document.body.textContent).toMatch(/Appfinity Labs LLC/);
+    expect(document.body.textContent).toMatch(/Not affiliated with or endorsed by Apple or Lovable/);
+  });
+
   it("does not name the current employer", () => {
     renderPage();
     expect(document.body.textContent).not.toMatch(/capital group|luxoft/i);
+  });
+
+  it("offers a 15-minute call next to the intake form", () => {
+    renderPage();
+    expect(screen.getByRole("link", { name: /Book a 15-minute call/ })).toHaveAttribute("href", BOOKING_URL);
   });
 
   it("has an intake form with required app link and stage", () => {
@@ -77,5 +92,35 @@ describe("App Store launch page", () => {
 
   it("is prerendered and in the sitemap", () => {
     expect(prerenderRoutes.find((r) => r.path === "/appstore")?.priority).toBeGreaterThan(0);
+  });
+
+  describe("intake form", () => {
+    beforeEach(() => invoke.mockReset());
+
+    const fill = () => {
+      fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Sam" } });
+      fireEvent.change(screen.getByLabelText("Email"), { target: { value: "sam@example.com" } });
+      fireEvent.change(screen.getByLabelText("Link to your app"), { target: { value: "https://sam.lovable.app" } });
+      fireEvent.change(screen.getByLabelText("Where it stands"), { target: { value: "rejected" } });
+      fireEvent.submit(screen.getByRole("form", { name: "App Store intake" }));
+    };
+
+    it("saves the lead through the appstore-lead function and confirms", async () => {
+      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      renderPage();
+      fill();
+      expect(await screen.findByText(/Got it/)).toBeInTheDocument();
+      expect(invoke).toHaveBeenCalledWith("appstore-lead", {
+        body: expect.objectContaining({ name: "Sam", email: "sam@example.com", appUrl: "https://sam.lovable.app", stage: "rejected", website: "" }),
+      });
+    });
+
+    it("falls back to an email draft when saving fails", async () => {
+      invoke.mockResolvedValue({ data: null, error: new Error("Request failed") });
+      renderPage();
+      fill();
+      const alert = await screen.findByRole("alert");
+      await waitFor(() => expect(within(alert).getByRole("link", { name: "Open in email" }).getAttribute("href")).toMatch(/^mailto:/));
+    });
   });
 });

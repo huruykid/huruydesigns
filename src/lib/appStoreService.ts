@@ -8,6 +8,9 @@ import { projects } from "./projects";
 
 export const BELES_APP_STORE_URL = "https://apps.apple.com/us/app/beles-tigrayan-dating/id6810825951";
 export const EBT_FINDER_APP_STORE_URL = "https://apps.apple.com/app/ebt-finder/id6751323829";
+/** Google Calendar booking page: 15-minute intro calls, Mon/Wed/Fri 12-1pm and Tue/Thu 6-7pm Pacific. */
+export const BOOKING_URL =
+  "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0PLAAK5cjS4Gu7ooPkMRlZ9eUpUHOS9gfoIRr1dRDPMMbyiKIZIhkhjgKbBE6GClPVkzC-D34k";
 
 /**
  * EBT Finder proof for /appstore, derived from its case-study data in projects.ts so the
@@ -173,6 +176,10 @@ export const faqs = [
   {
     q: "Can you guarantee Apple approves it?",
     a: "No one can promise Apple's decision. What I can promise: if Apple rejects it, I fix it and resubmit at no charge, and you don't pay the second half until it's approved. If your app has nothing app-like to add, I'll tell you at intake instead of taking your money.",
+  },
+  {
+    q: "What if you can't take my app, or Apple never approves it?",
+    a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the second half.",
   },
   {
     q: "Do I have to rebuild my app?",

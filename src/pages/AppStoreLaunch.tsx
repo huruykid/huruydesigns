@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, Copy, Send } from "lucide-react";
+import { CalendarDays, Check, Copy, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,13 +8,15 @@ import { Label } from "@/components/ui/label";
 import SEO from "@/components/SEO";
 import CaseStudySection from "@/components/case-study/CaseStudySection";
 import { NumberedList, StatRow, Wide } from "@/components/case-study/primitives";
-import { AppleLogo } from "@/components/AppStorePromoBanner";
+import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
 import { trackEvent } from "@/lib/analytics";
+import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
   BELES_APP_STORE_URL,
+  BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
   EBT_FINDER_LIVE_VERSION,
   accountStatuses,
@@ -66,70 +68,113 @@ const jsonLd = [
 const selectClass =
   "mt-1.5 flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm";
 
-const IntakeForm = () => {
-  const [status, setStatus] = useState<"idle" | "opened" | "copied">("idle");
-  const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
+type IntakeState = "idle" | "sending" | "sent" | "failed";
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+const IntakeForm = () => {
+  const [state, setState] = useState<IntakeState>("idle");
+  const [copied, setCopied] = useState(false);
+  const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const field = (key: string) => ((data.get(key) as string) || "").trim();
-    const name = field("name");
-    const email = field("email");
-    const appUrl = field("appUrl");
-    const stage = intakeStatuses.find((s) => s.value === field("stage"));
-    if (!name || !email || !appUrl || !stage) return;
+    const payload = {
+      name: field("name"),
+      email: field("email"),
+      appUrl: field("appUrl"),
+      stage: field("stage"),
+      account: field("account"),
+      details: field("details"),
+      website: field("website"),
+    };
+    const stage = intakeStatuses.find((st) => st.value === payload.stage);
+    if (!payload.name || !payload.email || !payload.appUrl || !stage) return;
 
-    const subject = `App Store ${stage.value === "rejected" ? "rescue" : "launch"}: ${name}`;
+    const subject = `App Store ${stage.value === "rejected" ? "rescue" : "launch"}: ${payload.name}`;
     const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `App: ${appUrl}`,
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      `App: ${payload.appUrl}`,
       `Where it stands: ${stage.label}`,
-      `Apple Developer account: ${field("account") || "Not said"}`,
+      `Apple Developer account: ${payload.account || "Not said"}`,
       "",
-      field("details") || "(No details yet)",
+      payload.details || "(No details yet)",
     ].join("\n");
-
     setDraft({ subject, body });
-    setStatus("opened");
-    trackEvent("appstore_intake", { stage: stage.value });
-    window.location.href = `mailto:${person.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setError(null);
+    setState("sending");
+
+    try {
+      const { data: res, error: fnError } = await supabase.functions.invoke<{ ok: boolean; error?: string }>("appstore-lead", {
+        body: payload,
+      });
+      if (fnError || !res?.ok) throw new Error(res?.error ?? fnError?.message ?? "Request failed");
+      setState("sent");
+      trackEvent("appstore_intake", { stage: stage.value, channel: "form" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : null);
+      setState("failed");
+      trackEvent("appstore_intake_failed", { stage: stage.value });
+    }
   };
 
   const copyDraft = async () => {
     if (!draft) return;
     try {
       await navigator.clipboard.writeText(`To: ${person.email}\nSubject: ${draft.subject}\n\n${draft.body}`);
-      setStatus("copied");
+      setCopied(true);
     } catch {
-      setStatus("opened");
+      setCopied(false);
     }
   };
 
+  if (state === "sent") {
+    return (
+      <div role="status" className="rounded-xl border border-accent/30 bg-accent/5 p-6">
+        <p className="mb-1 flex items-center gap-2 font-semibold text-foreground">
+          <Check className="h-5 w-5 text-accent" aria-hidden="true" /> Got it. Thanks.
+        </p>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          I'll reply to your email within one business day with a yes, a no, or questions. If you'd rather talk now,{" "}
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-4">
+            book a 15-minute call
+          </a>
+          .
+        </p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5" aria-label="App Store intake">
+      {/* Honeypot for bots: hidden from people and assistive tech. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="intake-website">Website</label>
+        <input id="intake-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-name">Name</Label>
-          <Input id="intake-name" name="name" autoComplete="name" required className="mt-1.5 h-11" />
+          <Input id="intake-name" name="name" autoComplete="name" required maxLength={120} className="mt-1.5 h-11" />
         </div>
         <div>
           <Label htmlFor="intake-email">Email</Label>
-          <Input id="intake-email" name="email" type="email" autoComplete="email" required className="mt-1.5 h-11" />
+          <Input id="intake-email" name="email" type="email" autoComplete="email" required maxLength={254} className="mt-1.5 h-11" />
         </div>
       </div>
       <div>
         <Label htmlFor="intake-url">Link to your app</Label>
-        <Input id="intake-url" name="appUrl" type="url" inputMode="url" placeholder="https://yourapp.lovable.app" required className="mt-1.5 h-11" />
+        <Input id="intake-url" name="appUrl" type="url" inputMode="url" placeholder="https://yourapp.lovable.app" required maxLength={500} className="mt-1.5 h-11" />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-stage">Where it stands</Label>
           <select id="intake-stage" name="stage" required defaultValue="" className={selectClass}>
             <option value="" disabled>Choose one</option>
-            {intakeStatuses.map((s) => (
-              <option key={s.value} value={s.value}>{s.label}</option>
+            {intakeStatuses.map((st) => (
+              <option key={st.value} value={st.value}>{st.label}</option>
             ))}
           </select>
         </div>
@@ -154,22 +199,32 @@ const IntakeForm = () => {
           className="mt-1.5"
         />
       </div>
-      <Button type="submit" size="lg" className="min-h-11 w-full rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90 sm:w-auto">
-        <Send className="mr-1 h-4 w-4" aria-hidden="true" /> Send to Huruy
+      <Button
+        type="submit"
+        size="lg"
+        disabled={state === "sending"}
+        className="min-h-11 w-full rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90 sm:w-auto"
+      >
+        <Send className="mr-1 h-4 w-4" aria-hidden="true" /> {state === "sending" ? "Sending…" : "Send to Huruy"}
       </Button>
-      <p className="text-xs text-muted-foreground">
-        This opens a pre-filled email to {person.email}. Nothing is sent until you press send. I reply within one business day.
-      </p>
-      {status !== "idle" && (
-        <div role="status" className="rounded-lg border border-accent/30 bg-accent/5 p-4 text-sm">
+      <p className="text-xs text-muted-foreground">I reply within one business day. Your details are used only to answer you.</p>
+      {state === "failed" && draft && (
+        <div role="alert" className="rounded-lg border border-border bg-muted/40 p-4 text-sm">
           <p className="mb-3">
-            If your email app didn't open, copy the message and send it to{" "}
-            <a href={`mailto:${person.email}`} className="text-accent underline underline-offset-4">{person.email}</a>.
+            {error && !/request failed|failed to fetch/i.test(error) ? `${error} ` : "That didn't go through. "}
+            You can send the same message by email instead.
           </p>
-          <Button type="button" variant="outline" size="sm" onClick={copyDraft} className="min-h-11">
-            {status === "copied" ? <Check className="mr-1 h-4 w-4" aria-hidden="true" /> : <Copy className="mr-1 h-4 w-4" aria-hidden="true" />}
-            {status === "copied" ? "Copied" : "Copy message"}
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button asChild variant="outline" size="sm" className="min-h-11">
+              <a href={`mailto:${person.email}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`}>
+                Open in email
+              </a>
+            </Button>
+            <Button type="button" variant="outline" size="sm" onClick={copyDraft} className="min-h-11">
+              {copied ? <Check className="mr-1 h-4 w-4" aria-hidden="true" /> : <Copy className="mr-1 h-4 w-4" aria-hidden="true" />}
+              {copied ? "Copied" : `Copy message for ${person.email}`}
+            </Button>
+          </div>
         </div>
       )}
     </form>
@@ -346,12 +401,8 @@ const AppStoreLaunch = () => (
           ))}
         </ol>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button asChild size="lg" className="min-h-11 rounded-full bg-[#0d0d12] px-6 text-white hover:bg-[#0d0d12]/85">
-            <a href={BELES_APP_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })}>
-              <AppleLogo className="mr-1 h-5 w-5" /> Beles on the App Store
-            </a>
-          </Button>
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <AppStoreBadgeLink href={BELES_APP_STORE_URL} appName="Beles" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })} />
           <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
             <Link to="/project/beles">Read the design case study</Link>
           </Button>
@@ -416,12 +467,8 @@ const AppStoreLaunch = () => (
           ))}
         </ol>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button asChild size="lg" className="min-h-11 rounded-full bg-[#0d0d12] px-6 text-white hover:bg-[#0d0d12]/85">
-            <a href={EBT_FINDER_APP_STORE_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })}>
-              <AppleLogo className="mr-1 h-5 w-5" /> EBT Finder on the App Store
-            </a>
-          </Button>
+        <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <AppStoreBadgeLink href={EBT_FINDER_APP_STORE_URL} appName="EBT Finder" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })} />
           <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
             <Link to="/project/ebtfinder">Read the EBT Finder case study</Link>
           </Button>
@@ -461,11 +508,26 @@ const AppStoreLaunch = () => (
 
       <section id="start" className="mb-16 scroll-mt-24 border-t border-border pt-8 lg:mb-24" aria-labelledby="start-heading">
         <h2 id="start-heading" className="mb-3 text-2xl font-medium tracking-normal sm:text-3xl">Tell me about your app</h2>
-        <p className="mb-8 text-base leading-relaxed text-muted-foreground">
+        <p className="mb-6 text-base leading-relaxed text-muted-foreground">
           Send the link and where it's stuck. I'll tell you within one business day whether I can get it approved, and which package fits.
         </p>
+        <div className="mb-10 flex flex-col gap-3 rounded-xl border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm leading-relaxed text-foreground">
+            <span className="font-semibold">Rather talk it through?</span>{" "}
+            <span className="text-muted-foreground">Book a free 15-minute video call.</span>
+          </p>
+          <Button asChild variant="outline" className="min-h-11 shrink-0 rounded-full px-5">
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("appstore_book_call_click")}>
+              <CalendarDays className="mr-1 h-4 w-4" aria-hidden="true" /> Book a 15-minute call
+            </a>
+          </Button>
+        </div>
         <IntakeForm />
       </section>
+
+      <p className="mb-16 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground lg:mb-24">
+        The App Store launch service is provided by Appfinity Labs LLC, Los Angeles, California. Not affiliated with or endorsed by Apple or Lovable. App Store is a service mark of Apple Inc.
+      </p>
     </div>
   </>
 );
