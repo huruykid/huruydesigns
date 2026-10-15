@@ -1,8 +1,8 @@
 import { clientIp, corsHeaders, isAllowedOrigin, json, withinRateLimit } from "../_shared/http.ts";
 
 /**
- * Saves an intake lead from huruy.tech/appstore into public.appstore_leads and, when
- * RESEND_API_KEY and LEAD_NOTIFY_EMAIL are configured, emails Huruy about it.
+ * Saves an intake lead from huruy.tech/appstore into public.appstore_leads and emails
+ * Huruy about it through Lovable's built-in app emails.
  *
  * Abuse limits: allowed origins only, a honeypot field, 5 submissions per hour and
  * 20 per day per IP. Saving the lead never depends on the email succeeding.
@@ -70,20 +70,19 @@ Deno.serve(async (req) => {
   }
 });
 
-/** Best-effort email to Huruy via Resend. A failure is logged, never surfaced to the visitor. */
+/**
+ * Best-effort email to Huruy via Lovable's built-in app emails (send-transactional-email,
+ * template "appstore-lead"). Until the sender domain is verified and the email function
+ * is set up, the call fails and is only logged; the lead is already saved.
+ */
+const NOTIFY_TO = "huruydesigns@gmail.com";
+
 async function notify(
   lead: { name: string; email: string; app_url: string; stage: string; developer_account: string | null; details: string | null },
   id: string | undefined,
   supabaseUrl: string,
   serviceKey: string,
 ) {
-  const apiKey = Deno.env.get("RESEND_API_KEY");
-  const to = Deno.env.get("LEAD_NOTIFY_EMAIL");
-  if (!apiKey || !to) {
-    console.warn("appstore-lead: RESEND_API_KEY / LEAD_NOTIFY_EMAIL not set; lead saved without email");
-    return;
-  }
-  const from = Deno.env.get("LEAD_FROM_EMAIL") ?? "huruy.tech <onboarding@resend.dev>";
   const subject = `App Store ${lead.stage === "rejected" ? "rescue" : "launch"}: ${lead.name}`;
   const text = [
     `Name: ${lead.name}`,
@@ -96,10 +95,16 @@ async function notify(
   ].join("\n");
 
   try {
-    const res = await fetch("https://api.resend.com/emails", {
+    const res = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from, to: [to], reply_to: lead.email, subject, text }),
+      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        templateName: "appstore-lead",
+        recipientEmail: NOTIFY_TO,
+        replyTo: lead.email,
+        idempotencyKey: `appstore-lead-${id ?? crypto.randomUUID()}`,
+        templateData: { subject, text },
+      }),
     });
     if (!res.ok) {
       console.error("lead email failed:", res.status, await res.text().catch(() => ""));
