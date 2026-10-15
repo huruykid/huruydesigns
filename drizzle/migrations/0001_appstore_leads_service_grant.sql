@@ -1,0 +1,1 @@
+GRANT ALL ON public.appstore_leads TO service_role;
