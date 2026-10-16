@@ -117,15 +117,20 @@ export const addOns = [
 ];
 
 /** The guidelines the service is scoped around, in the order Apple numbers them. */
-export const guidelines = [
-  { number: "1.2", name: "User-Generated Content", note: "Report, block and moderation before you ship" },
-  { number: "2.1", name: "App Completeness", note: "Crashes, dead buttons, a reviewer who couldn't sign in" },
-  { number: "2.3", name: "Accurate Metadata", note: "Screenshots and copy that match the build" },
-  { number: "3.1.1", name: "In-App Purchase", note: "Digital goods sold through Apple, not a web checkout" },
-  { number: "4.2", name: "Minimum Functionality", note: "The 'website in a frame' rejection" },
-  { number: "4.3", name: "Spam", note: "What makes yours different, shown to the reviewer first" },
-  { number: "4.8", name: "Login Services", note: "Sign in with Apple next to Google or social login" },
-  { number: "5.1.1", name: "Data Collection and Storage", note: "Account deletion, purpose strings, privacy labels" },
+/**
+ * The guidelines the service is scoped around, in the order Apple numbers them. `plain` is
+ * how founders describe the problem and is what the page shows; `guide` links the matching
+ * /guides page where one exists.
+ */
+export const guidelines: { number: string; name: string; plain: string; note: string; guide?: string }[] = [
+  { number: "1.2", name: "User-Generated Content", plain: "People can post, but can't report or block", note: "Report, block and moderation before you ship" },
+  { number: "2.1", name: "App Completeness", plain: "It crashed, or the reviewer couldn't sign in", note: "Crashes, dead buttons, a reviewer who couldn't sign in", guide: "app-review-login-crash" },
+  { number: "2.3", name: "Accurate Metadata", plain: "Screenshots don't match the app", note: "Screenshots and copy that match the build" },
+  { number: "3.1.1", name: "In-App Purchase", plain: "Charging through Stripe", note: "Digital goods sold through Apple, not a web checkout", guide: "stripe-in-iphone-app" },
+  { number: "4.2", name: "Minimum Functionality", plain: "\"It's just a website\"", note: "The 'website in a frame' rejection", guide: "app-rejected-just-a-website" },
+  { number: "4.3", name: "Spam", plain: "Too similar to other apps", note: "What makes yours different, shown to the reviewer first" },
+  { number: "4.8", name: "Login Services", plain: "Needs Sign in with Apple", note: "Sign in with Apple next to Google or social login", guide: "sign-in-with-apple-rejection" },
+  { number: "5.1.1", name: "Data Collection and Storage", plain: "No way to delete an account", note: "Account deletion, purpose strings, privacy labels", guide: "app-store-account-deletion" },
 ];
 
 export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built React"];

@@ -1,4 +1,5 @@
 import { publicProjects } from "./projects";
+import { guidePath, guides } from "./guides";
 
 export interface PrerenderRoute {
   path: string;
@@ -21,6 +22,8 @@ export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/appstore", priority: 0.7, changefreq: "monthly" },
   // Ad landing variant: prerendered for speed, noindex and out of the sitemap.
   { path: "/appstore/rescue" },
+  { path: "/guides", priority: 0.7, changefreq: "monthly" },
+  ...guides.map((g) => ({ path: guidePath(g.slug), priority: 0.6, changefreq: "monthly" as const })),
   ...publicProjects()
     .filter((p) => !p.gated)
     .map((p) => ({ path: `/project/${p.id}`, priority: 0.8, changefreq: "monthly" as const })),

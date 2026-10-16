@@ -115,7 +115,11 @@ describe("App Store launch page", () => {
 
   it("lists the guidelines in scope and the process in four steps", () => {
     renderPage();
-    for (const g of guidelines) expect(screen.getByText(g.number)).toBeInTheDocument();
+    for (const g of guidelines) {
+      expect(screen.getByText(g.number)).toBeInTheDocument();
+      if (g.guide) expect(screen.getByRole("link", { name: g.plain })).toHaveAttribute("href", `/guides/${g.guide}`);
+      else expect(screen.getByText(g.plain)).toBeInTheDocument();
+    }
     expect(process).toHaveLength(4);
     for (const step of process) expect(screen.getByRole("heading", { level: 3, name: step.title })).toBeInTheDocument();
     expect(document.body.textContent).toMatch(/Never your Apple ID password/);

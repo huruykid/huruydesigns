@@ -100,7 +100,8 @@ const ChatBubble = () => {
     };
   }, [open]);
 
-  if (pathname.startsWith("/appstore")) return null;
+  // The App Store pages and guides speak to founders, and /appstore has its own assistant.
+  if (pathname.startsWith("/appstore") || pathname.startsWith("/guides")) return null;
 
   return (
     <AnimatePresence>

@@ -264,6 +264,20 @@ const ProjectPage = () => {
           <FentFinderCaseStudy project={project} {...slotProps} />
         ) : null}
 
+        {/* The two shipped apps are the proof behind the App Store service; send that reader there. */}
+        {(project.id === "beles" || project.id === "ebtfinder") && (
+          <aside aria-label="App Store launch service" className="mx-auto mb-16 max-w-[1120px] rounded-3xl border border-border bg-muted/50 p-6 sm:p-8">
+            <p className="text-xl font-medium tracking-tight text-foreground">Built an app with Lovable or another AI tool?</p>
+            <p className="mt-2 max-w-[60ch] text-muted-foreground">
+              I get them through App Review the same way I got {project.title} there, for a fixed price.
+            </p>
+            <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              <Link to="/appstore" className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground">App Store launch service</Link>
+              <Link to="/guides" className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground">App Store guides</Link>
+            </p>
+          </aside>
+        )}
+
         {/* Next project, and a way to reach Huruy without going back to the homepage */}
         <div className="mx-auto grid max-w-[1120px] gap-10 border-t border-border pt-16 sm:grid-cols-2">
           <div>
