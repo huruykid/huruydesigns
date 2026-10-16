@@ -6,7 +6,18 @@ vi.mock("@/integrations/supabase/client", () => ({ supabase: { functions: { invo
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
-import { BELES_APP_STORE_URL, BOOKING_URL, EBT_FINDER_APP_STORE_URL, belesScreens, ebtProof, faqs, packages, readinessCheck } from "@/lib/appStoreService";
+import {
+  BELES_APP_STORE_URL,
+  BOOKING_URL,
+  EBT_FINDER_APP_STORE_URL,
+  belesScreens,
+  ebtProof,
+  faqs,
+  guidelines,
+  packages,
+  process,
+  readinessCheck,
+} from "@/lib/appStoreService";
 import { imageDimensions } from "@/lib/imageDimensions";
 import { prerenderRoutes } from "@/lib/routes";
 
@@ -16,14 +27,15 @@ const renderPage = (variant?: "launch" | "rescue") =>
 describe("App Store launch page", () => {
   it("leads with the offer and links to intake and proof", () => {
     renderPage();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Get your Lovable app approved on the App Store");
-    expect(screen.getByRole("link", { name: "Tell me about your app" })).toHaveAttribute("href", "#start");
-    expect(screen.getByRole("link", { name: "See how Beles shipped" })).toHaveAttribute("href", "#beles");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Built it in Lovable? Let's get it on the App Store.");
+    const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
+    expect(within(hero).getByRole("link", { name: "Tell me about your app" })).toHaveAttribute("href", "#start");
+    expect(within(hero).getByRole("link", { name: "See pricing" })).toHaveAttribute("href", "#pricing");
   });
 
   it("shows every package with its price and pay-on-approval terms", () => {
     renderPage();
-    const pricing = screen.getByRole("region", { name: "Packages" });
+    const pricing = screen.getByRole("region", { name: /Fixed prices, quoted after the free diagnosis/ });
     for (const p of packages) {
       const card = within(pricing).getByRole("listitem", { name: p.name });
       expect(within(card).getByText(p.price)).toBeInTheDocument();
@@ -88,6 +100,14 @@ describe("App Store launch page", () => {
     renderPage();
     expect(document.body.textContent).not.toMatch(/guaranteed approval|100% approval/i);
     expect(faqs.find((f) => /guarantee/i.test(f.q))?.a).toMatch(/No one can promise/);
+  });
+
+  it("lists the guidelines in scope and the process in four steps", () => {
+    renderPage();
+    for (const g of guidelines) expect(screen.getByText(g.number)).toBeInTheDocument();
+    expect(process).toHaveLength(4);
+    for (const step of process) expect(screen.getByRole("heading", { level: 3, name: step.title })).toBeInTheDocument();
+    expect(document.body.textContent).toMatch(/Never your Apple ID password/);
   });
 
   it("states refund terms, the business behind the service, and non-affiliation", () => {

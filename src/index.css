@@ -165,6 +165,18 @@ html {
   .font-display {
     font-family: 'Inter', sans-serif;
   }
+  /* Editorial serif for one line of a headline or a pull quote; loaded in index.html. */
+  .font-serif-display {
+    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.01em;
+  }
+  /* Dotted paper behind the hero, fading out toward the bottom so content stays clean. */
+  .bg-dotgrid {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  }
 }
 
 @media print {
