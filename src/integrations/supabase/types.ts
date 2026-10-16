@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      appstore_chat_leads: {
+        Row: {
+          app_link: string | null
+          app_name: string | null
+          conversation_id: string
+          created_at: string
+          developer_account: string | null
+          email: string | null
+          guidelines: string[]
+          id: string
+          interest: string | null
+          issue_summary: string | null
+          name: string | null
+          notified: boolean
+          package_fit: string | null
+          phone: string | null
+          stack: string | null
+          stage: string | null
+          transcript: Json
+          turns: number
+          updated_at: string
+        }
+        Insert: {
+          app_link?: string | null
+          app_name?: string | null
+          conversation_id: string
+          created_at?: string
+          developer_account?: string | null
+          email?: string | null
+          guidelines?: string[]
+          id?: string
+          interest?: string | null
+          issue_summary?: string | null
+          name?: string | null
+          notified?: boolean
+          package_fit?: string | null
+          phone?: string | null
+          stack?: string | null
+          stage?: string | null
+          transcript?: Json
+          turns?: number
+          updated_at?: string
+        }
+        Update: {
+          app_link?: string | null
+          app_name?: string | null
+          conversation_id?: string
+          created_at?: string
+          developer_account?: string | null
+          email?: string | null
+          guidelines?: string[]
+          id?: string
+          interest?: string | null
+          issue_summary?: string | null
+          name?: string | null
+          notified?: boolean
+          package_fit?: string | null
+          phone?: string | null
+          stack?: string | null
+          stage?: string | null
+          transcript?: Json
+          turns?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       appstore_leads: {
         Row: {
           app_url: string
