@@ -1,6 +1,8 @@
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/portfolio-chat`;
+/** The App Store diagnosis assistant on /appstore; same wire format as portfolio-chat. */
+export const APPSTORE_CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/appstore-chat`;
 
 export const CHAT_STARTERS = [
   "What has Huruy worked on?",
@@ -9,19 +11,29 @@ export const CHAT_STARTERS = [
   "Tell me about the EBT Finder project",
 ];
 
-/** Streams a reply from the portfolio-chat edge function (SSE, OpenAI-style deltas). */
+/** First messages a stuck founder is likely to send; each one is a real question the assistant can answer well. */
+export const RESCUE_CHAT_STARTERS = [
+  "Apple rejected my Lovable app under 4.2 Minimum Functionality. What do I do?",
+  "App Review says I need Sign in with Apple. Why, and what's the fix?",
+  "My app has never been submitted. What will Apple flag first?",
+  "What does this cost, and when do I pay?",
+];
+
+/** Streams a reply from a chat edge function (SSE, OpenAI-style deltas); portfolio-chat by default. */
 export async function streamChat({
   messages,
   onDelta,
   onDone,
   onError,
+  url = CHAT_URL,
 }: {
   messages: ChatMessage[];
   onDelta: (t: string) => void;
   onDone: () => void;
   onError: (msg: string) => void;
+  url?: string;
 }) {
-  const resp = await fetch(CHAT_URL, {
+  const resp = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

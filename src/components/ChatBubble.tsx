@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, lazy, Suspense, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { ChatContext, useChat } from "@/hooks/useChat";
 import { MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -55,10 +56,11 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
  * Floating launcher from lg up; below lg the header carries the entry point. Up to
  * ~1,440px the content's right edge reaches under the launcher, so whenever any
  * control (or a demo frame) passes underneath, the launcher steps aside instead of
- * covering it.
+ * covering it. /appstore has its own embedded assistant, so the launcher stays off there.
  */
 const ChatBubble = () => {
   const { open, openChat } = useChat();
+  const { pathname } = useLocation();
   const ref = useRef<HTMLButtonElement>(null);
   const [yielding, setYielding] = useState(false);
 
@@ -97,6 +99,8 @@ const ChatBubble = () => {
       if (frame) cancelAnimationFrame(frame);
     };
   }, [open]);
+
+  if (pathname.startsWith("/appstore")) return null;
 
   return (
     <AnimatePresence>

@@ -33,6 +33,16 @@ describe("App Store launch page", () => {
     expect(within(hero).getByRole("link", { name: "See pricing" })).toHaveAttribute("href", "#pricing");
   });
 
+  it("puts the rejection assistant directly under the hero, before the scope section", () => {
+    renderPage();
+    const chat = screen.getByRole("region", { name: "Paste the rejection. Get a first read now." });
+    const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
+    expect(hero.nextElementSibling).toBe(chat);
+    expect(within(chat).getByRole("heading", { name: "What did Apple say?" })).toBeInTheDocument();
+    expect(within(chat).getByLabelText("Your message")).toHaveAttribute("placeholder", "Paste Apple's rejection message here...");
+    expect(within(chat).getByRole("link", { name: "the form below" })).toHaveAttribute("href", "#start");
+  });
+
   it("shows every package with its price and pay-on-approval terms", () => {
     renderPage();
     const pricing = screen.getByRole("region", { name: /Fixed prices, quoted after the free diagnosis/ });

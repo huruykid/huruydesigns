@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import SEO from "@/components/SEO";
 import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
+import RescueChat from "@/components/appstore/RescueChat";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
 import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
@@ -536,6 +537,16 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           </div>
         </div>
       </section>
+
+      {/* Chat */}
+      <Section
+        id="chat"
+        eyebrow="Start here"
+        title="Paste the rejection. Get a first read now."
+        lede="The assistant reads Apple's message against my playbook and tells you the guideline, the fix and the price. Free, no sign-up."
+      >
+        <RescueChat />
+      </Section>
 
       {/* Scope */}
       <Section eyebrow="Scope" title="What I fix" lede="Any App Review guideline. The common ones:">
