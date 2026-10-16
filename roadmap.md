@@ -6,4 +6,4 @@
 # Homepage SEO
 - [x] Preserve the homepage canonical and og:url in prebuilt HTML.
 - [x] Mention fintech and Los Angeles in homepage search descriptions.
-- [ ] Verify homepage metadata and prerender regression tests.
+- [x] Verify homepage metadata and prerender regression tests.
