@@ -7,6 +7,8 @@ project_id = "ruxlxlalvwchyngftttv"
     verify_jwt = false
   [functions.portfolio-chat]
     verify_jwt = false
+  [functions.appstore-chat]
+    verify_jwt = false
   [functions.verify-passcode]
     verify_jwt = false
   [functions.preview-transactional-email]
