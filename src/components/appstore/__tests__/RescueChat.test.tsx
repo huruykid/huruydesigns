@@ -99,6 +99,25 @@ describe("RescueChat", () => {
     expect(queued("appstore_chat_reset")).toEqual([expect.objectContaining({ turns: 2 })]);
   });
 
+  it("fires the intake key event and the Ads conversion once, when the visitor shares an email", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementation(() => Promise.resolve(new Response(sse(["Thanks."]), { status: 200 })));
+    renderChat();
+    const box = screen.getByLabelText("Your message");
+    fireEvent.change(box, { target: { value: "It was rejected under 4.2" } });
+    fireEvent.keyDown(box, { key: "Enter" });
+    await screen.findByText("Thanks.");
+    expect(queued("appstore_intake")).toEqual([]);
+    fireEvent.change(box, { target: { value: "Sure, Jane Doe, jane@example.com" } });
+    fireEvent.keyDown(box, { key: "Enter" });
+    await waitFor(() => expect(screen.getAllByText("Thanks.")).toHaveLength(2));
+    expect(queued("appstore_intake")).toEqual([expect.objectContaining({ channel: "chat", stage: "chat", turn: 2 })]);
+    expect(queued("conversion")).toEqual([expect.objectContaining({ send_to: expect.stringMatching(/^AW-/), value: 1 })]);
+    fireEvent.change(box, { target: { value: "Also my phone is 415 555 0100, jane@example.com" } });
+    fireEvent.keyDown(box, { key: "Enter" });
+    await waitFor(() => expect(screen.getAllByText("Thanks.")).toHaveLength(3));
+    expect(queued("appstore_intake")).toHaveLength(1);
+  });
+
   it("shows the function's error message and lets the visitor try again", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ error: "A lot of people are asking right now." }), { status: 429 }),
