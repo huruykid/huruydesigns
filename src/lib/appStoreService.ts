@@ -101,7 +101,7 @@ export const readinessCheck: ServicePackage = {
   payment: "Paid up front. Credited in full toward Launch if you book within 30 days.",
   bestFor: "Never submitted. You want to know what Apple will flag first.",
   includes: [
-    "Review against 4.2, 4.8, 5.1.1, 2.1, 1.2 and 3.1.1",
+    "Checked for the rejections Apple sends AI-built apps most",
     "Fix list, ranked by what Apple flags first",
     "Draft reviewer notes",
     "20-minute call within two business days",
@@ -116,16 +116,20 @@ export const addOns = [
   { name: "Care plan", price: "$149/month", detail: "Your updates shipped, iOS and SDK upgrades, key renewals and review replies." },
 ];
 
-/** The guidelines the service is scoped around, in the order Apple numbers them. */
-export const guidelines = [
-  { number: "1.2", name: "User-Generated Content", note: "Report, block and moderation before you ship" },
-  { number: "2.1", name: "App Completeness", note: "Crashes, dead buttons, a reviewer who couldn't sign in" },
-  { number: "2.3", name: "Accurate Metadata", note: "Screenshots and copy that match the build" },
-  { number: "3.1.1", name: "In-App Purchase", note: "Digital goods sold through Apple, not a web checkout" },
-  { number: "4.2", name: "Minimum Functionality", note: "The 'website in a frame' rejection" },
-  { number: "4.3", name: "Spam", note: "What makes yours different, shown to the reviewer first" },
-  { number: "4.8", name: "Login Services", note: "Sign in with Apple next to Google or social login" },
-  { number: "5.1.1", name: "Data Collection and Storage", note: "Account deletion, purpose strings, privacy labels" },
+/**
+ * The guidelines the service is scoped around, most common first. `plain` is
+ * how founders describe the problem and is what the page shows; `guide` links the matching
+ * /guides page where one exists.
+ */
+export const guidelines: { number: string; name: string; plain: string; note: string; guide?: string }[] = [
+  { number: "4.2", name: "Minimum Functionality", plain: "\"It's just a website\"", note: "The 'website in a frame' rejection", guide: "app-rejected-just-a-website" },
+  { number: "4.8", name: "Login Services", plain: "Needs Sign in with Apple", note: "Sign in with Apple next to Google or social login", guide: "sign-in-with-apple-rejection" },
+  { number: "5.1.1", name: "Data Collection and Storage", plain: "No way to delete an account", note: "Account deletion, purpose strings, privacy labels", guide: "app-store-account-deletion" },
+  { number: "2.1", name: "App Completeness", plain: "It crashed, or the reviewer couldn't sign in", note: "Crashes, dead buttons, a reviewer who couldn't sign in", guide: "app-review-login-crash" },
+  { number: "3.1.1", name: "In-App Purchase", plain: "Charging through Stripe", note: "Digital goods sold through Apple, not a web checkout", guide: "stripe-in-iphone-app" },
+  { number: "1.2", name: "User-Generated Content", plain: "People can post, but can't report or block", note: "Report, block and moderation before you ship", guide: "app-store-report-block-user-content" },
+  { number: "2.3", name: "Accurate Metadata", plain: "Screenshots don't match the app", note: "Screenshots and copy that match the build" },
+  { number: "4.3", name: "Spam", plain: "Too similar to other apps", note: "What makes yours different, shown to the reviewer first" },
 ];
 
 export const stacks = ["Lovable", "Bolt", "v0", "Replit", "Cursor", "hand-built React"];
@@ -174,21 +178,6 @@ export const exclusions = [
 export const guarantee =
   "If Apple still won't approve the app after we've worked through its feedback, you never pay the second half. Cancel for a full refund any time before I start.";
 
-export const problems = [
-  {
-    title: "Lovable builds web apps",
-    body: "The App Store only takes signed native builds. Lovable's own docs say it publishes to the web, so the iPhone part is on you.",
-  },
-  {
-    title: "Apple rejects websites in a wrapper",
-    body: "Guideline 4.2 turns away apps that are just a website in a frame. Wrapping alone is how most AI-built apps get rejected.",
-  },
-  {
-    title: "The last mile is all paperwork",
-    body: "Certificates, App Store Connect, privacy labels, screenshot sizes, reviewer notes, version numbers. Each one can stall a launch for days.",
-  },
-];
-
 /**
  * The screenshots on Beles's live App Store listing, in listing order (captured from
  * apps.apple.com, not mockups). `src` paths are registered in imageDimensions.
@@ -233,14 +222,6 @@ export const belesLessons = [
   },
 ];
 
-export const steps = [
-  "Intake: you send the app link and where you're stuck. If Apple rejected it, I reply within one business day with a free diagnosis and a fixed price.",
-  "Readiness audit against the guidelines that reject AI-built apps most: 4.2, 4.8, 5.1.1 and 2.1.",
-  "Native build of your app with the features Apple looks for, tested on a real iPhone through TestFlight.",
-  "Listing: copy, screenshots, privacy labels and notes for the App Review team.",
-  "Submission. If Apple pushes back, I fix it and resubmit. You pay the balance when it's approved.",
-];
-
 export const requirements = [
   "An Apple Developer Program membership in your name or your company's ($99 a year). Company accounts need a D-U-N-S number, which can take days to weeks, so start it first.",
   "An App Store Connect invite for me with the App Manager role. Never your Apple ID password.",
@@ -275,7 +256,7 @@ export const faqs = [
   },
   {
     q: "Can I keep building in Lovable?",
-    a: "Yes. Your Lovable project stays the source of truth. Getting later changes onto the iPhone means a new build and review, which the care plan covers.",
+    a: "Yes. Your Lovable project stays the source of truth. Depending on how the app is built, some changes show up on the iPhone right away; others need a new build and review, which the care plan covers.",
   },
   {
     q: "How long does it take?",

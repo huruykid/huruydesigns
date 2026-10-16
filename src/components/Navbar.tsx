@@ -62,6 +62,8 @@ const Navbar = () => {
   );
 
   const isActive = (match: string) => location.pathname === match;
+  // Founder-facing pages have their own App Store assistant; the portfolio one stays off them.
+  const founderPage = location.pathname.startsWith("/appstore") || location.pathname.startsWith("/guides");
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-lg border-b border-transparent print:hidden">
@@ -83,7 +85,8 @@ const Navbar = () => {
             </Link>
           ))}
           {/* Tablets: the gutter is too narrow for a floating launcher, so the assistant sits here. */}
-          <Button
+          {!founderPage && (
+            <Button
             variant="ghost"
             size="icon"
             className="h-11 w-11 lg:hidden"
@@ -93,12 +96,14 @@ const Navbar = () => {
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
           </Button>
+          )}
           {themeButton}
         </div>
 
         {/* Mobile: the assistant lives here rather than floating over content */}
         <div className="flex md:hidden items-center gap-1">
-          <Button
+          {!founderPage && (
+            <Button
             variant="ghost"
             size="icon"
             className="h-11 w-11"
@@ -108,6 +113,7 @@ const Navbar = () => {
           >
             <MessageCircle className="h-5 w-5" aria-hidden="true" />
           </Button>
+          )}
           {themeButton}
           <Button
             ref={toggleRef}

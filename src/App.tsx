@@ -40,6 +40,8 @@ const Resume = lazy(() => import("./pages/Resume"));
 const Book = lazy(() => import("./pages/Book"));
 const FintechUX = lazy(() => import("./pages/FintechUX"));
 const AppStoreLaunch = lazy(() => import("./pages/AppStoreLaunch"));
+const Guides = lazy(() => import("./pages/Guides"));
+const GuidePage = lazy(() => import("./pages/GuidePage"));
 
 const RouteFallback = () => (
   <div className="container py-24" aria-busy="true" aria-live="polite">
@@ -78,6 +80,8 @@ export const AppRoutes = () => (
           <Route path="/fintech-ux-designer" element={<FintechUX />} />
           <Route path="/appstore" element={<AppStoreLaunch />} />
           <Route path="/appstore/rescue" element={<AppStoreLaunch variant="rescue" />} />
+          <Route path="/guides" element={<Guides />} />
+          <Route path="/guides/:slug" element={<GuidePage />} />
           <Route path="/senior-ux-designer" element={<Navigate to="/#hire" replace />} />
           <Route path="/hire" element={<Navigate to="/#hire" replace />} />
           <Route path="/project/capital-group-research" element={<Navigate to="/#work" replace />} />

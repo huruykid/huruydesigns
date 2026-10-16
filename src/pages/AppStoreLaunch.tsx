@@ -41,9 +41,9 @@ import {
 
 const PATH = "/appstore";
 const RESCUE_PATH = "/appstore/rescue";
-const TITLE = "Get Your Lovable App on the App Store | Huruy Kidanemariam";
+const TITLE = "Lovable App to App Store, Done for You | Fixed Price";
 const DESCRIPTION =
-  "I turn Lovable and other AI-built web apps into native iOS apps that pass Apple review. Free rejection diagnosis. Rejection rescue $750, readiness check $250, full launch from $1,500, balance due on approval.";
+  "Lovable or AI-built app rejected by Apple, or never submitted? I make it a native iPhone app. Free diagnosis, fixed price, balance due on approval.";
 
 /**
  * The /appstore/rescue variant is the landing page for rejection-intent search ads: same
@@ -549,19 +549,24 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
       </Section>
 
       {/* Scope */}
-      <Section eyebrow="Scope" title="What I fix" lede="Any App Review guideline. The common ones:">
+      <Section eyebrow="Scope" title="What I fix" lede="Whatever Apple sent back. The usual ones:">
         <Card className="p-2 sm:p-4">
           <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
             {guidelines.map((g) => (
-              <li key={g.number} className="flex items-baseline gap-3 border-b border-border px-3 py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
-                <span className="font-mono text-sm text-accent">{g.number}</span>
-                <span className="font-medium text-foreground">{g.name}</span>
+              <li key={g.number} className="flex flex-col gap-1 border-b border-border px-3 py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
+                {g.guide ? (
+                  <Link to={`/guides/${g.guide}`} className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">{g.plain}</Link>
+                ) : (
+                  <span className="font-medium text-foreground">{g.plain}</span>
+                )}
+                <span className="font-mono text-xs text-muted-foreground">{g.number}</span>
               </li>
             ))}
           </ul>
         </Card>
         <p className="mt-6 text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">Stacks:</span> {stacks.join(", ")}.
+          <span className="font-medium text-foreground">Stacks:</span> {stacks.join(", ")}.{" "}
+          <Link to="/guides" className="font-medium text-accent underline underline-offset-4">Read the App Store guides</Link>
         </p>
       </Section>
 
@@ -621,7 +626,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <h3 className="text-xl font-medium text-foreground">Beles</h3>
             </div>
             <p className="mt-3 text-base text-muted-foreground">Built in Lovable. First iOS build to 175 countries in ten days.</p>
-            <p className="mt-3 font-mono text-xs text-accent">4.8 · 1.2 · 2.3 · iPhone-only</p>
+            <p className="mt-3 font-mono text-xs text-accent">Sign in with Apple · Report and block · iPhone-only</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
               A dating app, built solo. Native sign-in, Sign in with Apple, and the reporting and blocking Apple requires, all added before approval.
             </p>
@@ -652,7 +657,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <h3 className="text-xl font-medium text-foreground">EBT Finder</h3>
             </div>
             <p className="mt-3 text-base text-muted-foreground">Rejected by App Review, approved without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
-            <p className="mt-3 font-mono text-xs text-accent">2.1 · {ebtProof.stats[0]?.value} locations</p>
+            <p className="mt-3 font-mono text-xs text-accent">Reviewer couldn't sign up · {ebtProof.stats[0]?.value} locations</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
               The reviewer couldn't create an account. The cause was on the server, not in the app: fixed the same day and explained in Resolution Center.
             </p>
