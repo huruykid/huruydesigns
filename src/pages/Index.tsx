@@ -55,7 +55,7 @@ const Index = () => (
   <>
     <SEO
       title="Huruy Kidanemariam | Senior UX Designer, Los Angeles"
-      description={person.positioning}
+      description="Huruy Kidanemariam, Senior UX Designer in Los Angeles, designs fintech and enterprise SaaS products. Explore case studies and 8+ years of hands-on experience."
       path="/"
       imageAlt="Huruy Kidanemariam, Senior UX Designer and Builder portfolio"
       jsonLd={jsonLd}
