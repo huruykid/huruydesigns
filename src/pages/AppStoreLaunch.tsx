@@ -542,8 +542,8 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
       <Section
         id="chat"
         eyebrow="Start here"
-        title="Paste the rejection. Get a first read now."
-        lede="The assistant reads Apple's message against my playbook and tells you the guideline, the fix and the price. Free, no sign-up."
+        title="Tell me what's going on with your app."
+        lede="A first read on the problem and what the fix involves, then a quote if you'd like me to handle it. Free, no sign-up."
       >
         <RescueChat />
       </Section>

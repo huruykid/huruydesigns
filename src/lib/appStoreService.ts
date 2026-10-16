@@ -291,6 +291,18 @@ export const faqs = [
   },
 ];
 
+/** The assistant's opening line in the /appstore chat; shown by the page and told to the model. */
+export const chatGreeting =
+  "Hi, I'm the assistant for Huruy's App Store service. What's going on with your app? If Apple sent a rejection, paste it here and I'll read it.";
+
+/** First replies a stuck founder is likely to give; each one starts the conversation at step one. */
+export const chatStarters = [
+  "Apple rejected my app",
+  "I'm stuck in TestFlight or App Review",
+  "Built in Lovable, never submitted",
+  "The reviewer says it crashes or can't sign in",
+];
+
 export type IntakeStatus = "not-submitted" | "rejected" | "testflight" | "not-started";
 
 export const intakeStatuses: { value: IntakeStatus; label: string }[] = [

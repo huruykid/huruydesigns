@@ -1,15 +1,51 @@
 import { lazy, Suspense, useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUp, Loader2, Sparkles } from "lucide-react";
+import { ArrowUp, Loader2, RotateCcw, Sparkles } from "lucide-react";
 import type { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
-import { APPSTORE_CHAT_URL, RESCUE_CHAT_STARTERS, streamChat, type ChatMessage } from "@/lib/chat";
+import { APPSTORE_CHAT_URL, streamChat, type ChatMessage } from "@/lib/chat";
+import { chatGreeting, chatStarters } from "@/lib/appStoreService";
 
 // react-markdown only loads once there is an assistant reply to render.
 const ReactMarkdown = lazy(() => import("react-markdown"));
 
 const MAX_LEN = 8000;
+/** The conversation survives a refresh or a hop to another page within the tab. */
+const STORAGE_KEY = "appstore-chat";
+
+type Saved = { id: string; messages: ChatMessage[] };
+
+const newId = () =>
+  typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0;
+        return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+      });
+
+function load(): Saved {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<Saved>;
+      if (typeof parsed.id === "string" && Array.isArray(parsed.messages)) {
+        return { id: parsed.id, messages: parsed.messages.filter((m) => m && typeof m.content === "string") };
+      }
+    }
+  } catch {
+    /* private mode or blocked storage: start fresh */
+  }
+  return { id: newId(), messages: [] };
+}
+
+function save(state: Saved) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    /* best effort */
+  }
+}
 
 // Same-page anchors stay anchors, internal routes navigate client-side, everything else
 // opens in a new tab.
@@ -25,29 +61,49 @@ const markdownComponents: Components = {
   },
 };
 
+const Bubble = ({ role, children, className }: { role: "user" | "assistant"; children: React.ReactNode; className?: string }) => (
+  <div className={cn("flex", role === "user" ? "justify-end" : "justify-start")}>
+    <div
+      className={cn(
+        "max-w-[88%] rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed sm:max-w-[80%]",
+        role === "user" ? "whitespace-pre-wrap rounded-br-lg bg-accent text-accent-foreground" : "rounded-bl-lg bg-muted text-foreground",
+        className,
+      )}
+    >
+      <span className="sr-only">{role === "user" ? "You: " : "Assistant: "}</span>
+      {children}
+    </div>
+  </div>
+);
+
 /**
- * The large, embedded diagnosis chat under the /appstore hero. A visitor pastes Apple's
- * rejection (or describes where they're stuck) and gets the guideline, the fix and the
- * package that fits, streamed from the appstore-chat edge function.
+ * The large, embedded assistant under the /appstore hero. It opens by asking what is
+ * going on, works out the problem, gives a real read, and, when the visitor wants help,
+ * collects what Huruy needs for a quote. Replies stream from the appstore-chat edge
+ * function, which also records the lead as details come in.
  */
 const RescueChat = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [state, setState] = useState<Saved>(() => (typeof window === "undefined" ? { id: "", messages: [] } : load()));
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const turns = useRef(0);
   const inputId = useId();
   const hintId = useId();
+  const { id: conversationId, messages } = state;
 
-  const scrollToBottom = useCallback(() => {
-    const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+  const setMessages = useCallback((update: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => {
+    setState((prev) => ({ ...prev, messages: typeof update === "function" ? update(prev.messages) : update }));
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+    if (conversationId) save(state);
+  }, [state, conversationId]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages]);
 
   // The composer grows with a pasted rejection, up to a cap, then scrolls.
   const resize = () => {
@@ -65,8 +121,8 @@ const RescueChat = () => {
     setMessages(history);
     setInput("");
     setLoading(true);
-    turns.current += 1;
-    trackEvent("appstore_chat", { turn: turns.current, source, length: text.length });
+    const turn = history.filter((m) => m.role === "user").length;
+    trackEvent("appstore_chat", { turn, source, length: text.length });
     requestAnimationFrame(resize);
 
     let acc = "";
@@ -84,6 +140,7 @@ const RescueChat = () => {
     try {
       await streamChat({
         url: APPSTORE_CHAT_URL,
+        conversationId: conversationId || undefined,
         messages: history,
         onDelta: upsert,
         onDone: () => setLoading(false),
@@ -99,6 +156,14 @@ const RescueChat = () => {
       ]);
       setLoading(false);
     }
+  };
+
+  const startOver = () => {
+    if (loading) return;
+    trackEvent("appstore_chat_reset", { turns: messages.filter((m) => m.role === "user").length });
+    setState({ id: newId(), messages: [] });
+    setInput("");
+    inputRef.current?.focus();
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -119,13 +184,26 @@ const RescueChat = () => {
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <p className="font-medium text-foreground">Rejection assistant</p>
-            <p className="text-sm text-muted-foreground">Reads Apple's message against Huruy's playbook</p>
+            <p className="font-medium text-foreground">App Store assistant</p>
+            <p className="text-sm text-muted-foreground">Works out the problem, then what Huruy would do about it</p>
           </div>
         </div>
-        <span className="hidden shrink-0 rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-block">
-          Free, no sign-up
-        </span>
+        <div className="flex shrink-0 items-center gap-2">
+          {!empty && (
+            <button
+              type="button"
+              onClick={startOver}
+              disabled={loading}
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+              Start over
+            </button>
+          )}
+          <span className="hidden rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-block">
+            Free, no sign-up
+          </span>
+        </div>
       </div>
 
       {/* Conversation */}
@@ -137,61 +215,50 @@ const RescueChat = () => {
         aria-live="polite"
         aria-relevant="additions text"
       >
-        {empty ? (
-          <div className="mx-auto flex h-full max-w-[44rem] flex-col items-center justify-center text-center">
-            <h3 className="font-serif-display text-3xl italic text-foreground sm:text-4xl">What did Apple say?</h3>
-            <p className="mt-3 max-w-[40ch] text-base text-muted-foreground">
-              Paste the message from Resolution Center, or describe where you're stuck. You'll get the guideline, the fix and the price.
-            </p>
-            <ul className="mt-8 grid w-full gap-2 sm:grid-cols-2" aria-label="Common questions">
-              {RESCUE_CHAT_STARTERS.map((q) => (
+        <div className="mx-auto max-w-[52rem] space-y-5">
+          <Bubble role="assistant" className={empty ? "text-base sm:text-lg" : undefined}>
+            {chatGreeting}
+          </Bubble>
+
+          {empty && (
+            <ul className="flex flex-wrap gap-2 pl-1" aria-label="Where people usually start">
+              {chatStarters.map((q) => (
                 <li key={q}>
                   <button
                     type="button"
                     onClick={() => void send(q, "starter")}
-                    className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-left text-sm text-foreground transition-colors hover:border-foreground/40 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="min-h-11 rounded-full border border-border bg-background px-4 py-2 text-left text-sm text-foreground transition-colors hover:border-foreground/40 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {q}
                   </button>
                 </li>
               ))}
             </ul>
-          </div>
-        ) : (
-          <div className="mx-auto max-w-[52rem] space-y-5">
-            {messages.map((m, i) => (
-              <div key={i} className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}>
-                <div
-                  className={cn(
-                    "max-w-[88%] rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed sm:max-w-[80%]",
-                    m.role === "user"
-                      ? "whitespace-pre-wrap rounded-br-lg bg-accent text-accent-foreground"
-                      : "rounded-bl-lg bg-muted text-foreground",
-                  )}
-                >
-                  <span className="sr-only">{m.role === "user" ? "You: " : "Assistant: "}</span>
-                  {m.role === "assistant" ? (
-                    <Suspense fallback={<p className="whitespace-pre-wrap">{m.content}</p>}>
-                      <div className="prose prose-sm max-w-none text-foreground dark:prose-invert [&_a]:font-medium [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_li]:my-0.5 [&_p]:my-2 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2">
-                        <ReactMarkdown components={markdownComponents}>{m.content}</ReactMarkdown>
-                      </div>
-                    </Suspense>
-                  ) : (
-                    m.content
-                  )}
-                </div>
+          )}
+
+          {messages.map((m, i) => (
+            <Bubble key={i} role={m.role}>
+              {m.role === "assistant" ? (
+                <Suspense fallback={<p className="whitespace-pre-wrap">{m.content}</p>}>
+                  <div className="prose prose-sm max-w-none text-foreground dark:prose-invert [&_a]:font-medium [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_li]:my-0.5 [&_p]:my-2 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2">
+                    <ReactMarkdown components={markdownComponents}>{m.content}</ReactMarkdown>
+                  </div>
+                </Suspense>
+              ) : (
+                m.content
+              )}
+            </Bubble>
+          ))}
+
+          {loading && messages[messages.length - 1]?.role === "user" && (
+            <div className="flex justify-start">
+              <div className="rounded-3xl rounded-bl-lg bg-muted px-5 py-3.5">
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" aria-hidden="true" />
+                <span className="sr-only">Assistant is typing</span>
               </div>
-            ))}
-            {loading && messages[messages.length - 1]?.role === "user" && (
-              <div className="flex justify-start">
-                <div className="rounded-3xl rounded-bl-lg bg-muted px-5 py-3.5">
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" aria-hidden="true" />
-                  <span className="sr-only">Assistant is typing</span>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Composer */}
@@ -215,7 +282,7 @@ const RescueChat = () => {
             onKeyDown={onKeyDown}
             rows={2}
             maxLength={MAX_LEN}
-            placeholder="Paste Apple's rejection message here..."
+            placeholder={empty ? "Tell me what's going on, or paste Apple's message..." : "Reply..."}
             aria-describedby={hintId}
             disabled={loading}
             className="max-h-56 min-h-[3.25rem] flex-1 resize-none bg-transparent py-2.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:opacity-60"
@@ -230,8 +297,8 @@ const RescueChat = () => {
           </button>
         </div>
         <p id={hintId} className="mx-auto mt-2 max-w-[52rem] text-xs text-muted-foreground">
-          Enter to send, Shift+Enter for a new line. A first read from an assistant; Huruy's own diagnosis comes from{" "}
-          <a href="#start" className="font-medium text-accent underline underline-offset-4">the form below</a> within one business day.
+          Enter to send, Shift+Enter for a new line. An assistant gives the first read; Huruy reviews anything you ask to have quoted. Prefer a form?{" "}
+          <a href="#start" className="font-medium text-accent underline underline-offset-4">It's below</a>.
         </p>
       </form>
     </div>

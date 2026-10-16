@@ -1,11 +1,17 @@
 import { clientIp, corsHeaders, isAllowedOrigin, json, withinRateLimit } from "../_shared/http.ts";
 import { SYSTEM_PROMPT } from "./prompt.ts";
+import { captureLead, worthCapturing, type Message, type Role } from "./lead.ts";
+
+declare const EdgeRuntime: { waitUntil(promise: Promise<unknown>): void } | undefined;
 
 /**
- * Streams App Store rejection diagnoses from the Lovable AI gateway for the chat on
- * /appstore. Same shape as portfolio-chat, with room for a pasted rejection message
- * (Apple's notes run long) and its own rate-limit keys so the two chats never share a
- * window.
+ * Streams the /appstore assistant's replies from the Lovable AI gateway. Same shape as
+ * portfolio-chat, with room for a pasted rejection message (Apple's notes run long) and
+ * its own rate-limit keys so the two chats never share a window.
+ *
+ * When the client sends a conversation_id and the transcript has started carrying lead
+ * details, the function also records the lead in the background (see lead.ts) without
+ * delaying the stream.
  *
  * Limits (per IP, fixed windows in public.rate_limits): 20 messages per 10 minutes and
  * 80 per day, plus a site-wide cap of 1,500 messages per day.
@@ -18,8 +24,7 @@ const DAY_SECONDS = 24 * 60 * 60;
 const MAX_MESSAGES = 24;
 const MAX_LEN = 8000;
 
-type Role = "user" | "assistant";
-type Message = { role: Role; content: string };
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function parseMessages(raw: unknown): Message[] | string {
   if (!Array.isArray(raw)) return "Invalid request: messages array required";
@@ -33,7 +38,7 @@ function parseMessages(raw: unknown): Message[] | string {
       return "Each message needs role 'user'|'assistant' and string content";
     }
     if (content.length === 0 || content.length > MAX_LEN) return `Message content must be 1-${MAX_LEN} characters`;
-    messages.push({ role, content });
+    messages.push({ role: role as Role, content });
   }
   // A genuine conversation: starts and ends with the visitor, strictly alternating, so a
   // client can't plant assistant turns to steer the model.
@@ -65,6 +70,7 @@ Deno.serve(async (req) => {
     if (typeof parsed === "string") {
       return json({ error: parsed }, 400, origin);
     }
+    const conversationId = typeof body?.conversation_id === "string" && UUID_RE.test(body.conversation_id) ? body.conversation_id.toLowerCase() : null;
 
     const ip = clientIp(req);
     const today = new Date().toISOString().slice(0, 10);
@@ -110,6 +116,12 @@ Deno.serve(async (req) => {
         return json({ error: "The assistant is offline for a moment. Send the form below and Huruy replies within one business day." }, 503, origin);
       }
       return json({ error: "Something went wrong. Please try again." }, 502, origin);
+    }
+
+    if (conversationId && worthCapturing(parsed)) {
+      const work = captureLead(conversationId, parsed);
+      if (typeof EdgeRuntime !== "undefined" && EdgeRuntime) EdgeRuntime.waitUntil(work);
+      else work.catch((e) => console.error("captureLead:", e));
     }
 
     return new Response(response.body, {

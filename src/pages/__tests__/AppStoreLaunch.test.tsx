@@ -11,6 +11,7 @@ import {
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
   belesScreens,
+  chatGreeting,
   ebtProof,
   faqs,
   guidelines,
@@ -33,14 +34,14 @@ describe("App Store launch page", () => {
     expect(within(hero).getByRole("link", { name: "See pricing" })).toHaveAttribute("href", "#pricing");
   });
 
-  it("puts the rejection assistant directly under the hero, before the scope section", () => {
+  it("puts the assistant directly under the hero, opening with a question about the app", () => {
     renderPage();
-    const chat = screen.getByRole("region", { name: "Paste the rejection. Get a first read now." });
+    const chat = screen.getByRole("region", { name: "Tell me what's going on with your app." });
     const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
     expect(hero.nextElementSibling).toBe(chat);
-    expect(within(chat).getByRole("heading", { name: "What did Apple say?" })).toBeInTheDocument();
-    expect(within(chat).getByLabelText("Your message")).toHaveAttribute("placeholder", "Paste Apple's rejection message here...");
-    expect(within(chat).getByRole("link", { name: "the form below" })).toHaveAttribute("href", "#start");
+    expect(within(chat).getByText(chatGreeting)).toBeInTheDocument();
+    expect(within(chat).getByLabelText("Your message")).toHaveAttribute("placeholder", "Tell me what's going on, or paste Apple's message...");
+    expect(within(chat).getByRole("link", { name: "It's below" })).toHaveAttribute("href", "#start");
   });
 
   it("shows every package with its price and pay-on-approval terms", () => {
