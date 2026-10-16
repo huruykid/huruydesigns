@@ -41,7 +41,7 @@ import {
 
 const PATH = "/appstore";
 const RESCUE_PATH = "/appstore/rescue";
-const TITLE = "Get Your Lovable App on the App Store | Fixed Price";
+const TITLE = "Lovable App to App Store, Done for You | Fixed Price";
 const DESCRIPTION =
   "Lovable or AI-built app rejected by Apple, or never submitted? I make it a native iPhone app. Free diagnosis, fixed price, balance due on approval.";
 
@@ -555,7 +555,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             {guidelines.map((g) => (
               <li key={g.number} className="flex flex-col gap-1 border-b border-border px-3 py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
                 {g.guide ? (
-                  <Link to={`/guides/${g.guide}`} className="font-medium text-foreground underline-offset-4 hover:underline">{g.plain}</Link>
+                  <Link to={`/guides/${g.guide}`} className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">{g.plain}</Link>
                 ) : (
                   <span className="font-medium text-foreground">{g.plain}</span>
                 )}
@@ -626,7 +626,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <h3 className="text-xl font-medium text-foreground">Beles</h3>
             </div>
             <p className="mt-3 text-base text-muted-foreground">Built in Lovable. First iOS build to 175 countries in ten days.</p>
-            <p className="mt-3 font-mono text-xs text-accent">4.8 · 1.2 · 2.3 · iPhone-only</p>
+            <p className="mt-3 font-mono text-xs text-accent">Sign in with Apple · Report and block · iPhone-only</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
               A dating app, built solo. Native sign-in, Sign in with Apple, and the reporting and blocking Apple requires, all added before approval.
             </p>
@@ -657,7 +657,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <h3 className="text-xl font-medium text-foreground">EBT Finder</h3>
             </div>
             <p className="mt-3 text-base text-muted-foreground">Rejected by App Review, approved without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
-            <p className="mt-3 font-mono text-xs text-accent">2.1 · {ebtProof.stats[0]?.value} locations</p>
+            <p className="mt-3 font-mono text-xs text-accent">Reviewer couldn't sign up · {ebtProof.stats[0]?.value} locations</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
               The reviewer couldn't create an account. The cause was on the server, not in the app: fixed the same day and explained in Resolution Center.
             </p>

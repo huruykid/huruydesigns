@@ -6,7 +6,7 @@ import { PERSON_REF, absoluteUrl } from "@/lib/seo";
 import { GUIDES_UPDATED, guidePath, guides, type Guide } from "@/lib/guides";
 
 const PATH = "/guides";
-const TITLE = "Get Your AI-Built App on the App Store: Guides";
+const TITLE = "App Store Guides for Lovable and AI-Built Apps";
 const DESCRIPTION =
   "Plain answers for apps built with Lovable, Bolt, Replit, v0 or Cursor: how to get on the App Store, and how to fix the rejections Apple sends most.";
 

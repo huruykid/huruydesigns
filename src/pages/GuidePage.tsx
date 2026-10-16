@@ -29,6 +29,8 @@ const GuidePage = () => {
       url: absoluteUrl(path),
       mainEntityOfPage: absoluteUrl(path),
       dateModified: GUIDES_UPDATED,
+      datePublished: "2026-10-16",
+      image: absoluteUrl("/og/appstore.png"),
       author: PERSON_REF,
       publisher: PERSON_REF,
       isPartOf: { "@type": "CollectionPage", name: "App Store guides", url: absoluteUrl("/guides") },
@@ -70,7 +72,7 @@ const GuidePage = () => {
           <Eyebrow>{guide.group === "rejection" ? "Common rejection" : "Getting on the App Store"}</Eyebrow>
           <h1 className="text-balance text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">{guide.title}</h1>
           <p className="mt-5 text-sm text-muted-foreground">
-            By <Link to="/appstore" className="underline underline-offset-4 hover:text-foreground">Huruy Kidanemariam</Link>, who shipped{" "}
+            By <Link to="/about" className="underline underline-offset-4 hover:text-foreground">Huruy Kidanemariam</Link>, who shipped{" "}
             <Link to="/project/beles" className="underline underline-offset-4 hover:text-foreground">Beles</Link> and{" "}
             <Link to="/project/ebtfinder" className="underline underline-offset-4 hover:text-foreground">EBT Finder</Link> to the App Store.
             Updated <time dateTime={GUIDES_UPDATED}>{GUIDES_UPDATED_LABEL}</time>.

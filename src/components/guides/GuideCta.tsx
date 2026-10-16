@@ -7,7 +7,7 @@ const GuideCta = ({ from }: { from: string }) => (
   <aside aria-label="Get help with your app" className="rounded-3xl border border-border bg-muted/50 p-6 sm:p-8">
     <p className="text-xl font-medium tracking-tight text-foreground sm:text-2xl">Stuck on this with your own app?</p>
     <p className="mt-2 max-w-[52ch] text-base leading-relaxed text-muted-foreground">
-      Tell me what Apple said. You'll get a free first read on the fix, and a fixed price if you'd like me to handle it.
+      Paste what Apple said into the chat on my App Store page. My assistant gives you a free first read on the fix, and I'll quote a fixed price if you'd like me to handle it.
     </p>
     <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
       <Link
