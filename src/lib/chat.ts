@@ -11,14 +11,6 @@ export const CHAT_STARTERS = [
   "Tell me about the EBT Finder project",
 ];
 
-/** First messages a stuck founder is likely to send; each one is a real question the assistant can answer well. */
-export const RESCUE_CHAT_STARTERS = [
-  "Apple rejected my Lovable app under 4.2 Minimum Functionality. What do I do?",
-  "App Review says I need Sign in with Apple. Why, and what's the fix?",
-  "My app has never been submitted. What will Apple flag first?",
-  "What does this cost, and when do I pay?",
-];
-
 /** Streams a reply from a chat edge function (SSE, OpenAI-style deltas); portfolio-chat by default. */
 export async function streamChat({
   messages,
@@ -26,12 +18,15 @@ export async function streamChat({
   onDone,
   onError,
   url = CHAT_URL,
+  conversationId,
 }: {
   messages: ChatMessage[];
   onDelta: (t: string) => void;
   onDone: () => void;
   onError: (msg: string) => void;
   url?: string;
+  /** Lets the function keep one lead record per conversation (appstore-chat only). */
+  conversationId?: string;
 }) {
   const resp = await fetch(url, {
     method: "POST",
@@ -39,7 +34,7 @@ export async function streamChat({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify(conversationId ? { conversation_id: conversationId, messages } : { messages }),
   });
 
   if (!resp.ok) {
