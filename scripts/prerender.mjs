@@ -67,14 +67,8 @@ function injectIntoTemplate(template, bodyHtml, headHtml, routePath) {
   // The static shell's title/description are placeholders for the route's own tags.
   out = out.replace(/<title>[\s\S]*?<\/title>\s*/, "");
   out = out.replace(/<meta name="description"[^>]*>\s*/, "");
-  let head = headHtml;
-  if (routePath === "/") {
-    // index.html doubles as the SPA fallback on hosts that don't resolve directory
-    // indexes. Without a canonical/og:url it can never claim another URL is the homepage;
-    // the client adds them back after hydration.
-    head = head.replace(/<link[^>]*rel="canonical"[^>]*\/?>/, "").replace(/<meta[^>]*property="og:url"[^>]*\/?>/, "");
-  }
-  out = out.replace("</head>", `    ${head}\n  </head>`);
+  // Preserve each route's self-referencing canonical and og:url, including Home.
+  out = out.replace("</head>", `    ${headHtml}\n  </head>`);
   out = out.replace("<html lang=\"en\">", `<html lang="en" data-route="${routePath === "/404" ? "*" : routePath}">`);
   out = out.replace('<div id="root"></div>', `<div id="root">${bodyHtml}</div>`);
   return out;
