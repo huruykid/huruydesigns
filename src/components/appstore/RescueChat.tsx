@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUp, Loader2, RotateCcw, Sparkles } from "lucide-react";
 import type { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
-import { trackEvent } from "@/lib/analytics";
+import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
 import { APPSTORE_CHAT_URL, streamChat, type ChatMessage } from "@/lib/chat";
 import { chatGreeting, chatStarters } from "@/lib/appStoreService";
 
@@ -14,7 +14,9 @@ const MAX_LEN = 8000;
 /** The conversation survives a refresh or a hop to another page within the tab. */
 const STORAGE_KEY = "appstore-chat";
 
-type Saved = { id: string; messages: ChatMessage[] };
+type Saved = { id: string; messages: ChatMessage[]; lead?: boolean };
+
+const EMAIL_RE = /[^\s@<>()]+@[^\s@<>()]+\.[a-z]{2,}/i;
 
 const newId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -30,7 +32,7 @@ function load(): Saved {
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<Saved>;
       if (typeof parsed.id === "string" && Array.isArray(parsed.messages)) {
-        return { id: parsed.id, messages: parsed.messages.filter((m) => m && typeof m.content === "string") };
+        return { id: parsed.id, messages: parsed.messages.filter((m) => m && typeof m.content === "string"), lead: parsed.lead === true };
       }
     }
   } catch {
@@ -123,6 +125,13 @@ const RescueChat = () => {
     setLoading(true);
     const turn = history.filter((m) => m.role === "user").length;
     trackEvent("appstore_chat", { turn, source, length: text.length });
+    // The first message carrying an email is the lead: same key event and Ads conversion
+    // as the written form, once per conversation, so paid traffic is measured either way.
+    if (!state.lead && EMAIL_RE.test(text)) {
+      setState((prev) => ({ ...prev, lead: true }));
+      trackEvent("appstore_intake", { stage: "chat", package: "unsure", channel: "chat", turn });
+      trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
+    }
     requestAnimationFrame(resize);
 
     let acc = "";
