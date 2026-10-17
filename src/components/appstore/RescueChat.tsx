@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUp, Loader2, RotateCcw, Sparkles } from "lucide-react";
 import type { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
-import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
+import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent, trackOpenAiLead } from "@/lib/analytics";
 import { APPSTORE_CHAT_URL, streamChat, type ChatMessage } from "@/lib/chat";
 import { chatGreeting, chatStarters } from "@/lib/appStoreService";
 
@@ -131,6 +131,7 @@ const RescueChat = () => {
       setState((prev) => ({ ...prev, lead: true }));
       trackEvent("appstore_intake", { stage: "chat", package: "unsure", channel: "chat", turn });
       trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
+      trackOpenAiLead(`chat-${conversationId}`);
     }
     requestAnimationFrame(resize);
 

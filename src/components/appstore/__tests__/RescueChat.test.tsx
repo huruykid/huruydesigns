@@ -31,6 +31,7 @@ const body = (init?: RequestInit) => JSON.parse(String(init?.body)) as { convers
 describe("RescueChat", () => {
   beforeEach(() => {
     window.dataLayer = [];
+    if (window.oaiq) window.oaiq.q = [];
     sessionStorage.clear();
   });
   afterEach(() => {
@@ -116,6 +117,9 @@ describe("RescueChat", () => {
     fireEvent.keyDown(box, { key: "Enter" });
     await waitFor(() => expect(screen.getAllByText("Thanks.")).toHaveLength(3));
     expect(queued("appstore_intake")).toHaveLength(1);
+    const leads = (window.oaiq?.q ?? []).map((a) => Array.from(a as ArrayLike<unknown>)).filter((a) => a[1] === "lead_created");
+    expect(leads).toHaveLength(1);
+    expect(leads[0]).toEqual(["measure", "lead_created", { type: "customer_action" }, { event_id: expect.stringMatching(/^chat-/) }]);
   });
 
   it("shows the function's error message and lets the visitor try again", async () => {

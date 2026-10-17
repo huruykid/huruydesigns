@@ -10,7 +10,7 @@ import { AppStoreBadgeLink } from "@/components/AppStorePromoBanner";
 import RescueChat from "@/components/appstore/RescueChat";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
-import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
+import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent, trackOpenAiLead } from "@/lib/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
@@ -148,6 +148,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
       setState("sent");
       trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
       trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
+      trackOpenAiLead(`form-${crypto.randomUUID()}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : null);
       setState("failed");

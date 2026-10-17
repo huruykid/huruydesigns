@@ -7,10 +7,38 @@ const adsId = "AW-11554603785";
 /** Google Ads conversion action "App Store diagnosis request" (Submit lead form). */
 export const APPSTORE_LEAD_CONVERSION = `${adsId}/Ig_zCOTzxZ0dEImG1YUr`;
 
+/** OpenAI Ads measurement pixel (data source "huruy.tech"); measures ChatGPT ad leads. */
+export const OPENAI_PIXEL_ID = "CZYANiWdnTx931NnEBHr3g";
+const OPENAI_PIXEL_SRC = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
+
+type Oaiq = ((...args: unknown[]) => void) & { q?: unknown[] };
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
+    oaiq?: Oaiq;
   }
+}
+
+/**
+ * Queues the OpenAI pixel and loads it right away (async), not on idle: the SDK reads
+ * the ad click reference (`oppref`) from the landing URL, which an SPA can change
+ * before an idle callback runs.
+ */
+function loadOpenAiPixel() {
+  if (window.oaiq) return;
+  // Same queue shape as OpenAI's loader snippet: it stores the arguments object.
+  const q: Oaiq = function () {
+    // eslint-disable-next-line prefer-rest-params
+    q.q!.push(arguments);
+  };
+  q.q = [];
+  window.oaiq = q;
+  q("init", { pixelId: OPENAI_PIXEL_ID });
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = OPENAI_PIXEL_SRC;
+  document.head.appendChild(script);
 }
 
 function gtag(..._args: unknown[]) {
@@ -31,6 +59,7 @@ if (typeof window !== "undefined") {
   gtag("config", measurementId, { send_page_view: false });
   // The same gtag.js serves Google Ads; this config lets conversion events reach it.
   gtag("config", adsId);
+  loadOpenAiPixel();
 }
 
 let scriptInjected = false;
@@ -57,6 +86,15 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
 /** Reports a Google Ads conversion. Safe to call anywhere; it queues until gtag.js loads. */
 export function trackConversion(sendTo: string, params?: Record<string, unknown>) {
   gtag("event", "conversion", { send_to: sendTo, ...params });
+}
+
+/**
+ * Reports a lead to OpenAI Ads (standard event `lead_created`). `eventId` deduplicates
+ * repeats of the same lead, so pass something stable such as the chat conversation id.
+ */
+export function trackOpenAiLead(eventId: string) {
+  if (typeof window === "undefined" || !window.oaiq) return;
+  window.oaiq("measure", "lead_created", { type: "customer_action" }, { event_id: eventId });
 }
 
 /**
