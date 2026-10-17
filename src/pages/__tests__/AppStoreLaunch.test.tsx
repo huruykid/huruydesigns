@@ -36,14 +36,17 @@ describe("App Store launch page", () => {
     expect(within(hero).getByRole("link", { name: "See pricing" })).toHaveAttribute("href", "#pricing");
   });
 
-  it("puts the assistant directly under the hero, opening with a question about the app", () => {
-    renderPage();
-    const chat = screen.getByRole("region", { name: "Tell me what's going on with your app." });
+  it.each(["launch", "rescue"] as const)("offers one working chat in the %s hero", (variant) => {
+    renderPage(variant);
+    const chat = screen.getByRole("region", { name: "Chat about your app" });
     const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
-    expect(hero.nextElementSibling).toBe(chat);
+    expect(hero).toContainElement(chat);
+    expect(screen.getAllByLabelText("Your message")).toHaveLength(1);
     expect(within(chat).getByText(chatGreeting)).toBeInTheDocument();
     expect(within(chat).getByLabelText("Your message")).toHaveAttribute("placeholder", "Tell me what's going on, or paste Apple's message...");
-    expect(within(chat).getByRole("link", { name: "It's below" })).toHaveAttribute("href", "#start");
+    expect(within(chat).getByRole("link", { name: "Use the form" })).toHaveAttribute("href", "#start");
+    fireEvent.click(within(hero).getByRole("link", { name: variant === "rescue" ? "Get a free diagnosis" : "Check my app’s readiness" }));
+    expect(within(chat).getByLabelText("Your message")).toHaveFocus();
   });
 
   it("shows every package with its price and pay-on-approval terms", () => {
@@ -160,7 +163,7 @@ describe("App Store launch page", () => {
       renderPage("rescue");
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Rejected by App Review?");
       const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
-      expect(within(hero).getByRole("link", { name: "Get a free diagnosis" })).toHaveAttribute("href", "#start");
+      expect(within(hero).getByRole("link", { name: "Get a free diagnosis" })).toHaveAttribute("href", "#chat");
       expect(screen.getByLabelText("What you'd like")).toHaveValue("rescue");
       expect(screen.getByLabelText("Where it stands")).toHaveValue("rejected");
       expect(screen.getByRole("link", { name: "Start with the launch service" })).toHaveAttribute("href", "/appstore");

@@ -348,7 +348,7 @@ const Chip = ({ children, tone = "neutral" }: { children: ReactNode; tone?: "neu
   return <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[11px] leading-none ${tones[tone]}`}>{children}</span>;
 };
 
-const PrimaryLink = ({ href, onClick, children, to }: { href?: string; to?: string; onClick?: () => void; children: ReactNode }) => (
+const PrimaryLink = ({ href, onClick, children, to }: { href?: string; to?: string; onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void; children: ReactNode }) => (
   <Button asChild size="lg" className="min-h-11 rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90">
     {to ? (
       <Link to={to} onClick={onClick}>{children} <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
@@ -358,51 +358,10 @@ const PrimaryLink = ({ href, onClick, children, to }: { href?: string; to?: stri
   </Button>
 );
 
-const OutlineLink = ({ href, onClick, children }: { href: string; onClick?: () => void; children: ReactNode }) => (
+const OutlineLink = ({ href, onClick, children }: { href: string; onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void; children: ReactNode }) => (
   <Button asChild size="lg" variant="outline" className="min-h-11 rounded-full px-6">
     <a href={href} onClick={onClick}>{children}</a>
   </Button>
-);
-
-const stages = ["Rejected", "Diagnosed", "Fixed", "Resubmitted", "Approved"] as const;
-
-/** A mock of the message a founder is holding when they land here, plus the path out of it. */
-const ResolutionCenterMock = () => (
-  <div className="rounded-3xl bg-muted/60 p-4 sm:p-6" aria-hidden="true">
-    <Card>
-      <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-4">
-        <span className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <span className="inline-block h-5 w-5 rounded-md bg-foreground" />
-          Resolution Center
-        </span>
-        <Chip tone="bad"><X className="h-3 w-3" /> Rejected</Chip>
-      </div>
-      <div className="px-4 py-4">
-        <p className="font-mono text-xs leading-relaxed text-muted-foreground">Guideline 4.2 – Design – Minimum Functionality</p>
-        <p className="mt-2 text-sm leading-relaxed text-foreground">
-          The experience your app provides is not sufficiently different from a mobile browsing experience. Please revise your app to include features that go beyond a repackaged website.
-        </p>
-      </div>
-      <div className="border-t border-border px-4 py-4 font-mono text-xs text-muted-foreground">○ Waiting on your reply in Resolution Center</div>
-    </Card>
-    <div className="my-3 flex justify-end">
-      <Card className="px-3 py-1.5 font-mono text-[11px] text-muted-foreground">● diagnosed free, within one business day</Card>
-    </div>
-    <Card className="p-4">
-      <p className="text-sm font-medium text-foreground">A typical case, start to finish</p>
-      <ol className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-2">
-        {stages.map((s, i) => (
-          <li key={s} className="flex items-center gap-1.5">
-            <Chip tone={i === 0 ? "bad" : i === stages.length - 1 ? "good" : "neutral"}>
-              {i === 0 ? <X className="h-3 w-3" /> : i === stages.length - 1 ? <Check className="h-3 w-3" /> : null}
-              {s}
-            </Chip>
-            {i < stages.length - 1 && <span className="text-muted-foreground/60">→</span>}
-          </li>
-        ))}
-      </ol>
-    </Card>
-  </div>
 );
 
 const PackageCard = ({
@@ -463,6 +422,12 @@ const AppStoreLaunch = ({ variant = "launch", page }: { variant?: AppStoreVarian
     if (id === "rescue") setStage("rejected");
     trackEvent("appstore_package_click", { package: id });
   };
+  const focusChat = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const chat = document.getElementById("chat");
+    chat?.scrollIntoView?.({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    chat?.querySelector<HTMLTextAreaElement>("textarea")?.focus({ preventScroll: true });
+  };
   const carePlan = addOns.find((a) => /care/i.test(a.name));
   const android = addOns.find((a) => /android/i.test(a.name));
 
@@ -519,12 +484,12 @@ const AppStoreLaunch = ({ variant = "launch", page }: { variant?: AppStoreVarian
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 {rescue ? (
                   <>
-                    <PrimaryLink href="#start" onClick={() => choose("rescue")}>Get a free diagnosis</PrimaryLink>
+                    <PrimaryLink href="#chat" onClick={(event) => { choose("rescue"); focusChat(event); }}>Get a free diagnosis</PrimaryLink>
                     <OutlineLink href="#pricing">See pricing</OutlineLink>
                   </>
                 ) : (
                   <>
-                    <PrimaryLink href="#chat">Check my app’s readiness</PrimaryLink>
+                    <PrimaryLink href="#chat" onClick={focusChat}>Check my app’s readiness</PrimaryLink>
                     <OutlineLink href="#pricing">See pricing</OutlineLink>
                   </>
                 )}
@@ -550,14 +515,16 @@ const AppStoreLaunch = ({ variant = "launch", page }: { variant?: AppStoreVarian
                 ) : (
                   <>
                     Rejected by Apple?{" "}
-                    <a href="#start" onClick={() => choose("rescue")} className="font-medium text-accent underline underline-offset-4">
+                    <a href="#chat" onClick={(event) => { choose("rescue"); focusChat(event); }} className="font-medium text-accent underline underline-offset-4">
                       Paste the message for a free diagnosis
                     </a>
                   </>
                 )}
               </p>
             </div>
-            <ResolutionCenterMock />
+            <section id="chat" aria-label="Chat about your app" className="min-w-0 scroll-mt-24">
+              <RescueChat compact />
+            </section>
           </div>
           <div aria-label="Published app examples" className="mx-auto grid max-w-[1120px] gap-4 border-t border-border py-6 sm:grid-cols-2">
             {[
@@ -580,8 +547,8 @@ const AppStoreLaunch = ({ variant = "launch", page }: { variant?: AppStoreVarian
       </section>
       </>}
 
-      {show("quote") && <>
-      {/* Chat */}
+      {page === "quote" && <>
+      {/* The dedicated quote page also offers the same assistant. */}
       <Section
         id="chat"
         eyebrow="Start here"
