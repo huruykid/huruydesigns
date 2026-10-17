@@ -6,6 +6,14 @@
 
 import { projects } from "./projects";
 
+export const servicePages = {
+  pricing: { title: "Services & Pricing", description: "Compare fixed-price App Store launch, rejection rescue, readiness checks and ongoing care." },
+  examples: { title: "Apps I’ve Shipped", description: "How Beles and EBT Finder reached the App Store, and the release checks those launches shaped." },
+  process: { title: "How It Works", description: "From the first diagnosis to submission: scope, access, testing, review feedback and handover." },
+  quote: { title: "Get a Quote", description: "Tell me about your app for a free fit assessment, a recommended package and next steps." },
+} as const;
+export type ServicePage = keyof typeof servicePages;
+
 export const BELES_APP_STORE_URL = "https://apps.apple.com/us/app/beles-tigrayan-dating/id6810825951";
 export const EBT_FINDER_APP_STORE_URL = "https://apps.apple.com/app/ebt-finder/id6751323829";
 /** Google Calendar booking page: 15-minute intro calls, Mon/Wed/Fri 12-1pm and Tue/Thu 6-7pm Pacific. */
@@ -36,6 +44,7 @@ export interface ServicePackage {
   /** Machine-readable price for JSON-LD. */
   priceValue: number;
   note?: string;
+  regularPrice?: string;
   payment: string;
   bestFor: string;
   includes: string[];
@@ -53,15 +62,16 @@ export const packages: ServicePackage[] = [
       "Free diagnosis before you pay anything",
       "Fixes, in your code",
       "The reply to App Review",
-      "Resubmissions until approved",
+      "Review fixes and resubmissions within the agreed scope",
     ],
   },
   {
     id: "launch",
     name: "Launch",
-    price: "$1,500",
-    priceValue: 1500,
-    note: "Founding price $995 for the first five clients",
+    price: "$995",
+    priceValue: 995,
+    regularPrice: "$1,500",
+    note: "Founding price for the first five clients",
     payment: "Half to start, half when Apple approves",
     bestFor: "Works on the web, never submitted.",
     includes: [
@@ -70,7 +80,7 @@ export const packages: ServicePackage[] = [
       "Sign in with Apple and account deletion where required",
       "App Store Connect, privacy labels, reviewer notes",
       "Listing copy and screenshots",
-      "Submission and free resubmits",
+      "Submission and resubmissions within the agreed scope",
     ],
   },
   {
@@ -101,8 +111,8 @@ export const readinessCheck: ServicePackage = {
   payment: "Paid up front. Credited in full toward Launch if you book within 30 days.",
   bestFor: "Never submitted. You want to know what Apple will flag first.",
   includes: [
-    "Checked for the rejections Apple sends AI-built apps most",
-    "Fix list, ranked by what Apple flags first",
+    "Review of functionality, sign-in, privacy and submission readiness",
+    "Fix list, ranked by launch risk",
     "Draft reviewer notes",
     "20-minute call within two business days",
   ],
@@ -113,11 +123,11 @@ export const intakePackages = [readinessCheck, ...packages];
 
 export const addOns = [
   { name: "Android", price: "+$400", detail: "Google Play build and listing from the same app." },
-  { name: "Care plan", price: "$149/month", detail: "Your updates shipped, iOS and SDK upgrades, key renewals and review replies." },
+  { name: "Care plan", price: "$149/month", detail: "One routine release per month from your supplied, working code, plus up to one hour of minor iOS/SDK compatibility fixes, signing renewals or review replies. Release timing is agreed before you subscribe; unused time does not roll over. New features, major upgrades and backend repairs are quoted separately." },
 ];
 
 /**
- * The guidelines the service is scoped around, most common first. `plain` is
+ * The guidelines the service is scoped around, grouped by issue. `plain` is
  * how founders describe the problem and is what the page shows; `guide` links the matching
  * /guides page where one exists.
  */
@@ -150,8 +160,8 @@ export const process = [
     body: "Fixes land in your code. You read the reply to App Review before it goes out.",
   },
   {
-    title: "Resubmit until approved",
-    body: "I prepare the build; you press Release. Pushback is fixed at no charge. Balance due on approval.",
+    title: "Submit and address feedback",
+    body: "I prepare the build; you press Release. Review fixes and resubmissions within the agreed scope are included. Balance due on approval.",
   },
 ];
 
@@ -175,8 +185,11 @@ export const exclusions = [
   "Template and spam apps",
 ];
 
+/** Shared by the pricing section, FAQ and generated service-assistant prompt. */
+export const scopeTerms = "Before a deposit, we agree in writing on the app, features, review issues and delivery window covered. Fixes and resubmissions for that scope are included. New features, major backend repairs, business-model changes and newly discovered issues outside that scope need a separate quote and your approval before work starts.";
+
 export const guarantee =
-  "If Apple still won't approve the app after we've worked through its feedback, you never pay the second half. Cancel for a full refund any time before I start.";
+  "If Apple still won't approve the app after we've addressed feedback within the agreed scope, you never pay the remaining balance. Cancel for a full refund any time before I start.";
 
 /**
  * The screenshots on Beles's live App Store listing, in listing order (captured from
@@ -231,16 +244,24 @@ export const requirements = [
 
 export const faqs = [
   {
+    q: "What do included fixes and resubmissions cover?",
+    a: scopeTerms,
+  },
+  {
+    q: "What does the care plan include?",
+    a: addOns.find((a) => a.name === "Care plan")!.detail,
+  },
+  {
     q: "Do I need a Mac?",
     a: "No. I build and submit the iOS app. You only need an Apple Developer account.",
   },
   {
     q: "Can you guarantee Apple approves it?",
-    a: "No one can promise Apple's decision. What I can promise: if Apple rejects it, I fix it and resubmit at no charge, and you don't pay the second half until it's approved. If your app has nothing app-like to add, I'll tell you at intake instead of taking your money.",
+    a: "No one can promise Apple's decision. What I can promise: review fixes and resubmissions within the agreed scope are included, and you don't pay the remaining balance until it's approved. If your app has nothing app-like to add, I'll tell you at intake instead of taking your money.",
   },
   {
     q: "What if you can't take my app, or Apple never approves it?",
-    a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the second half.",
+    a: "If your app isn't a fit, I tell you at intake and you pay nothing; I only take a deposit after we've agreed on scope. You can cancel for a full refund any time before I start work. Once I've started, the deposit covers the work done, and if Apple still won't approve the app after we've worked through its feedback, you never pay the remaining balance.",
   },
   {
     q: "Is the rejection diagnosis really free?",
@@ -256,7 +277,7 @@ export const faqs = [
   },
   {
     q: "Can I keep building in Lovable?",
-    a: "Yes. Your Lovable project stays the source of truth. Depending on how the app is built, some changes show up on the iPhone right away; others need a new build and review, which the care plan covers.",
+    a: "Yes. Your Lovable project stays the source of truth. Depending on how the app is built, some changes show up on the iPhone right away; others need a new build and review, which can be scheduled within the care plan allowance. Larger changes are quoted separately.",
   },
   {
     q: "How long does it take?",

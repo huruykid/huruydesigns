@@ -41,6 +41,7 @@
     "@lovable.dev/email-js": "0.3.1",
     "@playwright/test": "^1.58.2",
     "@react-email/components": "0.0.22",
+    "@react-email/render": "^1.4.0",
     "@tailwindcss/typography": "^0.5.16",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.0",

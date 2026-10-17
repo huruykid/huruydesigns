@@ -26,7 +26,7 @@ const Navbar = () => {
   // Close the mobile menu on navigation.
   useEffect(() => {
     setOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   // Escape closes the menu and returns focus; clicking outside closes it.
   useEffect(() => {
@@ -61,23 +61,32 @@ const Navbar = () => {
     </Button>
   );
 
-  const isActive = (match: string) => location.pathname === match;
-  // Founder-facing pages have their own App Store assistant; the portfolio one stays off them.
-  const founderPage = location.pathname.startsWith("/appstore") || location.pathname.startsWith("/guides");
+  const founderPage = location.pathname === "/appstore" || location.pathname.startsWith("/appstore/") || location.pathname === "/guides" || location.pathname.startsWith("/guides/");
+  const pageLinks = founderPage
+    ? [
+        { label: "Services & Pricing", path: "/appstore/pricing", match: "/appstore/pricing" },
+        { label: "Apps Shipped", path: "/appstore/examples", match: "/appstore/examples" },
+        { label: "How It Works", path: "/appstore/process", match: "/appstore/process" },
+        { label: "Guides", path: "/guides", match: "/guides" },
+        { label: "Get a Quote", path: "/appstore/quote", match: "/appstore/quote" },
+      ]
+    : navLinks;
+  const isActive = (match: string) => location.pathname === match || (match === "/guides" && location.pathname.startsWith("/guides/"));
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-lg border-b border-transparent print:hidden">
-      <nav className="container flex items-center justify-between h-16" aria-label="Primary">
-        <Link to="/" className="text-[15px] font-semibold tracking-tight" aria-label="Huruy Kidanemariam, home">
-          Huruy Kidanemariam
+      <nav className={`${founderPage ? "service-container" : "container"} flex items-center justify-between h-16`} aria-label="Primary">
+        <Link to={founderPage ? "/appstore" : "/"} className="text-[15px] font-semibold tracking-tight" aria-label={founderPage ? "App Store Launch, service home" : "Huruy Kidanemariam, home"}>
+          {founderPage ? "App Store Launch" : "Huruy Kidanemariam"}
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-3 lg:gap-6 whitespace-nowrap">
-          {navLinks.map((l) => (
+        <div className={`${founderPage ? "hidden lg:flex" : "hidden md:flex"} items-center gap-3 lg:gap-6 whitespace-nowrap`}>
+          {pageLinks.map((l) => (
             <Link
               key={l.path}
               to={l.path}
+              onClick={() => setOpen(false)}
               aria-current={isActive(l.match) ? "page" : undefined}
               className={`inline-flex min-h-11 items-center text-sm transition-colors hover:text-foreground ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
             >
@@ -101,7 +110,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile: the assistant lives here rather than floating over content */}
-        <div className="flex md:hidden items-center gap-1">
+        <div className={`flex ${founderPage ? "lg:hidden" : "md:hidden"} items-center gap-1`}>
           {!founderPage && (
             <Button
             variant="ghost"
@@ -132,12 +141,13 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {open && (
-        <nav id={menuId} className="md:hidden bg-background border-b border-border animate-fade-in" aria-label="Mobile">
-          <div className="container py-2 flex flex-col">
-            {navLinks.map((l) => (
+        <nav id={menuId} className={`${founderPage ? "lg:hidden" : "md:hidden"} bg-background border-b border-border animate-fade-in`} aria-label="Mobile">
+          <div className={`${founderPage ? "service-container" : "container"} py-2 flex flex-col`}>
+            {pageLinks.map((l) => (
               <Link
                 key={l.path}
                 to={l.path}
+                onClick={() => setOpen(false)}
                 aria-current={isActive(l.match) ? "page" : undefined}
                 className={`text-base min-h-12 flex items-center ${isActive(l.match) ? "text-foreground font-medium" : "text-muted-foreground"}`}
               >

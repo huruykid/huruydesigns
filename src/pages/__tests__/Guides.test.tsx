@@ -76,7 +76,7 @@ describe("App Store guide pages", () => {
     expect(screen.getByText("The short answer")).toBeInTheDocument();
     expect(screen.getByText(/Guideline 4\.2, Minimum Functionality/)).toBeInTheDocument();
     const cta = screen.getByRole("complementary", { name: "Get help with your app" });
-    expect(within(cta).getByRole("link", { name: "Get a free read" })).toHaveAttribute("href", "/appstore#chat");
+    expect(within(cta).getByRole("link", { name: "Get a free read" })).toHaveAttribute("href", "/appstore/quote#chat");
     const related = screen.getByRole("navigation", { name: "Related guides" });
     for (const slug of g.related) expect(within(related).getByRole("link", { name: guideBySlug(slug)!.title })).toHaveAttribute("href", guidePath(slug));
   });

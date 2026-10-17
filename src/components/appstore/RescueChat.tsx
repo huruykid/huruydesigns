@@ -67,7 +67,7 @@ const Bubble = ({ role, children, className }: { role: "user" | "assistant"; chi
   <div className={cn("flex", role === "user" ? "justify-end" : "justify-start")}>
     <div
       className={cn(
-        "max-w-[88%] rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed sm:max-w-[80%]",
+        "max-w-[88%] rounded-3xl px-4 py-4 text-[15px] leading-relaxed sm:max-w-[80%]",
         role === "user" ? "whitespace-pre-wrap rounded-br-lg bg-accent text-accent-foreground" : "rounded-bl-lg bg-muted text-foreground",
         className,
       )}
@@ -187,7 +187,7 @@ const RescueChat = () => {
   return (
     <div className="flex h-[640px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm sm:h-[720px]">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4 sm:px-7">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border service-card-x py-6">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-foreground" aria-hidden="true">
             <Sparkles className="h-4 w-4" />
@@ -218,13 +218,13 @@ const RescueChat = () => {
       {/* Conversation */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-5 py-6 sm:px-7"
+        className="flex-1 overflow-y-auto service-card-padding"
         role="log"
         aria-label="Conversation"
         aria-live="polite"
         aria-relevant="additions text"
       >
-        <div className="mx-auto max-w-[52rem] space-y-5">
+        <div className="mx-auto max-w-[52rem] space-y-6">
           <Bubble role="assistant" className={empty ? "text-base sm:text-lg" : undefined}>
             {chatGreeting}
           </Bubble>
@@ -261,7 +261,7 @@ const RescueChat = () => {
 
           {loading && messages[messages.length - 1]?.role === "user" && (
             <div className="flex justify-start">
-              <div className="rounded-3xl rounded-bl-lg bg-muted px-5 py-3.5">
+              <div className="rounded-3xl rounded-bl-lg bg-muted px-4 py-4">
                 <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" aria-hidden="true" />
                 <span className="sr-only">Assistant is typing</span>
               </div>
@@ -276,7 +276,7 @@ const RescueChat = () => {
           e.preventDefault();
           void send(input, "typed");
         }}
-        className="border-t border-border bg-card px-4 py-4 sm:px-6"
+        className="border-t border-border bg-card service-card-x py-6"
       >
         <div className="mx-auto flex max-w-[52rem] items-end gap-3 rounded-2xl border border-input bg-background p-2 pl-4 focus-within:ring-2 focus-within:ring-ring">
           <label htmlFor={inputId} className="sr-only">Your message</label>
@@ -294,7 +294,7 @@ const RescueChat = () => {
             placeholder={empty ? "Tell me what's going on, or paste Apple's message..." : "Reply..."}
             aria-describedby={hintId}
             disabled={loading}
-            className="max-h-56 min-h-[3.25rem] flex-1 resize-none bg-transparent py-2.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:opacity-60"
+            className="max-h-56 min-h-[3.25rem] min-w-0 flex-1 resize-none bg-transparent py-2.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:opacity-60"
           />
           <button
             type="submit"

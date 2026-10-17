@@ -16,6 +16,8 @@ import { imageDimensions } from "@/lib/imageDimensions";
 import {
   type IntakeStatus,
   type ServicePackage,
+  type ServicePage,
+  servicePages,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -23,6 +25,7 @@ import {
   accountStatuses,
   addOns,
   belesScreens,
+  belesLessons,
   ebtProof,
   exclusions,
   faqs,
@@ -35,6 +38,7 @@ import {
   readinessCheck,
   requirements,
   stacks,
+  scopeTerms,
   trustPoints,
   workingTerms,
 } from "@/lib/appStoreService";
@@ -53,7 +57,7 @@ const DESCRIPTION =
  */
 const RESCUE_TITLE = "Rejected by App Review? Free Diagnosis, Fixed-Price Fix | Huruy Kidanemariam";
 const RESCUE_DESCRIPTION =
-  "Paste Apple's rejection message and get a free diagnosis within one business day. Rejection Rescue is a fixed $750: $250 to start, $500 only when Apple approves, free resubmissions.";
+  "Paste Apple's rejection message and get a free diagnosis within one business day. Rejection Rescue is a fixed $750: $250 to start, $500 only when Apple approves, included resubmissions within the agreed scope.";
 
 export type AppStoreVariant = "launch" | "rescue";
 
@@ -167,7 +171,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
 
   if (state === "sent") {
     return (
-      <div role="status" className="rounded-2xl border border-border bg-card p-6">
+      <div role="status" className="rounded-2xl border border-border bg-card service-card-padding">
         <p className="mb-1 flex items-center gap-2 font-semibold text-foreground">
           <Check className="h-5 w-5 text-accent" aria-hidden="true" /> Got it. Thanks.
         </p>
@@ -183,13 +187,13 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" aria-label="App Store intake">
+    <form onSubmit={handleSubmit} className="space-y-6" aria-label="App Store intake">
       {/* Honeypot for bots: hidden from people and assistive tech. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="intake-website">Website</label>
         <input id="intake-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-name">Name</Label>
           <Input id="intake-name" name="name" autoComplete="name" required maxLength={120} className="mt-1.5 h-11 rounded-lg" />
@@ -203,7 +207,7 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
         <Label htmlFor="intake-url">Link to your app</Label>
         <Input id="intake-url" name="appUrl" type="url" inputMode="url" placeholder="https://yourapp.lovable.app" required maxLength={500} className="mt-1.5 h-11 rounded-lg" />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <Label htmlFor="intake-stage">Where it stands</Label>
           <select
@@ -309,8 +313,8 @@ interface SectionProps {
 const Section = ({ id, eyebrow, title, lede, band, aside, children }: SectionProps) => {
   const headingId = `${id ?? eyebrow?.toLowerCase().replace(/\s+/g, "-") ?? "section"}-heading`;
   return (
-    <section id={id} aria-labelledby={headingId} className={`${band ? "bg-muted/50" : ""} scroll-mt-24 py-16 sm:py-20 lg:py-24`}>
-      <div className="container">
+    <section id={id} aria-labelledby={headingId} className={`${band ? "bg-muted/50" : ""} scroll-mt-24 service-section`}>
+      <div className="service-container">
         <div className={`mx-auto max-w-[1120px] ${aside ? "grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center" : ""}`}>
           <div>
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -320,7 +324,7 @@ const Section = ({ id, eyebrow, title, lede, band, aside, children }: SectionPro
             {lede && <p className="mt-4 max-w-[62ch] text-base leading-relaxed text-muted-foreground sm:text-lg">{lede}</p>}
           </div>
           {aside}
-          {children && <div className={aside ? "mt-4 lg:col-span-2" : "mt-10"}>{children}</div>}
+          {children && <div className={aside ? "mt-8 lg:col-span-2" : "mt-8 sm:mt-10"}>{children}</div>}
         </div>
       </div>
     </section>
@@ -362,25 +366,25 @@ const stages = ["Rejected", "Diagnosed", "Fixed", "Resubmitted", "Approved"] as 
 const ResolutionCenterMock = () => (
   <div className="rounded-3xl bg-muted/60 p-4 sm:p-6" aria-hidden="true">
     <Card>
-      <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">
+      <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-4">
         <span className="flex items-center gap-2 text-sm font-medium text-foreground">
           <span className="inline-block h-5 w-5 rounded-md bg-foreground" />
           Resolution Center
         </span>
         <Chip tone="bad"><X className="h-3 w-3" /> Rejected</Chip>
       </div>
-      <div className="px-5 py-4">
+      <div className="px-4 py-4">
         <p className="font-mono text-xs leading-relaxed text-muted-foreground">Guideline 4.2 – Design – Minimum Functionality</p>
         <p className="mt-2 text-sm leading-relaxed text-foreground">
           The experience your app provides is not sufficiently different from a mobile browsing experience. Please revise your app to include features that go beyond a repackaged website.
         </p>
       </div>
-      <div className="border-t border-border px-5 py-3 font-mono text-xs text-muted-foreground">○ Waiting on your reply in Resolution Center</div>
+      <div className="border-t border-border px-4 py-4 font-mono text-xs text-muted-foreground">○ Waiting on your reply in Resolution Center</div>
     </Card>
     <div className="my-3 flex justify-end">
       <Card className="px-3 py-1.5 font-mono text-[11px] text-muted-foreground">● diagnosed free, within one business day</Card>
     </div>
-    <Card className="p-5">
+    <Card className="p-4">
       <p className="text-sm font-medium text-foreground">A typical case, start to finish</p>
       <ol className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-2">
         {stages.map((s, i) => (
@@ -413,13 +417,14 @@ const PackageCard = ({
   <li
     role={role}
     aria-labelledby={`pkg-${pkg.id}`}
-    className={`flex flex-col rounded-2xl border bg-card p-6 shadow-[0_1px_2px_hsl(var(--foreground)/0.04)] ${core ? "border-foreground/30" : "border-border"}`}
+    className={`flex flex-col rounded-2xl border bg-card service-card-padding shadow-[0_1px_2px_hsl(var(--foreground)/0.04)] ${core ? "border-foreground/30" : "border-border"}`}
   >
     <div className="flex items-start justify-between gap-3">
       <h3 id={`pkg-${pkg.id}`} className="text-lg font-medium text-foreground">{pkg.name}</h3>
       {core && <Chip>Core service</Chip>}
     </div>
     <p className="mt-3 text-4xl font-medium tracking-tight text-foreground">{pkg.price}</p>
+    {pkg.regularPrice && <p className="mt-2 text-sm text-muted-foreground">Regular price <s>{pkg.regularPrice}</s></p>}
     {pkg.note && <p className="mt-1 font-mono text-xs text-muted-foreground">{pkg.note}</p>}
     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pkg.bestFor}</p>
     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{pkg.payment}</p>
@@ -442,8 +447,11 @@ const PackageCard = ({
 
 /* ------------------------------------------ Page ------------------------------------------ */
 
-const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) => {
+const AppStoreLaunch = ({ variant = "launch", page }: { variant?: AppStoreVariant; page?: ServicePage }) => {
   const rescue = variant === "rescue";
+  const pageInfo = page ? servicePages[page] : undefined;
+  const pagePath = page ? `${PATH}/${page}` : rescue ? RESCUE_PATH : PATH;
+  const show = (...pages: ServicePage[]) => !page || pages.includes(page);
   const [pkg, setPkg] = useState<PackageId | "">(rescue ? "rescue" : "");
   const [stage, setStage] = useState<IntakeStatus | "">(rescue ? "rejected" : "");
   const choose = (id: PackageId) => {
@@ -457,25 +465,33 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
   return (
     <>
       <SEO
-        title={rescue ? RESCUE_TITLE : TITLE}
-        description={rescue ? RESCUE_DESCRIPTION : DESCRIPTION}
-        path={rescue ? RESCUE_PATH : PATH}
+        title={pageInfo ? `${pageInfo.title} | App Store Launch` : rescue ? RESCUE_TITLE : TITLE}
+        description={pageInfo?.description ?? (rescue ? RESCUE_DESCRIPTION : DESCRIPTION)}
+        path={pagePath}
         image="/og/appstore.png"
         imageAlt="Get your Lovable app approved on the App Store: Huruy Kidanemariam's fixed-price launch service, shown with Beles and EBT Finder"
-        jsonLd={rescue ? undefined : jsonLd}
+        jsonLd={rescue || page ? undefined : jsonLd}
         noindex={rescue}
-        breadcrumbs={
-          rescue
-            ? [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }, { name: "Rejection rescue", path: RESCUE_PATH }]
-            : [{ name: "Home", path: "/" }, { name: "App Store launch", path: PATH }]
-        }
+        breadcrumbs={[
+          { name: "App Store Launch", path: PATH },
+          ...(pageInfo ? [{ name: pageInfo.title, path: pagePath }] : rescue ? [{ name: "Rejection rescue", path: RESCUE_PATH }] : []),
+        ]}
       />
 
+      {pageInfo && <section className="service-container service-top">
+        <div className="mx-auto max-w-[1120px]">
+          <Eyebrow>App Store Launch</Eyebrow>
+          <h1 className="text-4xl font-medium tracking-tight sm:text-6xl">{pageInfo.title}</h1>
+          <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-muted-foreground">{pageInfo.description}</p>
+        </div>
+      </section>}
+
+      {!page && <>
       {/* Hero */}
       <section aria-labelledby="appstore-heading" className="relative overflow-hidden">
         <div className="bg-dotgrid pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="container relative pt-14 sm:pt-20 lg:pt-24">
-          <div className="mx-auto grid max-w-[1120px] items-start gap-12 pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16 lg:pb-24">
+        <div className="service-container relative service-top">
+          <div className="mx-auto grid max-w-[1120px] items-start gap-8 service-bottom lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-12">
             <div className="max-w-[40rem]">
               <Eyebrow>{rescue ? "App Store rejection rescue" : "Lovable to the App Store"}</Eyebrow>
               <h1 id="appstore-heading" className="text-[2.75rem] font-medium leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
@@ -494,7 +510,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               <p className="mt-7 max-w-[46ch] text-lg leading-relaxed text-muted-foreground">
                 {rescue
                   ? "Paste Apple's message. Within one business day: what it means, what the fix involves, and a fixed price."
-                  : "A native iPhone app from the code you already have, through App Review, for a fixed price. The balance is due when Apple approves."}
+                  : "I prepare, test and submit an iPhone app from your existing code, then address review feedback within our agreed scope. Fixed price; balance due only when Apple approves."}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 {rescue ? (
@@ -504,11 +520,15 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
                   </>
                 ) : (
                   <>
-                    <PrimaryLink href="#start">Tell me about your app</PrimaryLink>
+                    <PrimaryLink href="#chat">Check my app’s readiness</PrimaryLink>
                     <OutlineLink href="#pricing">See pricing</OutlineLink>
                   </>
                 )}
               </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Apple makes the approval decision. Included fixes and resubmissions cover our agreed scope.
+                {!rescue && " Start with a free fit assessment; the detailed Readiness Check is $250."}
+              </p>
               <ul className="mt-8 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
                 {trustPoints.slice(0, 3).map((t) => (
                   <li key={t} className="flex items-start gap-2">
@@ -535,9 +555,28 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             </div>
             <ResolutionCenterMock />
           </div>
+          <div aria-label="Published app examples" className="mx-auto grid max-w-[1120px] gap-4 border-t border-border py-6 sm:grid-cols-2">
+            {[
+              { name: "Beles", logo: BELES_LOGO, href: BELES_APP_STORE_URL, result: "Lovable project to App Store release in ten days.", id: "beles" },
+              { name: "EBT Finder", logo: EBT_LOGO, href: EBT_FINDER_APP_STORE_URL, result: "Review rejection resolved without a new app build.", id: "ebtfinder" },
+            ].map((app) => (
+              <a key={app.id} href={app.href} target="_blank" rel="noopener noreferrer"
+                onClick={() => trackEvent("appstore_proof_click", { app: app.id })}
+                className="flex min-h-11 items-center gap-3 rounded-xl p-3 transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <img src={app.logo} width={40} height={40} alt="" className="h-10 w-10 shrink-0 rounded-xl" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium">{app.name} <span className="font-normal text-muted-foreground">· View on the App Store</span></span>
+                  <span className="mt-1 block text-sm text-muted-foreground">{app.result}</span>
+                </span>
+                <ArrowRight className="ml-auto h-4 w-4 shrink-0" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
         </div>
       </section>
+      </>}
 
+      {show("quote") && <>
       {/* Chat */}
       <Section
         id="chat"
@@ -547,13 +586,15 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
       >
         <RescueChat />
       </Section>
+      </>}
 
+      {show("pricing", "process") && <>
       {/* Scope */}
-      <Section eyebrow="Scope" title="What I fix" lede="Whatever Apple sent back. The usual ones:">
-        <Card className="p-2 sm:p-4">
+      <Section eyebrow="Scope" title="What I fix" lede="Review issues I assess before agreeing on the work:">
+        <Card className="service-card-padding">
           <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
             {guidelines.map((g) => (
-              <li key={g.number} className="flex flex-col gap-1 border-b border-border px-3 py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
+              <li key={g.number} className="flex flex-col gap-1 border-b border-border py-4 last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+4)]:border-b-0">
                 {g.guide ? (
                   <Link to={`/guides/${g.guide}`} className="font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">{g.plain}</Link>
                 ) : (
@@ -569,13 +610,15 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           <Link to="/guides" className="font-medium text-accent underline underline-offset-4">Read the App Store guides</Link>
         </p>
       </Section>
+      </>}
 
+      {show("process") && <>
       {/* Process */}
       <Section id="how-it-works" eyebrow="Process" title="How it works" lede="Four steps. Your account and your code stay yours." band>
-        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <ol className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {process.map((step, i) => (
             <li key={step.title}>
-              <Card className="flex h-full flex-col p-6">
+              <Card className="flex h-full flex-col service-card-padding">
                 <span className="inline-flex w-fit rounded-full bg-muted px-2.5 py-1 font-mono text-[11px] text-muted-foreground" aria-hidden="true">0{i + 1}</span>
                 <h3 className="mt-4 text-lg font-medium text-foreground">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
@@ -593,15 +636,15 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
             </li>
           ))}
         </ol>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
           {workingTerms.map((w) => (
-            <div key={w.label} className="rounded-2xl bg-muted p-5">
+            <div key={w.label} className="rounded-2xl bg-muted service-card-padding">
               <p className="font-mono text-xs text-muted-foreground">{w.label}</p>
               <p className="mt-2 text-sm leading-relaxed text-foreground">{w.body}</p>
             </div>
           ))}
         </div>
-        <details className="group mt-6 rounded-2xl border border-border bg-card p-5">
+        <details className="group mt-6 rounded-2xl border border-border bg-card service-card-padding">
           <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-foreground">
             What I need from you
             <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-transform group-open:rotate-45" aria-hidden="true">+</span>
@@ -616,20 +659,32 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           </ul>
         </details>
       </Section>
+      </>}
 
+      {show("examples") && <>
       {/* Cases */}
       <Section id="beles" eyebrow="Cases" title="From a Lovable project to the App Store" lede="Two apps of my own, both live.">
-        <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
-          <Card className="flex flex-col p-6 sm:p-8">
+        <div className="grid items-stretch gap-6 lg:grid-cols-2">
+          <Card className="flex flex-col service-card-padding">
             <div className="flex items-center gap-3">
               <img src={BELES_LOGO} width={imageDimensions[BELES_LOGO]?.width} height={imageDimensions[BELES_LOGO]?.height} alt="" className="h-10 w-10 rounded-xl" loading="lazy" decoding="async" />
               <h3 className="text-xl font-medium text-foreground">Beles</h3>
             </div>
-            <p className="mt-3 text-base text-muted-foreground">Built in Lovable. First iOS build to 175 countries in ten days.</p>
+            <p className="mt-3 text-base text-muted-foreground">Built in Lovable. First iOS build to App Store release in ten days.</p>
             <p className="mt-3 font-mono text-xs text-accent">Sign in with Apple · Report and block · iPhone-only</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
-              A dating app, built solo. Native sign-in, Sign in with Apple, and the reporting and blocking Apple requires, all added before approval.
+              The release lessons now inform my pre-submission checks: sign-in on a real iPhone, reporting and blocking, and screenshots that match the supported devices.
             </p>
+            <details className="group mt-4 rounded-xl border border-border p-4">
+              <summary className="min-h-11 cursor-pointer text-sm font-medium">Release history and lessons</summary>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Released September 20, 2026, with availability in 175 countries. This describes distribution coverage, not adoption.</p>
+              <ul className="mt-4 space-y-4">
+                {belesLessons.map((lesson) => <li key={lesson.title}>
+                  <h4 className="text-sm font-medium">{lesson.title}</h4>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{lesson.body}</p>
+                </li>)}
+              </ul>
+            </details>
             <ul aria-label="Beles App Store screenshots" className="mt-6 grid grid-cols-5 gap-2">
               {belesScreens.map((s) => (
                 <li key={s.src}>
@@ -645,22 +700,30 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-auto flex flex-col items-start gap-3 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
               <AppStoreBadgeLink href={BELES_APP_STORE_URL} appName="Beles" onClick={() => trackEvent("appstore_proof_click", { app: "beles" })} />
-              <Link to="/project/beles" className="text-sm font-medium text-accent underline underline-offset-4">Read the design case study</Link>
+
             </div>
           </Card>
 
-          <Card className="flex flex-col p-6 sm:p-8">
+          <Card className="flex flex-col service-card-padding">
             <div className="flex items-center gap-3">
               <img src={EBT_LOGO} width={imageDimensions[EBT_LOGO]?.width} height={imageDimensions[EBT_LOGO]?.height} alt="" className="h-10 w-10 rounded-xl" loading="lazy" decoding="async" />
-              <h3 className="text-xl font-medium text-foreground">EBT Finder</h3>
+              <h3 id="ebt-finder" className="scroll-mt-24 text-xl font-medium text-foreground">EBT Finder</h3>
             </div>
             <p className="mt-3 text-base text-muted-foreground">Rejected by App Review, approved without a new build. Version {EBT_FINDER_LIVE_VERSION} is live.</p>
             <p className="mt-3 font-mono text-xs text-accent">Reviewer couldn't sign up · {ebtProof.stats[0]?.value} locations</p>
             <p className="mt-4 text-sm leading-relaxed text-foreground">
-              The reviewer couldn't create an account. The cause was on the server, not in the app: fixed the same day and explained in Resolution Center.
+              The reviewer could not create an account. I repaired the backend trigger, tested signup on a physical device against the same build, and explained the cause and fix to App Review.
             </p>
+            <details className="group mt-4 rounded-xl border border-border p-4">
+              <summary className="min-h-11 cursor-pointer text-sm font-medium">What changed in my release checks</summary>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Backend signup checks and an audit at phone dimensions now come before submission: safe areas, tap targets, navigation and inline refresh.</p>
+              {ebtProof.stories.map((story) => <div key={story.title} className="mt-4">
+                <h4 className="text-sm font-medium">{story.title}</h4>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{story.problem} {story.fix}</p>
+              </div>)}
+            </details>
             {ebtProof.frames.length > 0 && (
               <ul aria-label="EBT Finder App Store screenshots" className="mt-6 grid grid-cols-4 gap-2">
                 {ebtProof.frames.map((f) => (
@@ -678,13 +741,13 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
                 ))}
               </ul>
             )}
-            <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-auto flex flex-col items-start gap-3 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
               <AppStoreBadgeLink href={EBT_FINDER_APP_STORE_URL} appName="EBT Finder" onClick={() => trackEvent("appstore_proof_click", { app: "ebtfinder" })} />
-              <Link to="/project/ebtfinder" className="text-sm font-medium text-accent underline underline-offset-4">Read the EBT Finder case study</Link>
+
             </div>
           </Card>
         </div>
-        <Card className="mt-6 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <Card className="mt-6 flex flex-col gap-4 service-card-padding sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-lg font-medium text-foreground">Your app could be next.</p>
             <p className="mt-1 text-sm text-muted-foreground">Send the link or the rejection. Get the real cause and a fixed price.</p>
@@ -692,7 +755,9 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           <PrimaryLink href="#start" onClick={() => rescue && choose("rescue")}>Get a free diagnosis</PrimaryLink>
         </Card>
       </Section>
+      </>}
 
+      {show("pricing") && <>
       {/* Pricing */}
       <Section
         id="pricing"
@@ -701,13 +766,18 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
         lede="The price is set before work starts and doesn't move unless the scope does. No hourly billing."
         band
       >
-        <ul className="grid list-none gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="Packages">
+        <div className="mb-6 rounded-2xl border border-border bg-card service-card-padding text-sm leading-relaxed">
+          <p className="font-medium">Approval-dependent balance, agreed scope</p>
+          <p className="mt-2 text-muted-foreground">Rescue, Launch and Launch + Polish: the remaining balance is due only when Apple approves. Apple makes the final decision. The Readiness Check is a separate, upfront-paid audit.</p>
+          <p className="mt-2 text-muted-foreground">{scopeTerms}</p>
+        </div>
+        <ul className="grid list-none gap-6 md:grid-cols-2 lg:grid-cols-3" aria-label="Packages">
           <PackageCard pkg={readinessCheck} cta="Book a Readiness Check" onChoose={choose} role="group" />
           {packages.map((p) => (
             <PackageCard key={p.id} pkg={p} core={p.id === "rescue"} cta={p.id === "rescue" ? "Get a free diagnosis" : `Start ${p.name}`} onChoose={choose} />
           ))}
           {carePlan && (
-            <li className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-[0_1px_2px_hsl(var(--foreground)/0.04)]">
+            <li className="flex flex-col rounded-2xl border border-border bg-card service-card-padding shadow-[0_1px_2px_hsl(var(--foreground)/0.04)]">
               <h3 className="text-lg font-medium text-foreground">{carePlan.name}</h3>
               <p className="mt-3 text-4xl font-medium tracking-tight text-foreground">
                 {carePlan.price.replace("/month", "")} <span className="font-mono text-sm font-normal text-muted-foreground">per month</span>
@@ -720,7 +790,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               )}
             </li>
           )}
-          <li className="flex flex-col justify-center rounded-2xl bg-muted p-6">
+          <li className="flex flex-col justify-center rounded-2xl bg-muted service-card-padding">
             <p className="text-lg font-medium text-foreground">Not sure which fits?</p>
             <p className="font-serif-display mt-1 text-2xl italic text-foreground">Start with the free diagnosis.</p>
             <div className="mt-5">
@@ -729,14 +799,16 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           </li>
         </ul>
       </Section>
+      </>}
 
+      {show("pricing", "process") && <>
       {/* Guarantee */}
       <Section eyebrow="Guarantee" title="What I stand behind">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-          <Card className="border-l-4 border-l-foreground p-6 sm:p-8">
+          <Card className="border-l-4 border-l-foreground service-card-padding">
             <p className="font-serif-display text-2xl italic leading-snug text-foreground sm:text-3xl">{guarantee}</p>
           </Card>
-          <Card className="p-6 sm:p-8">
+          <Card className="service-card-padding">
             <p className="font-medium text-foreground">What I don't take on</p>
             <ul className="mt-4 divide-y divide-border">
               {exclusions.map((x) => (
@@ -754,10 +826,12 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           Covers the guidelines in the written diagnosis. Nobody outside Apple can promise approval.
         </p>
       </Section>
+      </>}
 
+      {show("pricing", "process") && <>
       {/* FAQ */}
       <Section id="faq" eyebrow="FAQ" title="Questions" band>
-        <Card className="divide-y divide-border px-6 sm:px-8">
+        <Card className="divide-y divide-border service-card-x">
           {faqs.map((f) => (
             <details key={f.q} className="group py-4">
               <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-medium text-foreground">
@@ -769,17 +843,18 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
           ))}
         </Card>
       </Section>
+      </>}
 
       {/* Intake */}
       <Section
         id="start"
         eyebrow="Free diagnosis"
-        title={rescue ? "Paste the rejection. Get a diagnosis within one business day." : "Tell me about your app."}
+        title={rescue ? "Paste the rejection. Get a diagnosis within one business day." : "Get a free app fit assessment."}
       >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-12">
           <div>
             <p className="text-base leading-relaxed text-muted-foreground">
-              No call, no discovery session. Send the link and where it's stuck. Paste the rejection if there is one.
+              Send the link and where it is stuck. Within one business day, I will assess the fit, recommend a package and outline next steps, or explain what else I need to review. The detailed $250 Readiness Check is separate; submitting this form does not book paid work.
             </p>
             <ul className="mt-6 space-y-2 border-t border-border pt-6 text-sm text-muted-foreground">
               {trustPoints.slice(0, 3).map((t) => (
@@ -789,7 +864,7 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
                 </li>
               ))}
             </ul>
-            <div className="mt-8 rounded-2xl bg-muted p-5">
+            <div className="mt-8 rounded-2xl bg-muted service-card-padding">
               <p className="text-sm font-medium text-foreground">Rather talk?</p>
               <p className="mt-1 text-sm text-muted-foreground">Free 15 minutes, no pitch.</p>
               <Button asChild variant="outline" className="mt-4 min-h-11 rounded-full px-5">
@@ -799,13 +874,13 @@ const AppStoreLaunch = ({ variant = "launch" }: { variant?: AppStoreVariant }) =
               </Button>
             </div>
           </div>
-          <Card className="p-6 sm:p-8">
+          <Card className="service-card-padding">
             <IntakeForm pkg={pkg} onPkgChange={setPkg} stage={stage} onStageChange={setStage} />
           </Card>
         </div>
       </Section>
 
-      <div className="container pb-16">
+      <div className="service-container service-bottom">
         <p className="mx-auto max-w-[1120px] border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
           The App Store launch service is provided by Appfinity Labs LLC, Los Angeles, California. Not affiliated with or endorsed by Apple or Lovable. App Store is a service mark of Apple Inc.
         </p>
