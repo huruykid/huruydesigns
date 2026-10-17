@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
     const [row] = (await insert.json()) as { id: string }[];
 
     await notify(lead, row?.id, supabaseUrl, serviceKey);
-    return json({ ok: true }, 200, origin, { "Cache-Control": "no-store" });
+    return json({ ok: true, lead_id: row?.id }, 200, origin, { "Cache-Control": "no-store" });
   } catch (e) {
     console.error("appstore-lead error:", e);
     return json({ ok: false, error: "Something went wrong" }, 500, origin);

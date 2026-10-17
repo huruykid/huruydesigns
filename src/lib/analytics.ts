@@ -1,3 +1,5 @@
+import { trackChatGPTPageView } from "./chatgptAds";
+
 // Google Analytics 4 via gtag.js, initialized once at app startup.
 // GA4 measurement IDs are public, so hardcoding avoids the connector
 // overriding the ID we want to report to.
@@ -47,6 +49,7 @@ export function initAnalytics() {
 }
 
 export function trackPageView(path: string) {
+  trackChatGPTPageView(path);
   gtag("event", "page_view", { page_path: path });
 }
 

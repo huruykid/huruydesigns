@@ -174,7 +174,7 @@ describe("App Store launch page", () => {
   });
 
   describe("intake form", () => {
-    beforeEach(() => invoke.mockReset());
+    beforeEach(() => { invoke.mockReset(); window.dataLayer = []; sessionStorage.clear(); });
 
     const fill = () => {
       fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Sam" } });
@@ -185,7 +185,7 @@ describe("App Store launch page", () => {
     };
 
     it("saves the lead through the appstore-lead function and confirms", async () => {
-      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      invoke.mockResolvedValue({ data: { ok: true, lead_id: "12345678-1234-1234-1234-123456789abc" }, error: null });
       window.dataLayer = [];
       renderPage();
       fill();
@@ -198,7 +198,7 @@ describe("App Store launch page", () => {
     });
 
     it("puts the chosen package at the top of the details", async () => {
-      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      invoke.mockResolvedValue({ data: { ok: true, lead_id: "12345678-1234-1234-1234-123456789abc" }, error: null });
       renderPage();
       fireEvent.change(screen.getByLabelText("What you'd like"), { target: { value: "check" } });
       fill();
@@ -206,11 +206,20 @@ describe("App Store launch page", () => {
       expect(invoke.mock.calls[0][1].body.details).toMatch(/^Interested in: Readiness Check \(\$250\)/);
     });
 
+    it("does not count a success without a saved record (including the honeypot)", async () => {
+      invoke.mockResolvedValue({ data: { ok: true }, error: null });
+      renderPage();
+      fill();
+      await screen.findByText(/Got it/);
+      expect((window.dataLayer as IArguments[]).some((a) => a[1] === "conversion")).toBe(false);
+    });
+
     it("falls back to an email draft when saving fails", async () => {
       invoke.mockResolvedValue({ data: null, error: new Error("Request failed") });
       renderPage();
       fill();
       const alert = await screen.findByRole("alert");
+      expect((window.dataLayer as IArguments[]).some((a) => a[1] === "conversion")).toBe(false);
       await waitFor(() => expect(within(alert).getByRole("link", { name: "Open in email" }).getAttribute("href")).toMatch(/^mailto:/));
     });
   });

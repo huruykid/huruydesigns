@@ -4,6 +4,7 @@ import { ArrowUp, Loader2, RotateCcw, Sparkles } from "lucide-react";
 import type { Components } from "react-markdown";
 import { cn } from "@/lib/utils";
 import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
+import { trackChatGPTLead } from "@/lib/chatgptAds";
 import { APPSTORE_CHAT_URL, streamChat, type ChatMessage } from "@/lib/chat";
 import { chatGreeting, chatStarters } from "@/lib/appStoreService";
 
@@ -15,8 +16,6 @@ const MAX_LEN = 8000;
 const STORAGE_KEY = "appstore-chat";
 
 type Saved = { id: string; messages: ChatMessage[]; lead?: boolean };
-
-const EMAIL_RE = /[^\s@<>()]+@[^\s@<>()]+\.[a-z]{2,}/i;
 
 const newId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -125,16 +124,10 @@ const RescueChat = () => {
     setLoading(true);
     const turn = history.filter((m) => m.role === "user").length;
     trackEvent("appstore_chat", { turn, source, length: text.length });
-    // The first message carrying an email is the lead: same key event and Ads conversion
-    // as the written form, once per conversation, so paid traffic is measured either way.
-    if (!state.lead && EMAIL_RE.test(text)) {
-      setState((prev) => ({ ...prev, lead: true }));
-      trackEvent("appstore_intake", { stage: "chat", package: "unsure", channel: "chat", turn });
-      trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
-    }
     requestAnimationFrame(resize);
 
     let acc = "";
+    let leadReported = !!state.lead;
     const upsert = (chunk: string) => {
       acc += chunk;
       setMessages((prev) => {
@@ -152,6 +145,14 @@ const RescueChat = () => {
         conversationId: conversationId || undefined,
         messages: history,
         onDelta: upsert,
+        onLeadSaved: (leadId) => {
+          if (leadReported) return;
+          leadReported = true;
+          setState((prev) => ({ ...prev, lead: true }));
+          trackEvent("appstore_intake", { stage: "chat", package: "unsure", channel: "chat", turn });
+          trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD", transaction_id: leadId });
+          trackChatGPTLead("chat", leadId);
+        },
         onDone: () => setLoading(false),
         onError: (msg) => {
           setMessages((prev) => [...prev, { role: "assistant", content: msg }]);
