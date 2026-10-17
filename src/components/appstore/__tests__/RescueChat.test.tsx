@@ -14,9 +14,9 @@ const queued = (name: string) =>
     .map((a) => a[2] as Record<string, unknown>);
 
 /** An SSE body in the OpenAI delta format the edge function streams through. */
-function sse(chunks: string[]) {
+function sse(chunks: string[], leadId?: string) {
   const enc = new TextEncoder();
-  const lines = [...chunks.map((c) => `data: ${JSON.stringify({ choices: [{ delta: { content: c } }] })}\n`), "data: [DONE]\n"];
+  const lines = [...chunks.map((c) => `data: ${JSON.stringify({ choices: [{ delta: { content: c } }] })}\n`), ...(leadId ? [`data: ${JSON.stringify({ lead_saved: leadId })}\n`] : []), "data: [DONE]\n"];
   return new ReadableStream<Uint8Array>({
     start(controller) {
       for (const l of lines) controller.enqueue(enc.encode(l));
@@ -99,8 +99,9 @@ describe("RescueChat", () => {
     expect(queued("appstore_chat_reset")).toEqual([expect.objectContaining({ turns: 2 })]);
   });
 
-  it("fires the intake key event and the Ads conversion once, when the visitor shares an email", async () => {
-    vi.spyOn(globalThis, "fetch").mockImplementation(() => Promise.resolve(new Response(sse(["Thanks."]), { status: 200 })));
+  it("fires the intake key event and the Ads conversion once, only after the server confirms a saved contact", async () => {
+    let turn = 0;
+    vi.spyOn(globalThis, "fetch").mockImplementation(() => Promise.resolve(new Response(sse(["Thanks."], ++turn > 1 ? "12345678-1234-1234-1234-123456789abc" : undefined), { status: 200 })));
     renderChat();
     const box = screen.getByLabelText("Your message");
     fireEvent.change(box, { target: { value: "It was rejected under 4.2" } });
@@ -116,6 +117,18 @@ describe("RescueChat", () => {
     fireEvent.keyDown(box, { key: "Enter" });
     await waitFor(() => expect(screen.getAllByText("Thanks.")).toHaveLength(3));
     expect(queued("appstore_intake")).toHaveLength(1);
+  });
+
+  it.each([200, 429])("does not count a typed email without a saved lead receipt (%s)", async (status) => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(
+      status === 200 ? sse(["Thanks."]) : JSON.stringify({ error: "Try again" }), { status },
+    ));
+    renderChat();
+    fireEvent.change(screen.getByLabelText("Your message"), { target: { value: "Contact jane@example.com" } });
+    fireEvent.keyDown(screen.getByLabelText("Your message"), { key: "Enter" });
+    await waitFor(() => expect(screen.getByLabelText("Your message")).toBeEnabled());
+    expect(queued("appstore_intake")).toEqual([]);
+    expect(queued("conversion")).toEqual([]);
   });
 
   it("shows the function's error message and lets the visitor try again", async () => {

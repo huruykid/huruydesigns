@@ -11,6 +11,7 @@ import RescueChat from "@/components/appstore/RescueChat";
 import { person } from "@/lib/resume";
 import { PERSON_REF, absoluteUrl } from "@/lib/seo";
 import { APPSTORE_LEAD_CONVERSION, trackConversion, trackEvent } from "@/lib/analytics";
+import { trackChatGPTLead } from "@/lib/chatgptAds";
 import { supabase } from "@/integrations/supabase/client";
 import { imageDimensions } from "@/lib/imageDimensions";
 import {
@@ -145,13 +146,16 @@ const IntakeForm = ({ pkg, onPkgChange, stage: stageValue, onStageChange }: Inta
     setState("sending");
 
     try {
-      const { data: res, error: fnError } = await supabase.functions.invoke<{ ok: boolean; error?: string }>("appstore-lead", {
+      const { data: res, error: fnError } = await supabase.functions.invoke<{ ok: boolean; lead_id?: string; error?: string }>("appstore-lead", {
         body: payload,
       });
       if (fnError || !res?.ok) throw new Error(res?.error ?? fnError?.message ?? "Request failed");
       setState("sent");
-      trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
-      trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD" });
+      if (res.lead_id) {
+        trackEvent("appstore_intake", { stage: stage.value, package: pkg || "unsure", channel: "form" });
+        trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD", transaction_id: res.lead_id });
+        trackChatGPTLead("form", res.lead_id);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : null);
       setState("failed");

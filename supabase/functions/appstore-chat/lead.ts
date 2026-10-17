@@ -165,24 +165,24 @@ function merge(prev: Partial<Lead> | null, next: Lead): Lead {
   return out;
 }
 
-export async function captureLead(conversationId: string, messages: Message[]): Promise<void> {
+export async function captureLead(conversationId: string, messages: Message[]): Promise<string | null> {
   const apiKey = Deno.env.get("LOVABLE_API_KEY");
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  if (!apiKey || !supabaseUrl || !serviceKey) return;
+  if (!apiKey || !supabaseUrl || !serviceKey) return null;
   const headers = { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" };
   const table = `${supabaseUrl}/rest/v1/appstore_chat_leads`;
 
   try {
     const extracted = await extract(messages, apiKey);
-    if (!extracted) return;
+    if (!extracted) return null;
 
     const existingRes = await fetch(`${table}?conversation_id=eq.${conversationId}&select=*`, { headers });
     const existing = existingRes.ok ? ((await existingRes.json()) as Row[])[0] ?? null : null;
     const lead = merge(existing, extracted);
 
     // Nothing to keep yet: no contact, no app, no diagnosis.
-    if (!lead.email && !lead.phone && !lead.app_link && !lead.app_name && !lead.issue_summary) return;
+    if (!lead.email && !lead.phone && !lead.app_link && !lead.app_name && !lead.issue_summary) return null;
 
     const turns = messages.filter((m) => m.role === "user").length;
     const upsert = await fetch(`${table}?on_conflict=conversation_id`, {
@@ -198,12 +198,18 @@ export async function captureLead(conversationId: string, messages: Message[]): 
     });
     if (!upsert.ok) {
       console.error("appstore_chat_leads upsert failed:", upsert.status, await upsert.text().catch(() => ""));
-      return;
+      return null;
     }
     const [row] = (await upsert.json()) as Row[];
     if (row?.email && !row.notified) await notify(row, table, headers);
+    // Count only saved contact details present in visitor messages, never model guesses.
+    const visitorText = messages.filter((m) => m.role === "user").map((m) => m.content).join("\n");
+    const emailShared = row?.email && visitorText.toLowerCase().includes(row.email.toLowerCase());
+    const phoneShared = row?.phone && visitorText.replace(/\D/g, "").includes(row.phone.replace(/\D/g, ""));
+    return row?.id && (emailShared || phoneShared) ? row.id : null;
   } catch (e) {
     console.error("captureLead error:", e);
+    return null;
   }
 }
 

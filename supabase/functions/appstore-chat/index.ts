@@ -1,4 +1,5 @@
 import { clientIp, corsHeaders, isAllowedOrigin, json, withinRateLimit } from "../_shared/http.ts";
+import { withLeadReceipt } from "./stream.ts";
 import { SYSTEM_PROMPT } from "./prompt.ts";
 import { captureLead, worthCapturing, type Message, type Role } from "./lead.ts";
 
@@ -118,13 +119,15 @@ Deno.serve(async (req) => {
       return json({ error: "Something went wrong. Please try again." }, 502, origin);
     }
 
+    let work: Promise<string | null> | undefined;
     if (conversationId && worthCapturing(parsed)) {
-      const work = captureLead(conversationId, parsed);
+      work = captureLead(conversationId, parsed);
       if (typeof EdgeRuntime !== "undefined" && EdgeRuntime) EdgeRuntime.waitUntil(work);
       else work.catch((e) => console.error("captureLead:", e));
     }
 
-    return new Response(response.body, {
+    const stream = response.body && work ? withLeadReceipt(response.body, work) : response.body;
+    return new Response(stream, {
       headers: { ...corsHeaders(origin), "Content-Type": "text/event-stream", "Cache-Control": "no-store" },
     });
   } catch (e) {
