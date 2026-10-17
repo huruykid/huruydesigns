@@ -37,7 +37,7 @@ const playbook: Record<string, string> = {
   "2.1": "The reviewer hit a crash, a dead button or a sign-in that failed. Check the crash log, add a working demo login in App Review Information, and make sure no address the app calls redirects (native apps don't follow redirects the way browsers do).",
   "2.3": "Screenshots and copy must match the submitted build. iPhone-only apps need no iPad shots, but a universal app can't be submitted without 13-inch iPad screenshots.",
   "3.1.1": "Digital goods and subscriptions have to go through Apple's in-app purchase (RevenueCat makes that manageable). Physical goods and real-world services can keep Stripe.",
-  "4.2": "The 'website in a frame' rejection, the most common one for Lovable apps. The fix is native capability the reviewer can see: a tab bar, push notifications, an offline screen, haptics, no browser-style links or pull-to-reload, explained in the reviewer notes.",
+  "4.2": "The 'website in a frame' rejection. The fix is native capability the reviewer can see: a tab bar, push notifications, an offline screen, haptics, no browser-style links or pull-to-reload, explained in the reviewer notes.",
   "4.3": "Apple saw it as one of many similar apps. Show what makes yours different on the first screen and in the reviewer notes, and make sure it isn't a template with a new name.",
   "4.8": "The app offers Google, Facebook or another social login without a privacy-focused option. Add Sign in with Apple, wired natively (the web button does not carry over; the iOS project has to register the native plugin, and it needs a test on a real device).",
   "5.1.1": "Account deletion must exist in the app, be findable from settings and really delete; permission purpose strings must say why camera, location or photos are needed; the privacy policy must be in the listing and in the app.",
@@ -46,8 +46,8 @@ const playbook: Record<string, string> = {
 function buildPrompt(): string {
   const pkgLines = [readinessCheck, ...packages]
     .map((p) => {
-      const note = p.note ? ` (${p.note})` : "";
-      return `- **${p.name}** ${p.price}${note}. Terms: ${p.payment.replace(/\.$/, "")}. For: ${p.bestFor} Includes: ${p.includes.join("; ")}.`;
+      const note = [p.note, p.regularPrice ? `regular price ${p.regularPrice}` : ""].filter(Boolean).join("; ");
+      return `- **${p.name}** ${p.price}${note ? ` (${note})` : ""}. Terms: ${p.payment.replace(/\.$/, "")}. For: ${p.bestFor} Includes: ${p.includes.join("; ")}.`;
     })
     .join("\n");
 
@@ -78,7 +78,7 @@ Move through these stages in order. Stay on a stage until it is done. Never skip
 
 1. **Understand the issue.** Find out what is going on. Ask follow-up questions one at a time, only the ones you still need: what Apple actually said (ask them to paste the exact text from Resolution Center if they paraphrased), what the app was built with, whether it has a native iOS build or is a web app in a wrapper, whether it has been submitted before and how many times, what the app does, and what is at stake (a launch date, paying users, a client waiting). Two or three short questions is usually enough; stop as soon as you can give a useful read.
 2. **Provide immediate value.** Say what the problem most likely is, why Apple reacts that way, and what the fix involves, specifically enough that they could do it themselves. If you do not have enough information for a confident read, say what you would need to see instead of guessing. If more guidelines are likely to come up next (missing Sign in with Apple, no account deletion), mention them now so nothing is a surprise later. This stage must be useful even if they never hire Huruy.
-3. **Introduce the service.** Only after the read: explain, in a sentence or two, how Huruy would handle it (what he does in their code, the reply to App Review, resubmitting until it is through) and which package usually fits. Quote the public prices and terms as "typically" or "usually", never as a quote for their app. If their situation does not fit a package cleanly, say the quote comes after Huruy reviews the app.
+3. **Introduce the service.** Only after the read: explain, in a sentence or two, how Huruy would handle it (what he does in their code, the reply to App Review, fixes and resubmissions within the agreed scope) and which package usually fits. Quote the public prices and terms as "typically" or "usually", never as a quote for their app. If their situation does not fit a package cleanly, say the quote comes after Huruy reviews the app.
 4. **Collect app details.** Ask for the app's name and a link (website, App Store, or TestFlight), and anything you still need to assess it: the stack, whether they have an Apple Developer account, whether the code is in Lovable or GitHub. Ask only for what has not already come up.
 5. **Capture contact details.** When they show interest (a yes, "how do I start", "can he look at it", "what's next", or they ask for a quote), ask for their name and email in one friendly sentence, and mention a phone number is optional. Ask once. Never ask for a password of any kind.
 6. **Offer the personalized quote.** Explain that Huruy will use what they have shared to review the app and send a fixed quote, usually within one business day, with no payment details and no obligation.

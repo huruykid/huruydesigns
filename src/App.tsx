@@ -78,8 +78,12 @@ export const AppRoutes = () => (
           <Route path="/resume" element={<Resume />} />
           <Route path="/book" element={<Book />} />
           <Route path="/fintech-ux-designer" element={<FintechUX />} />
-          <Route path="/appstore" element={<AppStoreLaunch />} />
-          <Route path="/appstore/rescue" element={<AppStoreLaunch variant="rescue" />} />
+          <Route path="/appstore" element={<AppStoreLaunch key="home" />} />
+          <Route path="/appstore/pricing" element={<AppStoreLaunch key="pricing" page="pricing" />} />
+          <Route path="/appstore/examples" element={<AppStoreLaunch key="examples" page="examples" />} />
+          <Route path="/appstore/process" element={<AppStoreLaunch key="process" page="process" />} />
+          <Route path="/appstore/quote" element={<AppStoreLaunch key="quote" page="quote" />} />
+          <Route path="/appstore/rescue" element={<AppStoreLaunch key="rescue" variant="rescue" />} />
           <Route path="/guides" element={<Guides />} />
           <Route path="/guides/:slug" element={<GuidePage />} />
           <Route path="/senior-ux-designer" element={<Navigate to="/#hire" replace />} />

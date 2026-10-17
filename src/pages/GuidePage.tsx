@@ -57,13 +57,13 @@ const GuidePage = () => {
         imageAlt="App Store guides for apps built with Lovable and other AI tools"
         jsonLd={jsonLd}
         breadcrumbs={[
-          { name: "Home", path: "/" },
+          { name: "App Store Launch", path: "/appstore" },
           { name: "App Store guides", path: "/guides" },
           { name: guide.title, path },
         ]}
       />
 
-      <article className="container py-14 sm:py-20">
+      <article className="service-container service-section">
         <div className="mx-auto max-w-[44rem]">
           <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted-foreground">
             <Link to="/guides" className="underline underline-offset-4 hover:text-foreground">App Store guides</Link>
@@ -72,13 +72,13 @@ const GuidePage = () => {
           <Eyebrow>{guide.group === "rejection" ? "Common rejection" : "Getting on the App Store"}</Eyebrow>
           <h1 className="text-balance text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">{guide.title}</h1>
           <p className="mt-5 text-sm text-muted-foreground">
-            By <Link to="/about" className="underline underline-offset-4 hover:text-foreground">Huruy Kidanemariam</Link>, who shipped{" "}
-            <Link to="/project/beles" className="underline underline-offset-4 hover:text-foreground">Beles</Link> and{" "}
-            <Link to="/project/ebtfinder" className="underline underline-offset-4 hover:text-foreground">EBT Finder</Link> to the App Store.
+            By Huruy Kidanemariam, who shipped{" "}
+            <Link to="/appstore/examples#beles" className="underline underline-offset-4 hover:text-foreground">Beles</Link> and{" "}
+            <Link to="/appstore/examples#ebt-finder" className="underline underline-offset-4 hover:text-foreground">EBT Finder</Link> to the App Store.
             Updated <time dateTime={GUIDES_UPDATED}>{GUIDES_UPDATED_LABEL}</time>.
           </p>
 
-          <div className="mt-10 rounded-3xl border border-border bg-card p-6 sm:p-8">
+          <div className="mt-10 rounded-3xl border border-border bg-card service-card-padding">
             <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">The short answer</p>
             <p className="mt-3 text-lg leading-relaxed text-foreground">
               <GuideText text={guide.short} />
@@ -124,7 +124,7 @@ const GuidePage = () => {
               <h2 className="text-2xl font-medium tracking-tight text-foreground">Questions</h2>
               <dl className="mt-4 divide-y divide-border border-y border-border">
                 {guide.faqs.map((f) => (
-                  <div key={f.q} className="py-5">
+                  <div key={f.q} className="py-6">
                     <dt className="font-medium text-foreground">{f.q}</dt>
                     <dd className="mt-2 leading-relaxed text-muted-foreground">
                       <GuideText text={f.a} />

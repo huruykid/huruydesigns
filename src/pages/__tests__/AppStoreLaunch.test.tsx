@@ -7,6 +7,8 @@ import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import AppStoreLaunch from "../AppStoreLaunch";
 import {
+  servicePages,
+  type ServicePage,
   BELES_APP_STORE_URL,
   BOOKING_URL,
   EBT_FINDER_APP_STORE_URL,
@@ -30,7 +32,7 @@ describe("App Store launch page", () => {
     renderPage();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Built it in Lovable? Let's get it on the App Store.");
     const hero = screen.getByRole("heading", { level: 1 }).closest("section")!;
-    expect(within(hero).getByRole("link", { name: "Tell me about your app" })).toHaveAttribute("href", "#start");
+    expect(within(hero).getByRole("link", { name: "Check my app’s readiness" })).toHaveAttribute("href", "#chat");
     expect(within(hero).getByRole("link", { name: "See pricing" })).toHaveAttribute("href", "#pricing");
   });
 
@@ -52,7 +54,7 @@ describe("App Store launch page", () => {
       expect(within(card).getByText(p.price)).toBeInTheDocument();
       expect(within(card).getByText(p.payment)).toBeInTheDocument();
     }
-    expect(within(pricing).getByText(/Founding price \$995/)).toBeInTheDocument();
+    expect(within(pricing).getByText(/Founding price for the first five clients/)).toBeInTheDocument();
   });
 
   it("offers a $250 Readiness Check for never-submitted apps, credited toward Launch", () => {
@@ -81,7 +83,7 @@ describe("App Store launch page", () => {
   it("links the Beles proof to the live App Store listing and the design case study", () => {
     renderPage();
     expect(screen.getByRole("link", { name: "Download Beles on the App Store" })).toHaveAttribute("href", BELES_APP_STORE_URL);
-    expect(screen.getByRole("link", { name: "Read the design case study" })).toHaveAttribute("href", "/project/beles");
+    expect(screen.queryByRole("link", { name: "Read the design case study" })).not.toBeInTheDocument();
   });
 
   it("shows the real App Store screenshots, each with alt text and known dimensions", () => {
@@ -104,7 +106,7 @@ describe("App Store launch page", () => {
     for (const f of ebtProof.frames) expect(imageDimensions[f.src]).toBeDefined();
     expect(within(strip).getAllByRole("img")).toHaveLength(ebtProof.frames.length);
     expect(screen.getByRole("link", { name: "Download EBT Finder on the App Store" })).toHaveAttribute("href", EBT_FINDER_APP_STORE_URL);
-    expect(screen.getByRole("link", { name: "Read the EBT Finder case study" })).toHaveAttribute("href", "/project/ebtfinder");
+    expect(screen.queryByRole("link", { name: "Read the EBT Finder case study" })).not.toBeInTheDocument();
   });
 
   it("never promises Apple's decision", () => {
@@ -211,5 +213,21 @@ describe("App Store launch page", () => {
       const alert = await screen.findByRole("alert");
       await waitFor(() => expect(within(alert).getByRole("link", { name: "Open in email" }).getAttribute("href")).toMatch(/^mailto:/));
     });
+  });
+});
+
+
+describe("Standalone service pages", () => {
+  it.each(Object.keys(servicePages) as ServicePage[])("renders %s with its own heading and an intake", (page) => {
+    render(<HelmetProvider><MemoryRouter><AppStoreLaunch page={page} /></MemoryRouter></HelmetProvider>);
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(servicePages[page].title);
+    expect(screen.getByRole("form", { name: "App Store intake" })).toBeInTheDocument();
+    if (page !== "pricing") expect(screen.queryByRole("list", { name: "Packages" })).not.toBeInTheDocument();
+    if (page !== "examples") expect(screen.queryByRole("list", { name: "Beles App Store screenshots" })).not.toBeInTheDocument();
+    if (page === "pricing") {
+      fireEvent.click(screen.getByRole("link", { name: "Start Launch" }));
+      expect(screen.getByLabelText("What you'd like")).toHaveValue("launch");
+    }
   });
 });

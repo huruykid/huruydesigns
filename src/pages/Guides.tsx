@@ -25,7 +25,7 @@ const Guides = () => (
       image="/og/appstore.png"
       imageAlt="App Store guides for apps built with Lovable and other AI tools"
       breadcrumbs={[
-        { name: "Home", path: "/" },
+        { name: "App Store Launch", path: "/appstore" },
         { name: "App Store guides", path: PATH },
       ]}
       jsonLd={{
@@ -40,7 +40,7 @@ const Guides = () => (
       }}
     />
 
-    <div className="container py-14 sm:py-20">
+    <div className="service-container service-section">
       <div className="mx-auto max-w-[44rem]">
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">App Store guides</p>
         <h1 className="text-balance text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">
@@ -52,7 +52,7 @@ const Guides = () => (
         </p>
 
         {groups.map((group) => (
-          <section key={group.id} aria-labelledby={`guides-${group.id}`} className="mt-14">
+          <section key={group.id} aria-labelledby={`guides-${group.id}`} className="mt-12">
             <h2 id={`guides-${group.id}`} className="text-xl font-medium tracking-tight text-foreground">
               {group.title}
             </h2>
@@ -61,7 +61,7 @@ const Guides = () => (
                 .filter((g) => g.group === group.id)
                 .map((g) => (
                   <li key={g.slug}>
-                    <Link to={guidePath(g.slug)} className="group flex items-start justify-between gap-6 py-5">
+                    <Link to={guidePath(g.slug)} className="group flex items-start justify-between gap-6 py-6">
                       <span>
                         <span className="block text-lg font-medium text-foreground group-hover:underline group-hover:underline-offset-4">{g.title}</span>
                         <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{g.description}</span>
@@ -74,7 +74,7 @@ const Guides = () => (
           </section>
         ))}
 
-        <div className="mt-14">
+        <div className="mt-12">
           <GuideCta from="hub" />
         </div>
       </div>

@@ -20,6 +20,7 @@ export const prerenderRoutes: PrerenderRoute[] = [
   { path: "/contact", priority: 0.7, changefreq: "yearly" },
   { path: "/book", priority: 0.6, changefreq: "monthly" },
   { path: "/appstore", priority: 0.7, changefreq: "monthly" },
+  ...["pricing", "examples", "process", "quote"].map((page) => ({ path: `/appstore/${page}`, priority: 0.6, changefreq: "monthly" as const })),
   // Ad landing variant: prerendered for speed, noindex and out of the sitemap.
   { path: "/appstore/rescue" },
   { path: "/guides", priority: 0.7, changefreq: "monthly" },

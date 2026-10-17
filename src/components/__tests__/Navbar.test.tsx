@@ -19,3 +19,24 @@ describe("Fintech navigation", () => {
     expect(within(mobile).getByRole("link", { name: "Fintech" })).toHaveAttribute("href", "/fintech-ux-designer");
   });
 });
+
+describe("App Store service navigation", () => {
+  it.each(["/appstore", "/appstore/rescue", "/appstore/examples", "/guides"])("keeps navigation in the service from %s", (path) => {
+    render(<MemoryRouter initialEntries={[path]}><Navbar /></MemoryRouter>);
+    const primary = screen.getByRole("navigation", { name: "Primary" });
+    expect(within(primary).getByRole("link", { name: "App Store Launch, service home" })).toHaveAttribute("href", "/appstore");
+    expect(within(primary).queryByRole("link", { name: "Resume" })).not.toBeInTheDocument();
+    expect(within(primary).getByRole("link", { name: "Services & Pricing" })).toHaveAttribute("href", "/appstore/pricing");
+    expect(within(primary).getByRole("link", { name: "Get a Quote" })).toHaveAttribute("href", "/appstore/quote");
+    fireEvent.click(screen.getByRole("button", { name: "Open navigation menu" }));
+    fireEvent.click(within(screen.getByRole("navigation", { name: "Mobile" })).getByRole("link", { name: "Services & Pricing" }));
+    expect(screen.queryByRole("navigation", { name: "Mobile" })).not.toBeInTheDocument();
+    expect(within(primary).getByRole("link", { name: "Services & Pricing" })).toHaveAttribute("aria-current", "page");
+  });
+  it("keeps the portfolio home identity and navigation", () => {
+    render(<MemoryRouter initialEntries={["/"]}><Navbar /></MemoryRouter>);
+    expect(screen.getByRole("link", { name: "Huruy Kidanemariam, home" })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Resume" })).toHaveAttribute("href", "/resume");
+    expect(screen.queryByRole("link", { name: "Get a Quote" })).not.toBeInTheDocument();
+  });
+});
