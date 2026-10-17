@@ -78,12 +78,12 @@ const Bubble = ({ role, children, className }: { role: "user" | "assistant"; chi
 );
 
 /**
- * The large, embedded assistant under the /appstore hero. It opens by asking what is
+ * The embedded assistant in the /appstore hero and on the quote page. It asks what is
  * going on, works out the problem, gives a real read, and, when the visitor wants help,
  * collects what Huruy needs for a quote. Replies stream from the appstore-chat edge
  * function, which also records the lead as details come in.
  */
-const RescueChat = () => {
+const RescueChat = ({ compact = false }: { compact?: boolean }) => {
   const [state, setState] = useState<Saved>(() => (typeof window === "undefined" ? { id: "", messages: [] } : load()));
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -103,7 +103,8 @@ const RescueChat = () => {
 
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    // Keep the opening greeting visible; follow the latest reply only once a conversation starts.
+    if (el) el.scrollTop = messages.length ? el.scrollHeight : 0;
   }, [messages]);
 
   // The composer grows with a pasted rejection, up to a cap, then scrolls.
@@ -186,16 +187,16 @@ const RescueChat = () => {
   const empty = messages.length === 0;
 
   return (
-    <div className="flex h-[640px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm sm:h-[720px]">
+    <div className={cn("flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm", compact ? "h-[600px] max-h-[calc(100svh-6rem)] min-h-[420px] lg:h-[680px]" : "h-[640px] sm:h-[720px]")}>
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border service-card-x py-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-foreground" aria-hidden="true">
+      <div className={cn("flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border", compact ? "p-4 sm:p-5" : "service-card-x py-6")}>
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground" aria-hidden="true">
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
             <p className="font-medium text-foreground">App Store assistant</p>
-            <p className="text-sm text-muted-foreground">Works out the problem, then what Huruy would do about it</p>
+            <p className="text-sm text-muted-foreground">{compact ? "Free first read. No sign-up." : "Works out the problem, then what Huruy would do about it"}</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -204,29 +205,30 @@ const RescueChat = () => {
               type="button"
               onClick={startOver}
               disabled={loading}
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              title="Start over"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full px-3 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-              Start over
+              <span className={compact ? "sr-only" : undefined}>Start over</span>
             </button>
           )}
-          <span className="hidden rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-block">
+          {!compact && <span className="hidden rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground sm:inline-block">
             Free, no sign-up
-          </span>
+          </span>}
         </div>
       </div>
 
       {/* Conversation */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto service-card-padding"
+        className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain", compact ? "p-4 sm:p-5" : "service-card-padding")}
         role="log"
         aria-label="Conversation"
         aria-live="polite"
         aria-relevant="additions text"
       >
         <div className="mx-auto max-w-[52rem] space-y-6">
-          <Bubble role="assistant" className={empty ? "text-base sm:text-lg" : undefined}>
+          <Bubble role="assistant" className={empty && !compact ? "text-base sm:text-lg" : undefined}>
             {chatGreeting}
           </Bubble>
 
@@ -277,7 +279,7 @@ const RescueChat = () => {
           e.preventDefault();
           void send(input, "typed");
         }}
-        className="border-t border-border bg-card service-card-x py-6"
+        className={cn("shrink-0 border-t border-border bg-card", compact ? "p-4 sm:p-5" : "service-card-x py-6")}
       >
         <div className="mx-auto flex max-w-[52rem] items-end gap-3 rounded-2xl border border-input bg-background p-2 pl-4 focus-within:ring-2 focus-within:ring-ring">
           <label htmlFor={inputId} className="sr-only">Your message</label>
@@ -307,8 +309,8 @@ const RescueChat = () => {
           </button>
         </div>
         <p id={hintId} className="mx-auto mt-2 max-w-[52rem] text-xs text-muted-foreground">
-          Enter to send, Shift+Enter for a new line. An assistant gives the first read; Huruy reviews anything you ask to have quoted. Prefer a form?{" "}
-          <a href="#start" className="font-medium text-accent underline underline-offset-4">It's below</a>.
+          {compact ? "AI first read. Huruy reviews your quote request. Prefer a form? " : "Enter to send, Shift+Enter for a new line. An assistant gives the first read; Huruy reviews anything you ask to have quoted. Prefer a form? "}
+          <a href="#start" className="font-medium text-accent underline underline-offset-4">Use the form</a>.
         </p>
       </form>
     </div>
