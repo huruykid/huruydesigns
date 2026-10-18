@@ -20,6 +20,7 @@ export async function streamChat({
   url = CHAT_URL,
   conversationId,
   onLeadSaved,
+  onLeadEmailed,
 }: {
   messages: ChatMessage[];
   onDelta: (t: string) => void;
@@ -30,6 +31,8 @@ export async function streamChat({
   conversationId?: string;
   /** Sent only after the backend has saved contact details. */
   onLeadSaved?: (leadId: string) => void;
+  /** Sent only when the lead notification email was delivered on this turn. */
+  onLeadEmailed?: (leadId: string) => void;
 }) {
   const resp = await fetch(url, {
     method: "POST",
@@ -74,6 +77,7 @@ export async function streamChat({
       try {
         const parsed = JSON.parse(json);
         if (typeof parsed.lead_saved === "string" && /^[0-9a-f-]{36}$/i.test(parsed.lead_saved)) onLeadSaved?.(parsed.lead_saved);
+        if (typeof parsed.lead_emailed === "string" && /^[0-9a-f-]{36}$/i.test(parsed.lead_emailed)) onLeadEmailed?.(parsed.lead_emailed);
         const c = parsed.choices?.[0]?.delta?.content;
         if (c) onDelta(c);
       } catch {

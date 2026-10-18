@@ -1,3 +1,4 @@
+import type { LeadReceipt } from "./stream.ts";
 import { sendTemplateEmail } from "../_shared/transactional-email-templates/send-email.ts";
 
 /**
@@ -165,7 +166,7 @@ function merge(prev: Partial<Lead> | null, next: Lead): Lead {
   return out;
 }
 
-export async function captureLead(conversationId: string, messages: Message[]): Promise<string | null> {
+export async function captureLead(conversationId: string, messages: Message[]): Promise<LeadReceipt | null> {
   const apiKey = Deno.env.get("LOVABLE_API_KEY");
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -215,7 +216,7 @@ export async function captureLead(conversationId: string, messages: Message[]): 
 
 const NOTIFY_TO = "huruydesigns@gmail.com";
 
-async function notify(row: Row, table: string, headers: Record<string, string>) {
+async function notify(row: Row, table: string, headers: Record<string, string>): Promise<boolean> {
   const subject = `Chat lead: ${row.name ?? row.email}${row.app_name ? ` (${row.app_name})` : ""}`;
   const lines = [
     `Name: ${row.name ?? "Not given"}`,
@@ -241,14 +242,16 @@ async function notify(row: Row, table: string, headers: Record<string, string>) 
     });
     if (!result.sent) {
       console.error("chat lead email not sent:", result.reason);
-      return;
+      return false;
     }
     await fetch(`${table}?conversation_id=eq.${row.conversation_id}`, {
       method: "PATCH",
       headers,
       body: JSON.stringify({ notified: true }),
     });
+    return true;
   } catch (e) {
     console.error("chat lead email error:", e);
+    return false;
   }
 }
