@@ -119,6 +119,97 @@ describe("RescueChat", () => {
     expect(queued("appstore_intake")).toHaveLength(1);
   });
 
+  it("recovers after leaving before the first reply and preserves the conversation id", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch")
+      .mockImplementationOnce(() => new Promise<Response>(() => {}))
+      .mockResolvedValue(new Response(sse(["You can continue."]), { status: 200 }));
+    const first = renderChat();
+    fireEvent.click(screen.getByRole("button", { name: chatStarters[0] }));
+    const firstId = body(fetchMock.mock.calls[0][1]).conversation_id;
+    await waitFor(() => expect(JSON.parse(sessionStorage.getItem("appstore-chat") ?? "{}").messages).toEqual([
+      { role: "user", content: chatStarters[0] },
+    ]));
+    first.unmount();
+    renderChat();
+    fireEvent.change(screen.getByLabelText("Your message"), { target: { value: "Can we continue?" } });
+    fireEvent.keyDown(screen.getByLabelText("Your message"), { key: "Enter" });
+    const sent = body(fetchMock.mock.calls[1][1]);
+    expect(sent.conversation_id).toBe(firstId);
+    expect(sent.messages).toEqual([
+      { role: "user", content: chatStarters[0] },
+      { role: "assistant", content: expect.stringContaining("interrupted") },
+      { role: "user", content: "Can we continue?" },
+    ]);
+    await screen.findByText("You can continue.");
+  });
+
+  it("repairs an already broken saved user/user transcript without losing earlier messages or lead status", async () => {
+    const messages = [
+      { role: "user", content: "First question" },
+      { role: "assistant", content: "First answer" },
+      { role: "user", content: "Interrupted question" },
+      { role: "user", content: "Tried again" },
+      { role: "assistant", content: "Messages must alternate between user and assistant" },
+    ];
+    sessionStorage.setItem("appstore-chat", JSON.stringify({ id: "saved-id", messages, lead: true }));
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(sse(["Recovered."]), { status: 200 }));
+    renderChat();
+    fireEvent.change(screen.getByLabelText("Your message"), { target: { value: "Next question" } });
+    fireEvent.keyDown(screen.getByLabelText("Your message"), { key: "Enter" });
+    expect(body(fetchMock.mock.calls[0][1]).messages).toEqual([
+      ...messages.slice(0, 3),
+      { role: "assistant", content: expect.stringContaining("interrupted") },
+      ...messages.slice(3),
+      { role: "user", content: "Next question" },
+    ]);
+    await screen.findByText("Recovered.");
+    expect(JSON.parse(sessionStorage.getItem("appstore-chat") ?? "{}").lead).toBe(true);
+  });
+
+  it("allows another turn after a stream finishes without any reply", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response(sse([]), { status: 200 }))
+      .mockResolvedValueOnce(new Response(sse(["Recovered."]), { status: 200 }));
+    renderChat();
+    fireEvent.click(screen.getByRole("button", { name: chatStarters[0] }));
+    await waitFor(() => expect(screen.getByLabelText("Your message")).toBeEnabled());
+    fireEvent.change(screen.getByLabelText("Your message"), { target: { value: "Try again" } });
+    fireEvent.keyDown(screen.getByLabelText("Your message"), { key: "Enter" });
+    expect(body(fetchMock.mock.calls[1][1]).messages).toEqual([
+      { role: "user", content: chatStarters[0] },
+      { role: "assistant", content: expect.stringContaining("interrupted") },
+      { role: "user", content: "Try again" },
+    ]);
+    await screen.findByText("Recovered.");
+  });
+
+  it("keeps a partial reply and stream error in one assistant turn", async () => {
+    const encoder = new TextEncoder();
+    let failStream: (() => void) | undefined;
+    const partial = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: "Partial reply" } }] })}\n`));
+        failStream = () => controller.error(new Error("Connection lost"));
+      },
+    });
+    const fetchMock = vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response(partial, { status: 200 }))
+      .mockResolvedValueOnce(new Response(sse(["Recovered."]), { status: 200 }));
+    renderChat();
+    fireEvent.click(screen.getByRole("button", { name: chatStarters[0] }));
+    await screen.findByText("Partial reply");
+    failStream?.();
+    await waitFor(() => expect(screen.getByLabelText("Your message")).toBeEnabled());
+    fireEvent.change(screen.getByLabelText("Your message"), { target: { value: "Try again" } });
+    fireEvent.keyDown(screen.getByLabelText("Your message"), { key: "Enter" });
+    expect(body(fetchMock.mock.calls[1][1]).messages).toEqual([
+      { role: "user", content: chatStarters[0] },
+      { role: "assistant", content: expect.stringMatching(/^Partial reply\n\nSomething went wrong/) },
+      { role: "user", content: "Try again" },
+    ]);
+    await screen.findByText("Recovered.");
+  });
+
   it.each([200, 429])("does not count a typed email without a saved lead receipt (%s)", async (status) => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(
       status === 200 ? sse(["Thanks."]) : JSON.stringify({ error: "Try again" }), { status },
