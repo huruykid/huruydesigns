@@ -201,12 +201,12 @@ export async function captureLead(conversationId: string, messages: Message[]): 
       return null;
     }
     const [row] = (await upsert.json()) as Row[];
-    if (row?.email && !row.notified) await notify(row, table, headers);
+    const emailed = row?.email && !row.notified ? await notify(row, table, headers) : false;
     // Count only saved contact details present in visitor messages, never model guesses.
     const visitorText = messages.filter((m) => m.role === "user").map((m) => m.content).join("\n");
     const emailShared = row?.email && visitorText.toLowerCase().includes(row.email.toLowerCase());
     const phoneShared = row?.phone && visitorText.replace(/\D/g, "").includes(row.phone.replace(/\D/g, ""));
-    return row?.id && (emailShared || phoneShared) ? row.id : null;
+    return row?.id && (emailShared || phoneShared) ? { id: row.id, emailed } : null;
   } catch (e) {
     console.error("captureLead error:", e);
     return null;
