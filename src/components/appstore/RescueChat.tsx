@@ -17,6 +17,32 @@ const STORAGE_KEY = "appstore-chat";
 
 type Saved = { id: string; messages: ChatMessage[]; lead?: boolean };
 
+const INTERRUPTED_REPLY = "The reply was interrupted. Please send another message to continue.";
+
+/** Repair unfinished turns and transcripts saved before recovery was added. */
+function restoreMessages(raw: unknown[]): ChatMessage[] {
+  const messages: ChatMessage[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const { role, content } = item as Partial<ChatMessage>;
+    if ((role !== "user" && role !== "assistant") || typeof content !== "string" || !content) continue;
+    const last = messages[messages.length - 1];
+    if (!last && role !== "user") continue;
+    if (last?.role === role) {
+      if (role === "assistant") {
+        last.content += `\n\n${content}`;
+        continue;
+      }
+      messages.push({ role: "assistant", content: INTERRUPTED_REPLY });
+    }
+    messages.push({ role, content });
+  }
+  if (messages[messages.length - 1]?.role === "user") {
+    messages.push({ role: "assistant", content: INTERRUPTED_REPLY });
+  }
+  return messages;
+}
+
 const newId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
@@ -31,7 +57,7 @@ function load(): Saved {
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<Saved>;
       if (typeof parsed.id === "string" && Array.isArray(parsed.messages)) {
-        return { id: parsed.id, messages: parsed.messages.filter((m) => m && typeof m.content === "string"), lead: parsed.lead === true };
+        return { id: parsed.id, messages: restoreMessages(parsed.messages), lead: parsed.lead === true };
       }
     }
   } catch {
@@ -154,17 +180,17 @@ const RescueChat = ({ compact = false }: { compact?: boolean }) => {
           trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD", transaction_id: leadId });
           trackChatGPTLead("chat", leadId);
         },
-        onDone: () => setLoading(false),
+        onDone: () => {
+          if (!acc) upsert(INTERRUPTED_REPLY);
+          setLoading(false);
+        },
         onError: (msg) => {
-          setMessages((prev) => [...prev, { role: "assistant", content: msg }]);
+          upsert(`${acc ? "\n\n" : ""}${msg}`);
           setLoading(false);
         },
       });
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Something went wrong. Please try again, or send the form below and Huruy replies within one business day." },
-      ]);
+      upsert(`${acc ? "\n\n" : ""}Something went wrong. Please try again, or send the form below and Huruy replies within one business day.`);
       setLoading(false);
     }
   };
