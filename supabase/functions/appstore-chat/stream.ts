@@ -1,5 +1,7 @@
-/** Preserve streaming replies, then acknowledge a saved contact before the terminal marker. */
-export function withLeadReceipt(body: ReadableStream<Uint8Array>, saved: Promise<string | null>) {
+export type LeadReceipt = { id: string; emailed: boolean };
+
+/** Preserve streaming replies, then acknowledge a saved contact (and a sent lead email) before the terminal marker. */
+export function withLeadReceipt(body: ReadableStream<Uint8Array>, saved: Promise<string | LeadReceipt | null>) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   let pending = "";
@@ -19,12 +21,16 @@ export function withLeadReceipt(body: ReadableStream<Uint8Array>, saved: Promise
       if (pending.trim() && pending.trim() !== "data: [DONE]") controller.enqueue(encoder.encode(`${pending}\n\n`));
       // Don't leave the composer blocked by slow extraction or notification services.
       let timer: ReturnType<typeof setTimeout> | undefined;
-      const id = await Promise.race([
+      const raw = await Promise.race([
         result,
         new Promise<null>((resolve) => { timer = setTimeout(() => resolve(null), 10000); }),
       ]);
       clearTimeout(timer);
-      if (id) controller.enqueue(encoder.encode(`data: ${JSON.stringify({ lead_saved: id })}\n\n`));
+      const receipt = typeof raw === "string" ? { id: raw, emailed: false } : raw;
+      if (receipt?.id) {
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ lead_saved: receipt.id })}\n\n`));
+        if (receipt.emailed) controller.enqueue(encoder.encode(`data: ${JSON.stringify({ lead_emailed: receipt.id })}\n\n`));
+      }
       controller.enqueue(encoder.encode("data: [DONE]\n\n"));
     },
   }));

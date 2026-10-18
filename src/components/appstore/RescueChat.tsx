@@ -179,6 +179,10 @@ const RescueChat = ({ compact = false }: { compact?: boolean }) => {
           trackEvent("appstore_intake", { stage: "chat", package: "unsure", channel: "chat", turn });
           trackConversion(APPSTORE_LEAD_CONVERSION, { value: 1, currency: "USD", transaction_id: leadId });
           trackChatGPTLead("chat", leadId);
+          trackEvent("appstore_chat_contact_saved", { turn, lead_id: leadId });
+        },
+        onLeadEmailed: (leadId) => {
+          trackEvent("appstore_chat_lead_emailed", { turn, lead_id: leadId });
         },
         onDone: () => {
           if (!acc) upsert(INTERRUPTED_REPLY);

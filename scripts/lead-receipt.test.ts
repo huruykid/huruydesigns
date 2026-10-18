@@ -23,6 +23,13 @@ describe("saved lead stream receipt", () => {
     expect(rest.match(/\[DONE\]/g)).toHaveLength(1);
     expect(rest.indexOf("lead_saved")).toBeLessThan(rest.indexOf("[DONE]"));
   });
+  it("adds an emailed receipt only when the lead email was sent", async () => {
+    const sent = await new Response(withLeadReceipt(upstream(), Promise.resolve({ id, emailed: true }))).text();
+    expect(sent).toContain(`data: {"lead_emailed":"${id}"}`);
+    const notSent = await new Response(withLeadReceipt(upstream(), Promise.resolve({ id, emailed: false }))).text();
+    expect(notSent).toContain("lead_saved");
+    expect(notSent).not.toContain("lead_emailed");
+  });
   it("does not acknowledge a lead without a saved contact", async () => {
     const result = Promise.resolve(null);
     const text = await new Response(withLeadReceipt(upstream(), result)).text();
